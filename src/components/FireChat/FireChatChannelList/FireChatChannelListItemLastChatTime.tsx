@@ -1,0 +1,29 @@
+import {
+    CHANNEL_LAST_MESSAGE_FIELD,
+    FcChannel,
+    FcChannelParticipants,
+    FcMessage,
+    FcMessageContent,
+    FcMessageType,
+    FcUser,
+    MESSAGE_CREATED_AT_FIELD,
+} from '@/lib/FireChat/settings';
+import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
+import { Timestamp } from 'firebase/firestore';
+
+export default function FireChatChannelListItemLastChatTime<
+    C extends FcChannel<M, T>,
+    U extends FcUser,
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>({ channel }: FcChannelParticipants<C, U, M, T>) {
+    return (
+        <time className="text-xs text-muted-foreground whitespace-nowrap">
+            {formatTimeString(
+                channel[CHANNEL_LAST_MESSAGE_FIELD]?.[
+                    MESSAGE_CREATED_AT_FIELD
+                ] as Timestamp
+            )}
+        </time>
+    );
+}

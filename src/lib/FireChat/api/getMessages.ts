@@ -1,0 +1,43 @@
+import { db } from '@/lib/firebase';
+import {
+    CHANNEL_COLLECTION,
+    FcMessage,
+    FcMessageContent,
+    MESSAGE_COLLECTION,
+    MESSAGE_CREATED_AT_FIELD,
+    MESSAGE_UNIT,
+} from '@/lib/FireChat/settings';
+import {
+    collection,
+    DocumentData,
+    endBefore,
+    getDocs,
+    limitToLast,
+    orderBy,
+    query,
+} from 'firebase/firestore';
+
+export default async function getMessages<
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>(channelId: string, lastMessageDoc?: DocumentData): Promise<M[]> {
+    const q = lastMessageDoc
+        ? query(
+              collection(db, CHANNEL_COLLECTION, channelId, MESSAGE_COLLECTION),
+              orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
+              endBefore(lastMessageDoc),
+              limitToLast(MESSAGE_UNIT)
+          )
+        : query(
+              collection(db, CHANNEL_COLLECTION, channelId, MESSAGE_COLLECTION),
+              orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
+              limitToLast(MESSAGE_UNIT)
+          );
+
+    const querySnapshot = await getDocs(q);
+    const messages: M[] = [];
+    querySnapshot.forEach((doc) => {
+        messages.push(doc.data() as M);
+    });
+    return messages;
+}
