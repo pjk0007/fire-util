@@ -29,7 +29,7 @@ export default function FireChatChannelListItem<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ channel }: FireChatChannelListItemProps<C, U, M, T>) {
-    const { selectedChannel, handleSetSelectedChannel } = useFireChat();
+    const { selectedChannel, selectChannel: handleSetSelectedChannel } = useFireChat();
 
     return (
         <div

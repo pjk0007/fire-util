@@ -4,7 +4,7 @@ import { useSidebar } from '@/components/ui/sidebar';
 import { ChevronLeft, Info, List, Menu } from 'lucide-react';
 
 export default function FireChatChannelRoomHeader() {
-    const { selectedChannel, handleSetSelectedChannel } = useFireChat();
+    const { selectedChannel, selectChannel: handleSetSelectedChannel } = useFireChat();
     const { toggleSidebar } = useSidebar();
     if (!selectedChannel) {
         return null;

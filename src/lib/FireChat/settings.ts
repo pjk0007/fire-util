@@ -69,6 +69,10 @@ export const LOCALE = {
         ME: '나',
         INVITE_PARTICIPANTS: '초대하기',
     },
+    MESSAGE:{
+        DOWNLOAD_ALL_IMAGE:'모든 사진 전체 저장',
+        DOWNLOAD_ONE_IMAGE:'이 사진만 저장',
+    }
 };
 
 /**

@@ -7,3 +7,12 @@ export function formatTimeString(date: Timestamp, locale: string = "ko-KR") {
         minute: "2-digit",
     }).format(date.toDate());
 }
+
+export function formatDateString(date: Timestamp, locale: string = "ko-KR") {
+    // 2023. 8. 24.
+    return new Intl.DateTimeFormat(locale, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    }).format(date.toDate());
+}

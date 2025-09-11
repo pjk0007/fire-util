@@ -38,7 +38,6 @@ export default function FireChatMessageContent<
             return (
                 <FireChatMessageImages
                     message={message as FcMessage<FcMessageImage>}
-                    isMine={isMine}
                 />
             );
         default:

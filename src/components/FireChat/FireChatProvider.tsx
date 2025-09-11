@@ -1,6 +1,7 @@
 import getUser from '@/lib/FireChat/api/getUser';
 import useListChannels from '@/lib/FireChat/hooks/useListChannels';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';
+import useScroll from '@/lib/FireChat/hooks/useScroll';
 import useUser from '@/lib/FireChat/hooks/useUser';
 import {
     CHANNEL_ID_FIELD,
@@ -10,7 +11,15 @@ import {
     FcMessageContent,
     FcUser,
 } from '@/lib/FireChat/settings';
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import {
+    ReactNode,
+    RefObject,
+    useContext,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from 'react';
 import { createContext } from 'react';
 
 interface FireChatContextValue<
@@ -22,8 +31,12 @@ interface FireChatContextValue<
     channels: FcChannelParticipants<C, U, M, T>[];
     user?: U;
     selectedChannel?: FcChannelParticipants<C, U, M, T>;
-    selectedChannelMessages: M[];
-    handleSetSelectedChannel: (channelId?: string) => void;
+    messages: M[];
+    selectChannel: (channelId?: string) => void;
+    scrollAreaRef: RefObject<HTMLDivElement | null>;
+    isBottom: boolean;
+    scrollToBottom: (smooth?: boolean) => void;
+    isLoading: boolean;
 }
 
 const fireChatContext = createContext<
@@ -37,8 +50,12 @@ const fireChatContext = createContext<
     channels: [],
     user: undefined,
     selectedChannel: undefined,
-    selectedChannelMessages: [],
-    handleSetSelectedChannel: () => {},
+    messages: [],
+    selectChannel: () => {},
+    scrollAreaRef: { current: null },
+    isBottom: true,
+    scrollToBottom: () => {},
+    isLoading: true,
 });
 
 export const useFireChat = () => useContext(fireChatContext);
@@ -61,19 +78,39 @@ export function FireChatProvider<
     const [selectedChannel, setSelectedChannel] = useState<
         FcChannelParticipants<C, U, M, T> | undefined
     >(undefined);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const { scrollAreaRef, isBottom, scrollToBottom } = useScroll();
     const { messages } = useListMessages<M, T>({
         channelId: selectedChannel?.channel[CHANNEL_ID_FIELD],
+        onNewMessage: () => {
+            if (!isBottom) return;
+            scrollToBottom(true);
+        },
     });
 
-    function handleSetSelectedChannel(channelId?: string) {
+    useEffect(() => {
+        setIsLoading(true);
+        scrollToBottom(false, {
+            afterScroll: () => {
+                setIsLoading(false);
+            },
+        });
+    }, [selectedChannel]);
+
+    function selectChannel(channelId?: string) {
+        setIsLoading(true);
         if (!channelId) {
             setSelectedChannel(undefined);
+            setIsLoading(false);
             return;
         }
         const channel = channels.find((c) => c.channel.id === channelId);
         if (channel) {
             setSelectedChannel(channel);
+            
         }
+        setIsLoading(false);
     }
 
     return (
@@ -82,8 +119,12 @@ export function FireChatProvider<
                 channels,
                 user,
                 selectedChannel,
-                selectedChannelMessages: messages,
-                handleSetSelectedChannel,
+                messages,
+                selectChannel,
+                scrollAreaRef,
+                isBottom,
+                scrollToBottom,
+                isLoading,
             }}
         >
             {children}
