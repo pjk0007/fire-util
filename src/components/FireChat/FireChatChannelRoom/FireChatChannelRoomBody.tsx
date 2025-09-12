@@ -21,7 +21,7 @@ export default function FireChatChannelRoomBody() {
                 </div>
             )}
             <ScrollArea
-                className="px-8 h-full bg-secondary"
+                className="px-4 md:px-8 h-full bg-secondary"
                 ref={channelRoomRef}
             >
                 <div className="h-full flex flex-col gap-2 py-4 ">

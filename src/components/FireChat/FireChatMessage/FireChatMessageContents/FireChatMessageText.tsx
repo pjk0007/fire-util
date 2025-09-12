@@ -14,7 +14,7 @@ export default function FireChatMessageText<T extends FcMessageText>({
 }) {
     return (
         <div
-            className={cn('py-3 px-4 text-foreground rounded-b-md whitespace-pre-line', {
+            className={cn('py-3 px-4 text-foreground rounded-b-md whitespace-pre-line wrap-break-word max-w-full md:max-w-none', {
                 'bg-white rounded-tr-md': !isMine,
                 'bg-primary-foreground  rounded-tl-md': isMine,
             })}

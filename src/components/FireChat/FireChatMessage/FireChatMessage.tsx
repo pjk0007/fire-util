@@ -44,7 +44,7 @@ export default function FireChatMessage<
             {message['userId'] !== me?.id && (
                 <FireChatMessageAvatar message={message} />
             )}
-            <div className={cn("flex flex-col max-w-[80%] gap-2", {
+            <div className={cn("flex flex-col max-w-[78%] gap-2", {
                 'items-end': message['userId'] === me?.id,
                 'items-start': message['userId'] !== me?.id,
             })}>

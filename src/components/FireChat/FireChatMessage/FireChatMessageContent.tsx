@@ -1,9 +1,11 @@
+import FireChatMessageFile from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageFile';
 import FireChatMessageImages from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageImages';
 import FireChatMessageText from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageText';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import {
     FcMessage,
     FcMessageContent,
+    FcMessageFile,
     FcMessageImage,
     FcMessageText,
     MESSAGE_CONTENTS_FIELD,
@@ -38,6 +40,12 @@ export default function FireChatMessageContent<
             return (
                 <FireChatMessageImages
                     message={message as FcMessage<FcMessageImage>}
+                />
+            );
+        case 'file':
+            return (
+                <FireChatMessageFile
+                    message={message as FcMessage<FcMessageFile>}
                 />
             );
         default:
