@@ -12,6 +12,7 @@ import {
     MESSAGE_ID_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_SYSTEM,
+    MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
@@ -19,7 +20,7 @@ import { cn } from '@/lib/utils';
 export default function FireChatMessage<
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ message }: { message: M }) {
+>({ message, beforeMessage }: { message: M; beforeMessage?: M }) {
     const { selectedChannel, user: me } = useFireChat();
     const participants = selectedChannel?.participants || [];
     const messageUser = participants.find((p) => p.id === message['userId']);
@@ -32,11 +33,39 @@ export default function FireChatMessage<
         );
     }
 
+    const isSameUserAndSameMinAsBefore =
+        beforeMessage?.[MESSAGE_USER_ID_FIELD] ===
+            message[MESSAGE_USER_ID_FIELD] &&
+        Math.floor(beforeMessage?.[MESSAGE_CREATED_AT_FIELD].seconds / 60) ===
+            Math.floor(message[MESSAGE_CREATED_AT_FIELD].seconds / 60);
+
+    if (isSameUserAndSameMinAsBefore) {
+        return (
+            <div
+                data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}
+                id={`message-${message[MESSAGE_ID_FIELD]}`}
+                className={cn('flex w-full gap-4', {
+                    'justify-end': message['userId'] === me?.id,
+                    'justify-start': message['userId'] !== me?.id,
+                })}
+            >
+                {message['userId'] !== me?.id && <div className="w-8" />}
+                <div
+                    className={cn('flex flex-col max-w-[78%] gap-2', {
+                        'items-end': message['userId'] === me?.id,
+                        'items-start': message['userId'] !== me?.id,
+                    })}
+                >
+                    <FireChatMessageContent message={message} />
+                </div>
+            </div>
+        );
+    }
     return (
         <div
             data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}
             id={`message-${message[MESSAGE_ID_FIELD]}`}
-            className={cn('flex w-full gap-4 my-2', {
+            className={cn('flex w-full gap-4 mt-3', {
                 'justify-end': message['userId'] === me?.id,
                 'justify-start': message['userId'] !== me?.id,
             })}
@@ -63,7 +92,6 @@ export default function FireChatMessage<
                         {formatTimeString(message[MESSAGE_CREATED_AT_FIELD])}
                     </p>
                 </div>
-
                 <FireChatMessageContent message={message} />
             </div>
         </div>

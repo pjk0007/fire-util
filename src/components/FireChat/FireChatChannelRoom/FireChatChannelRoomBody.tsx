@@ -87,7 +87,17 @@ export default function FireChatChannelRoomBody() {
                                 </Fragment>
                             );
                         }
-                        return <FireChatMessage key={index} message={msg} />;
+                        return (
+                            <FireChatMessage
+                                key={index}
+                                message={msg}
+                                beforeMessage={
+                                    index > 0
+                                        ? selectedChannelMessages[index - 1]
+                                        : undefined
+                                }
+                            />
+                        );
                     })}
                 </div>
                 {!isBottom && isScrolling && (
