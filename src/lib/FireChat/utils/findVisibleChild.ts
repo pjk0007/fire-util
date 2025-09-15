@@ -11,6 +11,20 @@ export const findVisibleChild = (parent: Element): HTMLElement | null => {
       rect.bottom <= parentRect.bottom // Fully visible
     ) {
       return child;
+    } else if (
+      (rect.top < parentRect.bottom && rect.bottom > parentRect.top) // Partially visible
+    ) {
+      return child;
+    } else if (
+      rect.top >= parentRect.top && // Top edge visible
+      rect.top <= parentRect.bottom
+    ) {
+      return child;
+    } else if (
+      rect.bottom >= parentRect.top && // Bottom edge visible
+      rect.bottom <= parentRect.bottom
+    ) {
+      return child;
     }
   }
 

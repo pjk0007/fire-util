@@ -106,7 +106,9 @@ export default function useScroll() {
 
     const getSetScrollDate = (scrollDiv: Element) => {
         const element = findVisibleChild(scrollDiv);
+        console.log(element);
         
+
         if (element) {
             const { seconds } = element.dataset;
 
@@ -115,6 +117,8 @@ export default function useScroll() {
                     new Date(Number(seconds) * 1000).toLocaleDateString()
                 );
             }
+        } else {
+            setScrollDate(undefined);
         }
     };
 

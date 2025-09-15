@@ -41,8 +41,12 @@ export default function FireChatChannelRoomBody() {
                     </Button>
                 )}
                 <div
-                    className={`text-xs absolute top-8 left-1/2 transform -translate-x-1/2 rounded-[12px] bg-foreground/60 px-[12px] py-[8px] text-white transition-all duration-300 pointer-events-none`
-                        + (isScrolling ? ' opacity-100 scale-100' : ' opacity-0 scale-95')}
+                    className={
+                        `text-xs absolute top-8 left-1/2 transform -translate-x-1/2 rounded-[12px] bg-foreground/60 px-[12px] py-[8px] text-white transition-all duration-300 pointer-events-none` +
+                        (scrollDate && isScrolling
+                            ? ' opacity-100 scale-100'
+                            : ' opacity-0 scale-95')
+                    }
                     style={{ zIndex: 30 }}
                 >
                     {scrollDate}
