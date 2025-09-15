@@ -22,20 +22,11 @@ import { useEffect, useRef, useState } from 'react';
 export default function useListMessages<
     M extends FcMessage<T>,
     T extends FcMessageContent
->({
-    channelId,
-    onNewMessage,
-}: {
-    channelId?: string;
-    onNewMessage?: (msg?: M) => void;
-}) {
+>({ channelId }: { channelId?: string }) {
     const [messages, setMessages] = useState<M[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [lastVisible, setLastVisible] = useState<M | null>(null);
     const [hasMore, setHasMore] = useState(true);
-    const messageRefs = useRef<{
-        [key: string]: HTMLDivElement | null;
-    }>({});
 
     async function loadMoreMessages() {
         if (!channelId || !hasMore) return;
@@ -91,7 +82,6 @@ export default function useListMessages<
                                 ...prev,
                                 change.doc.data() as M,
                             ]);
-                            onNewMessage?.(change.doc.data() as M);
                         }
                     });
                 }
@@ -109,6 +99,5 @@ export default function useListMessages<
         lastVisible,
         hasMore,
         loadMoreMessages,
-        messageRefs,
     };
 }

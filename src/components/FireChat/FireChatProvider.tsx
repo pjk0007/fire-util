@@ -1,4 +1,5 @@
 import getUser from '@/lib/FireChat/api/getUser';
+import useFireChatSender from '@/lib/FireChat/hooks/useFireChatSender';
 import useListChannels from '@/lib/FireChat/hooks/useListChannels';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';
 import useScroll from '@/lib/FireChat/hooks/useScroll';
@@ -39,8 +40,8 @@ interface FireChatContextValue<
     scrollToBottom: (smooth?: boolean) => void;
     isLoading: boolean;
     isScrolling?: boolean;
-    dateLabelTop?: number;
     scrollDate?: string;
+    sendTextMessage: (message: string) => Promise<void>;
 }
 
 const fireChatContext = createContext<
@@ -63,6 +64,7 @@ const fireChatContext = createContext<
     isLoading: true,
     isScrolling: false,
     scrollDate: undefined,
+    sendTextMessage: async () => {},
 });
 
 export const useFireChat = () => useContext(fireChatContext);
@@ -98,14 +100,15 @@ export function FireChatProvider<
         scrollDate,
     } = useScroll();
 
-    const { messages, loadMoreMessages, hasMore, messageRefs } =
-        useListMessages<M, T>({
-            channelId: selectedChannel?.channel[CHANNEL_ID_FIELD],
-            onNewMessage: () => {
-                if (!isBottom) return;
-                scrollToBottom(true);
-            },
-        });
+    const { messages, loadMoreMessages, hasMore } = useListMessages<M, T>({
+        channelId: selectedChannel?.channel[CHANNEL_ID_FIELD],
+    });
+
+    const { sendTextMessage } = useFireChatSender({
+        selectedChannel,
+        messages,
+        user,
+    });
 
     useEffect(() => {
         if (hasMore && isTop && !isLoading) {
@@ -131,6 +134,13 @@ export function FireChatProvider<
             },
         });
     }, [selectedChannel]);
+
+    // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
+    useEffect(() => {
+        if (isBottom) {
+            scrollToBottom(true);
+        }
+    }, [messages]);
 
     function selectChannel(channelId?: string) {
         setIsLoading(true);
@@ -161,6 +171,7 @@ export function FireChatProvider<
                 isLoading,
                 isScrolling,
                 scrollDate,
+                sendTextMessage,
             }}
         >
             {children}
