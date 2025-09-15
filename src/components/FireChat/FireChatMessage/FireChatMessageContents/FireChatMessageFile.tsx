@@ -14,7 +14,7 @@ export default function FireChatMessageFile<
     return (
         <Card className="p-3 max-w-64 md:max-w-80 gap-2">
             <div className="flex gap-4">
-                <div className="flex-1 text-sm">
+                <div className="flex-1 text-sm line-clamp-2">
                     {message.contents?.[0]?.name}
                 </div>
                 <Button
