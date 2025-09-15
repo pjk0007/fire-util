@@ -82,7 +82,7 @@ export default function useListMessages<
                         MESSAGE_COLLECTION
                     ),
                     orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
-                    startAfter(recentMsg)
+                    startAfter(recentMsg?.[MESSAGE_CREATED_AT_FIELD] ?? 0)
                 ),
                 (querySnapshot) => {
                     querySnapshot.docChanges().forEach((change) => {

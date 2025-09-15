@@ -77,6 +77,10 @@ export const LOCALE = {
         DOWNLOAD_ALL_IMAGE: '모든 사진 전체 저장',
         DOWNLOAD_ONE_IMAGE: '이 사진만 저장',
     },
+    FOOTER:{
+        INPUT_PLACEHOLDER: '메시지 입력',
+        SEND: '전송',
+    }
 };
 
 /**

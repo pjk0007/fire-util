@@ -1,8 +1,22 @@
 import FireChatMessage from '@/components/FireChat/FireChatMessage/FireChatMessage';
+import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+    FcMessage,
+    FcMessageSystem,
+    MESSAGE_CONTENT_TEXT_FIELD,
+    MESSAGE_CONTENTS_FIELD,
+    MESSAGE_CREATED_AT_FIELD,
+    MESSAGE_ID_FIELD,
+    MESSAGE_TYPE_FIELD,
+    MESSAGE_TYPE_SYSTEM,
+    MESSAGE_USER_ID_FIELD,
+} from '@/lib/FireChat/settings';
+import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { ArrowDown } from 'lucide-react';
+import { Fragment } from 'react';
 
 export default function FireChatChannelRoomBody() {
     const {
@@ -27,9 +41,54 @@ export default function FireChatChannelRoomBody() {
                 ref={channelRoomRef}
             >
                 <div className="relative h-full flex flex-col gap-2 py-4 ">
-                    {selectedChannelMessages.map((msg, index) => (
-                        <FireChatMessage key={index} message={msg} />
-                    ))}
+                    {selectedChannelMessages.map((msg, index) => {
+                        const beforeDate =
+                            index > 0
+                                ? selectedChannelMessages[index - 1]?.[
+                                      MESSAGE_CREATED_AT_FIELD
+                                  ]
+                                : null;
+                        const currentDate = msg?.[MESSAGE_CREATED_AT_FIELD];
+                        if (
+                            beforeDate &&
+                            currentDate &&
+                            beforeDate.toDate().toDateString() !==
+                                currentDate.toDate().toDateString()
+                        ) {
+                            return (
+                                <Fragment key={index}>
+                                    <FireChatMessageSystem
+                                        message={
+                                            {
+                                                [MESSAGE_ID_FIELD]: `date-separator-${msg[MESSAGE_ID_FIELD]}`,
+                                                [MESSAGE_CREATED_AT_FIELD]:
+                                                    currentDate,
+                                                [MESSAGE_TYPE_FIELD]:
+                                                    MESSAGE_TYPE_SYSTEM,
+                                                [MESSAGE_USER_ID_FIELD]:
+                                                    'system',
+                                                [MESSAGE_CONTENTS_FIELD]: [
+                                                    {
+                                                        [MESSAGE_CONTENT_TEXT_FIELD]:
+                                                            formatDateString(
+                                                                currentDate
+                                                            ),
+                                                        [MESSAGE_TYPE_FIELD]:
+                                                            MESSAGE_TYPE_SYSTEM,
+                                                    },
+                                                ],
+                                            } as FcMessage<FcMessageSystem>
+                                        }
+                                    />
+                                    <FireChatMessage
+                                        key={index}
+                                        message={msg}
+                                    />
+                                </Fragment>
+                            );
+                        }
+                        return <FireChatMessage key={index} message={msg} />;
+                    })}
                 </div>
                 {!isBottom && isScrolling && (
                     <Button

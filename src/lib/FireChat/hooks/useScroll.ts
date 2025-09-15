@@ -106,8 +106,6 @@ export default function useScroll() {
 
     const getSetScrollDate = (scrollDiv: Element) => {
         const element = findVisibleChild(scrollDiv);
-        console.log(element);
-        
 
         if (element) {
             const { seconds } = element.dataset;

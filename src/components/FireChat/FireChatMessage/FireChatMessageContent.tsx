@@ -1,5 +1,6 @@
 import FireChatMessageFile from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageFile';
 import FireChatMessageImages from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageImages';
+import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import FireChatMessageText from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageText';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import {
@@ -7,9 +8,14 @@ import {
     FcMessageContent,
     FcMessageFile,
     FcMessageImage,
+    FcMessageSystem,
     FcMessageText,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_TYPE_FIELD,
+    MESSAGE_TYPE_FILE,
+    MESSAGE_TYPE_IMAGE,
+    MESSAGE_TYPE_SYSTEM,
+    MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 
@@ -27,7 +33,7 @@ export default function FireChatMessageContent<
 
     const isMine = message[MESSAGE_USER_ID_FIELD] === me?.id;
     switch (message[MESSAGE_TYPE_FIELD]) {
-        case 'text':
+        case MESSAGE_TYPE_TEXT:
             return (
                 <FireChatMessageText
                     content={
@@ -36,13 +42,13 @@ export default function FireChatMessageContent<
                     isMine={isMine}
                 />
             );
-        case 'images':
+        case MESSAGE_TYPE_IMAGE:
             return (
                 <FireChatMessageImages
                     message={message as FcMessage<FcMessageImage>}
                 />
             );
-        case 'file':
+        case MESSAGE_TYPE_FILE:
             return (
                 <FireChatMessageFile
                     message={message as FcMessage<FcMessageFile>}
