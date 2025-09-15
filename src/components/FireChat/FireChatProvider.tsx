@@ -32,11 +32,15 @@ interface FireChatContextValue<
     user?: U;
     selectedChannel?: FcChannelParticipants<C, U, M, T>;
     messages: M[];
+    loadMoreMessages: () => void;
     selectChannel: (channelId?: string) => void;
     scrollAreaRef: RefObject<HTMLDivElement | null>;
     isBottom: boolean;
     scrollToBottom: (smooth?: boolean) => void;
     isLoading: boolean;
+    isScrolling?: boolean;
+    dateLabelTop?: number;
+    scrollDate?: string;
 }
 
 const fireChatContext = createContext<
@@ -51,11 +55,14 @@ const fireChatContext = createContext<
     user: undefined,
     selectedChannel: undefined,
     messages: [],
+    loadMoreMessages: () => {},
     selectChannel: () => {},
     scrollAreaRef: { current: null },
     isBottom: true,
     scrollToBottom: () => {},
     isLoading: true,
+    isScrolling: false,
+    scrollDate: undefined,
 });
 
 export const useFireChat = () => useContext(fireChatContext);
@@ -80,14 +87,41 @@ export function FireChatProvider<
     >(undefined);
     const [isLoading, setIsLoading] = useState(true);
 
-    const { scrollAreaRef, isBottom, scrollToBottom } = useScroll();
-    const { messages } = useListMessages<M, T>({
-        channelId: selectedChannel?.channel[CHANNEL_ID_FIELD],
-        onNewMessage: () => {
-            if (!isBottom) return;
-            scrollToBottom(true);
-        },
-    });
+    const {
+        scrollAreaRef,
+        isBottom,
+        scrollToBottom,
+        isTop,
+        getScrollState,
+        restoreScrollState,
+        isScrolling,
+        scrollDate,
+    } = useScroll();
+
+    const { messages, loadMoreMessages, hasMore, messageRefs } =
+        useListMessages<M, T>({
+            channelId: selectedChannel?.channel[CHANNEL_ID_FIELD],
+            onNewMessage: () => {
+                if (!isBottom) return;
+                scrollToBottom(true);
+            },
+        });
+
+    useEffect(() => {
+        if (hasMore && isTop && !isLoading) {
+            const scrollState = getScrollState();
+            setIsLoading(true);
+            loadMoreMessages()
+                .then(() => {
+                    setTimeout(() => {
+                        restoreScrollState(scrollState);
+                    }, 1);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+    }, [hasMore, isTop]);
 
     useEffect(() => {
         setIsLoading(true);
@@ -108,7 +142,6 @@ export function FireChatProvider<
         const channel = channels.find((c) => c.channel.id === channelId);
         if (channel) {
             setSelectedChannel(channel);
-            
         }
         setIsLoading(false);
     }
@@ -120,11 +153,14 @@ export function FireChatProvider<
                 user,
                 selectedChannel,
                 messages,
+                loadMoreMessages,
                 selectChannel,
                 scrollAreaRef,
                 isBottom,
                 scrollToBottom,
                 isLoading,
+                isScrolling,
+                scrollDate,
             }}
         >
             {children}

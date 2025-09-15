@@ -20,12 +20,12 @@ import {
 export default async function getMessages<
     M extends FcMessage<T>,
     T extends FcMessageContent
->(channelId: string, lastMessageDoc?: DocumentData): Promise<M[]> {
-    const q = lastMessageDoc
+>(channelId: string, lastMessage: M | null): Promise<M[]> {
+    const q = lastMessage
         ? query(
               collection(db, CHANNEL_COLLECTION, channelId, MESSAGE_COLLECTION),
               orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
-              endBefore(lastMessageDoc),
+              endBefore(lastMessage[MESSAGE_CREATED_AT_FIELD]),
               limitToLast(MESSAGE_UNIT)
           )
         : query(

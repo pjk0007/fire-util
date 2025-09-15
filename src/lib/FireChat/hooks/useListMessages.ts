@@ -11,14 +11,13 @@ import {
 import {
     collection,
     DocumentData,
-    limitToLast,
     onSnapshot,
     orderBy,
     query,
     startAfter,
     Unsubscribe,
 } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function useListMessages<
     M extends FcMessage<T>,
@@ -32,7 +31,28 @@ export default function useListMessages<
 }) {
     const [messages, setMessages] = useState<M[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [lastVisible, setLastVisible] = useState<DocumentData | null>(null);
+    const [lastVisible, setLastVisible] = useState<M | null>(null);
+    const [hasMore, setHasMore] = useState(true);
+    const messageRefs = useRef<{
+        [key: string]: HTMLDivElement | null;
+    }>({});
+
+    async function loadMoreMessages() {
+        if (!channelId || !hasMore) return;
+        setIsLoading(true);
+        try {
+            const msgs = await getMessages<M, T>(channelId, lastVisible);
+            if (msgs.length < MESSAGE_UNIT) {
+                setHasMore(false);
+            }
+            const lastMsg = msgs.at(0) || null;
+            setLastVisible(lastMsg);
+            setMessages((prev) => [...msgs, ...prev]);
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+        }
+    }
 
     useEffect(() => {
         if (!channelId) {
@@ -41,8 +61,13 @@ export default function useListMessages<
             return;
         }
         let unsubscribe: Unsubscribe;
-        getMessages<M, T>(channelId).then((msgs) => {
+        getMessages<M, T>(channelId, null).then((msgs) => {
             setMessages(msgs);
+            if (msgs.length >= MESSAGE_UNIT) {
+                setHasMore(true);
+            } else {
+                setHasMore(false);
+            }
 
             const lastMsg = msgs.at(0) || null;
             const recentMsg = msgs.at(-1) || null;
@@ -57,7 +82,7 @@ export default function useListMessages<
                         MESSAGE_COLLECTION
                     ),
                     orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
-                    startAfter(recentMsg),
+                    startAfter(recentMsg)
                 ),
                 (querySnapshot) => {
                     querySnapshot.docChanges().forEach((change) => {
@@ -77,6 +102,13 @@ export default function useListMessages<
             if (unsubscribe) unsubscribe();
         };
     }, [channelId]);
-    
-    return { messages, isLoading, lastVisible };
+
+    return {
+        messages,
+        isLoading,
+        lastVisible,
+        hasMore,
+        loadMoreMessages,
+        messageRefs,
+    };
 }
