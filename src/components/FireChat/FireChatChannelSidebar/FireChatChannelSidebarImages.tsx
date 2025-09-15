@@ -24,6 +24,7 @@ export default function FireChatChannelSidebarImages() {
         .filter(
             (msg) =>
                 msg[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE &&
+                msg[MESSAGE_CONTENTS_FIELD] &&
                 msg[MESSAGE_CONTENTS_FIELD].length > 0
         )
         .reverse();
@@ -47,7 +48,7 @@ export default function FireChatChannelSidebarImages() {
                                 );
                             return (
                                 <FireChatImageDialog
-                                    idx={index}
+                                    idx={0}
                                     dialogTitle={`${
                                         senderUser?.name || LOCALE.UNKNOWN
                                     }, ${formatDateString(

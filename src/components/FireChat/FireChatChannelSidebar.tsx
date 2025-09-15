@@ -1,3 +1,4 @@
+import FireChatChannelSidebarFiles from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarFiles';
 import FireChatChannelSidebarImages from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarImages';
 import FireChatChannelSidebarParticipants from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarParticipants';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -9,6 +10,7 @@ export default function FireChatChannelSidebar() {
             <ScrollArea className="h-full">
                 <div className="p-2 h-full gap-2 flex flex-col">
                     <FireChatChannelSidebarImages />
+                    <FireChatChannelSidebarFiles />
                     <FireChatChannelSidebarParticipants />
                 </div>
             </ScrollArea>
