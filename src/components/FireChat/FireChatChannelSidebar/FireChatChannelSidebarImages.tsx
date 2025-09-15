@@ -1,0 +1,108 @@
+import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
+import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import {
+    FcMessage,
+    FcMessageImage,
+    LOCALE,
+    MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
+    MESSAGE_CONTENT_URL_FIELD,
+    MESSAGE_CONTENTS_FIELD,
+    MESSAGE_CREATED_AT_FIELD,
+    MESSAGE_TYPE_FIELD,
+    MESSAGE_TYPE_IMAGE,
+    MESSAGE_USER_ID_FIELD,
+} from '@/lib/FireChat/settings';
+import { formatDateString } from '@/lib/FireChat/utils/timeformat';
+import { ChevronRight, Image, ImagesIcon } from 'lucide-react';
+
+export default function FireChatChannelSidebarImages() {
+    const { messages, selectedChannel } = useFireChat();
+    const imageMessages = messages
+        .filter(
+            (msg) =>
+                msg[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE &&
+                msg[MESSAGE_CONTENTS_FIELD].length > 0
+        )
+        .reverse();
+    return (
+        <Card className="gap-0 p-2">
+            <div className="flex flex-col p-2 gap-2">
+                <div className="flex gap-2 items-center">
+                    <Image className="w-4 h-4 text-primary" />
+                    <h2 className="text-sm font-semibold tracking-tight">
+                        {LOCALE.SIDEBAR.IMAGE}
+                    </h2>
+                </div>
+                {imageMessages.length > 0 ? (
+                    <div className="gap-2 py-1 w-full grid grid-cols-2">
+                        {imageMessages.slice(0, 4).map((msg, index) => {
+                            const message = msg as FcMessage<FcMessageImage>;
+                            const senderUser =
+                                selectedChannel?.participants.find(
+                                    (p) =>
+                                        p.id === message[MESSAGE_USER_ID_FIELD]
+                                );
+                            return (
+                                <FireChatImageDialog
+                                    idx={index}
+                                    dialogTitle={`${
+                                        senderUser?.name || LOCALE.UNKNOWN
+                                    }, ${formatDateString(
+                                        message[MESSAGE_CREATED_AT_FIELD]
+                                    )}`}
+                                    images={message[MESSAGE_CONTENTS_FIELD].map(
+                                        (img) =>
+                                            img[
+                                                MESSAGE_CONTENT_URL_FIELD
+                                            ] as string
+                                    )}
+                                    key={index}
+                                >
+                                    <AspectRatio ratio={1 / 1}>
+                                        <img
+                                            src={
+                                                message[
+                                                    MESSAGE_CONTENTS_FIELD
+                                                ][0][
+                                                    MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
+                                                ] ||
+                                                message[
+                                                    MESSAGE_CONTENTS_FIELD
+                                                ][0][MESSAGE_CONTENT_URL_FIELD]
+                                            }
+                                            alt="Image"
+                                            className="w-full h-full object-cover rounded cursor-pointer hover:opacity-80 border"
+                                        />
+                                        {message[MESSAGE_CONTENTS_FIELD]
+                                            .length > 1 && (
+                                            <ImagesIcon
+                                                className="absolute left-2 bottom-2 bg-foreground/40 text-white p-0.5 rounded-xs"
+                                                size={16}
+                                            />
+                                        )}
+                                    </AspectRatio>
+                                </FireChatImageDialog>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <span className="text-sm text-muted-foreground text-center py-2">
+                        {LOCALE.SIDEBAR.NO_IMAGES}
+                    </span>
+                )}
+            </div>
+            {imageMessages.length > 4 && (
+                <Button
+                    size="sm"
+                    variant="ghost"
+                    className="w-full justify-center"
+                >
+                    더보기 <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+            )}
+        </Card>
+    );
+}

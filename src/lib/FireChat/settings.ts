@@ -68,11 +68,13 @@ export const LOCALE = {
         NO_PARTICIPANTS: '참여자가 없습니다.',
         ME: '나',
         INVITE_PARTICIPANTS: '초대하기',
+        IMAGE: '이미지',
+        NO_IMAGES: '이미지가 없습니다.',
     },
-    MESSAGE:{
-        DOWNLOAD_ALL_IMAGE:'모든 사진 전체 저장',
-        DOWNLOAD_ONE_IMAGE:'이 사진만 저장',
-    }
+    MESSAGE: {
+        DOWNLOAD_ALL_IMAGE: '모든 사진 전체 저장',
+        DOWNLOAD_ONE_IMAGE: '이 사진만 저장',
+    },
 };
 
 /**
