@@ -138,7 +138,7 @@ export function FireChatProvider<
     // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
     useEffect(() => {
         if (isBottom) {
-            scrollToBottom(true);
+            scrollToBottom(false);
         }
     }, [messages]);
 

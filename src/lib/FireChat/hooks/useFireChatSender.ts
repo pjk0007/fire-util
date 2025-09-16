@@ -51,8 +51,6 @@ export default function useFireChatSender<
     messages: FcMessage<FcMessageContent>[];
     user?: { [USER_ID_FIELD]: string; [key: string]: any } | null;
 }) {
-    const [isLoading, setIsLoading] = useState(false);
-
     async function updateLastMessage<
         M extends FcMessage<T>,
         T extends FcMessageContent
@@ -76,7 +74,7 @@ export default function useFireChatSender<
         message: string
     ) {
         if (!message.trim() || !selectedChannel) return;
-        setIsLoading(true);
+
         const now = Timestamp.now();
         const msg = {
             [MESSAGE_ID_FIELD]: `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`,
@@ -93,10 +91,6 @@ export default function useFireChatSender<
         if (selectedChannel) {
             await sendMessage(selectedChannel.channel[CHANNEL_ID_FIELD], msg);
             await updateLastMessage(msg);
-
-            setIsLoading(false);
-        } else {
-            setIsLoading(false);
         }
     }
 
@@ -107,7 +101,7 @@ export default function useFireChatSender<
             file.type.startsWith('image/')
         );
         if (imageFiles.length === 0 || !selectedChannel) return;
-        setIsLoading(true);
+
         const now = Timestamp.now();
         const msgId = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
         // Implement the logic to upload images and send image messages
@@ -143,13 +137,9 @@ export default function useFireChatSender<
         } as FcMessage<FcMessageImage>;
         await sendMessage(selectedChannel.channel[CHANNEL_ID_FIELD], msg);
         await updateLastMessage(msg);
-
-        // After sending, clear the files state
-        setIsLoading(false);
     }
 
     return {
         sendTextMessage,
-        isLoading,
     };
 }

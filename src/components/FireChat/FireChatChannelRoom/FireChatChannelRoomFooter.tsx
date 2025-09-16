@@ -1,10 +1,10 @@
+import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/FireChatFileUploaderDialog';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import useFireChatSender from '@/lib/FireChat/hooks/useFireChatSender';
 import { LOCALE } from '@/lib/FireChat/settings';
+
 import { Paperclip } from 'lucide-react';
 import { memo, useState } from 'react';
 
@@ -25,6 +25,7 @@ const MemoTextarea = memo(
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
+                    if ((e.nativeEvent as any).isComposing) return; // 한글 조합 중이면 무시
                     setMessage('');
                     e.preventDefault();
                     sendTextMessage(message);
@@ -41,6 +42,7 @@ export default function FireChatChannelRoomFooter() {
 
     return (
         <div className="border-t border-muted w-full py-2">
+            <FireChatFileUploaderDialog files={files} setFiles={setFiles} />
             <MemoTextarea
                 message={message}
                 setMessage={setMessage}

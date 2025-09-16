@@ -50,7 +50,7 @@ export default function FireChatChannelListItem<
                 <FireChatChannelListItemAvatar {...channel} />
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 w-full">
                 <div className="flex justify-between items-center gap-4">
                     <FireChatChannelListItemTitle
                         {...channel}
