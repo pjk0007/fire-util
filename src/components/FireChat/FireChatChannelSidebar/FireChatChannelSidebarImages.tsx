@@ -41,7 +41,7 @@ export default function FireChatChannelSidebarImages() {
                                 );
                             return (
                                 <FireChatImageDialog
-                                    idx={0}
+                                    defaultIdx={0}
                                     dialogTitle={`${
                                         senderUser?.name || LOCALE.UNKNOWN
                                     }, ${formatDateString(

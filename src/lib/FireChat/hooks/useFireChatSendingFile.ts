@@ -29,16 +29,13 @@ import {
 import { useEffect, useRef, useState } from 'react';
 
 export default function useFireChatSendingFile({
-    id,
     channelId,
     file,
 }: {
-    id: string;
     channelId: string;
     file: File;
 }) {
-    const { user: me, setSendingFiles } = useFireChat();
-    const [total, setTotal] = useState(0);
+    const { user: me } = useFireChat();
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [isCompleted, setIsCompleted] = useState(false);
@@ -48,7 +45,6 @@ export default function useFireChatSendingFile({
         if (isCompleted) return;
         if (!channelId) return;
 
-        setTotal(file.size);
         setProgress(0);
 
         const now = Timestamp.now();
@@ -66,7 +62,7 @@ export default function useFireChatSendingFile({
         uploadTask.on(
             'state_changed',
             (snapshot) => {
-                const prog = snapshot.bytesTransferred;
+                const prog = snapshot.bytesTransferred / snapshot.totalBytes * 100;
                 setProgress(prog);
             },
             (err) => {
@@ -101,7 +97,7 @@ export default function useFireChatSendingFile({
                 uploadTaskRef.current.cancel();
             }
         };
-    }, [file, channelId, id]);
+    }, [file, channelId]);
 
     function cancelUpload() {
         if (uploadTaskRef.current) {
@@ -110,5 +106,5 @@ export default function useFireChatSendingFile({
         }
     }
 
-    return { total, progress, error, isCompleted, cancelUpload };
+    return { progress, error, isCompleted, cancelUpload };
 }

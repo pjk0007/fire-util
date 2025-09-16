@@ -53,6 +53,22 @@ export default function useListMessages<
 
     useEffect(() => {
         if (!channelId) {
+            setImageMessages([]);
+            setFileMessages([]);
+            return;
+        }
+
+        getImageMessages<M, T>(channelId).then((imgs) => {
+            setImageMessages(imgs);
+        });
+
+        getFileMessages<M, T>(channelId).then((files) => {
+            setFileMessages(files);
+        });
+    }, [channelId]);
+
+    useEffect(() => {
+        if (!channelId) {
             setMessages([]);
             setIsLoading(false);
             return;
@@ -84,6 +100,8 @@ export default function useListMessages<
                 (querySnapshot) => {
                     querySnapshot.docChanges().forEach((change) => {
                         if (change.type === 'added') {
+                            console.log('add');
+                            
                             const msg = change.doc.data() as M;
                             setMessages((prev) => [...prev, msg]);
                             if (
@@ -101,13 +119,6 @@ export default function useListMessages<
             );
         });
 
-        getImageMessages<M, T>(channelId).then((imgs) => {
-            setImageMessages(imgs);
-        });
-
-        getFileMessages<M, T>(channelId).then((files) => {
-            setFileMessages(files);
-        });
 
         return () => {
             if (unsubscribe) unsubscribe();

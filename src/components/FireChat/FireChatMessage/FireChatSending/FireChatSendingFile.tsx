@@ -13,13 +13,12 @@ export default function FireChatSendingFile({
 }: {
     sendingFile: SendingFile;
 }) {
-    const file = sendingFile.files[0];
+    const file = sendingFile.files?.[0];
     if (!file) return null;
 
-    const { total, progress, error, isCompleted, cancelUpload } =
+    const { progress, error, isCompleted, cancelUpload } =
         useFireChatSendingFile({
-            file: sendingFile.files[0],
-            id: sendingFile.id,
+            file,
             channelId: sendingFile.channelId,
         });
 
@@ -36,22 +35,17 @@ export default function FireChatSendingFile({
                         <Button
                             className="rounded-full flex items-center justify-center bg-muted border"
                             style={{ width: 42, height: 42 }}
-                            onClick={() => {
-                                if (!isCompleted) cancelUpload();
-                            }}
-                            disabled={isCompleted}
+                            onClick={cancelUpload}
                             variant={'outline'}
                         >
-                            {isCompleted ? <Check /> : <X />}
+                            <X />
                         </Button>
                     </div>
                     <div className="w-full h-2 bg-muted rounded-full overflow-hidden mt-2">
                         <div
                             className="h-full bg-primary transition-all"
                             style={{
-                                width: `${Math.round(
-                                    (progress / total) * 100
-                                )}%`,
+                                width: `${progress}%`,
                             }}
                         />
                     </div>

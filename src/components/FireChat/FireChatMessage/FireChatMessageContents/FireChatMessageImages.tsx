@@ -13,6 +13,7 @@ import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
+import getImageColSpan from '@/lib/FireChat/utils/getImageColSpan';
 
 export default function FireChatMessageImages<
     M extends FcMessage<FcMessageImage>
@@ -23,7 +24,6 @@ export default function FireChatMessageImages<
     if (totalImages === 0) {
         return <div></div>;
     }
-    const remainder = totalImages % 3;
 
     const senderUser = selectedChannel?.participants.find(
         (p) => p.id === message[MESSAGE_USER_ID_FIELD]
@@ -33,27 +33,10 @@ export default function FireChatMessageImages<
     return (
         <div className={cn('grid grid-cols-6 gap-2 max-w-64 md:max-w-full')}>
             {message[MESSAGE_CONTENTS_FIELD].map((img, idx) => {
-                let colSpan = 'col-span-2';
-                if (totalImages === 1) {
-                    colSpan = 'col-span-6';
-                } else if (remainder === 1) {
-                    if (idx >= totalImages - 4) {
-                        colSpan = 'col-span-3';
-                    } else {
-                        colSpan = 'col-span-2';
-                    }
-                } else if (remainder === 2) {
-                    if (idx >= totalImages - 2) {
-                        colSpan = 'col-span-3';
-                    } else {
-                        colSpan = 'col-span-2';
-                    }
-                } else {
-                    colSpan = 'col-span-2';
-                }
+                const colSpan = getImageColSpan(totalImages, idx);
                 return (
                     <FireChatImageDialog
-                        idx={idx}
+                        defaultIdx={idx}
                         dialogTitle={`${senderUser.name}, ${formatDateString(
                             message[MESSAGE_CREATED_AT_FIELD]
                         )}`}

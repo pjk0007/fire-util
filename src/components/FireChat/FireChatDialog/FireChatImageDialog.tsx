@@ -34,12 +34,12 @@ import { useEffect, useState } from 'react';
 export default function FireChatImageDialog({
     children,
     dialogTitle,
-    idx,
+    defaultIdx,
     images,
 }: {
     children: React.ReactNode;
     dialogTitle?: string;
-    idx: number;
+    defaultIdx: number;
     images: string[];
 }) {
     const [api, setApi] = useState<CarouselApi>();
@@ -59,13 +59,15 @@ export default function FireChatImageDialog({
         };
     }, [api]);
 
+    useEffect(() => {
+        setCurrent(defaultIdx);
+    }, [defaultIdx]);
+
     const totalImages = images.length;
 
     return (
         <Dialog>
-            <DialogTrigger asChild onClick={() => setCurrent(idx)}>
-                {children}
-            </DialogTrigger>
+            <DialogTrigger asChild>{children}</DialogTrigger>
             <DialogContent className="px-0 pt-4 pb-2 gap-2">
                 <DialogHeader className="text-sm px-4">
                     <DialogTitle>{dialogTitle}</DialogTitle>
@@ -75,7 +77,7 @@ export default function FireChatImageDialog({
                     setApi={setApi}
                     onLoad={() => {
                         setTimeout(() => {
-                            api?.scrollTo(idx, true);
+                            api?.scrollTo(current, true);
                         }, 1);
                     }}
                     className="group bg-muted  border-t border-b"
