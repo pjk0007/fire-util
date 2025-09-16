@@ -25,9 +25,11 @@ import { MoreHorizontal, MoreVertical } from 'lucide-react';
 export default function FireChatFileUploaderDialog({
     files,
     setFiles,
+    onClickUpload,
 }: {
     files: File[];
     setFiles: (files: File[]) => void;
+    onClickUpload: () => void;
 }) {
     const isMobile = useIsMobile();
     return (
@@ -87,7 +89,13 @@ export default function FireChatFileUploaderDialog({
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                        <DropdownMenuItem>
+                                        <DropdownMenuItem
+                                            onClick={() => {
+                                                const newFiles = [...files];
+                                                newFiles.splice(index, 1);
+                                                setFiles(newFiles);
+                                            }}
+                                        >
                                             {LOCALE.FOOTER.REMOVE_FILE}
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -103,7 +111,9 @@ export default function FireChatFileUploaderDialog({
                             {LOCALE.FOOTER.CANCEL}
                         </Button>
                     </DialogClose>
-                    <Button type="submit">{LOCALE.FOOTER.UPLOAD_FILES}</Button>
+                    <Button onClick={onClickUpload}>
+                        {LOCALE.FOOTER.UPLOAD_FILES}
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

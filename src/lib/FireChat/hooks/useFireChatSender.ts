@@ -1,6 +1,8 @@
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { db, storage } from '@/lib/firebase';
+import createSendingFiles from '@/lib/FireChat/utils/createSendingFiles';
 import sendMessage from '@/lib/FireChat/api/sendMessage';
+import updateLastMessage from '@/lib/FireChat/api/updateLastMessage';
 import {
     CHANNEL_COLLECTION,
     CHANNEL_ID_FIELD,
@@ -13,6 +15,7 @@ import {
     FcMessageSystem,
     FcMessageText,
     FcUser,
+    LARGE_FILE_SIZE,
     MESSAGE_COLLECTION,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_TEXT_FIELD,
@@ -21,6 +24,7 @@ import {
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
     MESSAGE_TYPE_FIELD,
+    MESSAGE_TYPE_FILE,
     MESSAGE_TYPE_IMAGE,
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_USER_ID_FIELD,
@@ -32,48 +36,30 @@ import {
     getDownloadURL,
     ref,
     uploadBytes,
-    uploadBytesResumable,
     uploadString,
 } from 'firebase/storage';
 import { useState } from 'react';
+
+export interface SendingFile {
+    id: string;
+    channelId: string;
+    files: File[];
+    type: typeof MESSAGE_TYPE_IMAGE | typeof MESSAGE_TYPE_FILE;
+}
 
 export default function useFireChatSender<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({
-    selectedChannel,
-    messages,
-    user,
-}: {
-    selectedChannel?: FcChannelParticipants<C, U, M, T>;
-    messages: FcMessage<FcMessageContent>[];
-    user?: { [USER_ID_FIELD]: string; [key: string]: any } | null;
-}) {
-    async function updateLastMessage<
-        M extends FcMessage<T>,
-        T extends FcMessageContent
-    >(msg: M) {
-        if (!selectedChannel || messages.length === 0) return;
-        await updateDoc(
-            doc(
-                db,
-                CHANNEL_COLLECTION,
-                selectedChannel.channel[CHANNEL_ID_FIELD]
-            ),
-            {
-                [CHANNEL_LAST_MESSAGE_FIELD]: msg,
-            }
-        );
-        // Update the last message in the channel document if needed
-        // This part is optional and depends on your requirements
-    }
+>({ channel, user }: { channel?: C; user?: U }) {
+    const [files, setFiles] = useState<File[]>([]);
+    const [sendingFiles, setSendingFiles] = useState<SendingFile[]>([]);
 
     async function sendTextMessage<M extends FcMessage<FcMessageText>>(
         message: string
     ) {
-        if (!message.trim() || !selectedChannel) return;
+        if (!message.trim() || !channel) return;
 
         const now = Timestamp.now();
         const msg = {
@@ -88,19 +74,28 @@ export default function useFireChatSender<
                 },
             ],
         } as M;
-        if (selectedChannel) {
-            await sendMessage(selectedChannel.channel[CHANNEL_ID_FIELD], msg);
-            await updateLastMessage(msg);
+        if (channel) {
+            await sendMessage(channel[CHANNEL_ID_FIELD], msg);
+            await updateLastMessage(channel[CHANNEL_ID_FIELD], msg);
         }
     }
 
-    function createImagesSender() {}
+    function onSendingFiles(files: File[]) {
+        if (!channel) return;
+        if (files.length === 0) return;
+        
+        const sendingFiles = createSendingFiles(
+            channel?.[CHANNEL_ID_FIELD],
+            files
+        );
+        setSendingFiles((prev) => [...prev, ...sendingFiles]);
+    }
 
     async function sendImagesMessage(files: File[]) {
         const imageFiles = files.filter((file) =>
             file.type.startsWith('image/')
         );
-        if (imageFiles.length === 0 || !selectedChannel) return;
+        if (imageFiles.length === 0 || !channel) return;
 
         const now = Timestamp.now();
         const msgId = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
@@ -109,7 +104,7 @@ export default function useFireChatSender<
         const contentsPromise = imageFiles.map(async (file) => {
             const thumbnail = await createThumbnail(file);
             // upload thumbnail and get URL
-            const msgPath = `${CHANNEL_COLLECTION}/${selectedChannel.channel[CHANNEL_ID_FIELD]}/${MESSAGE_COLLECTION}/${msgId}`;
+            const msgPath = `${CHANNEL_COLLECTION}/${channel[CHANNEL_ID_FIELD]}/${MESSAGE_COLLECTION}/${msgId}`;
             const thumbnailRef = ref(
                 storage,
                 `${msgPath}/thumbnail_${file.name}`
@@ -135,11 +130,16 @@ export default function useFireChatSender<
             [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_IMAGE,
             [MESSAGE_CONTENTS_FIELD]: contents,
         } as FcMessage<FcMessageImage>;
-        await sendMessage(selectedChannel.channel[CHANNEL_ID_FIELD], msg);
-        await updateLastMessage(msg);
+        await sendMessage(channel[CHANNEL_ID_FIELD], msg);
+        await updateLastMessage(channel[CHANNEL_ID_FIELD], msg);
     }
 
     return {
+        files,
+        setFiles,
         sendTextMessage,
+        onSendingFiles,
+        sendingFiles,
+        setSendingFiles,
     };
 }

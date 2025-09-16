@@ -1,5 +1,7 @@
 import getUser from '@/lib/FireChat/api/getUser';
-import useFireChatSender from '@/lib/FireChat/hooks/useFireChatSender';
+import useFireChatSender, {
+    SendingFile,
+} from '@/lib/FireChat/hooks/useFireChatSender';
 import useListChannels from '@/lib/FireChat/hooks/useListChannels';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';
 import useScroll from '@/lib/FireChat/hooks/useScroll';
@@ -13,8 +15,10 @@ import {
     FcUser,
 } from '@/lib/FireChat/settings';
 import {
+    Dispatch,
     ReactNode,
     RefObject,
+    SetStateAction,
     useContext,
     useEffect,
     useLayoutEffect,
@@ -42,6 +46,13 @@ interface FireChatContextValue<
     isScrolling?: boolean;
     scrollDate?: string;
     sendTextMessage: (message: string) => Promise<void>;
+    onSendingFiles: (files: File[]) => void;
+    sendingFiles: SendingFile[];
+    setSendingFiles: Dispatch<SetStateAction<SendingFile[]>>;
+    files: File[];
+    setFiles: Dispatch<SetStateAction<File[]>>;
+    fileMessages: M[];
+    imageMessages: M[];
 }
 
 const fireChatContext = createContext<
@@ -65,6 +76,13 @@ const fireChatContext = createContext<
     isScrolling: false,
     scrollDate: undefined,
     sendTextMessage: async () => {},
+    onSendingFiles: (files: File[]) => {},
+    sendingFiles: [],
+    setSendingFiles: () => {},
+    files: [],
+    setFiles: () => {},
+    fileMessages: [],
+    imageMessages: [],
 });
 
 export const useFireChat = () => useContext(fireChatContext);
@@ -100,13 +118,20 @@ export function FireChatProvider<
         scrollDate,
     } = useScroll();
 
-    const { messages, loadMoreMessages, hasMore } = useListMessages<M, T>({
-        channelId: selectedChannel?.channel[CHANNEL_ID_FIELD],
-    });
+    const { messages, fileMessages, imageMessages, loadMoreMessages, hasMore } =
+        useListMessages<M, T>({
+            channelId: selectedChannel?.channel[CHANNEL_ID_FIELD],
+        });
 
-    const { sendTextMessage } = useFireChatSender({
-        selectedChannel,
-        messages,
+    const {
+        files,
+        setFiles,
+        sendTextMessage,
+        onSendingFiles,
+        sendingFiles,
+        setSendingFiles,
+    } = useFireChatSender({
+        channel: selectedChannel?.channel,
         user,
     });
 
@@ -140,7 +165,7 @@ export function FireChatProvider<
         if (isBottom) {
             scrollToBottom(false);
         }
-    }, [messages]);
+    }, [messages, sendingFiles]);
 
     function selectChannel(channelId?: string) {
         setIsLoading(true);
@@ -172,6 +197,13 @@ export function FireChatProvider<
                 isScrolling,
                 scrollDate,
                 sendTextMessage,
+                onSendingFiles,
+                sendingFiles,
+                setSendingFiles,
+                files,
+                setFiles,
+                fileMessages,
+                imageMessages,
             }}
         >
             {children}

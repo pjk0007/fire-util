@@ -19,15 +19,8 @@ import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { ChevronRight, Image, ImagesIcon } from 'lucide-react';
 
 export default function FireChatChannelSidebarImages() {
-    const { messages, selectedChannel } = useFireChat();
-    const imageMessages = messages
-        .filter(
-            (msg) =>
-                msg[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE &&
-                msg[MESSAGE_CONTENTS_FIELD] &&
-                msg[MESSAGE_CONTENTS_FIELD].length > 0
-        )
-        .reverse();
+    const { imageMessages, selectedChannel } = useFireChat();
+
     return (
         <Card className="gap-0 p-2">
             <div className="flex flex-col p-2 gap-2">
@@ -37,9 +30,9 @@ export default function FireChatChannelSidebarImages() {
                         {LOCALE.SIDEBAR.IMAGE}
                     </h2>
                 </div>
-                {imageMessages.length > 0 ? (
+                {[imageMessages].length > 0 ? (
                     <div className="gap-2 py-1 w-full grid grid-cols-2">
-                        {imageMessages.slice(0, 4).map((msg, index) => {
+                        {[...imageMessages].reverse().slice(0, 4).map((msg, index) => {
                             const message = msg as FcMessage<FcMessageImage>;
                             const senderUser =
                                 selectedChannel?.participants.find(
@@ -67,12 +60,15 @@ export default function FireChatChannelSidebarImages() {
                                             src={
                                                 message[
                                                     MESSAGE_CONTENTS_FIELD
-                                                ][0][
+                                                ][0]?.[
                                                     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
                                                 ] ||
                                                 message[
                                                     MESSAGE_CONTENTS_FIELD
-                                                ][0][MESSAGE_CONTENT_URL_FIELD]
+                                                ][0]?.[
+                                                    MESSAGE_CONTENT_URL_FIELD
+                                                ] ||
+                                                ''
                                             }
                                             alt="Image"
                                             className="w-full h-full object-cover rounded cursor-pointer hover:opacity-80 border"

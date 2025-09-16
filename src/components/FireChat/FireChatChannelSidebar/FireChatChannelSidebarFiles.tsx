@@ -7,8 +7,6 @@ import {
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,
-    MESSAGE_TYPE_FIELD,
-    MESSAGE_TYPE_FILE,
 } from '@/lib/FireChat/settings';
 import { ChevronRight, Download, File } from 'lucide-react';
 import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
@@ -16,15 +14,7 @@ import { Button } from '@/components/ui/button';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 
 export default function FireChatChannelSidebarFiles() {
-    const { messages } = useFireChat();
-    const fileMessages = messages
-        .filter(
-            (msg) =>
-                msg[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_FILE &&
-                msg[MESSAGE_CONTENTS_FIELD] &&
-                msg[MESSAGE_CONTENTS_FIELD].length > 0
-        )
-        .reverse();
+    const { fileMessages } = useFireChat();
 
     return (
         <Card className="gap-0 p-2">
@@ -37,7 +27,7 @@ export default function FireChatChannelSidebarFiles() {
                 </div>
                 {fileMessages.length > 0 ? (
                     <div className="flex flex-col gap-1 max-h-48 overflow-y-auto">
-                        {fileMessages.slice(0, 4).map((msg, index) => {
+                        {[...fileMessages].reverse().slice(0, 4).map((msg, index) => {
                             const message = msg as FcMessage<FcMessageFile>;
 
                             return (
@@ -61,7 +51,7 @@ export default function FireChatChannelSidebarFiles() {
                                             message[MESSAGE_CONTENTS_FIELD][0][
                                                 MESSAGE_CONTENT_FILE_NAME_FIELD
                                             ] ?? '',
-                                            30
+                                            20
                                         )}
                                     </span>
                                     <Download className="w-4 h-4 text-primary ml-auto" />

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { FcMessage, FcMessageFile } from '@/lib/FireChat/settings';
+import { FcMessage, FcMessageFile, LOCALE } from '@/lib/FireChat/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import { ArrowDownToLine } from 'lucide-react';
@@ -20,7 +20,7 @@ export default function FireChatMessageFile<
                 <Button
                     variant="outline"
                     className="rounded-full"
-                    style={{padding:8, width:42, height:42}}
+                    style={{ padding: 8, width: 42, height: 42 }}
                     onClick={async () => {
                         setIsDownloading(true);
                         await downloadFileFromUrl(
@@ -34,11 +34,12 @@ export default function FireChatMessageFile<
                     {isDownloading ? (
                         <div className="w-4 h-4 border-2 border-foreground/40 border-t-transparent rounded-full animate-spin" />
                     ) : (
-                        <ArrowDownToLine className='w-6 h-6' />
+                        <ArrowDownToLine className="w-6 h-6" />
                     )}
                 </Button>
             </div>
             <p className="text-xs text-muted-foreground">
+                {LOCALE.MESSAGE.SIZE}:{' '}
                 {formatSizeString(message.contents?.[0]?.size ?? 0)}
             </p>
         </Card>

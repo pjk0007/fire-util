@@ -7,10 +7,10 @@ import {
     FcMessageContent,
     FcMessageSystem,
     LOCALE,
-    MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
     MESSAGE_TYPE_FIELD,
+    MESSAGE_TYPE_IMAGE,
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
@@ -39,7 +39,10 @@ export default function FireChatMessage<
         Math.floor(beforeMessage?.[MESSAGE_CREATED_AT_FIELD].seconds / 60) ===
             Math.floor(message[MESSAGE_CREATED_AT_FIELD].seconds / 60);
 
-    if (isSameUserAndSameMinAsBefore) {
+    if (
+        isSameUserAndSameMinAsBefore &&
+        message[MESSAGE_TYPE_FIELD] !== MESSAGE_TYPE_IMAGE
+    ) {
         return (
             <div
                 data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}

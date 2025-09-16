@@ -52,6 +52,8 @@ export const MESSAGE_CONTENT_FILE_SIZE_FIELD = 'size';
  * Other constants
  */
 export const MESSAGE_UNIT = 100;
+export const FILE_UNIT = 5;
+export const LARGE_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 /**
  * Localization strings
@@ -76,6 +78,7 @@ export const LOCALE = {
     MESSAGE: {
         DOWNLOAD_ALL_IMAGE: '모든 사진 전체 저장',
         DOWNLOAD_ONE_IMAGE: '이 사진만 저장',
+        SIZE: '용량',
     },
     FOOTER:{
         INPUT_PLACEHOLDER: '메시지 입력',

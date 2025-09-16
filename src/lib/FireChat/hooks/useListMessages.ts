@@ -1,4 +1,6 @@
 import { db } from '@/lib/firebase';
+import getFileMessages from '@/lib/FireChat/api/getFileMessages';
+import getImageMessages from '@/lib/FireChat/api/getImageMessages';
 import getMessages from '@/lib/FireChat/api/getMessages';
 import {
     CHANNEL_COLLECTION,
@@ -6,24 +8,28 @@ import {
     FcMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
+    MESSAGE_TYPE_FIELD,
+    MESSAGE_TYPE_FILE,
+    MESSAGE_TYPE_IMAGE,
     MESSAGE_UNIT,
 } from '@/lib/FireChat/settings';
 import {
     collection,
-    DocumentData,
     onSnapshot,
     orderBy,
     query,
     startAfter,
     Unsubscribe,
 } from 'firebase/firestore';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useListMessages<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ channelId }: { channelId?: string }) {
     const [messages, setMessages] = useState<M[]>([]);
+    const [imageMessages, setImageMessages] = useState<M[]>([]);
+    const [fileMessages, setFileMessages] = useState<M[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [lastVisible, setLastVisible] = useState<M | null>(null);
     const [hasMore, setHasMore] = useState(true);
@@ -78,14 +84,29 @@ export default function useListMessages<
                 (querySnapshot) => {
                     querySnapshot.docChanges().forEach((change) => {
                         if (change.type === 'added') {
-                            setMessages((prev) => [
-                                ...prev,
-                                change.doc.data() as M,
-                            ]);
+                            const msg = change.doc.data() as M;
+                            setMessages((prev) => [...prev, msg]);
+                            if (
+                                msg[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE
+                            ) {
+                                setImageMessages((prev) => [...prev, msg]);
+                            } else if (
+                                msg[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_FILE
+                            ) {
+                                setFileMessages((prev) => [...prev, msg]);
+                            }
                         }
                     });
                 }
             );
+        });
+
+        getImageMessages<M, T>(channelId).then((imgs) => {
+            setImageMessages(imgs);
+        });
+
+        getFileMessages<M, T>(channelId).then((files) => {
+            setFileMessages(files);
         });
 
         return () => {
@@ -95,6 +116,8 @@ export default function useListMessages<
 
     return {
         messages,
+        imageMessages,
+        fileMessages,
         isLoading,
         lastVisible,
         hasMore,

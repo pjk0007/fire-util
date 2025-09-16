@@ -1,9 +1,11 @@
 import FireChatMessage from '@/components/FireChat/FireChatMessage/FireChatMessage';
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
+import FireChatSending from '@/components/FireChat/FireChatMessage/FireChatSending';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
+    CHANNEL_ID_FIELD,
     FcMessage,
     FcMessageSystem,
     MESSAGE_CONTENT_TEXT_FIELD,
@@ -20,6 +22,7 @@ import { Fragment } from 'react';
 
 export default function FireChatChannelRoomBody() {
     const {
+        selectedChannel,
         messages: selectedChannelMessages,
         scrollAreaRef: channelRoomRef,
         isBottom,
@@ -27,6 +30,7 @@ export default function FireChatChannelRoomBody() {
         isLoading,
         isScrolling,
         scrollDate,
+        sendingFiles,
     } = useFireChat();
 
     return (
@@ -36,11 +40,8 @@ export default function FireChatChannelRoomBody() {
                     <div className="w-8 h-8 border-2 border-t-transparent border-primary rounded-full animate-spin" />
                 </div>
             )}
-            <ScrollArea
-                className="px-4 md:px-8 h-full bg-secondary"
-                ref={channelRoomRef}
-            >
-                <div className="relative h-full flex flex-col gap-2 py-4 ">
+            <ScrollArea className="h-full bg-secondary" ref={channelRoomRef}>
+                <div className="flex flex-col w-screen md:w-full gap-2 py-4 px-3 md:px-8 box-border">
                     {selectedChannelMessages.map((msg, index) => {
                         const beforeDate =
                             index > 0
@@ -99,6 +100,18 @@ export default function FireChatChannelRoomBody() {
                             />
                         );
                     })}
+                    {sendingFiles
+                        .filter(
+                            (sf) =>
+                                sf.channelId ===
+                                selectedChannel?.channel[CHANNEL_ID_FIELD]
+                        )
+                        .map((sf, idx) => (
+                            <FireChatSending
+                                key={`sending-${idx}`}
+                                sendingFile={sf}
+                            />
+                        ))}
                 </div>
                 {!isBottom && isScrolling && (
                     <Button

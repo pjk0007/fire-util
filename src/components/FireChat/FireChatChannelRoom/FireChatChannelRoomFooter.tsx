@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { LOCALE } from '@/lib/FireChat/settings';
 
 import { Paperclip } from 'lucide-react';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 const MemoTextarea = memo(
     ({
@@ -36,13 +36,32 @@ const MemoTextarea = memo(
 );
 
 export default function FireChatChannelRoomFooter() {
-    const { sendTextMessage } = useFireChat();
+    const {
+        selectedChannel,
+        files,
+        setFiles,
+        sendTextMessage,
+        onSendingFiles,
+        setSendingFiles,
+    } = useFireChat();
     const [message, setMessage] = useState('');
-    const [files, setFiles] = useState<File[]>([]);
+
+    useEffect(() => {
+        setMessage('');
+        setFiles([]);
+        setSendingFiles([]);
+    }, [selectedChannel?.channel]);
 
     return (
         <div className="border-t border-muted w-full py-2">
-            <FireChatFileUploaderDialog files={files} setFiles={setFiles} />
+            <FireChatFileUploaderDialog
+                files={files}
+                setFiles={setFiles}
+                onClickUpload={() => {
+                    onSendingFiles(files);
+                    setFiles([]);
+                }}
+            />
             <MemoTextarea
                 message={message}
                 setMessage={setMessage}
@@ -67,6 +86,7 @@ export default function FireChatChannelRoomFooter() {
                             ]);
                         }
                     }}
+                    value={''}
                     className="hidden"
                     id="file-upload"
                 />
