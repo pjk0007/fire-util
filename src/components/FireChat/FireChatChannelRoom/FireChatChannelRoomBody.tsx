@@ -31,6 +31,8 @@ export default function FireChatChannelRoomBody() {
         isScrolling,
         scrollDate,
         sendingFiles,
+        user: me,
+        selectReplyingMessage,
     } = useFireChat();
 
     return (
@@ -84,6 +86,13 @@ export default function FireChatChannelRoomBody() {
                                     <FireChatMessage
                                         key={index}
                                         message={msg}
+                                        participants={
+                                            selectedChannel?.participants || []
+                                        }
+                                        me={me}
+                                        selectReplyingMessage={
+                                            selectReplyingMessage
+                                        }
                                     />
                                 </Fragment>
                             );
@@ -97,6 +106,11 @@ export default function FireChatChannelRoomBody() {
                                         ? selectedChannelMessages[index - 1]
                                         : undefined
                                 }
+                                participants={
+                                    selectedChannel?.participants || []
+                                }
+                                me={me}
+                                selectReplyingMessage={selectReplyingMessage}
                             />
                         );
                     })}

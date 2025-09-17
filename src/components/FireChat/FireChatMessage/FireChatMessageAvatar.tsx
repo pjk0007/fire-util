@@ -18,9 +18,8 @@ export default function FireChatMessageAvatar<
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ message }: { message: M }) {
+>({ message, participants }: { message: M; participants: U[] }) {
     const { selectedChannel } = useFireChat();
-    const participants = selectedChannel?.participants || [];
 
     const messageUser = participants.find(
         (p) => p.id === message[MESSAGE_USER_ID_FIELD]

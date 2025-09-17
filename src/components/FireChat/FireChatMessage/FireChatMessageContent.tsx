@@ -10,6 +10,7 @@ import {
     FcMessageImage,
     FcMessageSystem,
     FcMessageText,
+    FcUser,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_REPLY_FIELD,
     MESSAGE_TYPE_FIELD,
@@ -19,19 +20,28 @@ import {
     MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { memo } from 'react';
 
-export default function FireChatMessageContent<
+function FireChatMessageContent<
     M extends FcMessage<T>,
-    T extends FcMessageContent
->({ message }: { message: M }) {
-    const { user: me, selectedChannel } = useFireChat();
+    T extends FcMessageContent,
+    U extends FcUser
+>({
+    message,
+    me,
+    participants,
+}: {
+    message: M;
+    me?: U | null;
+    participants: U[];
+}) {
     if (
         !message[MESSAGE_CONTENTS_FIELD] ||
         message[MESSAGE_CONTENTS_FIELD].length === 0
     ) {
         return <div></div>;
     }
-    const participants = selectedChannel?.participants || [];
+    
 
     const isMine = message[MESSAGE_USER_ID_FIELD] === me?.id;
     switch (message[MESSAGE_TYPE_FIELD]) {
@@ -50,6 +60,7 @@ export default function FireChatMessageContent<
             return (
                 <FireChatMessageImages
                     message={message as FcMessage<FcMessageImage>}
+                    participants={participants}
                 />
             );
         case MESSAGE_TYPE_FILE:
@@ -62,3 +73,5 @@ export default function FireChatMessageContent<
             return <div></div>;
     }
 }
+
+export default memo(FireChatMessageContent);

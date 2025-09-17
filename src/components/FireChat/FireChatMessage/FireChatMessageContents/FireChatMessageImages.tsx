@@ -2,6 +2,7 @@ import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import {
     FcMessage,
     FcMessageImage,
+    FcUser,
     LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
@@ -16,16 +17,15 @@ import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatIm
 import getImageColSpan from '@/lib/FireChat/utils/getImageColSpan';
 
 export default function FireChatMessageImages<
-    M extends FcMessage<FcMessageImage>
->({ message }: { message: M }) {
-    const { selectedChannel } = useFireChat();
-
+    M extends FcMessage<FcMessageImage>,
+    U extends FcUser
+>({ message, participants }: { message: M; participants: U[] }) {
     const totalImages = message[MESSAGE_CONTENTS_FIELD].length;
     if (totalImages === 0) {
         return <div></div>;
     }
 
-    const senderUser = selectedChannel?.participants.find(
+    const senderUser = participants.find(
         (p) => p.id === message[MESSAGE_USER_ID_FIELD]
     );
     if (!senderUser) return <div></div>;

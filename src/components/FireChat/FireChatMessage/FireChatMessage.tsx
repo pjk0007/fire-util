@@ -3,11 +3,18 @@ import FireChatMessageContent from '@/components/FireChat/FireChatMessage/FireCh
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import {
     FcMessage,
     FcMessageContent,
     FcMessageSystem,
+    FcUser,
     LOCALE,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
@@ -22,10 +29,22 @@ import { CornerDownRight, MoreHorizontal, Reply } from 'lucide-react';
 
 export default function FireChatMessage<
     M extends FcMessage<T>,
-    T extends FcMessageContent
->({ message, beforeMessage }: { message: M; beforeMessage?: M }) {
-    const { selectedChannel, user: me, selectReplyingMessage } = useFireChat();
-    const participants = selectedChannel?.participants || [];
+    T extends FcMessageContent,
+    U extends FcUser
+>({
+    message,
+    beforeMessage,
+    participants,
+    me,
+    selectReplyingMessage,
+}: {
+    message: M;
+    beforeMessage?: M;
+    participants: U[];
+    me?: U | null;
+    selectReplyingMessage?: (messageId: string) => void;
+}) {
+    // const participants = selectedChannel?.participants || [];
     const messageUser = participants.find((p) => p.id === message['userId']);
 
     if (message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_SYSTEM) {
@@ -59,11 +78,30 @@ export default function FireChatMessage<
                     className="w-8 px-2 rounded-lg text-foreground/60 hover:text-foreground"
                     onClick={() => selectReplyingMessage?.(message.id)}
                 />
-                <Separator
+                {/* <Separator
                     orientation="vertical"
-                    className="bg-foreground/20 w-1"
-                />
-                <MoreHorizontal className="w-8 px-2 rounded-lg text-foreground/60 hover:text-foreground" />
+                    className="bg-foreground/20 w-[1px]"
+                /> */}
+                {/* <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <MoreHorizontal className="w-8 px-2 rounded-lg text-foreground/60 hover:text-foreground" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent 
+                    side="top"
+                    className="bg-popover text-popover-foreground shadow-md border border-popover rounded-md">
+                        <DropdownMenuItem
+                            className="px-3 py-2 hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                            onClick={() => {
+                                navigator.clipboard.writeText(
+                                    window.location.href.split('#')[0] +
+                                        `#message-${message[MESSAGE_ID_FIELD]}`
+                                );
+                            }}
+                        >
+                            '링크복사'
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu> */}
             </div>
         );
     }
@@ -89,7 +127,11 @@ export default function FireChatMessage<
                     })}
                 >
                     <div className="relative">
-                        <FireChatMessageContent message={message} />
+                        <FireChatMessageContent
+                            message={message}
+                            me={me}
+                            participants={participants}
+                        />
                         <ActionButtons />
                     </div>
                 </div>
@@ -105,7 +147,12 @@ export default function FireChatMessage<
                 'justify-start': !isMine,
             })}
         >
-            {!isMine && <FireChatMessageAvatar message={message} />}
+            {!isMine && (
+                <FireChatMessageAvatar
+                    message={message}
+                    participants={participants}
+                />
+            )}
             <div
                 className={cn('flex flex-col max-w-[78%] gap-2', {
                     'items-end': isMine,
@@ -126,7 +173,11 @@ export default function FireChatMessage<
                     </p>
                 </div>
                 <div className="relative">
-                    <FireChatMessageContent message={message} />
+                    <FireChatMessageContent
+                        message={message}
+                        me={me}
+                        participants={participants}
+                    />
                     <ActionButtons />
                 </div>
             </div>

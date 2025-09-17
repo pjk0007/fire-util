@@ -41,10 +41,7 @@ const MemoTextarea = <M extends FcMessage<T>, T extends FcMessageContent>({
     replyingMessage?: M;
     scrollToBottom: (
         smooth?: boolean,
-        {
-            afterScroll,
-            immediate,
-        }?: {
+        options?: {
             afterScroll?: () => void;
             immediate?: boolean;
         }
@@ -98,6 +95,19 @@ export default function FireChatChannelRoomFooter() {
     useEffect(() => {
         setMessage('');
     }, [selectedChannel?.channel]);
+
+    // ESC 눌렀을 때 답장 취소
+    useEffect(() => {
+        function onKeyDown(e: KeyboardEvent) {
+            if (e.key === 'Escape') {
+                selectReplyingMessage?.(undefined);
+            }
+        }
+        window.addEventListener('keydown', onKeyDown);
+        return () => {
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    }, [selectReplyingMessage]);
 
     const isMine = replyingMessage?.userId === me?.id;
 

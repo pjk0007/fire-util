@@ -16,10 +16,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function FireChatMessageText<
-    T extends FcMessageText,
-    U extends FcUser
->({
+export default function FireChatMessageText<T extends FcMessageText, U extends FcUser>({
     participants,
     content,
     replyingMessage,
@@ -39,8 +36,8 @@ export default function FireChatMessageText<
         participants: participants,
     });
     const router = useRouter();
-    console.log(router.pathname);
     
+
     return (
         <div
             className={cn(
