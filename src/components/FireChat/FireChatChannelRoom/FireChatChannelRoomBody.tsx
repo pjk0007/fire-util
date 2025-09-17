@@ -43,7 +43,7 @@ export default function FireChatChannelRoomBody() {
                 </div>
             )}
             <ScrollArea className="h-full bg-secondary" ref={channelRoomRef}>
-                <div className="flex flex-col w-screen md:w-full gap-2 py-4 px-3 md:px-8 box-border">
+                <div className="flex flex-col max-w-full gap-2 py-4 px-3 md:px-8 box-border">
                     {selectedChannelMessages.map((msg, index) => {
                         const beforeDate =
                             index > 0

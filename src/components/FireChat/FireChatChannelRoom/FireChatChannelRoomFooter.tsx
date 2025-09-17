@@ -1,10 +1,12 @@
 import FireChatChannelRoomFooterFileInput from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterFileInput';
 import FireChatChannelRoomFooterTextarea from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextarea';
+import FireChatChannelRoomFooterTextareaMobile from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextareaMobile';
 import FireChatChannelRoomReplyMessage from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomReplyMessage';
 import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/FireChatFileUploaderDialog';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Button } from '@/components/ui/button';
 import { LOCALE } from '@/lib/FireChat/settings';
+import { ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function FireChatChannelRoomFooter() {
@@ -63,7 +65,17 @@ export default function FireChatChannelRoomFooter() {
                         ]);
                     }}
                 />
+                <FireChatChannelRoomFooterTextareaMobile
+                    message={message}
+                    setMessage={setMessage}
+                    sendTextMessage={sendTextMessage}
+                    selectReplyingMessage={selectReplyingMessage}
+                    replyingMessage={replyingMessage}
+                    scrollToBottom={scrollToBottom}
+                />
                 <Button
+                    disabled={!message.trim()}
+                    className="md:rounded-md rounded-full w-9 h-9 md:w-fit"
                     onClick={() => {
                         scrollToBottom(false, {
                             immediate: true,
@@ -73,7 +85,8 @@ export default function FireChatChannelRoomFooter() {
                         selectReplyingMessage?.(undefined);
                     }}
                 >
-                    {LOCALE.FOOTER.SEND}
+                    <p className="md:block hidden">{LOCALE.FOOTER.SEND}</p>
+                    <ArrowUp className="md:hidden block" />
                 </Button>
             </div>
         </div>

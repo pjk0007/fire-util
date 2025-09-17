@@ -43,7 +43,7 @@ export default function FireChatChannelListItemLastChatContent<
         const text = contents as FcMessageText;
         return (
             <div
-                className="text-xs text-muted-foreground line-clamp-2"
+                className="text-xs text-muted-foreground line-clamp-2 whitespace-pre-line break-all"
                 dangerouslySetInnerHTML={{
                     __html: sanitizeHtml(
                         text[MESSAGE_CONTENT_TEXT_FIELD].replace('\\n', '\n')

@@ -1,16 +1,26 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 import { Paperclip } from 'lucide-react';
 
 export default function FireChatChannelRoomFooterFileInput({
-    onSelectFiles
+    onSelectFiles,
 }: {
     onSelectFiles: (files: File[]) => void;
 }) {
+    const isMobile = useIsMobile();
     return (
         <>
-            <Button variant="ghost" size={'icon'} asChild>
+            <Button
+                variant={isMobile ? 'default' : 'ghost'}
+                className={cn('rounded-full',{
+                    'bg-muted': isMobile,
+                })}
+                size={'icon'}
+                asChild
+            >
                 <Label htmlFor="file-upload" className="cursor-pointer">
                     <Paperclip className="text-muted-foreground" />
                 </Label>

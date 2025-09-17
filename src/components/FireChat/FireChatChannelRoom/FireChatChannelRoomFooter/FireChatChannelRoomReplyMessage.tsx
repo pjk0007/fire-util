@@ -47,7 +47,7 @@ export default function FireChatChannelRoomReplyMessage({
     }, [selectReplyingMessage]);
 
     return (
-        <div className="p-2 mx-4 mb-2 rounded border-b flex justify-between">
+        <div className="md:p-2 mx-4 mb-2 rounded md:border-b flex justify-between">
             <div className="flex gap-2 items-center">
                 {replyingMessage[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE && (
                     <Image
@@ -69,7 +69,7 @@ export default function FireChatChannelRoomReplyMessage({
                         )}
                     </p>
                     <div
-                        className="text-sm text-foreground/80 line-clamp-2"
+                        className="text-sm text-foreground/80 line-clamp-2 whitespace-pre-line break-all"
                         dangerouslySetInnerHTML={{
                             __html: sanitizeHtml(
                                 replyingMessageContent.replace('\\n', '\n')

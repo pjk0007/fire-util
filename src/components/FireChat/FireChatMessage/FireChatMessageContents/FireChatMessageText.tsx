@@ -88,7 +88,7 @@ export default function FireChatMessageText<T extends FcMessageText, U extends F
             )}
             <div
                 className={cn(
-                    'whitespace-pre-line wrap-break-word max-w-full md:max-w-none'
+                    'whitespace-pre-line break-all max-w-full md:max-w-none'
                 )}
                 dangerouslySetInnerHTML={{
                     __html: sanitizeHtml(
