@@ -22,7 +22,7 @@ export default function FireChatChannelSidebarFiles() {
                 <div className="flex gap-2 items-center">
                     <File className="w-4 h-4 text-primary" />
                     <h2 className="text-sm font-semibold tracking-tight">
-                        {LOCALE.SIDEBAR.FILE}
+                        {LOCALE.FILE}
                     </h2>
                 </div>
                 {fileMessages.length > 0 ? (

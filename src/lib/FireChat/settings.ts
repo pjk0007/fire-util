@@ -60,19 +60,17 @@ export const LARGE_FILE_SIZE = 10 * 1024 * 1024; // 10MB
  */
 export const LOCALE = {
     NO_MESSAGES: '메시지가 없습니다.',
-    IMAGE: '(이미지)',
-    FILE: '(파일)',
+    IMAGE: '사진',
+    FILE: '파일',
     UNKNOWN: '(알 수 없음)',
     NO_CHANNEL_SELECTED: '채팅방이 선택되지 않았습니다.',
+    ME: '나',
 
     SIDEBAR: {
         PARTICIPANTS: '참여자',
         NO_PARTICIPANTS: '참여자가 없습니다.',
-        ME: '나',
         INVITE_PARTICIPANTS: '초대하기',
-        IMAGE: '이미지',
         NO_IMAGES: '이미지가 없습니다.',
-        FILE: '파일',
         NO_FILES: '파일이 없습니다.',
     },
     MESSAGE: {
@@ -80,13 +78,14 @@ export const LOCALE = {
         DOWNLOAD_ONE_IMAGE: '이 사진만 저장',
         SIZE: '용량',
     },
-    FOOTER:{
+    FOOTER: {
         INPUT_PLACEHOLDER: '메시지 입력',
         SEND: '전송',
         UPLOAD_FILES: '파일 전송',
         CANCEL: '취소',
         REMOVE_FILE: '파일 삭제',
-    }
+        REPLYING_TO: (name: string) => `${name}에게 답장`,
+    },
 };
 
 /**
@@ -163,7 +162,7 @@ export type FcMessageContent =
 export interface FcMessage<T extends FcMessageContent> {
     [MESSAGE_ID_FIELD]: string;
     [MESSAGE_USER_ID_FIELD]: string;
-    [MESSAGE_REPLY_FIELD]?: string;
+    [MESSAGE_REPLY_FIELD]?: FcMessage<T> | null;
     [MESSAGE_TYPE_FIELD]: FcMessageType;
     [MESSAGE_CONTENTS_FIELD]: T[];
     [MESSAGE_CREATED_AT_FIELD]: Timestamp;

@@ -23,6 +23,7 @@ import {
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
+    MESSAGE_REPLY_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_FILE,
     MESSAGE_TYPE_IMAGE,
@@ -53,11 +54,14 @@ export default function useFireChatSender<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ channel, user }: { channel?: C; user?: U }) {
+    console.log('rerender');
+
     const [files, setFiles] = useState<File[]>([]);
     const [sendingFiles, setSendingFiles] = useState<SendingFile[]>([]);
 
     async function sendTextMessage<M extends FcMessage<FcMessageText>>(
-        message: string
+        message: string,
+        replyingMessage?: M
     ) {
         if (!message.trim() || !channel) return;
 
@@ -73,6 +77,7 @@ export default function useFireChatSender<
                     [MESSAGE_CONTENT_TEXT_FIELD]: message,
                 },
             ],
+            [MESSAGE_REPLY_FIELD]: replyingMessage ?? null,
         } as M;
         if (channel) {
             await sendMessage(channel[CHANNEL_ID_FIELD], msg);
@@ -83,7 +88,7 @@ export default function useFireChatSender<
     function onSendingFiles(files: File[]) {
         if (!channel) return;
         if (files.length === 0) return;
-        
+
         const sendingFiles = createSendingFiles(
             channel?.[CHANNEL_ID_FIELD],
             files

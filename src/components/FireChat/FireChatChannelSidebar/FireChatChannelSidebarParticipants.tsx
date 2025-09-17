@@ -93,7 +93,7 @@ export default function FireChatChannelSidebarParticipants() {
                                     {user[USER_ID_FIELD] ===
                                         me?.[USER_ID_FIELD] && (
                                         <Badge className="text-xs py-0.5 px-1 mr-1">
-                                            {LOCALE.SIDEBAR.ME}
+                                            {LOCALE.ME}
                                         </Badge>
                                     )}
                                     {user[USER_NAME_FIELD]}

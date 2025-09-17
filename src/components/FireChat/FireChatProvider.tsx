@@ -22,6 +22,7 @@ import {
     useContext,
     useEffect,
     useLayoutEffect,
+    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -45,7 +46,7 @@ interface FireChatContextValue<
     isLoading: boolean;
     isScrolling?: boolean;
     scrollDate?: string;
-    sendTextMessage: (message: string) => Promise<void>;
+    sendTextMessage: (message: string, replyingMessage?: any) => Promise<void>;
     onSendingFiles: (files: File[]) => void;
     sendingFiles: SendingFile[];
     setSendingFiles: Dispatch<SetStateAction<SendingFile[]>>;
@@ -53,6 +54,8 @@ interface FireChatContextValue<
     setFiles: Dispatch<SetStateAction<File[]>>;
     fileMessages: M[];
     imageMessages: M[];
+    replyingMessage?: M;
+    selectReplyingMessage?: (msgId?: string) => void;
 }
 
 const fireChatContext = createContext<
@@ -83,6 +86,8 @@ const fireChatContext = createContext<
     setFiles: () => {},
     fileMessages: [],
     imageMessages: [],
+    replyingMessage: undefined,
+    selectReplyingMessage: () => {},
 });
 
 export const useFireChat = () => useContext(fireChatContext);
@@ -106,6 +111,9 @@ export function FireChatProvider<
         FcChannelParticipants<C, U, M, T> | undefined
     >(undefined);
     const [isLoading, setIsLoading] = useState(true);
+    const [replyingMessage, setReplyingMessage] = useState<M | undefined>(
+        undefined
+    );
 
     const {
         scrollAreaRef,
@@ -168,6 +176,9 @@ export function FireChatProvider<
     }, [messages, sendingFiles]);
 
     function selectChannel(channelId?: string) {
+        setFiles([]);
+        setSendingFiles([]);
+        setReplyingMessage(undefined);
         setIsLoading(true);
         if (!channelId) {
             setSelectedChannel(undefined);
@@ -181,31 +192,62 @@ export function FireChatProvider<
         setIsLoading(false);
     }
 
+    function selectReplyingMessage(msgId?: string) {
+        setReplyingMessage(messages.find((m) => m.id === msgId));
+    }
+    const contextValue = useMemo<FireChatContextValue<C, U, M, T>>(
+        () => ({
+            channels,
+            user,
+            selectedChannel,
+            messages,
+            loadMoreMessages,
+            selectChannel,
+            scrollAreaRef,
+            isBottom,
+            scrollToBottom,
+            isLoading,
+            isScrolling,
+            scrollDate,
+            sendTextMessage,
+            onSendingFiles,
+            sendingFiles,
+            setSendingFiles,
+            files,
+            setFiles,
+            fileMessages,
+            imageMessages,
+            replyingMessage,
+            selectReplyingMessage,
+        }),
+        [
+            channels,
+            user,
+            selectedChannel,
+            messages,
+            loadMoreMessages,
+            selectChannel,
+            scrollAreaRef,
+            isBottom,
+            scrollToBottom,
+            isLoading,
+            isScrolling,
+            scrollDate,
+            sendTextMessage,
+            onSendingFiles,
+            sendingFiles,
+            setSendingFiles,
+            files,
+            setFiles,
+            fileMessages,
+            imageMessages,
+            replyingMessage,
+            selectReplyingMessage,
+        ]
+    );
+
     return (
-        <fireChatContext.Provider
-            value={{
-                channels,
-                user,
-                selectedChannel,
-                messages,
-                loadMoreMessages,
-                selectChannel,
-                scrollAreaRef,
-                isBottom,
-                scrollToBottom,
-                isLoading,
-                isScrolling,
-                scrollDate,
-                sendTextMessage,
-                onSendingFiles,
-                sendingFiles,
-                setSendingFiles,
-                files,
-                setFiles,
-                fileMessages,
-                imageMessages,
-            }}
-        >
+        <fireChatContext.Provider value={contextValue}>
             {children}
         </fireChatContext.Provider>
     );

@@ -27,7 +27,7 @@ export default function FireChatChannelSidebarImages() {
                 <div className="flex gap-2 items-center">
                     <Image className="w-4 h-4 text-primary" />
                     <h2 className="text-sm font-semibold tracking-tight">
-                        {LOCALE.SIDEBAR.IMAGE}
+                        {LOCALE.IMAGE}
                     </h2>
                 </div>
                 {[imageMessages].length > 0 ? (

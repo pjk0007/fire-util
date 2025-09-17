@@ -20,7 +20,8 @@ export default function useScroll() {
 
         const onScroll = () => {
             if (!viewport) return;
-            if (!isScrolling) setIsScrolling(true);
+            if (isScrolling) return;
+            setIsScrolling(true);
 
             getSetScrollDate(viewport);
 
