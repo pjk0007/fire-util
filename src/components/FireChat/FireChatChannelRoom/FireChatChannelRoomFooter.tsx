@@ -18,11 +18,13 @@ import {
     MESSAGE_TYPE_IMAGE,
     MESSAGE_TYPE_TEXT,
 } from '@/lib/FireChat/settings';
+import getReplyingMessageContent from '@/lib/FireChat/utils/getReplyingMessageContent';
+import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 import { cn } from '@/lib/utils';
 
 import { CornerDownRight, Paperclip, X } from 'lucide-react';
 import Image from 'next/image';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const MemoTextarea = <M extends FcMessage<T>, T extends FcMessageContent>({
     message,
@@ -30,12 +32,23 @@ const MemoTextarea = <M extends FcMessage<T>, T extends FcMessageContent>({
     sendTextMessage,
     selectReplyingMessage,
     replyingMessage,
+    scrollToBottom,
 }: {
     message: string;
     setMessage: (msg: string) => void;
     sendTextMessage: (msg: string, replyingMessage?: M) => Promise<void>;
     selectReplyingMessage?: (id?: string) => void;
     replyingMessage?: M;
+    scrollToBottom: (
+        smooth?: boolean,
+        {
+            afterScroll,
+            immediate,
+        }?: {
+            afterScroll?: () => void;
+            immediate?: boolean;
+        }
+    ) => void;
 }) => (
     <div className="relative">
         {!!replyingMessage && (
@@ -56,6 +69,9 @@ const MemoTextarea = <M extends FcMessage<T>, T extends FcMessageContent>({
                 if (e.key === 'Enter' && !e.shiftKey) {
                     if ((e.nativeEvent as any).isComposing) return; // 한글 조합 중이면 무시
                     e.preventDefault();
+                    scrollToBottom(false, {
+                        immediate: true,
+                    });
                     sendTextMessage(message, replyingMessage);
                     setMessage('');
                     selectReplyingMessage?.(undefined);
@@ -75,6 +91,7 @@ export default function FireChatChannelRoomFooter() {
         replyingMessage,
         user: me,
         selectReplyingMessage,
+        scrollToBottom,
     } = useFireChat();
     const [message, setMessage] = useState('');
 
@@ -82,35 +99,17 @@ export default function FireChatChannelRoomFooter() {
         setMessage('');
     }, [selectedChannel?.channel]);
 
+    const isMine = replyingMessage?.userId === me?.id;
+
     // 답장
-    const replyingMessageUser = selectedChannel?.participants.find(
-        (p) => p.id === replyingMessage?.userId
-    );
-    const replyingToMe = replyingMessage?.userId === me?.id;
-    let replyingMessageContent = '';
-    let replyingMessageThumbnail = '';
-    if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE) {
-        const imageMessage = replyingMessage as FcMessage<FcMessageImage>;
-        replyingMessageContent = LOCALE.IMAGE;
-        replyingMessageThumbnail =
-            imageMessage[MESSAGE_CONTENTS_FIELD][0][
-                MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
-            ] ?? '';
-    } else if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_FILE) {
-        const fileMessage = replyingMessage as FcMessage<FcMessageFile>;
-        replyingMessageContent =
-            fileMessage[MESSAGE_CONTENTS_FIELD][0][
-                MESSAGE_CONTENT_FILE_NAME_FIELD
-            ] ?? LOCALE.FILE;
-    } else if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_TEXT) {
-        const textMessage = replyingMessage as FcMessage<FcMessageText>;
-        replyingMessageContent =
-            textMessage[MESSAGE_CONTENTS_FIELD][0]?.text ||
-            (textMessage[MESSAGE_CONTENTS_FIELD][0]?.text === ''
-                ? '""'
-                : LOCALE.UNKNOWN);
-    }
-    console.log(replyingMessage);
+    const {
+        replyingMessageContent,
+        replyingMessageThumbnail,
+        replyingMessageUser,
+    } = getReplyingMessageContent({
+        replyingMessage,
+        participants: selectedChannel?.participants || [],
+    });
 
     return (
         <div className="border-t border-muted w-full py-2">
@@ -135,19 +134,27 @@ export default function FireChatChannelRoomFooter() {
                                 height={32}
                             />
                         )}
-                        <div className="flex flex-col ">
-                            <div className="text-sm text-primary font-bold">
-                                {LOCALE.FOOTER.REPLYING_TO(
-                                    replyingToMe
+                        <div className="flex flex-col gap-1">
+                            <p className="text-sm text-primary font-bold">
+                                {LOCALE.REPLYING_TO(
+                                    isMine
                                         ? LOCALE.ME
                                         : replyingMessageUser?.name ||
                                               replyingMessage.userId ||
                                               LOCALE.UNKNOWN
                                 )}
-                            </div>
-                            <div className="text-sm text-foreground/80">
-                                {replyingMessageContent}
-                            </div>
+                            </p>
+                            <div
+                                className="text-sm text-foreground/80 line-clamp-2"
+                                dangerouslySetInnerHTML={{
+                                    __html: sanitizeHtml(
+                                        replyingMessageContent.replace(
+                                            '\\n',
+                                            '\n'
+                                        )
+                                    ),
+                                }}
+                            />
                         </div>
                     </div>
                     <Button
@@ -167,6 +174,7 @@ export default function FireChatChannelRoomFooter() {
                 sendTextMessage={sendTextMessage}
                 selectReplyingMessage={selectReplyingMessage}
                 replyingMessage={replyingMessage}
+                scrollToBottom={scrollToBottom}
             />
 
             <div className="pl-2 pr-4 flex justify-between items-center">
@@ -193,6 +201,9 @@ export default function FireChatChannelRoomFooter() {
                 />
                 <Button
                     onClick={() => {
+                        scrollToBottom(false, {
+                            immediate: true,
+                        });
                         sendTextMessage(message, replyingMessage);
                         setMessage('');
                         selectReplyingMessage?.(undefined);

@@ -65,6 +65,7 @@ export const LOCALE = {
     UNKNOWN: '(알 수 없음)',
     NO_CHANNEL_SELECTED: '채팅방이 선택되지 않았습니다.',
     ME: '나',
+    REPLYING_TO: (name: string) => `${name}에게 답장`,
 
     SIDEBAR: {
         PARTICIPANTS: '참여자',
@@ -84,7 +85,6 @@ export const LOCALE = {
         UPLOAD_FILES: '파일 전송',
         CANCEL: '취소',
         REMOVE_FILE: '파일 삭제',
-        REPLYING_TO: (name: string) => `${name}에게 답장`,
     },
 };
 

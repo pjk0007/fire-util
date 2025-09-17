@@ -85,8 +85,10 @@ export default function useScroll() {
         smooth: boolean = false,
         {
             afterScroll,
+            immediate = false,
         }: {
             afterScroll?: () => void;
+            immediate?: boolean;
         } = {}
     ) {
         if (!scrollAreaRef.current) return;
@@ -96,13 +98,21 @@ export default function useScroll() {
         );
         if (!viewport) return;
 
-        setTimeout(() => {
+        if (immediate) {
             viewport.scrollTo({
                 top: viewport.scrollHeight,
-                behavior: smooth ? 'smooth' : 'auto',
+                behavior: 'auto',
             });
             afterScroll?.();
-        }, 200);
+        } else {
+            setTimeout(() => {
+                viewport.scrollTo({
+                    top: viewport.scrollHeight,
+                    behavior: smooth ? 'smooth' : 'auto',
+                });
+                afterScroll?.();
+            }, 200);
+        }
     }
 
     const getSetScrollDate = (scrollDiv: Element) => {

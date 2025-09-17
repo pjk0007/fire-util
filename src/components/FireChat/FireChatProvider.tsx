@@ -42,7 +42,13 @@ interface FireChatContextValue<
     selectChannel: (channelId?: string) => void;
     scrollAreaRef: RefObject<HTMLDivElement | null>;
     isBottom: boolean;
-    scrollToBottom: (smooth?: boolean) => void;
+    scrollToBottom: (
+        smooth?: boolean,
+        options?: {
+            afterScroll?: () => void;
+            immediate?: boolean;
+        }
+    ) => void;
     isLoading: boolean;
     isScrolling?: boolean;
     scrollDate?: string;

@@ -11,6 +11,7 @@ import {
     FcMessageSystem,
     FcMessageText,
     MESSAGE_CONTENTS_FIELD,
+    MESSAGE_REPLY_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_FILE,
     MESSAGE_TYPE_IMAGE,
@@ -23,22 +24,25 @@ export default function FireChatMessageContent<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ message }: { message: M }) {
-    const { user: me } = useFireChat();
+    const { user: me, selectedChannel } = useFireChat();
     if (
         !message[MESSAGE_CONTENTS_FIELD] ||
         message[MESSAGE_CONTENTS_FIELD].length === 0
     ) {
         return <div></div>;
     }
+    const participants = selectedChannel?.participants || [];
 
     const isMine = message[MESSAGE_USER_ID_FIELD] === me?.id;
     switch (message[MESSAGE_TYPE_FIELD]) {
         case MESSAGE_TYPE_TEXT:
             return (
                 <FireChatMessageText
+                    participants={participants}
                     content={
                         message[MESSAGE_CONTENTS_FIELD][0] as FcMessageText
                     }
+                    replyingMessage={message[MESSAGE_REPLY_FIELD] ?? null}
                     isMine={isMine}
                 />
             );
