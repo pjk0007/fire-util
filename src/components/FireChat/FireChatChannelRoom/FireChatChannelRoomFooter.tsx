@@ -1,82 +1,11 @@
+import FireChatChannelRoomFooterFileInput from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterFileInput';
+import FireChatChannelRoomFooterTextarea from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextarea';
+import FireChatChannelRoomReplyMessage from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomReplyMessage';
 import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/FireChatFileUploaderDialog';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-    FcMessage,
-    FcMessageContent,
-    FcMessageFile,
-    FcMessageImage,
-    FcMessageText,
-    LOCALE,
-    MESSAGE_CONTENT_FILE_NAME_FIELD,
-    MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
-    MESSAGE_CONTENTS_FIELD,
-    MESSAGE_TYPE_FIELD,
-    MESSAGE_TYPE_FILE,
-    MESSAGE_TYPE_IMAGE,
-    MESSAGE_TYPE_TEXT,
-} from '@/lib/FireChat/settings';
-import getReplyingMessageContent from '@/lib/FireChat/utils/getReplyingMessageContent';
-import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
-import { cn } from '@/lib/utils';
-
-import { CornerDownRight, Paperclip, X } from 'lucide-react';
-import Image from 'next/image';
+import { LOCALE } from '@/lib/FireChat/settings';
 import { useEffect, useState } from 'react';
-
-const MemoTextarea = <M extends FcMessage<T>, T extends FcMessageContent>({
-    message,
-    setMessage,
-    sendTextMessage,
-    selectReplyingMessage,
-    replyingMessage,
-    scrollToBottom,
-}: {
-    message: string;
-    setMessage: (msg: string) => void;
-    sendTextMessage: (msg: string, replyingMessage?: M) => Promise<void>;
-    selectReplyingMessage?: (id?: string) => void;
-    replyingMessage?: M;
-    scrollToBottom: (
-        smooth?: boolean,
-        options?: {
-            afterScroll?: () => void;
-            immediate?: boolean;
-        }
-    ) => void;
-}) => (
-    <div className="relative">
-        {!!replyingMessage && (
-            <CornerDownRight className="absolute top-0 left-2 w-4 h-4 text-muted-foreground" />
-        )}
-        <textarea
-            className={cn(
-                'resize-none focus:outline-none border-none h-20 text-sm  w-full',
-                {
-                    'px-4': !replyingMessage,
-                    'pl-10 pr-4': !!replyingMessage,
-                }
-            )}
-            placeholder={LOCALE.FOOTER.INPUT_PLACEHOLDER}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    if ((e.nativeEvent as any).isComposing) return; // 한글 조합 중이면 무시
-                    e.preventDefault();
-                    scrollToBottom(false, {
-                        immediate: true,
-                    });
-                    sendTextMessage(message, replyingMessage);
-                    setMessage('');
-                    selectReplyingMessage?.(undefined);
-                }
-            }}
-        />
-    </div>
-);
 
 export default function FireChatChannelRoomFooter() {
     const {
@@ -96,30 +25,7 @@ export default function FireChatChannelRoomFooter() {
         setMessage('');
     }, [selectedChannel?.channel]);
 
-    // ESC 눌렀을 때 답장 취소
-    useEffect(() => {
-        function onKeyDown(e: KeyboardEvent) {
-            if (e.key === 'Escape') {
-                selectReplyingMessage?.(undefined);
-            }
-        }
-        window.addEventListener('keydown', onKeyDown);
-        return () => {
-            window.removeEventListener('keydown', onKeyDown);
-        };
-    }, [selectReplyingMessage]);
-
     const isMine = replyingMessage?.userId === me?.id;
-
-    // 답장
-    const {
-        replyingMessageContent,
-        replyingMessageThumbnail,
-        replyingMessageUser,
-    } = getReplyingMessageContent({
-        replyingMessage,
-        participants: selectedChannel?.participants || [],
-    });
 
     return (
         <div className="border-t border-muted w-full py-2">
@@ -132,53 +38,14 @@ export default function FireChatChannelRoomFooter() {
                 }}
             />
             {replyingMessage && (
-                <div className="p-2 mx-4 mb-2 rounded border-b flex justify-between">
-                    <div className="flex gap-2 items-center">
-                        {replyingMessage[MESSAGE_TYPE_FIELD] ===
-                            MESSAGE_TYPE_IMAGE && (
-                            <Image
-                                className="w-8 h-8 text-primary"
-                                src={replyingMessageThumbnail}
-                                alt={LOCALE.IMAGE}
-                                width={32}
-                                height={32}
-                            />
-                        )}
-                        <div className="flex flex-col gap-1">
-                            <p className="text-sm text-primary font-bold">
-                                {LOCALE.REPLYING_TO(
-                                    isMine
-                                        ? LOCALE.ME
-                                        : replyingMessageUser?.name ||
-                                              replyingMessage.userId ||
-                                              LOCALE.UNKNOWN
-                                )}
-                            </p>
-                            <div
-                                className="text-sm text-foreground/80 line-clamp-2"
-                                dangerouslySetInnerHTML={{
-                                    __html: sanitizeHtml(
-                                        replyingMessageContent.replace(
-                                            '\\n',
-                                            '\n'
-                                        )
-                                    ),
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                            selectReplyingMessage?.(undefined);
-                        }}
-                    >
-                        <X />
-                    </Button>
-                </div>
+                <FireChatChannelRoomReplyMessage
+                    replyingMessage={replyingMessage}
+                    participants={selectedChannel?.participants || []}
+                    isMine={isMine}
+                    selectReplyingMessage={selectReplyingMessage}
+                />
             )}
-            <MemoTextarea
+            <FireChatChannelRoomFooterTextarea
                 message={message}
                 setMessage={setMessage}
                 sendTextMessage={sendTextMessage}
@@ -188,26 +55,13 @@ export default function FireChatChannelRoomFooter() {
             />
 
             <div className="pl-2 pr-4 flex justify-between items-center">
-                <Button variant="ghost" size={'icon'} asChild>
-                    <Label htmlFor="file-upload" className="cursor-pointer">
-                        <Paperclip className="text-muted-foreground" />
-                    </Label>
-                </Button>
-                <Input
-                    type="file"
-                    multiple
-                    onChange={(e) => {
-                        if (e.target.files) {
-                            const fileArray = Array.from(e.target.files);
-                            setFiles((prevFiles) => [
-                                ...prevFiles,
-                                ...fileArray,
-                            ]);
-                        }
+                <FireChatChannelRoomFooterFileInput
+                    onSelectFiles={(selectedFiles) => {
+                        setFiles((prevFiles) => [
+                            ...prevFiles,
+                            ...selectedFiles,
+                        ]);
                     }}
-                    value={''}
-                    className="hidden"
-                    id="file-upload"
                 />
                 <Button
                     onClick={() => {

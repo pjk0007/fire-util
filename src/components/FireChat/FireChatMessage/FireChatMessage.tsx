@@ -1,21 +1,12 @@
 import FireChatMessageAvatar from '@/components/FireChat/FireChatMessage/FireChatMessageAvatar';
 import FireChatMessageContent from '@/components/FireChat/FireChatMessage/FireChatMessageContent';
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
-import { Button } from '@/components/ui/button';
 import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Separator } from '@/components/ui/separator';
 import {
     FcMessage,
     FcMessageContent,
@@ -31,7 +22,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
-import { CornerDownRight, MoreHorizontal, Reply } from 'lucide-react';
+import { CornerDownRight } from 'lucide-react';
 import { ReactNode } from 'react';
 
 export default function FireChatMessage<
@@ -162,6 +153,7 @@ export default function FireChatMessage<
                             me={me}
                             participants={participants}
                         />
+
                         <ActionButtons />
                     </div>
                 </div>
