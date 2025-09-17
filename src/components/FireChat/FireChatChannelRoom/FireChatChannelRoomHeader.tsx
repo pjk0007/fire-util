@@ -1,7 +1,7 @@
 import FireChatChannelRoomHeaderAvatar from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomHeader/FireChatChannelRoomHeaderAvatar';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { useSidebar } from '@/components/ui/sidebar';
-import { ChevronLeft, Info, List, Menu } from 'lucide-react';
+import { ChevronLeft, Menu } from 'lucide-react';
 
 export default function FireChatChannelRoomHeader() {
     const { selectedChannel, selectChannel: handleSetSelectedChannel } = useFireChat();

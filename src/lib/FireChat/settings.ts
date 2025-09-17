@@ -66,6 +66,7 @@ export const LOCALE = {
     NO_CHANNEL_SELECTED: '채팅방이 선택되지 않았습니다.',
     ME: '나',
     REPLYING_TO: (name: string) => `${name}에게 답장`,
+    REPLY: '답장',
 
     SIDEBAR: {
         PARTICIPANTS: '참여자',

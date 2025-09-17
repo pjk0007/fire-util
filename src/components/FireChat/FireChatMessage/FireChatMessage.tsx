@@ -4,6 +4,12 @@ import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireCha
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Button } from '@/components/ui/button';
 import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuTrigger,
+} from '@/components/ui/context-menu';
+import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
@@ -26,6 +32,7 @@ import {
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
 import { CornerDownRight, MoreHorizontal, Reply } from 'lucide-react';
+import { ReactNode } from 'react';
 
 export default function FireChatMessage<
     M extends FcMessage<T>,
@@ -76,56 +83,79 @@ export default function FireChatMessage<
             >
                 <CornerDownRight
                     className="w-8 px-2 rounded-lg text-foreground/60 hover:text-foreground"
-                    onClick={() => selectReplyingMessage?.(message.id)}
+                    onClick={() =>
+                        selectReplyingMessage?.(message[MESSAGE_ID_FIELD])
+                    }
                 />
-                {/* <Separator
-                    orientation="vertical"
-                    className="bg-foreground/20 w-[1px]"
-                /> */}
-                {/* <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <MoreHorizontal className="w-8 px-2 rounded-lg text-foreground/60 hover:text-foreground" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent 
-                    side="top"
-                    className="bg-popover text-popover-foreground shadow-md border border-popover rounded-md">
-                        <DropdownMenuItem
-                            className="px-3 py-2 hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                            onClick={() => {
-                                navigator.clipboard.writeText(
-                                    window.location.href.split('#')[0] +
-                                        `#message-${message[MESSAGE_ID_FIELD]}`
-                                );
-                            }}
-                        >
-                            '링크복사'
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu> */}
             </div>
         );
     }
 
-    if (
-        isSameUserAndSameMinAsBefore &&
-        message[MESSAGE_TYPE_FIELD] !== MESSAGE_TYPE_IMAGE
-    ) {
+    function MessageContextMenu({ children }: { children: ReactNode }) {
         return (
+            <ContextMenu>
+                <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+                <ContextMenuContent>
+                    <ContextMenuItem
+                        onSelect={() => selectReplyingMessage?.(message.id)}
+                    >
+                        {LOCALE.REPLY}
+                    </ContextMenuItem>
+                </ContextMenuContent>
+            </ContextMenu>
+        );
+    }
+
+    return (
+        <MessageContextMenu>
             <div
                 data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}
                 id={`message-${message[MESSAGE_ID_FIELD]}`}
                 className={cn('flex group w-full gap-4', {
                     'justify-end': isMine,
                     'justify-start': !isMine,
+                    'mt-3':
+                        !isSameUserAndSameMinAsBefore ||
+                        message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE,
                 })}
             >
-                {!isMine && <div className="w-8" />}
+                {!isMine &&
+                    isSameUserAndSameMinAsBefore &&
+                    message[MESSAGE_TYPE_FIELD] !== MESSAGE_TYPE_IMAGE && (
+                        <div className="w-8" />
+                    )}
+                {!isMine &&
+                    (!isSameUserAndSameMinAsBefore ||
+                        message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE) && (
+                        <FireChatMessageAvatar
+                            message={message}
+                            participants={participants}
+                        />
+                    )}
                 <div
                     className={cn('flex flex-col max-w-[78%] gap-2', {
                         'items-end': isMine,
                         'items-start': !isMine,
                     })}
                 >
+                    {(!isSameUserAndSameMinAsBefore ||
+                        message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE) && (
+                        <div
+                            className={cn('flex items-center gap-2', {
+                                'flex-row-reverse': isMine,
+                                'flex-row': !isMine,
+                            })}
+                        >
+                            <p className="text-base text-foreground/80 font-bold">
+                                {messageUser?.name || LOCALE.UNKNOWN}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                                {formatTimeString(
+                                    message[MESSAGE_CREATED_AT_FIELD]
+                                )}
+                            </p>
+                        </div>
+                    )}
                     <div className="relative">
                         <FireChatMessageContent
                             message={message}
@@ -136,51 +166,6 @@ export default function FireChatMessage<
                     </div>
                 </div>
             </div>
-        );
-    }
-    return (
-        <div
-            data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}
-            id={`message-${message[MESSAGE_ID_FIELD]}`}
-            className={cn('flex group w-full gap-4 mt-3', {
-                'justify-end': isMine,
-                'justify-start': !isMine,
-            })}
-        >
-            {!isMine && (
-                <FireChatMessageAvatar
-                    message={message}
-                    participants={participants}
-                />
-            )}
-            <div
-                className={cn('flex flex-col max-w-[78%] gap-2', {
-                    'items-end': isMine,
-                    'items-start': !isMine,
-                })}
-            >
-                <div
-                    className={cn('flex items-center gap-2', {
-                        'flex-row-reverse': isMine,
-                        'flex-row': !isMine,
-                    })}
-                >
-                    <p className="text-base text-foreground/80 font-bold">
-                        {messageUser?.name || LOCALE.UNKNOWN}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                        {formatTimeString(message[MESSAGE_CREATED_AT_FIELD])}
-                    </p>
-                </div>
-                <div className="relative">
-                    <FireChatMessageContent
-                        message={message}
-                        me={me}
-                        participants={participants}
-                    />
-                    <ActionButtons />
-                </div>
-            </div>
-        </div>
+        </MessageContextMenu>
     );
 }
