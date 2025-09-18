@@ -74,7 +74,7 @@ function FireChatChannelRoomSidebarFiles<
                     </div>
                 ) : (
                     <span className="text-sm text-muted-foreground text-center py-6">
-                        {LOCALE.SIDEBAR.NO_FILES}
+                        {LOCALE.NO_FILES}
                     </span>
                 )}
             </div>
@@ -90,9 +90,9 @@ function FireChatChannelRoomSidebarFiles<
                         const top =
                             window.screenY + (window.outerHeight - height) / 2;
                         window.open(
-                            `/${CHANNEL_COLLECTION}/${channelId}`,
+                            `windows/${CHANNEL_COLLECTION}/${channelId}?tab=file`,
                             '_blank',
-                            `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`
+                            `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`,
                         );
                     }}
                 >

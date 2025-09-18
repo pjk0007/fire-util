@@ -4,6 +4,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
+    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     FcMessageImage,
@@ -23,7 +24,15 @@ function FireChatChannelRoomSidebarImages<
     M extends FcMessage<T>,
     T extends FcMessageContent,
     U extends FcUser
->({ imageMessages, participants }: { imageMessages: M[]; participants: U[] }) {
+>({
+    imageMessages,
+    channelId,
+    participants,
+}: {
+    imageMessages: M[];
+    channelId: string;
+    participants: U[];
+}) {
     return (
         <Card className="gap-0 p-2">
             <div className="flex flex-col p-2 gap-2">
@@ -95,7 +104,7 @@ function FireChatChannelRoomSidebarImages<
                     </div>
                 ) : (
                     <span className="text-sm text-muted-foreground text-center py-2">
-                        {LOCALE.SIDEBAR.NO_IMAGES}
+                        {LOCALE.NO_IMAGES}
                     </span>
                 )}
             </div>
@@ -104,6 +113,19 @@ function FireChatChannelRoomSidebarImages<
                     size="sm"
                     variant="ghost"
                     className="w-full justify-center"
+                    onClick={() => {
+                        const width = 800;
+                        const height = 600;
+                        const left =
+                            window.screenX + (window.outerWidth - width) / 2;
+                        const top =
+                            window.screenY + (window.outerHeight - height) / 2;
+                        window.open(
+                            `windows/${CHANNEL_COLLECTION}/${channelId}?tab=image`,
+                            '_blank',
+                            `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`
+                        );
+                    }}
                 >
                     {LOCALE.SIDEBAR.MORE}
                     <ChevronRight className="w-4 h-4 ml-1" />

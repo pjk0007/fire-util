@@ -52,7 +52,7 @@ export const MESSAGE_CONTENT_FILE_SIZE_FIELD = 'size';
  * Other constants
  */
 export const MESSAGE_UNIT = 100;
-export const FILE_UNIT = 5;
+export const FILE_UNIT = 100;
 export const LARGE_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 /**
@@ -67,13 +67,14 @@ export const LOCALE = {
     ME: '나',
     REPLYING_TO: (name: string) => `${name}에게 답장`,
     REPLY: '답장',
+    NO_IMAGES: '이미지가 없습니다.',
+    NO_FILES: '파일이 없습니다.',
 
     SIDEBAR: {
         PARTICIPANTS: '참여자',
         NO_PARTICIPANTS: '참여자가 없습니다.',
         INVITE_PARTICIPANTS: '초대하기',
-        NO_IMAGES: '이미지가 없습니다.',
-        NO_FILES: '파일이 없습니다.',
+
         MORE: '더보기',
     },
     MESSAGE: {

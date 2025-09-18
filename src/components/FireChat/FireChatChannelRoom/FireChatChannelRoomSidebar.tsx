@@ -18,6 +18,7 @@ export default function FireChatChannelRoomSidebar() {
             <ScrollArea className="h-full">
                 <div className="p-2 h-full gap-2 flex flex-col">
                     <FireChatChannelRoomSidebarImages
+                        channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                         imageMessages={imageMessages}
                         participants={participants || []}
                     />
