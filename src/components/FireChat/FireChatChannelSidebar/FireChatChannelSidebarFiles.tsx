@@ -2,6 +2,7 @@ import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Card } from '@/components/ui/card';
 import {
     FcMessage,
+    FcMessageContent,
     FcMessageFile,
     LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
@@ -12,10 +13,12 @@ import { ChevronRight, Download, File } from 'lucide-react';
 import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
 import { Button } from '@/components/ui/button';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
+import { memo } from 'react';
 
-export default function FireChatChannelSidebarFiles() {
-    const { fileMessages } = useFireChat();
-
+function FireChatChannelSidebarFiles<
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>({ fileMessages }: { fileMessages: M[] }) {
     return (
         <Card className="gap-0 p-2">
             <div className="flex flex-col p-2 gap-2">
@@ -27,37 +30,46 @@ export default function FireChatChannelSidebarFiles() {
                 </div>
                 {fileMessages.length > 0 ? (
                     <div className="flex flex-col gap-1 max-h-48 overflow-y-auto">
-                        {[...fileMessages].reverse().slice(0, 4).map((msg, index) => {
-                            const message = msg as FcMessage<FcMessageFile>;
+                        {[...fileMessages]
+                            .reverse()
+                            .slice(0, 4)
+                            .map((msg, index) => {
+                                const message = msg as FcMessage<FcMessageFile>;
 
-                            return (
-                                <Button
-                                    size={'sm'}
-                                    variant={'ghost'}
-                                    key={index}
-                                    onClick={async () => {
-                                        await downloadFileFromUrl(
-                                            message[MESSAGE_CONTENTS_FIELD][0][
-                                                MESSAGE_CONTENT_URL_FIELD
-                                            ] as string,
-                                            message[MESSAGE_CONTENTS_FIELD][0][
-                                                MESSAGE_CONTENT_FILE_NAME_FIELD
-                                            ] as string
-                                        );
-                                    }}
-                                >
-                                    <span className="text-sm font-medium text-foreground transition-colors line-clamp-1">
-                                        {truncateFilenameMiddle(
-                                            message[MESSAGE_CONTENTS_FIELD][0][
-                                                MESSAGE_CONTENT_FILE_NAME_FIELD
-                                            ] ?? '',
-                                            20
-                                        )}
-                                    </span>
-                                    <Download className="w-4 h-4 text-primary ml-auto" />
-                                </Button>
-                            );
-                        })}
+                                return (
+                                    <Button
+                                        size={'sm'}
+                                        variant={'ghost'}
+                                        key={index}
+                                        onClick={async () => {
+                                            await downloadFileFromUrl(
+                                                message[
+                                                    MESSAGE_CONTENTS_FIELD
+                                                ][0][
+                                                    MESSAGE_CONTENT_URL_FIELD
+                                                ] as string,
+                                                message[
+                                                    MESSAGE_CONTENTS_FIELD
+                                                ][0][
+                                                    MESSAGE_CONTENT_FILE_NAME_FIELD
+                                                ] as string
+                                            );
+                                        }}
+                                    >
+                                        <span className="text-sm font-medium text-foreground transition-colors line-clamp-1">
+                                            {truncateFilenameMiddle(
+                                                message[
+                                                    MESSAGE_CONTENTS_FIELD
+                                                ][0][
+                                                    MESSAGE_CONTENT_FILE_NAME_FIELD
+                                                ] ?? '',
+                                                20
+                                            )}
+                                        </span>
+                                        <Download className="w-4 h-4 text-primary ml-auto" />
+                                    </Button>
+                                );
+                            })}
                     </div>
                 ) : (
                     <span className="text-sm text-muted-foreground text-center py-6">
@@ -77,3 +89,5 @@ export default function FireChatChannelSidebarFiles() {
         </Card>
     );
 }
+
+export default memo(FireChatChannelSidebarFiles);

@@ -1,9 +1,84 @@
 import FireChat from '@/components/FireChat/FireChat';
+import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from 'react';
 
 export default function Home() {
+    const { user } = useFireChat();
+    const [open, setOpen] = useState(false);
     return (
-        <div className='w-screen h-screen'>
+        <div className="w-screen h-screen relative">
             <FireChat />
+            {user ? (
+                <Button
+                    className="absolute bottom-4 left-4"
+                    onClick={() => {
+                        auth.signOut();
+                    }}
+                >
+                    LOG OUT
+                </Button>
+            ) : (
+                <DropdownMenu open={open}>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            className="absolute bottom-4 left-4"
+                            onClick={() => setOpen(!open)}
+                        >
+                            LOG IN
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                        className="w-48 p-4"
+                        side="top"
+                        align="start"
+                    >
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                const form = e.target as HTMLFormElement;
+                                const email = (
+                                    form.elements[0] as HTMLInputElement
+                                ).value;
+                                const password = (
+                                    form.elements[1] as HTMLInputElement
+                                ).value;
+                                signInWithEmailAndPassword(
+                                    auth,
+                                    email,
+                                    password
+                                )
+                                    .then(() => {
+                                        setOpen(false);
+                                    })
+                                    .catch((error) => {
+                                        alert(error.message);
+                                    });
+                            }}
+                        >
+                            <Input
+                                type="email"
+                                placeholder="Email"
+                                className="mb-2"
+                            />
+                            <Input
+                                type="password"
+                                placeholder="Password"
+                                className="mb-2"
+                            />
+                            <Button type="submit">LOG IN</Button>
+                        </form>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )}
         </div>
     );
 }

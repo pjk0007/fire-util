@@ -1,5 +1,9 @@
 import {
     CHANNEL_HOST_ID_FIELD,
+    FcChannel,
+    FcMessage,
+    FcMessageContent,
+    FcUser,
     LOCALE,
     USER_EMAIL_FIELD,
     USER_ID_FIELD,
@@ -15,14 +19,27 @@ import Image from 'next/image';
 import { Plus, Users } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { memo } from 'react';
 
-export default function FireChatChannelSidebarParticipants() {
+function FireChatChannelSidebarParticipants<
+    C extends FcChannel<M, T>,
+    U extends FcUser,
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>({
+    participants,
+    channel,
+    me,
+}: {
+    participants: U[];
+    channel?: C;
+    me?: U | null;
+}) {
     // FireChat 컨텍스트에서 현재 선택된 채널 정보 가져오기
     // 참여자 목록을 보여줌
 
-    const { selectedChannel, user: me } = useFireChat();
-    const participants = selectedChannel?.participants
-        ? selectedChannel.participants.sort((a, b) =>
+    const sortedParticipants = participants
+        ? participants.sort((a, b) =>
               b[USER_NAME_FIELD].localeCompare(a[USER_NAME_FIELD])
           )
         : [];
@@ -32,11 +49,10 @@ export default function FireChatChannelSidebarParticipants() {
             <div className="flex items-center gap-2 p-2">
                 <Users className="w-4 h-4 text-primary" />
                 <h2 className="text-sm font-semibold tracking-tight">
-                    {LOCALE.SIDEBAR.PARTICIPANTS} {participants.length}
+                    {LOCALE.SIDEBAR.PARTICIPANTS} {sortedParticipants.length}
                 </h2>
             </div>
-            {selectedChannel?.channel[CHANNEL_HOST_ID_FIELD] ===
-                me?.[USER_ID_FIELD] && (
+            {channel?.[CHANNEL_HOST_ID_FIELD] === me?.[USER_ID_FIELD] && (
                 <div className="flex items-center justify-between gap-3 p-2 rounded-lg hover:bg-accent transition-colors w-full cursor-pointer">
                     <div className="flex items-center gap-3">
                         <Avatar
@@ -56,12 +72,12 @@ export default function FireChatChannelSidebarParticipants() {
                     </div>
                 </div>
             )}
-            {participants.length === 0 ? (
+            {sortedParticipants.length === 0 ? (
                 <span className="text-sm text-muted-foreground text-center py-6">
                     {LOCALE.SIDEBAR.NO_PARTICIPANTS}
                 </span>
             ) : (
-                participants.map((user) => (
+                sortedParticipants.map((user) => (
                     <div
                         key={user.id}
                         className="flex items-center justify-between gap-3 p-2 rounded-lg hover:bg-accent transition-colors w-full"
@@ -112,3 +128,5 @@ export default function FireChatChannelSidebarParticipants() {
         </Card>
     );
 }
+
+export default memo(FireChatChannelSidebarParticipants);

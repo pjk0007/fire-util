@@ -181,6 +181,10 @@ export function FireChatProvider<
         }
     }, [messages, sendingFiles]);
 
+    useEffect(() => {
+        if (!userId) setSelectedChannel(undefined);
+    }, [userId]);
+
     function selectChannel(channelId?: string) {
         setFiles([]);
         setSendingFiles([]);

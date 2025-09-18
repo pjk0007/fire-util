@@ -25,7 +25,7 @@ import { useEffect, useState } from 'react';
 
 export default function useListMessages<
     M extends FcMessage<T>,
-    T extends FcMessageContent
+    T extends FcMessageContent,
 >({ channelId }: { channelId?: string }) {
     const [messages, setMessages] = useState<M[]>([]);
     const [imageMessages, setImageMessages] = useState<M[]>([]);
