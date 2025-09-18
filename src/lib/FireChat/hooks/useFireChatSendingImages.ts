@@ -1,4 +1,5 @@
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useAuth } from '@/components/provider/AuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage from '@/lib/FireChat/api/sendMessage';
 import updateLastMessage from '@/lib/FireChat/api/updateLastMessage';
@@ -34,7 +35,7 @@ export default function useFireChatSendingImages({
     channelId: string;
     files: File[];
 }) {
-    const { user: me } = useFireChat();
+    const { user: me } = useAuth();
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [isCompleted, setIsCompleted] = useState(false);
@@ -74,7 +75,6 @@ export default function useFireChatSendingImages({
                     });
                 },
                 (err) => {
-                    console.log(file.name);
                     console.error(err);
                     setError(err.message);
                 },

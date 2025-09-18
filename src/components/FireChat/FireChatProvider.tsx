@@ -1,31 +1,15 @@
-import getUser from '@/lib/FireChat/api/getUser';
-import useFireChatSender, {
-    SendingFile,
-} from '@/lib/FireChat/hooks/useFireChatSender';
+import { useAuth } from '@/components/provider/AuthProvider';
 import useListChannels from '@/lib/FireChat/hooks/useListChannels';
-import useListMessages from '@/lib/FireChat/hooks/useListMessages';
-import useScroll from '@/lib/FireChat/hooks/useScroll';
-import useUser from '@/lib/FireChat/hooks/useUser';
+
 import {
-    CHANNEL_ID_FIELD,
     FcChannel,
     FcChannelParticipants,
     FcMessage,
     FcMessageContent,
     FcUser,
+    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import {
-    Dispatch,
-    ReactNode,
-    RefObject,
-    SetStateAction,
-    useContext,
-    useEffect,
-    useLayoutEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import { ReactNode, useContext, useState } from 'react';
 import { createContext } from 'react';
 
 interface FireChatContextValue<
@@ -35,36 +19,36 @@ interface FireChatContextValue<
     T extends FcMessageContent
 > {
     channels: FcChannelParticipants<C, U, M, T>[];
-    user?: U;
-    selectedChannel?: FcChannelParticipants<C, U, M, T>;
-    messages: M[];
-    loadMoreMessages: () => void;
+    // user?: U;
+    selectedChannelParticipants?: FcChannelParticipants<C, U, M, T>;
+    // messages: M[];
+    // loadMoreMessages: () => void;
     selectChannel: (channelId?: string) => void;
-    scrollAreaRef: RefObject<HTMLDivElement | null>;
-    isBottom: boolean;
-    scrollToBottom: (
-        smooth?: boolean,
-        options?: {
-            afterScroll?: () => void;
-            immediate?: boolean;
-        }
-    ) => void;
-    isLoading: boolean;
-    isScrolling?: boolean;
-    scrollDate?: string;
-    sendTextMessage: (message: string, replyingMessage?: any) => Promise<void>;
-    onSendingFiles: (files: File[]) => void;
-    sendingFiles: SendingFile[];
-    setSendingFiles: Dispatch<SetStateAction<SendingFile[]>>;
-    files: File[];
-    setFiles: Dispatch<SetStateAction<File[]>>;
-    fileMessages: M[];
-    imageMessages: M[];
-    replyingMessage?: M;
-    selectReplyingMessage?: (msgId?: string) => void;
+    // scrollAreaRef: RefObject<HTMLDivElement | null>;
+    // isBottom: boolean;
+    // scrollToBottom: (
+    //     smooth?: boolean,
+    //     options?: {
+    //         afterScroll?: () => void;
+    //         immediate?: boolean;
+    //     }
+    // ) => void;
+    // isLoading: boolean;
+    // isScrolling?: boolean;
+    // scrollDate?: string;
+    // sendTextMessage: (message: string, replyingMessage?: any) => Promise<void>;
+    // onSendingFiles: (files: File[]) => void;
+    // sendingFiles: SendingFile[];
+    // setSendingFiles: Dispatch<SetStateAction<SendingFile[]>>;
+    // files: File[];
+    // setFiles: Dispatch<SetStateAction<File[]>>;
+    // fileMessages: M[];
+    // imageMessages: M[];
+    // replyingMessage?: M;
+    // selectReplyingMessage?: (msgId?: string) => void;
 }
 
-const fireChatContext = createContext<
+const FireChatContext = createContext<
     FireChatContextValue<
         FcChannel<FcMessage<FcMessageContent>, FcMessageContent>,
         FcUser,
@@ -73,34 +57,33 @@ const fireChatContext = createContext<
     >
 >({
     channels: [],
-    user: undefined,
-    selectedChannel: undefined,
-    messages: [],
-    loadMoreMessages: () => {},
+    // user: undefined,
+    selectedChannelParticipants: undefined,
+    // messages: [],
+    // loadMoreMessages: () => {},
     selectChannel: () => {},
-    scrollAreaRef: { current: null },
-    isBottom: true,
-    scrollToBottom: () => {},
-    isLoading: true,
-    isScrolling: false,
-    scrollDate: undefined,
-    sendTextMessage: async () => {},
-    onSendingFiles: (files: File[]) => {},
-    sendingFiles: [],
-    setSendingFiles: () => {},
-    files: [],
-    setFiles: () => {},
-    fileMessages: [],
-    imageMessages: [],
-    replyingMessage: undefined,
-    selectReplyingMessage: () => {},
+    // scrollAreaRef: { current: null },
+    // isBottom: true,
+    // scrollToBottom: () => {},
+    // isLoading: true,
+    // isScrolling: false,
+    // scrollDate: undefined,
+    // sendTextMessage: async () => {},
+    // onSendingFiles: (files: File[]) => {},
+    // sendingFiles: [],
+    // setSendingFiles: () => {},
+    // files: [],
+    // setFiles: () => {},
+    // fileMessages: [],
+    // imageMessages: [],
+    // replyingMessage: undefined,
+    // selectReplyingMessage: () => {},
 });
 
-export const useFireChat = () => useContext(fireChatContext);
+export const useFireChat = () => useContext(FireChatContext);
 
 interface FireChatProviderProps {
     children: ReactNode;
-    userId?: string;
 }
 
 export function FireChatProvider<
@@ -108,157 +91,108 @@ export function FireChatProvider<
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ children, userId }: FireChatProviderProps) {
+>({ children }: FireChatProviderProps) {
+    const { user } = useAuth();
     const { channels } = useListChannels<C, U, M, T>({
-        userId,
+        userId: user?.[USER_ID_FIELD] || '',
     });
-    const { user } = useUser<U>(userId);
-    const [selectedChannel, setSelectedChannel] = useState<
+    const [selectedChannelParticipants, setSelectedChannel] = useState<
         FcChannelParticipants<C, U, M, T> | undefined
     >(undefined);
-    const [isLoading, setIsLoading] = useState(true);
-    const [replyingMessage, setReplyingMessage] = useState<M | undefined>(
-        undefined
-    );
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [replyingMessage, setReplyingMessage] = useState<M | undefined>(
+    //     undefined
+    // );
 
-    const {
-        scrollAreaRef,
-        isBottom,
-        scrollToBottom,
-        isTop,
-        getScrollState,
-        restoreScrollState,
-        isScrolling,
-        scrollDate,
-    } = useScroll();
+    // const {
+    //     scrollAreaRef,
+    //     isBottom,
+    //     scrollToBottom,
+    //     isTop,
+    //     getScrollState,
+    //     restoreScrollState,
+    //     isScrolling,
+    //     scrollDate,
+    // } = useScroll();
 
-    const { messages, fileMessages, imageMessages, loadMoreMessages, hasMore } =
-        useListMessages<M, T>({
-            channelId: selectedChannel?.channel[CHANNEL_ID_FIELD],
-        });
+    // const { messages, fileMessages, imageMessages, loadMoreMessages, hasMore } =
+    //     useListMessages<M, T>({
+    //         channelId: selectedChannelParticipants?.channel[CHANNEL_ID_FIELD],
+    //     });
 
-    const {
-        files,
-        setFiles,
-        sendTextMessage,
-        onSendingFiles,
-        sendingFiles,
-        setSendingFiles,
-    } = useFireChatSender({
-        channel: selectedChannel?.channel,
-        user,
-    });
+    // const {
+    //     files,
+    //     setFiles,
+    //     sendTextMessage,
+    //     onSendingFiles,
+    //     sendingFiles,
+    //     setSendingFiles,
+    // } = useFireChatSender({
+    //     channel: selectedChannelParticipants?.channel,
+    //     user,
+    // });
 
-    useEffect(() => {
-        if (hasMore && isTop && !isLoading) {
-            const scrollState = getScrollState();
-            setIsLoading(true);
-            loadMoreMessages()
-                .then(() => {
-                    setTimeout(() => {
-                        restoreScrollState(scrollState);
-                    }, 1);
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
-        }
-    }, [hasMore, isTop]);
+    // useEffect(() => {
+    //     if (hasMore && isTop && !isLoading) {
+    //         const scrollState = getScrollState();
+    //         setIsLoading(true);
+    //         loadMoreMessages()
+    //             .then(() => {
+    //                 setTimeout(() => {
+    //                     restoreScrollState(scrollState);
+    //                 }, 1);
+    //             })
+    //             .finally(() => {
+    //                 setIsLoading(false);
+    //             });
+    //     }
+    // }, [hasMore, isTop]);
 
-    useEffect(() => {
-        setIsLoading(true);
-        scrollToBottom(false, {
-            afterScroll: () => {
-                setIsLoading(false);
-            },
-        });
-    }, [selectedChannel]);
+    // useEffect(() => {
+    //     setIsLoading(true);
+    //     scrollToBottom(false, {
+    //         afterScroll: () => {
+    //             setIsLoading(false);
+    //         },
+    //     });
+    // }, [selectedChannelParticipants]);
 
-    // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
-    useEffect(() => {
-        if (isBottom) {
-            scrollToBottom(false);
-        }
-    }, [messages, sendingFiles]);
+    // // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
+    // useEffect(() => {
+    //     if (isBottom) {
+    //         scrollToBottom(false);
+    //     }
+    // }, [messages, sendingFiles]);
 
-    useEffect(() => {
-        if (!userId) setSelectedChannel(undefined);
-    }, [userId]);
+    // useEffect(() => {
+    //     if (!userId) setSelectedChannel(undefined);
+    // }, [userId]);
 
     function selectChannel(channelId?: string) {
-        setFiles([]);
-        setSendingFiles([]);
-        setReplyingMessage(undefined);
-        setIsLoading(true);
         if (!channelId) {
             setSelectedChannel(undefined);
-            setIsLoading(false);
             return;
         }
         const channel = channels.find((c) => c.channel.id === channelId);
         if (channel) {
             setSelectedChannel(channel);
         }
-        setIsLoading(false);
     }
 
-    function selectReplyingMessage(msgId?: string) {
-        setReplyingMessage(messages.find((m) => m.id === msgId));
-    }
-    const contextValue = useMemo<FireChatContextValue<C, U, M, T>>(
-        () => ({
-            channels,
-            user,
-            selectedChannel,
-            messages,
-            loadMoreMessages,
-            selectChannel,
-            scrollAreaRef,
-            isBottom,
-            scrollToBottom,
-            isLoading,
-            isScrolling,
-            scrollDate,
-            sendTextMessage,
-            onSendingFiles,
-            sendingFiles,
-            setSendingFiles,
-            files,
-            setFiles,
-            fileMessages,
-            imageMessages,
-            replyingMessage,
-            selectReplyingMessage,
-        }),
-        [
-            channels,
-            user,
-            selectedChannel,
-            messages,
-            loadMoreMessages,
-            selectChannel,
-            scrollAreaRef,
-            isBottom,
-            scrollToBottom,
-            isLoading,
-            isScrolling,
-            scrollDate,
-            sendTextMessage,
-            onSendingFiles,
-            sendingFiles,
-            setSendingFiles,
-            files,
-            setFiles,
-            fileMessages,
-            imageMessages,
-            replyingMessage,
-            selectReplyingMessage,
-        ]
-    );
+    // function selectReplyingMessage(msgId?: string) {
+    //     setReplyingMessage(messages.find((m) => m.id === msgId));
+    // }
 
     return (
-        <fireChatContext.Provider value={contextValue}>
+        <FireChatContext.Provider
+            value={{
+                channels,
+                // user,
+                selectedChannelParticipants,
+                selectChannel,
+            }}
+        >
             {children}
-        </fireChatContext.Provider>
+        </FireChatContext.Provider>
     );
 }

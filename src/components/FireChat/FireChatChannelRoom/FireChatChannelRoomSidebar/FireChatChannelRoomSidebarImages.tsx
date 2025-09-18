@@ -19,7 +19,7 @@ import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { ChevronRight, Image, ImagesIcon } from 'lucide-react';
 import { memo } from 'react';
 
-function FireChatChannelSidebarImages<
+function FireChatChannelRoomSidebarImages<
     M extends FcMessage<T>,
     T extends FcMessageContent,
     U extends FcUser
@@ -113,4 +113,4 @@ function FireChatChannelSidebarImages<
     );
 }
 
-export default memo(FireChatChannelSidebarImages);
+export default memo(FireChatChannelRoomSidebarImages);

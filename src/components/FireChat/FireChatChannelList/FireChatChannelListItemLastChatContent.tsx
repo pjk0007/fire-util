@@ -22,10 +22,9 @@ import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 
 export default function FireChatChannelListItemLastChatContent<
     C extends FcChannel<M, T>,
-    U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channel }: FcChannelParticipants<C, U, M, T>) {
+>({ channel }: { channel: C }) {
     const lastMessage = channel[CHANNEL_LAST_MESSAGE_FIELD];
     const contents = lastMessage?.[MESSAGE_CONTENTS_FIELD]?.[0];
 

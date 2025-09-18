@@ -13,10 +13,9 @@ import { Timestamp } from 'firebase/firestore';
 
 export default function FireChatChannelListItemLastChatTime<
     C extends FcChannel<M, T>,
-    U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channel }: FcChannelParticipants<C, U, M, T>) {
+>({ channel }: { channel: C }) {
     return (
         <time className="text-xs text-muted-foreground whitespace-nowrap">
             {formatTimeString(

@@ -3,7 +3,6 @@ import {
     FcChannelParticipants,
     FcMessage,
     FcMessageContent,
-    FcMessageType,
     FcUser,
 } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';

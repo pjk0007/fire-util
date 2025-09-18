@@ -1,29 +1,27 @@
 import FireChatChannelRoom from '@/components/FireChat/FireChatChannelRoom';
 import FireChatChannelList from '@/components/FireChat/FireChatChannelList';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import FireChatChannelSidebar from '@/components/FireChat/FireChatChannelSidebar';
+import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { FireChatChannelProvider } from '@/components/FireChat/FireChatChannelProvider';
+import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
+import { useAuth } from '@/components/provider/AuthProvider';
 
 export default function FireChat({
     showChannelList = true,
 }: {
     showChannelList?: boolean;
 }) {
+    const { selectChannel, selectedChannelParticipants } = useFireChat();
+    
     return (
         <div className="w-full h-full flex">
-            <SidebarProvider
-                defaultOpen={false}
-                style={
-                    {
-                        '--sidebar-width': '320px',
-                    } as React.CSSProperties
+            {showChannelList && <FireChatChannelList />}
+
+            <FireChatChannelRoom
+                channelId={
+                    selectedChannelParticipants?.channel[CHANNEL_ID_FIELD]
                 }
-            >
-                {showChannelList && <FireChatChannelList />}
-
-                <FireChatChannelRoom />
-
-                <FireChatChannelSidebar />
-            </SidebarProvider>
+                resetChannel={() => selectChannel(undefined)}
+            />
         </div>
     );
 }

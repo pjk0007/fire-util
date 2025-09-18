@@ -53,8 +53,7 @@ export default function useFireChatSender<
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channel, user }: { channel?: C; user?: U }) {
-    console.log('rerender');
+>({ channel, user }: { channel: C | null; user?: U | null }) {
 
     const [files, setFiles] = useState<File[]>([]);
     const [sendingFiles, setSendingFiles] = useState<SendingFile[]>([]);
@@ -94,49 +93,6 @@ export default function useFireChatSender<
             files
         );
         setSendingFiles((prev) => [...prev, ...sendingFiles]);
-    }
-
-    async function sendImagesMessage(files: File[]) {
-        const imageFiles = files.filter((file) =>
-            file.type.startsWith('image/')
-        );
-        if (imageFiles.length === 0 || !channel) return;
-
-        const now = Timestamp.now();
-        const msgId = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
-        // Implement the logic to upload images and send image messages
-        // After sending, clear the files state
-        const contentsPromise = imageFiles.map(async (file) => {
-            const thumbnail = await createThumbnail(file);
-            // upload thumbnail and get URL
-            const msgPath = `${CHANNEL_COLLECTION}/${channel[CHANNEL_ID_FIELD]}/${MESSAGE_COLLECTION}/${msgId}`;
-            const thumbnailRef = ref(
-                storage,
-                `${msgPath}/thumbnail_${file.name}`
-            );
-            const fileRef = ref(storage, `${msgPath}/${file.name}`);
-            await uploadString(thumbnailRef, thumbnail);
-            const thumbnailUrl = await getDownloadURL(thumbnailRef);
-
-            // upload original image and get URL
-            await uploadBytes(fileRef, file);
-            const url = await getDownloadURL(fileRef);
-            return {
-                [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_IMAGE,
-                [MESSAGE_CONTENT_URL_FIELD]: url,
-                [MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD]: thumbnailUrl,
-            } as FcMessageImage;
-        });
-        const contents = await Promise.all(contentsPromise);
-        const msg = {
-            [MESSAGE_ID_FIELD]: msgId,
-            [MESSAGE_USER_ID_FIELD]: user?.[USER_ID_FIELD] || '',
-            [MESSAGE_CREATED_AT_FIELD]: now,
-            [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_IMAGE,
-            [MESSAGE_CONTENTS_FIELD]: contents,
-        } as FcMessage<FcMessageImage>;
-        await sendMessage(channel[CHANNEL_ID_FIELD], msg);
-        await updateLastMessage(channel[CHANNEL_ID_FIELD], msg);
     }
 
     return {

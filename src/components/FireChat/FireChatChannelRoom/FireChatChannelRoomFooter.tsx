@@ -1,33 +1,40 @@
+import { useFireChatChannel } from '@/components/FireChat/FireChatChannelProvider';
 import FireChatChannelRoomFooterFileInput from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterFileInput';
 import FireChatChannelRoomFooterTextarea from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextarea';
 import FireChatChannelRoomFooterTextareaMobile from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextareaMobile';
 import FireChatChannelRoomReplyMessage from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomReplyMessage';
 import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/FireChatFileUploaderDialog';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { LOCALE } from '@/lib/FireChat/settings';
 import { ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function FireChatChannelRoomFooter() {
+    const { user: me } = useAuth();
     const {
-        selectedChannel,
+        channel,
+        participants,
         files,
         setFiles,
         sendTextMessage,
         onSendingFiles,
         replyingMessage,
-        user: me,
         selectReplyingMessage,
         scrollToBottom,
-    } = useFireChat();
+    } = useFireChatChannel();
     const [message, setMessage] = useState('');
 
     useEffect(() => {
         setMessage('');
-    }, [selectedChannel?.channel]);
+    }, [channel]);
 
     const isMine = replyingMessage?.userId === me?.id;
+
+    if (!channel) {
+        return null;
+    }
 
     return (
         <div className="border-t border-muted w-full py-2">
@@ -42,7 +49,7 @@ export default function FireChatChannelRoomFooter() {
             {replyingMessage && (
                 <FireChatChannelRoomReplyMessage
                     replyingMessage={replyingMessage}
-                    participants={selectedChannel?.participants || []}
+                    participants={participants || []}
                     isMine={isMine}
                     selectReplyingMessage={selectReplyingMessage}
                 />

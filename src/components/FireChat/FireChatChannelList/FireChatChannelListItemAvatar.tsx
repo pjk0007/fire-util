@@ -2,8 +2,6 @@ import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
-    FcChannel,
-    FcChannelParticipants,
     FcMessage,
     FcMessageContent,
     FcUser,
@@ -12,15 +10,13 @@ import {
 } from '@/lib/FireChat/settings';
 import Image from 'next/image';
 
-export default function FireChatChannelListItemAvatar<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
->({
+export default function FireChatChannelListItemAvatar<U extends FcUser>({
     participants,
-}: FcChannelParticipants<C, U, M, T>) {
-    const { user: me } = useFireChat();
+    me,
+}: {
+    participants: U[];
+    me?: U | null;
+}) {
     if (!me) return <Skeleton className="w-14 h-14 rounded-full" />;
     // 참여자 목록에서 나를 제외한 참여자 추출
     const others = participants.filter((p) => p.id !== me.id);

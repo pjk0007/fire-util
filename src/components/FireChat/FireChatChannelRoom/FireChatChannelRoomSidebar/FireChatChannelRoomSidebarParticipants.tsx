@@ -21,7 +21,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { memo } from 'react';
 
-function FireChatChannelSidebarParticipants<
+function FireChatChannelRoomSidebarParticipants<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
@@ -32,7 +32,7 @@ function FireChatChannelSidebarParticipants<
     me,
 }: {
     participants: U[];
-    channel?: C;
+    channel: C | null;
     me?: U | null;
 }) {
     // FireChat 컨텍스트에서 현재 선택된 채널 정보 가져오기
@@ -129,4 +129,4 @@ function FireChatChannelSidebarParticipants<
     );
 }
 
-export default memo(FireChatChannelSidebarParticipants);
+export default memo(FireChatChannelRoomSidebarParticipants);

@@ -25,18 +25,17 @@ import { useEffect, useState } from 'react';
 
 export default function useListMessages<
     M extends FcMessage<T>,
-    T extends FcMessageContent,
+    T extends FcMessageContent
 >({ channelId }: { channelId?: string }) {
     const [messages, setMessages] = useState<M[]>([]);
     const [imageMessages, setImageMessages] = useState<M[]>([]);
     const [fileMessages, setFileMessages] = useState<M[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [lastVisible, setLastVisible] = useState<M | null>(null);
     const [hasMore, setHasMore] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     async function loadMoreMessages() {
         if (!channelId || !hasMore) return;
-        setIsLoading(true);
         try {
             const msgs = await getMessages<M, T>(channelId, lastVisible);
             if (msgs.length < MESSAGE_UNIT) {
@@ -45,9 +44,8 @@ export default function useListMessages<
             const lastMsg = msgs.at(0) || null;
             setLastVisible(lastMsg);
             setMessages((prev) => [...msgs, ...prev]);
-            setIsLoading(false);
         } catch (error) {
-            setIsLoading(false);
+            // Handle error
         }
     }
 
@@ -70,55 +68,58 @@ export default function useListMessages<
     useEffect(() => {
         if (!channelId) {
             setMessages([]);
-            setIsLoading(false);
             return;
         }
+        setIsLoading(true);
         let unsubscribe: Unsubscribe;
-        getMessages<M, T>(channelId, null).then((msgs) => {
-            setMessages(msgs);
-            if (msgs.length >= MESSAGE_UNIT) {
-                setHasMore(true);
-            } else {
-                setHasMore(false);
-            }
-
-            const lastMsg = msgs.at(0) || null;
-            const recentMsg = msgs.at(-1) || null;
-
-            setLastVisible(lastMsg);
-            unsubscribe = onSnapshot(
-                query(
-                    collection(
-                        db,
-                        CHANNEL_COLLECTION,
-                        channelId,
-                        MESSAGE_COLLECTION
-                    ),
-                    orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
-                    startAfter(recentMsg?.[MESSAGE_CREATED_AT_FIELD] ?? 0)
-                ),
-                (querySnapshot) => {
-                    querySnapshot.docChanges().forEach((change) => {
-                        if (change.type === 'added') {
-                            console.log('add');
-                            
-                            const msg = change.doc.data() as M;
-                            setMessages((prev) => [...prev, msg]);
-                            if (
-                                msg[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE
-                            ) {
-                                setImageMessages((prev) => [...prev, msg]);
-                            } else if (
-                                msg[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_FILE
-                            ) {
-                                setFileMessages((prev) => [...prev, msg]);
-                            }
-                        }
-                    });
+        getMessages<M, T>(channelId, null)
+            .then((msgs) => {
+                setMessages(msgs);
+                if (msgs.length >= MESSAGE_UNIT) {
+                    setHasMore(true);
+                } else {
+                    setHasMore(false);
                 }
-            );
-        });
 
+                const lastMsg = msgs.at(0) || null;
+                const recentMsg = msgs.at(-1) || null;
+
+                setLastVisible(lastMsg);
+                unsubscribe = onSnapshot(
+                    query(
+                        collection(
+                            db,
+                            CHANNEL_COLLECTION,
+                            channelId,
+                            MESSAGE_COLLECTION
+                        ),
+                        orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
+                        startAfter(recentMsg?.[MESSAGE_CREATED_AT_FIELD] ?? 0)
+                    ),
+                    (querySnapshot) => {
+                        querySnapshot.docChanges().forEach((change) => {
+                            if (change.type === 'added') {
+                                const msg = change.doc.data() as M;
+                                setMessages((prev) => [...prev, msg]);
+                                if (
+                                    msg[MESSAGE_TYPE_FIELD] ===
+                                    MESSAGE_TYPE_IMAGE
+                                ) {
+                                    setImageMessages((prev) => [...prev, msg]);
+                                } else if (
+                                    msg[MESSAGE_TYPE_FIELD] ===
+                                    MESSAGE_TYPE_FILE
+                                ) {
+                                    setFileMessages((prev) => [...prev, msg]);
+                                }
+                            }
+                        });
+                    }
+                );
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
 
         return () => {
             if (unsubscribe) unsubscribe();
@@ -129,9 +130,9 @@ export default function useListMessages<
         messages,
         imageMessages,
         fileMessages,
-        isLoading,
         lastVisible,
         hasMore,
         loadMoreMessages,
+        isLoading,
     };
 }

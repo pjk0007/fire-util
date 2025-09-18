@@ -20,7 +20,6 @@ export default function useScroll() {
 
         const onScroll = () => {
             if (!viewport) return;
-            if (isScrolling) return;
             setIsScrolling(true);
 
             getSetScrollDate(viewport);
@@ -91,13 +90,13 @@ export default function useScroll() {
             immediate?: boolean;
         } = {}
     ) {
-        if (!scrollAreaRef.current) return;
-
         const viewport = scrollAreaRef.current?.querySelector(
             '[data-slot="scroll-area-viewport"]'
         );
-        if (!viewport) return;
-
+        if (!viewport) {
+            afterScroll?.();
+            return;
+        }
         if (immediate) {
             viewport.scrollTo({
                 top: viewport.scrollHeight,

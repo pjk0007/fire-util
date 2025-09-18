@@ -1,9 +1,5 @@
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
 import {
-    FcChannel,
-    FcChannelParticipants,
     FcMessage,
     FcMessageContent,
     FcUser,
@@ -19,8 +15,6 @@ export default function FireChatMessageAvatar<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ message, participants }: { message: M; participants: U[] }) {
-    const { selectedChannel } = useFireChat();
-
     const messageUser = participants.find(
         (p) => p.id === message[MESSAGE_USER_ID_FIELD]
     ) as U | undefined;

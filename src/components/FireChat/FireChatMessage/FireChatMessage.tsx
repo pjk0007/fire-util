@@ -19,6 +19,7 @@ import {
     MESSAGE_TYPE_IMAGE,
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_USER_ID_FIELD,
+    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
@@ -43,7 +44,9 @@ export default function FireChatMessage<
     selectReplyingMessage?: (messageId: string) => void;
 }) {
     // const participants = selectedChannel?.participants || [];
-    const messageUser = participants.find((p) => p.id === message['userId']);
+    const messageUser = participants.find(
+        (p) => p[USER_ID_FIELD] === message[MESSAGE_USER_ID_FIELD]
+    );
 
     if (message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_SYSTEM) {
         return (
@@ -53,7 +56,7 @@ export default function FireChatMessage<
         );
     }
 
-    const isMine = message[MESSAGE_USER_ID_FIELD] === me?.id;
+    const isMine = message[MESSAGE_USER_ID_FIELD] === me?.[USER_ID_FIELD];
 
     const isSameUserAndSameMinAsBefore =
         beforeMessage?.[MESSAGE_USER_ID_FIELD] ===
@@ -88,7 +91,9 @@ export default function FireChatMessage<
                 <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
                 <ContextMenuContent>
                     <ContextMenuItem
-                        onSelect={() => selectReplyingMessage?.(message.id)}
+                        onSelect={() =>
+                            selectReplyingMessage?.(message[MESSAGE_ID_FIELD])
+                        }
                     >
                         {LOCALE.REPLY}
                     </ContextMenuItem>

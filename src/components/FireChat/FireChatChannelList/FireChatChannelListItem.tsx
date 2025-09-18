@@ -6,13 +6,12 @@ import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import {
     CHANNEL_ID_FIELD,
     FcChannel,
-    FcChannelParticipants,
     FcMessage,
     FcMessageContent,
-    FcMessageType,
     FcUser,
 } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
+import { memo } from 'react';
 
 interface FireChatChannelListItemProps<
     C extends FcChannel<M, T>,
@@ -20,49 +19,61 @@ interface FireChatChannelListItemProps<
     M extends FcMessage<T>,
     T extends FcMessageContent
 > {
-    channel: FcChannelParticipants<C, U, M, T>;
+    channel: C;
+    participants: U[];
+    selectedChannel?: C | null;
+    selectChannel: (channelId: string) => void;
+    me?: U | null;
 }
 
-export default function FireChatChannelListItem<
+function FireChatChannelListItem<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channel }: FireChatChannelListItemProps<C, U, M, T>) {
-    const { selectedChannel, selectChannel: handleSetSelectedChannel } = useFireChat();
-
+>({
+    channel,
+    participants,
+    selectedChannel,
+    selectChannel,
+    me,
+}: FireChatChannelListItemProps<C, U, M, T>) {
     return (
         <div
             className={cn('flex py-2 px-4 gap-4 items-start', {
                 'bg-primary-foreground':
-                    selectedChannel?.channel[CHANNEL_ID_FIELD] ===
-                    channel.channel[CHANNEL_ID_FIELD],
+                    selectedChannel?.[CHANNEL_ID_FIELD] ===
+                    channel[CHANNEL_ID_FIELD],
 
                 'hover:bg-accent hover:text-accent-foreground cursor-pointer':
-                    selectedChannel?.channel[CHANNEL_ID_FIELD] !==
-                    channel.channel[CHANNEL_ID_FIELD],
+                    selectedChannel?.[CHANNEL_ID_FIELD] !==
+                    channel[CHANNEL_ID_FIELD],
             })}
-            onClick={() =>
-                handleSetSelectedChannel?.(channel.channel[CHANNEL_ID_FIELD])
-            }
+            onClick={() => selectChannel?.(channel[CHANNEL_ID_FIELD])}
         >
             <div className="w-14 h-14">
-                <FireChatChannelListItemAvatar {...channel} />
+                <FireChatChannelListItemAvatar
+                    participants={participants}
+                    me={me}
+                />
             </div>
 
             <div className="flex flex-col gap-1 w-full">
                 <div className="flex justify-between items-center gap-4">
                     <FireChatChannelListItemTitle
-                        {...channel}
+                        channel={channel}
+                        participants={participants}
                         isSelected={
-                            selectedChannel?.channel[CHANNEL_ID_FIELD] ===
-                            channel.channel[CHANNEL_ID_FIELD]
+                            selectedChannel?.[CHANNEL_ID_FIELD] ===
+                            channel[CHANNEL_ID_FIELD]
                         }
                     />
-                    <FireChatChannelListItemLastChatTime {...channel} />
+                    <FireChatChannelListItemLastChatTime channel={channel} />
                 </div>
-                <FireChatChannelListItemLastChatContent {...channel} />
+                <FireChatChannelListItemLastChatContent channel={channel} />
             </div>
         </div>
     );
 }
+
+export default memo(FireChatChannelListItem);

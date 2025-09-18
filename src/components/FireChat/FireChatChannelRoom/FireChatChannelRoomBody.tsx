@@ -1,7 +1,8 @@
+import { useFireChatChannel } from '@/components/FireChat/FireChatChannelProvider';
 import FireChatMessage from '@/components/FireChat/FireChatMessage/FireChatMessage';
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import FireChatSending from '@/components/FireChat/FireChatMessage/FireChatSending';
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -21,19 +22,24 @@ import { ArrowDown } from 'lucide-react';
 import { Fragment } from 'react';
 
 export default function FireChatChannelRoomBody() {
+    const { user: me } = useAuth();
     const {
-        selectedChannel,
-        messages: selectedChannelMessages,
-        scrollAreaRef: channelRoomRef,
+        channel,
+        participants,
+        messages,
+        scrollAreaRef,
         isBottom,
         scrollToBottom,
         isLoading,
         isScrolling,
         scrollDate,
         sendingFiles,
-        user: me,
         selectReplyingMessage,
-    } = useFireChat();
+    } = useFireChatChannel();
+
+    if (!channel) {
+        return null;
+    }
 
     return (
         <div className="flex-1 overflow-hidden relative">
@@ -42,12 +48,12 @@ export default function FireChatChannelRoomBody() {
                     <div className="w-8 h-8 border-2 border-t-transparent border-primary rounded-full animate-spin" />
                 </div>
             )}
-            <ScrollArea className="h-full bg-secondary" ref={channelRoomRef}>
+            <ScrollArea className="h-full bg-secondary" ref={scrollAreaRef}>
                 <div className="flex flex-col max-w-full gap-2 py-4 px-3 md:px-8 box-border">
-                    {selectedChannelMessages.map((msg, index) => {
+                    {messages.map((msg, index) => {
                         const beforeDate =
                             index > 0
-                                ? selectedChannelMessages[index - 1]?.[
+                                ? messages[index - 1]?.[
                                       MESSAGE_CREATED_AT_FIELD
                                   ]
                                 : null;
@@ -86,9 +92,7 @@ export default function FireChatChannelRoomBody() {
                                     <FireChatMessage
                                         key={index}
                                         message={msg}
-                                        participants={
-                                            selectedChannel?.participants || []
-                                        }
+                                        participants={participants || []}
                                         me={me}
                                         selectReplyingMessage={
                                             selectReplyingMessage
@@ -102,13 +106,9 @@ export default function FireChatChannelRoomBody() {
                                 key={index}
                                 message={msg}
                                 beforeMessage={
-                                    index > 0
-                                        ? selectedChannelMessages[index - 1]
-                                        : undefined
+                                    index > 0 ? messages[index - 1] : undefined
                                 }
-                                participants={
-                                    selectedChannel?.participants || []
-                                }
+                                participants={participants || []}
                                 me={me}
                                 selectReplyingMessage={selectReplyingMessage}
                             />
@@ -116,9 +116,7 @@ export default function FireChatChannelRoomBody() {
                     })}
                     {sendingFiles
                         .filter(
-                            (sf) =>
-                                sf.channelId ===
-                                selectedChannel?.channel[CHANNEL_ID_FIELD]
+                            (sf) => sf.channelId === channel?.[CHANNEL_ID_FIELD]
                         )
                         .map((sf, idx) => (
                             <FireChatSending

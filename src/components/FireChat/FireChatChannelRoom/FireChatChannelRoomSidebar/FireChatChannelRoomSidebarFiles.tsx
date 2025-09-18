@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { memo } from 'react';
 
-function FireChatChannelSidebarFiles<
+function FireChatChannelRoomSidebarFiles<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ fileMessages, channelId }: { fileMessages: M[]; channelId: string }) {
@@ -104,4 +104,4 @@ function FireChatChannelSidebarFiles<
     );
 }
 
-export default memo(FireChatChannelSidebarFiles);
+export default memo(FireChatChannelRoomSidebarFiles);

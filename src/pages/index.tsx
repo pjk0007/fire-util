@@ -1,5 +1,6 @@
 import FireChat from '@/components/FireChat/FireChat';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -12,7 +13,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 
 export default function Home() {
-    const { user } = useFireChat();
+    const { user } = useAuth();
     const [open, setOpen] = useState(false);
     return (
         <div className="w-screen h-screen relative">
