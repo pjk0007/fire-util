@@ -74,6 +74,7 @@ export const LOCALE = {
         INVITE_PARTICIPANTS: '초대하기',
         NO_IMAGES: '이미지가 없습니다.',
         NO_FILES: '파일이 없습니다.',
+        MORE: '더보기',
     },
     MESSAGE: {
         DOWNLOAD_ALL_IMAGE: '모든 사진 전체 저장',

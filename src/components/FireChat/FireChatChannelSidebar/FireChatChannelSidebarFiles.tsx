@@ -1,6 +1,7 @@
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { Card } from '@/components/ui/card';
 import {
+    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     FcMessageFile,
@@ -18,7 +19,7 @@ import { memo } from 'react';
 function FireChatChannelSidebarFiles<
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ fileMessages }: { fileMessages: M[] }) {
+>({ fileMessages, channelId }: { fileMessages: M[]; channelId: string }) {
     return (
         <Card className="gap-0 p-2">
             <div className="flex flex-col p-2 gap-2">
@@ -81,9 +82,22 @@ function FireChatChannelSidebarFiles<
                 <Button
                     size="sm"
                     variant="ghost"
-                    className="w-full justify-center"
+                    onClick={() => {
+                        const width = 800;
+                        const height = 600;
+                        const left =
+                            window.screenX + (window.outerWidth - width) / 2;
+                        const top =
+                            window.screenY + (window.outerHeight - height) / 2;
+                        window.open(
+                            `/${CHANNEL_COLLECTION}/${channelId}`,
+                            '_blank',
+                            `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`
+                        );
+                    }}
                 >
-                    더보기 <ChevronRight className="w-4 h-4 ml-1" />
+                    {LOCALE.SIDEBAR.MORE}{' '}
+                    <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
             )}
         </Card>

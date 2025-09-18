@@ -105,7 +105,8 @@ function FireChatChannelSidebarImages<
                     variant="ghost"
                     className="w-full justify-center"
                 >
-                    더보기 <ChevronRight className="w-4 h-4 ml-1" />
+                    {LOCALE.SIDEBAR.MORE}
+                    <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
             )}
         </Card>

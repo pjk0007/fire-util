@@ -12,7 +12,7 @@ export default function FireChatChannelSidebar() {
         selectedChannel,
         user: me,
     } = useFireChat();
-    
+
     return (
         <Sidebar side="right">
             <ScrollArea className="h-full">
@@ -21,7 +21,10 @@ export default function FireChatChannelSidebar() {
                         imageMessages={imageMessages}
                         participants={selectedChannel?.participants || []}
                     />
-                    <FireChatChannelSidebarFiles fileMessages={fileMessages} />
+                    <FireChatChannelSidebarFiles
+                        fileMessages={fileMessages}
+                        channelId={selectedChannel?.channel.id || ''}
+                    />
                     <FireChatChannelSidebarParticipants
                         participants={selectedChannel?.participants || []}
                         channel={selectedChannel?.channel}

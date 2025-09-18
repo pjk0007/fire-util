@@ -3,7 +3,11 @@ import FireChatChannelList from '@/components/FireChat/FireChatChannelList';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import FireChatChannelSidebar from '@/components/FireChat/FireChatChannelSidebar';
 
-export default function FireChat() {
+export default function FireChat({
+    showChannelList = true,
+}: {
+    showChannelList?: boolean;
+}) {
     return (
         <div className="w-full h-full flex">
             <SidebarProvider
@@ -14,7 +18,7 @@ export default function FireChat() {
                     } as React.CSSProperties
                 }
             >
-                <FireChatChannelList />
+                {showChannelList && <FireChatChannelList />}
 
                 <FireChatChannelRoom />
 
