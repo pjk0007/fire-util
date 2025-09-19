@@ -69,6 +69,8 @@ export const LOCALE = {
     REPLY: '답장',
     NO_IMAGES: '이미지가 없습니다.',
     NO_FILES: '파일이 없습니다.',
+    UNDO: '실행 취소',
+    CANCEL: '취소',
 
     SIDEBAR: {
         PARTICIPANTS: '참여자',
@@ -76,6 +78,23 @@ export const LOCALE = {
         INVITE_PARTICIPANTS: '초대하기',
 
         MORE: '더보기',
+
+        INVITE_PARTICIPANTS_DESCRIPTION:
+            '초대할 사용자의 이름 또는 이메일을 입력하세요.',
+        SEARCH_USER_PLACEHOLDER: '이름 또는 이메일로 찾기',
+        SEARCH_BUTTON: '검색',
+        NO_USERS_FOUND: '사용자를 찾을 수 없습니다.',
+        INVITE_BUTTON: '초대',
+        USER_INVITED: '사용자를 초대했습니다.',
+
+        REMOVE_PARTICIPANT: (name: string) =>
+            `${name}님을 채팅방에서 내보내시겠습니까?`,
+        PARTICIPANT_REMOVED: (name: string) =>
+            `${name}님을 채팅방에서 내보냈습니다.`,
+        REMOVE_USER_CONFIRMATION_TITLE: '사용자 내보내기',
+        REMOVE_USER_BUTTON: '내보내기',
+        REMOVE_USER_SUCCESS: '사용자를 채팅방에서 내보냈습니다.',
+        
     },
     MESSAGE: {
         DOWNLOAD_ALL_IMAGE: '모든 사진 전체 저장',
@@ -86,7 +105,7 @@ export const LOCALE = {
         INPUT_PLACEHOLDER: '메시지 입력',
         SEND: '전송',
         UPLOAD_FILES: '파일 전송',
-        CANCEL: '취소',
+
         REMOVE_FILE: '파일 삭제',
     },
 };

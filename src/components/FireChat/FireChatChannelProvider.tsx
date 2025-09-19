@@ -58,6 +58,7 @@ interface FireChatChannelContextValue<
     replyingMessage?: M;
     selectReplyingMessage?: (msgId?: string) => void;
     resetChannel?: () => void;
+    reFetchChannelParticipants: () => void;
 }
 
 const FireChatChannelContext = createContext<
@@ -89,6 +90,7 @@ const FireChatChannelContext = createContext<
     replyingMessage: undefined,
     selectReplyingMessage: () => {},
     resetChannel: () => {},
+    reFetchChannelParticipants: () => {},
 });
 
 export const useFireChatChannel = () => useContext(FireChatChannelContext);
@@ -200,6 +202,22 @@ export function FireChatChannelProvider<
         }
     }, [messages, sendingFiles]);
 
+    function reFetchChannelParticipants() {
+        if (!channelId) {
+            setParticipants([]);
+            return;
+        }
+        getChannelById({ channelId })
+            .then((ch) => {
+                return ch?.[CHANNEL_PARTICIPANTS_FIELD] || [];
+            })
+            .then((ids) => {
+                getUsersById({ ids }).then((users) => {
+                    setParticipants(users as U[]);
+                });
+            });
+    }
+
     function selectReplyingMessage(msgId?: string) {
         setReplyingMessage(messages.find((m) => m.id === msgId));
     }
@@ -218,7 +236,7 @@ export function FireChatChannelProvider<
         setFiles,
         isScrolling,
         scrollDate,
-        isLoading : isLoading || isMessagesLoading,
+        isLoading: isLoading || isMessagesLoading,
         sendTextMessage,
         onSendingFiles,
         sendingFiles,
@@ -226,6 +244,7 @@ export function FireChatChannelProvider<
         replyingMessage,
         selectReplyingMessage,
         resetChannel,
+        reFetchChannelParticipants,
     };
 
     console.log({ isLoading });

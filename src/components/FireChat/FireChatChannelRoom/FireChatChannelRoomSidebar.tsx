@@ -10,8 +10,13 @@ import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
 
 export default function FireChatChannelRoomSidebar() {
     const { user: me } = useAuth();
-    const { imageMessages, fileMessages, channel, participants } =
-        useFireChatChannel();
+    const {
+        imageMessages,
+        fileMessages,
+        channel,
+        participants,
+        reFetchChannelParticipants,
+    } = useFireChatChannel();
 
     return (
         <Sidebar side="right">
@@ -30,6 +35,7 @@ export default function FireChatChannelRoomSidebar() {
                         participants={participants || []}
                         channel={channel}
                         me={me}
+                        reFetchChannelParticipants={reFetchChannelParticipants}
                     />
                 </div>
             </ScrollArea>

@@ -108,7 +108,7 @@ export default function FireChatFileUploaderDialog({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button variant="outline">
-                            {LOCALE.FOOTER.CANCEL}
+                            {LOCALE.CANCEL}
                         </Button>
                     </DialogClose>
                     <Button onClick={onClickUpload}>
