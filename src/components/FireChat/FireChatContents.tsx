@@ -1,4 +1,5 @@
 import { useFireChatChannel } from '@/components/FireChat/FireChatChannelProvider';
+import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -19,7 +20,9 @@ import {
 } from '@/lib/FireChat/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
+import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
+import { Download, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export default function FireChatContents({
@@ -41,7 +44,7 @@ export default function FireChatContents({
             <div className="py-4 pl-12">
                 <Tabs className="w-full" defaultValue={defatultTab}>
                     <TabsList className="h-8 w-full border-b justify-start rounded-none bg-transparent p-0">
-                        <div className="w-80 flex gap-2 h-8">
+                        <div className="w-40 flex gap-2 h-8">
                             <TabsTrigger value="image" asChild>
                                 <div
                                     style={{
@@ -82,6 +85,8 @@ export default function FireChatContents({
                         <ScrollArea className="h-[calc(100vh-120px)] w-full">
                             <div className="h-full flex flex-wrap">
                                 {reversedImageMessages.map((msg, index) => {
+                                    const message =
+                                        msg as FcMessage<FcMessageImage>;
                                     const content = msg?.[
                                         MESSAGE_CONTENTS_FIELD
                                     ]?.[0] as FcMessageImage;
@@ -107,9 +112,9 @@ export default function FireChatContents({
                                                 .toDate()
                                                 .getMonth()}`;
 
-                                    if (isNewMonth) {
-                                        return (
-                                            <>
+                                    return (
+                                        <>
+                                            {isNewMonth && (
                                                 <div className="text-sm text-muted-foreground mt-4 ml-2 w-full">
                                                     {currentTime
                                                         .toDate()
@@ -121,55 +126,58 @@ export default function FireChatContents({
                                                             }
                                                         )}
                                                 </div>
-                                                <Image
-                                                    src={
-                                                        content[
-                                                            MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
-                                                        ] ||
-                                                        content[
+                                            )}
+                                            <FireChatImageDialog
+                                                defaultIdx={0}
+                                                dialogTitle={`${formatDateString(
+                                                    msg[
+                                                        MESSAGE_CREATED_AT_FIELD
+                                                    ]
+                                                )}`}
+                                                images={message[
+                                                    MESSAGE_CONTENTS_FIELD
+                                                ].map(
+                                                    (img) =>
+                                                        img[
                                                             MESSAGE_CONTENT_URL_FIELD
-                                                        ]
-                                                    }
-                                                    alt={
-                                                        content[
-                                                            MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
-                                                        ] ||
-                                                        content[
-                                                            MESSAGE_CONTENT_URL_FIELD
-                                                        ]
-                                                    }
-                                                    width={128}
-                                                    height={128}
-                                                    priority={index < 4}
-                                                    className="w-32 h-32 object-cover m-2 rounded"
-                                                />
-                                            </>
-                                        );
-                                    }
-                                    return (
-                                        <Image
-                                            key={index}
-                                            src={
-                                                content[
-                                                    MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
-                                                ] ||
-                                                content[
-                                                    MESSAGE_CONTENT_URL_FIELD
-                                                ]
-                                            }
-                                            alt={
-                                                content[
-                                                    MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
-                                                ] ||
-                                                content[
-                                                    MESSAGE_CONTENT_URL_FIELD
-                                                ]
-                                            }
-                                            width={128}
-                                            height={128}
-                                            priority={index < 4}
-                                            className="w-32 h-32 object-cover m-2 rounded"
-                                        />
+                                                        ] as string
+                                                )}
+                                                key={index}
+                                            >
+                                                <div className="relative">
+                                                    <Image
+                                                        src={
+                                                            content[
+                                                                MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
+                                                            ] ||
+                                                            content[
+                                                                MESSAGE_CONTENT_URL_FIELD
+                                                            ]
+                                                        }
+                                                        alt={
+                                                            content[
+                                                                MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
+                                                            ] ||
+                                                            content[
+                                                                MESSAGE_CONTENT_URL_FIELD
+                                                            ]
+                                                        }
+                                                        width={128}
+                                                        height={128}
+                                                        priority={index < 4}
+                                                        className="w-32 h-32 object-cover m-2 rounded border hover:border-muted-foreground/40 border-transparent"
+                                                    />
+                                                    {message[
+                                                        MESSAGE_CONTENTS_FIELD
+                                                    ].length > 1 && (
+                                                        <ImagesIcon
+                                                            className="absolute right-4 bottom-4 bg-foreground/40 text-white p-0.5 rounded-xs"
+                                                            size={16}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </FireChatImageDialog>
+                                        </>
                                     );
                                 })}
                                 {reversedFileMessages.length === 0 && (
@@ -209,9 +217,9 @@ export default function FireChatContents({
                                                 .toDate()
                                                 .getMonth()}`;
 
-                                    if (isNewMonth) {
-                                        return (
-                                            <>
+                                    return (
+                                        <>
+                                            {isNewMonth && (
                                                 <div className="text-sm text-muted-foreground mt-4 ml-2 w-full">
                                                     {currentTime
                                                         .toDate()
@@ -223,46 +231,26 @@ export default function FireChatContents({
                                                             }
                                                         )}
                                                 </div>
-                                                <FileCard
-                                                    key={index}
-                                                    fileUrl={
-                                                        content[
-                                                            MESSAGE_CONTENT_URL_FIELD
-                                                        ]
-                                                    }
-                                                    fileName={
-                                                        content[
-                                                            MESSAGE_CONTENT_FILE_NAME_FIELD
-                                                        ]
-                                                    }
-                                                    fileSize={
-                                                        content[
-                                                            MESSAGE_CONTENT_FILE_SIZE_FIELD
-                                                        ]
-                                                    }
-                                                />
-                                            </>
-                                        );
-                                    }
-                                    return (
-                                        <FileCard
-                                            key={index}
-                                            fileUrl={
-                                                content[
-                                                    MESSAGE_CONTENT_URL_FIELD
-                                                ]
-                                            }
-                                            fileName={
-                                                content[
-                                                    MESSAGE_CONTENT_FILE_NAME_FIELD
-                                                ]
-                                            }
-                                            fileSize={
-                                                content[
-                                                    MESSAGE_CONTENT_FILE_SIZE_FIELD
-                                                ]
-                                            }
-                                        />
+                                            )}
+                                            <FileCard
+                                                key={index}
+                                                fileUrl={
+                                                    content[
+                                                        MESSAGE_CONTENT_URL_FIELD
+                                                    ]
+                                                }
+                                                fileName={
+                                                    content[
+                                                        MESSAGE_CONTENT_FILE_NAME_FIELD
+                                                    ]
+                                                }
+                                                fileSize={
+                                                    content[
+                                                        MESSAGE_CONTENT_FILE_SIZE_FIELD
+                                                    ]
+                                                }
+                                            />
+                                        </>
                                     );
                                 })}
                                 {imageMessages.length === 0 && (
@@ -291,26 +279,27 @@ function FileCard({
     const fileExt =
         fileName?.split('.').pop()?.toLowerCase().slice(0, 4) || 'FILE';
     return (
-        <Card className="m-2 p-4 w-52 h-48 rounded-sm gap-2">
-            <div className="w-10 h-8 bg-muted text-muted-foreground flex items-center justify-center rounded font-bold">
+        <Card className="m-2 p-4 w-52 h-40 rounded-sm gap-2 hover:shadow-md transition-transform flex flex-col">
+            <div className="px-2 py-1 w-fit bg-muted text-muted-foreground flex items-center justify-center rounded font-bold text-xs">
                 {fileExt}
             </div>
-            <div className="font-medium break-all line-clamp-2">
+            <div className="break-all line-clamp-2 text-sm">
                 {truncateFilenameMiddle(fileName || 'unknown', 30)}
             </div>
-            <div className="text-sm text-muted-foreground">
-                {formatSizeString(fileSize || 0)}
+            <div className="flex justify-between mt-auto items-end">
+                <div className="text-xs text-muted-foreground">
+                    {formatSizeString(fileSize || 0)}
+                </div>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() =>
+                        downloadFileFromUrl(fileUrl, fileName || 'unknown')
+                    }
+                >
+                    <Download className="w-4 h-4 text-primary" />
+                </Button>
             </div>
-            <Button
-                variant="outline"
-                size="sm"
-                className="mt-auto"
-                onClick={() =>
-                    downloadFileFromUrl(fileUrl, fileName || 'unknown')
-                }
-            >
-                다운로드
-            </Button>
         </Card>
     );
 }
