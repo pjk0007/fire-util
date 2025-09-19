@@ -3,12 +3,16 @@ import FireChatChannelListItemLastChatContent from '@/components/FireChat/FireCh
 import FireChatChannelListItemLastChatTime from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemLastChatTime';
 import FireChatChannelListItemTitle from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemTitle';
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { Badge } from '@/components/ui/badge';
+import useFireChatUnreadCount from '@/lib/FireChat/hooks/useFireChatUnreadCount';
 import {
     CHANNEL_ID_FIELD,
+    CHANNEL_NAME_FIELD,
     FcChannel,
     FcMessage,
     FcMessageContent,
     FcUser,
+    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { memo } from 'react';
@@ -38,9 +42,16 @@ function FireChatChannelListItem<
     selectChannel,
     me,
 }: FireChatChannelListItemProps<C, U, M, T>) {
+    const unreadCount = useFireChatUnreadCount<C, M, T>(
+        channel,
+        me?.[USER_ID_FIELD]
+    );
+
+    console.log(channel[CHANNEL_NAME_FIELD], unreadCount);
+
     return (
         <div
-            className={cn('flex py-2 px-4 gap-4 items-start', {
+            className={cn('relative flex py-2 px-4 gap-4 items-start', {
                 'bg-primary-foreground':
                     selectedChannel?.[CHANNEL_ID_FIELD] ===
                     channel[CHANNEL_ID_FIELD],
@@ -51,7 +62,7 @@ function FireChatChannelListItem<
             })}
             onClick={() => selectChannel?.(channel[CHANNEL_ID_FIELD])}
         >
-            <div className="w-14 h-14">
+            <div className="w-14 h-14 relative">
                 <FireChatChannelListItemAvatar
                     participants={participants}
                     me={me}
@@ -72,6 +83,16 @@ function FireChatChannelListItem<
                 </div>
                 <FireChatChannelListItemLastChatContent channel={channel} />
             </div>
+            <Badge
+                className="absolute right-2 bottom-2 rounded-full bg-destructive min-w-6 text-center"
+                style={{
+                    fontSize: 10,
+                    padding: '4px 6px',
+                    display: unreadCount > 0 ? 'block' : 'none',
+                }}
+            >
+                {unreadCount <= 99 ? unreadCount : '99+'}
+            </Badge>
         </div>
     );
 }

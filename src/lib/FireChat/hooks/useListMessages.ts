@@ -1,7 +1,9 @@
+import { useAuth } from '@/components/provider/AuthProvider';
 import { db } from '@/lib/firebase';
 import getFileMessages from '@/lib/FireChat/api/getFileMessages';
 import getImageMessages from '@/lib/FireChat/api/getImageMessages';
 import getMessages from '@/lib/FireChat/api/getMessages';
+import markMessageAsRead from '@/lib/FireChat/api/markMessageAsRead';
 import {
     CHANNEL_COLLECTION,
     FcMessage,
@@ -12,6 +14,7 @@ import {
     MESSAGE_TYPE_FILE,
     MESSAGE_TYPE_IMAGE,
     MESSAGE_UNIT,
+    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import {
     collection,
@@ -27,6 +30,7 @@ export default function useListMessages<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ channelId }: { channelId?: string }) {
+    const { user } = useAuth();
     const [messages, setMessages] = useState<M[]>([]);
     const [imageMessages, setImageMessages] = useState<M[]>([]);
     const [fileMessages, setFileMessages] = useState<M[]>([]);
@@ -74,6 +78,7 @@ export default function useListMessages<
         let unsubscribe: Unsubscribe;
         getMessages<M, T>(channelId, null)
             .then((msgs) => {
+                markMessageAsRead(channelId, user?.[USER_ID_FIELD]);
                 setMessages(msgs);
                 if (msgs.length >= MESSAGE_UNIT) {
                     setHasMore(true);
@@ -112,6 +117,10 @@ export default function useListMessages<
                                 ) {
                                     setFileMessages((prev) => [...prev, msg]);
                                 }
+                                markMessageAsRead(
+                                    channelId,
+                                    user?.[USER_ID_FIELD] || ''
+                                );
                             }
                         });
                     }
