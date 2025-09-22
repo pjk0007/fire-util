@@ -54,8 +54,9 @@ export default function useListMessages<
 
     useEffect(() => {
         console.log('channelId', channelId);
+        setNewMessages([]);
+        setMessages([]);
         if (!channelId) {
-            setMessages([]);
             return;
         }
         setIsLoading(true);
