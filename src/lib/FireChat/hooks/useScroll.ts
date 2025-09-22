@@ -80,38 +80,18 @@ export default function useScroll() {
         });
     }
 
-    function scrollToBottom(
-        smooth: boolean = false,
-        {
-            afterScroll,
-            immediate = false,
-        }: {
-            afterScroll?: () => void;
-            immediate?: boolean;
-        } = {}
-    ) {
+    function scrollToBottom(smooth: boolean = false) {
         const viewport = scrollAreaRef.current?.querySelector(
             '[data-slot="scroll-area-viewport"]'
         );
         if (!viewport) {
-            afterScroll?.();
             return;
         }
-        if (immediate) {
-            viewport.scrollTo({
-                top: viewport.scrollHeight,
-                behavior: 'auto',
-            });
-            afterScroll?.();
-        } else {
-            setTimeout(() => {
-                viewport.scrollTo({
-                    top: viewport.scrollHeight,
-                    behavior: smooth ? 'smooth' : 'auto',
-                });
-                afterScroll?.();
-            }, 200);
-        }
+
+        viewport.scrollTo({
+            top: viewport.scrollHeight,
+            behavior: smooth ? 'smooth' : 'auto',
+        });
     }
 
     const getSetScrollDate = (scrollDiv: Element) => {

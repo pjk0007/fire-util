@@ -40,7 +40,6 @@ interface FireChatChannelContextValue<
     replyingMessage?: FcMessage<FcMessageContent>;
     setReplyingMessage?: (message?: FcMessage<FcMessageContent>) => void;
     resetChannel?: () => void;
-    // reFetchChannelParticipants: () => void;
 }
 
 const FireChatChannelContext = createContext<
@@ -59,12 +58,11 @@ const FireChatChannelContext = createContext<
     replyingMessage: undefined,
     setReplyingMessage: () => {},
     resetChannel: () => {},
-    // reFetchChannelParticipants: () => {},
 });
 
 export const useFireChatChannel = () => useContext(FireChatChannelContext);
 
-interface FireChatProviderProps<U extends FcUser> {
+interface FireChatProviderProps {
     channelId?: string;
     resetChannel?: () => void;
     children: ReactNode;
@@ -75,7 +73,7 @@ export function FireChatChannelProvider<
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channelId, children, resetChannel }: FireChatProviderProps<U>) {
+>({ channelId, children, resetChannel }: FireChatProviderProps) {
     const { user } = useAuth();
     const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
         channelId,
@@ -104,26 +102,9 @@ export function FireChatChannelProvider<
         setSendingFiles([]);
     }, [channelId]);
 
-    // function reFetchChannelParticipants() {
-    //     if (!channelId) {
-    //         setParticipants([]);
-    //         return;
-    //     }
-    //     getChannelById({ channelId })
-    //         .then((ch) => {
-    //             return ch?.[CHANNEL_PARTICIPANTS_FIELD] || [];
-    //         })
-    //         .then((ids) => {
-    //             getUsersById({ ids }).then((users) => {
-    //                 setParticipants(users as U[]);
-    //             });
-    //         });
-    // }
-
     const contextValue: FireChatChannelContextValue<C, U, M, T> = {
         channel,
         participants,
-        // reFetchChannelParticipants: () => {},
         onSendingFiles,
         sendingFiles,
         setSendingFiles,

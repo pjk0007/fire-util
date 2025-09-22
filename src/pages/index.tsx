@@ -16,7 +16,7 @@ export default function Home() {
     const { user } = useAuth();
     const [open, setOpen] = useState(false);
     return (
-        <div className="w-screen h-screen relative">
+        <div className="w-[100dvw] h-[100dvh] relative">
             <FireChat />
             {user ? (
                 <Button

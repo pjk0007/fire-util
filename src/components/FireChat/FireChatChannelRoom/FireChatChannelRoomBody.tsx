@@ -9,6 +9,7 @@ import {
     CHANNEL_ID_FIELD,
     FcMessage,
     FcMessageSystem,
+    FcUser,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
@@ -40,9 +41,10 @@ export default function FireChatChannelRoomBody() {
     const { channel, participants, sendingFiles, setReplyingMessage } =
         useFireChatChannel();
 
-    const { messages, hasMore, loadMoreMessages } = useListMessages({
-        channelId: channel?.[CHANNEL_ID_FIELD],
-    });
+    const { messages, newMessages, hasMore, loadMoreMessages } =
+        useListMessages({
+            channelId: channel?.[CHANNEL_ID_FIELD],
+        });
 
     useEffect(() => {
         if (hasMore && isTop && !isLoading) {
@@ -62,10 +64,11 @@ export default function FireChatChannelRoomBody() {
 
     // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
     useEffect(() => {
+        console.log('newMessages', newMessages);
         if (isBottom) {
             scrollToBottom(false);
         }
-    }, [messages, sendingFiles]);
+    }, [messages, newMessages, sendingFiles]);
 
     if (!channel) {
         return null;
@@ -135,6 +138,70 @@ export default function FireChatChannelRoomBody() {
                                 message={msg}
                                 beforeMessage={
                                     index > 0 ? messages[index - 1] : undefined
+                                }
+                                participants={participants || []}
+                                me={me}
+                                setReplyingMessage={setReplyingMessage}
+                            />
+                        );
+                    })}
+                    {newMessages.map((msg, index) => {
+                        const beforeDate =
+                            index > 0
+                                ? newMessages[index - 1]?.[
+                                      MESSAGE_CREATED_AT_FIELD
+                                  ]
+                                : null;
+                        const currentDate = msg?.[MESSAGE_CREATED_AT_FIELD];
+                        if (
+                            beforeDate &&
+                            currentDate &&
+                            beforeDate.toDate().toDateString() !==
+                                currentDate.toDate().toDateString()
+                        ) {
+                            return (
+                                <Fragment key={msg[MESSAGE_ID_FIELD]}>
+                                    <FireChatMessageSystem
+                                        message={
+                                            {
+                                                [MESSAGE_ID_FIELD]: `date-separator-${msg[MESSAGE_ID_FIELD]}`,
+                                                [MESSAGE_CREATED_AT_FIELD]:
+                                                    currentDate,
+                                                [MESSAGE_TYPE_FIELD]:
+                                                    MESSAGE_TYPE_SYSTEM,
+                                                [MESSAGE_USER_ID_FIELD]:
+                                                    'system',
+                                                [MESSAGE_CONTENTS_FIELD]: [
+                                                    {
+                                                        [MESSAGE_CONTENT_TEXT_FIELD]:
+                                                            formatDateString(
+                                                                currentDate
+                                                            ),
+                                                        [MESSAGE_TYPE_FIELD]:
+                                                            MESSAGE_TYPE_SYSTEM,
+                                                    },
+                                                ],
+                                            } as FcMessage<FcMessageSystem>
+                                        }
+                                    />
+                                    <FireChatMessage
+                                        key={index}
+                                        message={msg}
+                                        participants={participants || []}
+                                        me={me}
+                                        setReplyingMessage={setReplyingMessage}
+                                    />
+                                </Fragment>
+                            );
+                        }
+                        return (
+                            <FireChatMessage
+                                key={index}
+                                message={msg}
+                                beforeMessage={
+                                    index > 0
+                                        ? newMessages[index - 1]
+                                        : undefined
                                 }
                                 participants={participants || []}
                                 me={me}

@@ -32,6 +32,7 @@ export default function useListMessages<
 >({ channelId }: { channelId?: string }) {
     const { user } = useAuth();
     const [messages, setMessages] = useState<M[]>([]);
+    const [newMessages, setNewMessages] = useState<M[]>([]);
     const [lastVisible, setLastVisible] = useState<M | null>(null);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -88,12 +89,15 @@ export default function useListMessages<
                         querySnapshot.docChanges().forEach((change) => {
                             if (change.type === 'added') {
                                 const msg = change.doc.data() as M;
-                                setMessages((prev) => [...prev, msg]);
-
-                                markMessageAsRead(
-                                    channelId,
-                                    user?.[USER_ID_FIELD] || ''
-                                );
+                                // setMessages((prev) => [...prev, msg]);
+                                setNewMessages((prev) => [...prev, msg]);
+                                // 메시지가 추가로 들어오면 읽음 처리
+                                if (user?.[USER_ID_FIELD]) {
+                                    markMessageAsRead(
+                                        channelId,
+                                        user?.[USER_ID_FIELD] || ''
+                                    );
+                                }
                             }
                         });
                     }
@@ -109,6 +113,7 @@ export default function useListMessages<
     }, [channelId]);
 
     return {
+        newMessages,
         messages,
         lastVisible,
         hasMore,
