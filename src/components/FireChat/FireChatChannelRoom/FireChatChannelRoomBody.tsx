@@ -42,14 +42,14 @@ export default function FireChatChannelRoomBody() {
     }
 
     return (
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 overflow-hidden relative bg-white">
             {isLoading && (
-                <div className="absolute w-full h-full z-10 bg-secondary flex items-center justify-center">
+                <div className="absolute w-full h-full z-10 bg-white flex items-center justify-center">
                     <div className="w-8 h-8 border-2 border-t-transparent border-primary rounded-full animate-spin" />
                 </div>
             )}
-            <ScrollArea className="h-full bg-secondary" ref={scrollAreaRef}>
-                <div className="flex flex-col max-w-full gap-2 py-4 px-3 md:px-8 box-border">
+            <ScrollArea className="h-full" ref={scrollAreaRef}>
+                <div className="flex flex-col max-w-full gap-2 py-6 px-3 md:px-5 box-border">
                     {messages.map((msg, index) => {
                         const beforeDate =
                             index > 0

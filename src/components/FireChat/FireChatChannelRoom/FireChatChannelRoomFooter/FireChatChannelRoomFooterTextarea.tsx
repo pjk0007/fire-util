@@ -8,35 +8,26 @@ export default function FireChatChannelRoomFooterTextarea<
 >({
     message,
     setMessage,
-    sendTextMessage,
+    onSend,
     selectReplyingMessage,
     replyingMessage,
-    scrollToBottom,
 }: {
     message: string;
     setMessage: (msg: string) => void;
-    sendTextMessage: (msg: string, replyingMessage?: M) => Promise<void>;
+    onSend: () => void;
     selectReplyingMessage?: (id?: string) => void;
     replyingMessage?: M;
-    scrollToBottom: (
-        smooth?: boolean,
-        options?: {
-            afterScroll?: () => void;
-            immediate?: boolean;
-        }
-    ) => void;
 }) {
     return (
         <div className="relative md:block hidden">
             {!!replyingMessage && (
-                <CornerDownRight className="absolute top-0 left-2 w-4 h-4 text-muted-foreground" />
+                <CornerDownRight className="absolute top-0 left-0 w-4 h-4 text-foreground" />
             )}
             <textarea
                 className={cn(
-                    'resize-none focus:outline-none border-none h-20 text-sm  w-full',
+                    'resize-none focus:outline-none border-none h-[60px] text-sm  w-full placeholder:text-muted-foreground',
                     {
-                        'px-4': !replyingMessage,
-                        'pl-10 pr-4': !!replyingMessage,
+                        'pl-[26px] pr-4': !!replyingMessage,
                     }
                 )}
                 placeholder={LOCALE.FOOTER.INPUT_PLACEHOLDER}
@@ -46,12 +37,7 @@ export default function FireChatChannelRoomFooterTextarea<
                     if (e.key === 'Enter' && !e.shiftKey) {
                         if ((e.nativeEvent as any).isComposing) return; // 한글 조합 중이면 무시
                         e.preventDefault();
-                        scrollToBottom(false, {
-                            immediate: true,
-                        });
-                        sendTextMessage(message, replyingMessage);
-                        setMessage('');
-                        selectReplyingMessage?.(undefined);
+                        onSend();
                     }
                 }}
             />

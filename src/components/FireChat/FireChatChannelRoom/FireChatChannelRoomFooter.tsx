@@ -7,7 +7,13 @@ import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/Fir
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { LOCALE } from '@/lib/FireChat/settings';
+import { Separator } from '@/components/ui/separator';
+import { sendTextMessage } from '@/lib/FireChat/api/sendMessage';
+import {
+    CHANNEL_ID_FIELD,
+    LOCALE,
+    USER_ID_FIELD,
+} from '@/lib/FireChat/settings';
 import { ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -18,11 +24,9 @@ export default function FireChatChannelRoomFooter() {
         participants,
         files,
         setFiles,
-        sendTextMessage,
         onSendingFiles,
         replyingMessage,
         selectReplyingMessage,
-        scrollToBottom,
     } = useFireChatChannel();
     const [message, setMessage] = useState('');
 
@@ -37,7 +41,7 @@ export default function FireChatChannelRoomFooter() {
     }
 
     return (
-        <div className="border-t border-muted w-full py-2">
+        <div className="w-full  bg-white md:px-5 md:pb-5 md:pt-0 border-t md:border-none p-2">
             <FireChatFileUploaderDialog
                 files={files}
                 setFiles={setFiles}
@@ -46,55 +50,79 @@ export default function FireChatChannelRoomFooter() {
                     setFiles([]);
                 }}
             />
-            {replyingMessage && (
-                <FireChatChannelRoomReplyMessage
-                    replyingMessage={replyingMessage}
-                    participants={participants || []}
-                    isMine={isMine}
-                    selectReplyingMessage={selectReplyingMessage}
-                />
-            )}
-            <FireChatChannelRoomFooterTextarea
-                message={message}
-                setMessage={setMessage}
-                sendTextMessage={sendTextMessage}
-                selectReplyingMessage={selectReplyingMessage}
-                replyingMessage={replyingMessage}
-                scrollToBottom={scrollToBottom}
-            />
-
-            <div className="pl-2 pr-4 flex justify-between items-center">
-                <FireChatChannelRoomFooterFileInput
-                    onSelectFiles={(selectedFiles) => {
-                        setFiles((prevFiles) => [
-                            ...prevFiles,
-                            ...selectedFiles,
-                        ]);
-                    }}
-                />
-                <FireChatChannelRoomFooterTextareaMobile
+            <div className="md:p-3 md:border border-input rounded-lg flex flex-col gap-2 md:gap-0">
+                {replyingMessage && (
+                    <>
+                        <FireChatChannelRoomReplyMessage
+                            replyingMessage={replyingMessage}
+                            participants={participants || []}
+                            isMine={isMine}
+                            selectReplyingMessage={selectReplyingMessage}
+                        />
+                        <Separator className="md:block hidden my-2.5" />
+                    </>
+                )}
+                <FireChatChannelRoomFooterTextarea
                     message={message}
                     setMessage={setMessage}
-                    sendTextMessage={sendTextMessage}
-                    selectReplyingMessage={selectReplyingMessage}
-                    replyingMessage={replyingMessage}
-                    scrollToBottom={scrollToBottom}
-                />
-                <Button
-                    disabled={!message.trim()}
-                    className="md:rounded-md rounded-full w-9 h-9 md:w-fit"
-                    onClick={() => {
-                        scrollToBottom(false, {
-                            immediate: true,
-                        });
-                        sendTextMessage(message, replyingMessage);
+                    // sendTextMessage={sendTextMessage}
+                    onSend={() => {
+                        sendTextMessage(
+                            channel[CHANNEL_ID_FIELD],
+                            me?.[USER_ID_FIELD] || '',
+                            message,
+                            replyingMessage
+                        );
                         setMessage('');
                         selectReplyingMessage?.(undefined);
                     }}
-                >
-                    <p className="md:block hidden">{LOCALE.FOOTER.SEND}</p>
-                    <ArrowUp className="md:hidden block" />
-                </Button>
+                    selectReplyingMessage={selectReplyingMessage}
+                    replyingMessage={replyingMessage}
+                />
+
+                <div className="flex justify-between items-center border rounded-lg md:border-none p-2 md:p-0">
+                    <FireChatChannelRoomFooterFileInput
+                        onSelectFiles={(selectedFiles) => {
+                            setFiles((prevFiles) => [
+                                ...prevFiles,
+                                ...selectedFiles,
+                            ]);
+                        }}
+                    />
+                    <FireChatChannelRoomFooterTextareaMobile
+                        message={message}
+                        setMessage={setMessage}
+                        onSend={() => {
+                            sendTextMessage(
+                                channel[CHANNEL_ID_FIELD],
+                                me?.[USER_ID_FIELD] || '',
+                                message,
+                                replyingMessage
+                            );
+                            setMessage('');
+                            selectReplyingMessage?.(undefined);
+                        }}
+                        replyingMessage={replyingMessage}
+                    />
+                    <Button
+                        disabled={!message.trim()}
+                        variant={'outline'}
+                        className="rounded-full h-9 w-9 p-0"
+                        size={'icon'}
+                        onClick={() => {
+                            sendTextMessage(
+                                channel[CHANNEL_ID_FIELD],
+                                me?.[USER_ID_FIELD] || '',
+                                message,
+                                replyingMessage
+                            );
+                            setMessage('');
+                            selectReplyingMessage?.(undefined);
+                        }}
+                    >
+                        <ArrowUp />
+                    </Button>
+                </div>
             </div>
         </div>
     );

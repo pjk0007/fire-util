@@ -6,7 +6,7 @@ import useFireChatSendingFile from '@/lib/FireChat/hooks/useFireChatSendingFile'
 import { LOCALE } from '@/lib/FireChat/settings';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import { cn } from '@/lib/utils';
-import { Check, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 export default function FireChatSendingFile({
     sendingFile,
@@ -18,6 +18,7 @@ export default function FireChatSendingFile({
 
     const { progress, error, isCompleted, cancelUpload } =
         useFireChatSendingFile({
+            id: sendingFile.id,
             file,
             channelId: sendingFile.channelId,
         });

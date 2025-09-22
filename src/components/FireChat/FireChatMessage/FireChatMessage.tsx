@@ -7,6 +7,8 @@ import {
     ContextMenuItem,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+import { Toggle } from '@/components/ui/toggle';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     FcMessage,
     FcMessageContent,
@@ -23,7 +25,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
-import { CornerDownRight } from 'lucide-react';
+import { Bookmark, CornerDownRight } from 'lucide-react';
 import { ReactNode } from 'react';
 
 export default function FireChatMessage<
@@ -66,22 +68,27 @@ export default function FireChatMessage<
 
     function ActionButtons() {
         return (
-            <div
+            <ToggleGroup
+                type="multiple"
+                value={[]}
                 className={cn(
-                    'h-7 group-hover:visible invisible absolute md:flex md:items-center hidden bottom-0 bg-white/40 rounded-sm transition-all',
+                    'group-hover:visible invisible h-7 absolute md:flex md:items-center hidden bottom-0',
                     {
                         'left-[calc(100%+8px)]': !isMine,
                         'right-[calc(100%+8px)]': isMine,
                     }
                 )}
             >
-                <CornerDownRight
-                    className="w-8 px-2 rounded-lg text-foreground/60 hover:text-foreground"
+                <ToggleGroupItem
+                    value="reply"
                     onClick={() =>
                         selectReplyingMessage?.(message[MESSAGE_ID_FIELD])
                     }
-                />
-            </div>
+                    variant={'outline'}
+                >
+                    <CornerDownRight />
+                </ToggleGroupItem>
+            </ToggleGroup>
         );
     }
 
@@ -107,7 +114,7 @@ export default function FireChatMessage<
             <div
                 data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}
                 id={`message-${message[MESSAGE_ID_FIELD]}`}
-                className={cn('flex group w-full gap-4', {
+                className={cn('flex group w-full gap-3', {
                     'justify-end': isMine,
                     'justify-start': !isMine,
                     'mt-3':
@@ -142,7 +149,7 @@ export default function FireChatMessage<
                                 'flex-row': !isMine,
                             })}
                         >
-                            <p className="text-base text-foreground/80 font-bold">
+                            <p className="text-sm text-foreground font-medium">
                                 {messageUser?.name || LOCALE.UNKNOWN}
                             </p>
                             <p className="text-xs text-muted-foreground">

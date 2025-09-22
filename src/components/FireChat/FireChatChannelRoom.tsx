@@ -31,7 +31,7 @@ export default function FireChatChannelRoom({
                 })}
             >
                 <div
-                    className={cn('flex-1 h-full bg-background', {
+                    className={cn('flex-1 h-full', {
                         'flex flex-col': !!channelId,
                         'items-center justify-center hidden md:flex ':
                             !channelId,

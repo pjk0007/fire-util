@@ -103,6 +103,7 @@ export const LOCALE = {
     },
     FOOTER: {
         INPUT_PLACEHOLDER: '메시지 입력',
+        REPLY_MESSAGE: '답장 쓰기',
         SEND: '전송',
         UPLOAD_FILES: '파일 전송',
 

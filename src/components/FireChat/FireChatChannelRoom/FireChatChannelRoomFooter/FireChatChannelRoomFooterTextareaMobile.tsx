@@ -9,23 +9,13 @@ export default function FireChatChannelRoomFooterTextareaMobile<
 >({
     message,
     setMessage,
-    sendTextMessage,
-    selectReplyingMessage,
+    onSend,
     replyingMessage,
-    scrollToBottom,
 }: {
     message: string;
     setMessage: (msg: string) => void;
-    sendTextMessage: (msg: string, replyingMessage?: M) => Promise<void>;
-    selectReplyingMessage?: (id?: string) => void;
+    onSend: () => void;
     replyingMessage?: M;
-    scrollToBottom: (
-        smooth?: boolean,
-        options?: {
-            afterScroll?: () => void;
-            immediate?: boolean;
-        }
-    ) => void;
 }) {
     useEffect(() => {
         // message가 변경될 때마다 텍스트 영역의 높이를 조정
@@ -37,27 +27,26 @@ export default function FireChatChannelRoomFooterTextareaMobile<
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     return (
-        <div className="relative flex-1 mx-2 md:hidden">
+        <div className="relative flex-1 md:hidden">
             <textarea
                 ref={textareaRef}
                 className={cn(
-                    'bg-muted min-h-9 max-h-32 px-4 py-2 rounded-3xl focus:outline-none border-none w-full flex items-center',
-                    'text-base'
+                    'min-h-9 max-h-32 px-1 py-2 rounded-3xl focus:outline-none border-none w-full flex items-center placeholder:text-muted-foreground',
+                    'text-sm'
                 )}
                 rows={1}
-                placeholder={LOCALE.FOOTER.INPUT_PLACEHOLDER}
+                placeholder={
+                    replyingMessage
+                        ? LOCALE.FOOTER.REPLY_MESSAGE
+                        : LOCALE.FOOTER.INPUT_PLACEHOLDER
+                }
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         if ((e.nativeEvent as any).isComposing) return; // 한글 조합 중이면 무시
                         e.preventDefault();
-                        scrollToBottom(false, {
-                            immediate: true,
-                        });
-                        sendTextMessage(message, replyingMessage);
-                        setMessage('');
-                        selectReplyingMessage?.(undefined);
+                        onSend();
                     }
                 }}
             />

@@ -14,10 +14,8 @@ export default function FireChatChannelRoomFooterFileInput({
     return (
         <>
             <Button
-                variant={isMobile ? 'default' : 'ghost'}
-                className={cn('rounded-full',{
-                    'bg-muted': isMobile,
-                })}
+                variant={'ghost'}
+                className={cn('rounded-full')}
                 size={'icon'}
                 asChild
             >

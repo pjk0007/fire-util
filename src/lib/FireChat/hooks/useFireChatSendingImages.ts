@@ -1,8 +1,7 @@
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { storage } from '@/lib/firebase';
-import sendMessage from '@/lib/FireChat/api/sendMessage';
-import updateLastMessage from '@/lib/FireChat/api/updateLastMessage';
+import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
 import {
     CHANNEL_COLLECTION,
     FcMessage,

@@ -12,11 +12,15 @@ import {
 import getReplyingMessageContent from '@/lib/FireChat/utils/getReplyingMessageContent';
 import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 import { cn } from '@/lib/utils';
+import { CornerDownRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function FireChatMessageText<T extends FcMessageText, U extends FcUser>({
+export default function FireChatMessageText<
+    T extends FcMessageText,
+    U extends FcUser
+>({
     participants,
     content,
     replyingMessage,
@@ -36,15 +40,14 @@ export default function FireChatMessageText<T extends FcMessageText, U extends F
         participants: participants,
     });
     const router = useRouter();
-    
 
     return (
         <div
             className={cn(
-                'flex flex-col py-2 px-3 text-foreground rounded-b-md ',
+                'flex flex-col gap-3 p-5 text-foreground rounded-md max-w-[640px] text-sm',
                 {
-                    'bg-white rounded-tr-md': !isMine,
-                    'bg-primary-foreground  rounded-tl-md': isMine,
+                    'bg-muted': !isMine,
+                    'bg-violet-50': isMine,
                 }
             )}
         >
@@ -52,7 +55,7 @@ export default function FireChatMessageText<T extends FcMessageText, U extends F
                 <Link
                     href={`${router.pathname}#message-${replyingMessage.id}`}
                     className={cn(
-                        'pb-1 max-w-full md:max-w-none break-all border-b mb-1 flex gap-2 items-center cursor-pointer'
+                        'max-w-full md:max-w-none break-all flex gap-2 items-center cursor-pointer'
                     )}
                 >
                     {replyingMessage[MESSAGE_TYPE_FIELD] ===
@@ -65,8 +68,8 @@ export default function FireChatMessageText<T extends FcMessageText, U extends F
                             height={32}
                         />
                     )}
-                    <div className="flex flex-col">
-                        <p className="text-xs text-muted-foreground mb-1 font-bold">
+                    <div className="flex flex-col gap-1">
+                        <p className="text-xs text-muted-foreground">
                             {LOCALE.REPLYING_TO(
                                 isMine
                                     ? LOCALE.ME
@@ -76,7 +79,7 @@ export default function FireChatMessageText<T extends FcMessageText, U extends F
                             )}
                         </p>
                         <div
-                            className="text-sm text-foreground/80 line-clamp-2"
+                            className="text-sm text-muted-foreground line-clamp-1"
                             dangerouslySetInnerHTML={{
                                 __html: sanitizeHtml(
                                     replyingMessageContent.replace('\\n', '\n')
@@ -86,16 +89,22 @@ export default function FireChatMessageText<T extends FcMessageText, U extends F
                     </div>
                 </Link>
             )}
-            <div
-                className={cn(
-                    'whitespace-pre-line break-all max-w-full md:max-w-none'
-                )}
-                dangerouslySetInnerHTML={{
-                    __html: sanitizeHtml(
-                        content[MESSAGE_CONTENT_TEXT_FIELD].replace('\\n', '\n')
-                    ),
-                }}
-            />
+            <div className={cn('flex gap-2.5')}>
+                {replyingMessage && <CornerDownRight size={16} className='min-w-4'/>}
+                <div
+                    className={cn(
+                        'whitespace-pre-line break-all max-w-full md:max-w-none text-foreground text-sm'
+                    )}
+                    dangerouslySetInnerHTML={{
+                        __html: sanitizeHtml(
+                            content[MESSAGE_CONTENT_TEXT_FIELD].replace(
+                                '\\n',
+                                '\n'
+                            )
+                        ),
+                    }}
+                />
+            </div>
         </div>
     );
 }

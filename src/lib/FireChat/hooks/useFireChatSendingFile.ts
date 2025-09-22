@@ -1,8 +1,8 @@
 import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { storage } from '@/lib/firebase';
-import sendMessage from '@/lib/FireChat/api/sendMessage';
-import updateLastMessage from '@/lib/FireChat/api/updateLastMessage';
+import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
+// import updateLastMessage from '@/lib/FireChat/api/updateLastMessage';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 import {
     CHANNEL_COLLECTION,
@@ -30,9 +30,11 @@ import {
 import { useEffect, useRef, useState } from 'react';
 
 export default function useFireChatSendingFile({
+    id,
     channelId,
     file,
 }: {
+    id: string;
     channelId: string;
     file: File;
 }) {
@@ -49,13 +51,12 @@ export default function useFireChatSendingFile({
         setProgress(0);
 
         const now = Timestamp.now();
-        const msgId = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
         const metadata = {
             contentType: file.type,
         };
         const storageRef = ref(
             storage,
-            `${CHANNEL_COLLECTION}/${channelId}/${MESSAGE_COLLECTION}/${msgId}/${file.name}`
+            `${CHANNEL_COLLECTION}/${channelId}/${MESSAGE_COLLECTION}/${id}/${file.name}`
         );
         const uploadTask = uploadBytesResumable(storageRef, file, metadata);
         uploadTaskRef.current = uploadTask;
@@ -73,7 +74,7 @@ export default function useFireChatSendingFile({
             async () => {
                 const url = await getDownloadURL(uploadTask.snapshot.ref);
                 const msg: FcMessage<FcMessageFile> = {
-                    [MESSAGE_ID_FIELD]: msgId,
+                    [MESSAGE_ID_FIELD]: id,
                     [MESSAGE_USER_ID_FIELD]: me?.id || '',
                     [MESSAGE_CREATED_AT_FIELD]: Timestamp.now(),
                     [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_FILE,

@@ -49,7 +49,7 @@ interface FireChatChannelContextValue<
     isLoading: boolean;
     isScrolling?: boolean;
     scrollDate?: string;
-    sendTextMessage: (message: string, replyingMessage?: any) => Promise<void>;
+    // sendTextMessage: (message: string, replyingMessage?: any) => Promise<void>;
     onSendingFiles: (files: File[]) => void;
     sendingFiles: SendingFile[];
     setSendingFiles: Dispatch<SetStateAction<SendingFile[]>>;
@@ -86,7 +86,7 @@ const FireChatChannelContext = createContext<
     imageMessages: [],
     isScrolling: false,
     scrollDate: undefined,
-    sendTextMessage: async () => {},
+    // sendTextMessage: async () => {},
     replyingMessage: undefined,
     selectReplyingMessage: () => {},
     resetChannel: () => {},
@@ -141,7 +141,7 @@ export function FireChatChannelProvider<
     const {
         files,
         setFiles,
-        sendTextMessage,
+        // sendTextMessage,
         onSendingFiles,
         sendingFiles,
         setSendingFiles,
@@ -151,7 +151,16 @@ export function FireChatChannelProvider<
     });
 
     useEffect(() => {
+        if (!channelId) {
+            setChannel(null);
+            setParticipants([]);
+            setFiles([]);
+            setSendingFiles([]);
+            setReplyingMessage(undefined);
+            return;
+        }
         setIsLoading(true);
+        setSendingFiles([]);
         getChannelById({ channelId })
             .then((ch) => {
                 setChannel(ch as C | null);
@@ -164,19 +173,16 @@ export function FireChatChannelProvider<
                     setParticipants(users as U[]);
                 });
             })
+            .then(() => {
+                scrollToBottom(false, {
+                    afterScroll: () => {
+                        setIsLoading(false);
+                    },
+                });
+            })
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [channelId]);
-
-    useEffect(() => {
-        if (!channelId) return;
-        setIsLoading(true);
-        scrollToBottom(false, {
-            afterScroll: () => {
-                setIsLoading(false);
-            },
-        });
     }, [channelId]);
 
     useEffect(() => {
@@ -237,7 +243,7 @@ export function FireChatChannelProvider<
         isScrolling,
         scrollDate,
         isLoading: isLoading || isMessagesLoading,
-        sendTextMessage,
+        // sendTextMessage,
         onSendingFiles,
         sendingFiles,
         setSendingFiles,

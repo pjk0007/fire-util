@@ -20,7 +20,7 @@ export default function createSendingFiles(channelId: string, files: File[]) {
     const sendingFiles: SendingFile[] = [];
     if (smallImages.length > 0) {
         const now = Timestamp.now();
-        const id = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
+        const id = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}_si`;
         sendingFiles.push({
             channelId,
             id,
@@ -29,9 +29,9 @@ export default function createSendingFiles(channelId: string, files: File[]) {
         });
     }
     if (largeImages.length > 0) {
-        largeImages.forEach((file) => {
+        largeImages.forEach((file, i) => {
             const now = Timestamp.now();
-            const id = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
+            const id = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}_li${i}`;
             sendingFiles.push({
                 channelId,
                 id,
@@ -41,9 +41,9 @@ export default function createSendingFiles(channelId: string, files: File[]) {
         });
     }
     if (noImages.length > 0) {
-        noImages.forEach((file) => {
+        noImages.forEach((file, i) => {
             const now = Timestamp.now();
-            const id = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
+            const id = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}_ni${i}`;
             sendingFiles.push({
                 channelId,
                 id,

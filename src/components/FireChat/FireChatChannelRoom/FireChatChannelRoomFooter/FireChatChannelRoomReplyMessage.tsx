@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
     FcMessage,
     FcMessageContent,
@@ -47,11 +48,11 @@ export default function FireChatChannelRoomReplyMessage({
     }, [selectReplyingMessage]);
 
     return (
-        <div className="md:p-2 mx-4 mb-2 rounded md:border-b flex justify-between">
+        <div className="rounded flex justify-between md:px-0 px-1">
             <div className="flex gap-2 items-center">
                 {replyingMessage[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE && (
                     <Image
-                        className="w-8 h-8 text-primary"
+                        className="w-8 h-8 text-muted-foreground"
                         src={replyingMessageThumbnail}
                         alt={LOCALE.IMAGE}
                         width={32}
@@ -59,7 +60,7 @@ export default function FireChatChannelRoomReplyMessage({
                     />
                 )}
                 <div className="flex flex-col gap-1">
-                    <p className="text-sm text-primary font-bold">
+                    <p className="text-xs text-muted-foreground">
                         {LOCALE.REPLYING_TO(
                             isMine
                                 ? LOCALE.ME
@@ -69,7 +70,7 @@ export default function FireChatChannelRoomReplyMessage({
                         )}
                     </p>
                     <div
-                        className="text-sm text-foreground/80 line-clamp-2 whitespace-pre-line break-all"
+                        className="text-sm text-foreground line-clamp-1 whitespace-pre-line break-all"
                         dangerouslySetInnerHTML={{
                             __html: sanitizeHtml(
                                 replyingMessageContent.replace('\\n', '\n')
@@ -81,6 +82,7 @@ export default function FireChatChannelRoomReplyMessage({
             <Button
                 variant="ghost"
                 size="icon"
+                className="text-foreground"
                 onClick={() => {
                     selectReplyingMessage?.(undefined);
                 }}

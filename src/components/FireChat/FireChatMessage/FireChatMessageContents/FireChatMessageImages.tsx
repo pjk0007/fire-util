@@ -55,7 +55,7 @@ export default function FireChatMessageImages<
                                 ] ?? img[MESSAGE_CONTENT_URL_FIELD]
                             }
                             className={cn(
-                                'rounded-xs object-cover object-top',
+                                'border border-muted rounded-xs object-cover object-top',
                                 {
                                     'h-[320px] w-full min-w-[200px] cursor-pointer':
                                         colSpan === 'col-span-6',

@@ -53,6 +53,9 @@ export default function useListMessages<
         }
     }
 
+    console.log('channelId', channelId  );
+    
+
     useEffect(() => {
         if (!channelId) {
             setImageMessages([]);
