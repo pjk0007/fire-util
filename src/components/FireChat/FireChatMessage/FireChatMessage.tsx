@@ -37,13 +37,13 @@ export default function FireChatMessage<
     beforeMessage,
     participants,
     me,
-    selectReplyingMessage,
+    setReplyingMessage,
 }: {
     message: M;
     beforeMessage?: M;
     participants: U[];
     me?: U | null;
-    selectReplyingMessage?: (messageId: string) => void;
+    setReplyingMessage?: (message: M) => void;
 }) {
     // const participants = selectedChannel?.participants || [];
     const messageUser = participants.find(
@@ -81,9 +81,7 @@ export default function FireChatMessage<
             >
                 <ToggleGroupItem
                     value="reply"
-                    onClick={() =>
-                        selectReplyingMessage?.(message[MESSAGE_ID_FIELD])
-                    }
+                    onClick={() => setReplyingMessage?.(message)}
                     variant={'outline'}
                 >
                     <CornerDownRight />
@@ -98,9 +96,7 @@ export default function FireChatMessage<
                 <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
                 <ContextMenuContent>
                     <ContextMenuItem
-                        onSelect={() =>
-                            selectReplyingMessage?.(message[MESSAGE_ID_FIELD])
-                        }
+                        onSelect={() => setReplyingMessage?.(message)}
                     >
                         {LOCALE.REPLY}
                     </ContextMenuItem>

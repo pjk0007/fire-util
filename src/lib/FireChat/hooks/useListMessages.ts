@@ -32,8 +32,6 @@ export default function useListMessages<
 >({ channelId }: { channelId?: string }) {
     const { user } = useAuth();
     const [messages, setMessages] = useState<M[]>([]);
-    const [imageMessages, setImageMessages] = useState<M[]>([]);
-    const [fileMessages, setFileMessages] = useState<M[]>([]);
     const [lastVisible, setLastVisible] = useState<M | null>(null);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -53,26 +51,8 @@ export default function useListMessages<
         }
     }
 
-    console.log('channelId', channelId  );
-    
-
     useEffect(() => {
-        if (!channelId) {
-            setImageMessages([]);
-            setFileMessages([]);
-            return;
-        }
-
-        getImageMessages<M, T>(channelId).then((imgs) => {
-            setImageMessages(imgs);
-        });
-
-        getFileMessages<M, T>(channelId).then((files) => {
-            setFileMessages(files);
-        });
-    }, [channelId]);
-
-    useEffect(() => {
+        console.log('channelId', channelId);
         if (!channelId) {
             setMessages([]);
             return;
@@ -109,17 +89,7 @@ export default function useListMessages<
                             if (change.type === 'added') {
                                 const msg = change.doc.data() as M;
                                 setMessages((prev) => [...prev, msg]);
-                                if (
-                                    msg[MESSAGE_TYPE_FIELD] ===
-                                    MESSAGE_TYPE_IMAGE
-                                ) {
-                                    setImageMessages((prev) => [...prev, msg]);
-                                } else if (
-                                    msg[MESSAGE_TYPE_FIELD] ===
-                                    MESSAGE_TYPE_FILE
-                                ) {
-                                    setFileMessages((prev) => [...prev, msg]);
-                                }
+
                                 markMessageAsRead(
                                     channelId,
                                     user?.[USER_ID_FIELD] || ''
@@ -140,8 +110,6 @@ export default function useListMessages<
 
     return {
         messages,
-        imageMessages,
-        fileMessages,
         lastVisible,
         hasMore,
         loadMoreMessages,

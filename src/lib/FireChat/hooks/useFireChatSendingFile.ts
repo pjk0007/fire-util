@@ -1,4 +1,4 @@
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useFireChat } from '@/components/provider/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';

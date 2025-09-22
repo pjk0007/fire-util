@@ -1,38 +1,34 @@
-import { useFireChatChannel } from '@/components/FireChat/FireChatChannelProvider';
+import { useFireChatChannel } from '@/components/provider/FireChatChannelProvider';
 import FireChatChannelRoomFooterFileInput from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterFileInput';
 import FireChatChannelRoomFooterTextarea from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextarea';
 import FireChatChannelRoomFooterTextareaMobile from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextareaMobile';
 import FireChatChannelRoomReplyMessage from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomReplyMessage';
 import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/FireChatFileUploaderDialog';
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useFireChat } from '@/components/provider/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { sendTextMessage } from '@/lib/FireChat/api/sendMessage';
+import useFireChatChannelRoomFooter from '@/lib/FireChat/hooks/useFireChatChannelRoomFooter';
 import {
     CHANNEL_ID_FIELD,
     LOCALE,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { ArrowUp } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 export default function FireChatChannelRoomFooter() {
     const { user: me } = useAuth();
+
     const {
         channel,
         participants,
-        files,
-        setFiles,
         onSendingFiles,
         replyingMessage,
-        selectReplyingMessage,
+        setReplyingMessage,
     } = useFireChatChannel();
-    const [message, setMessage] = useState('');
-
-    useEffect(() => {
-        setMessage('');
-    }, [channel]);
+    const { message, setMessage, files, setFiles } =
+        useFireChatChannelRoomFooter(channel?.[CHANNEL_ID_FIELD]);
 
     const isMine = replyingMessage?.userId === me?.id;
 
@@ -57,7 +53,7 @@ export default function FireChatChannelRoomFooter() {
                             replyingMessage={replyingMessage}
                             participants={participants || []}
                             isMine={isMine}
-                            selectReplyingMessage={selectReplyingMessage}
+                            setReplyingMessage={setReplyingMessage}
                         />
                         <Separator className="md:block hidden my-2.5" />
                     </>
@@ -74,9 +70,8 @@ export default function FireChatChannelRoomFooter() {
                             replyingMessage
                         );
                         setMessage('');
-                        selectReplyingMessage?.(undefined);
+                        if (replyingMessage) setReplyingMessage?.(undefined);
                     }}
-                    selectReplyingMessage={selectReplyingMessage}
                     replyingMessage={replyingMessage}
                 />
 
@@ -100,7 +95,8 @@ export default function FireChatChannelRoomFooter() {
                                 replyingMessage
                             );
                             setMessage('');
-                            selectReplyingMessage?.(undefined);
+                            if (replyingMessage)
+                                setReplyingMessage?.(undefined);
                         }}
                         replyingMessage={replyingMessage}
                     />
@@ -117,7 +113,7 @@ export default function FireChatChannelRoomFooter() {
                                 replyingMessage
                             );
                             setMessage('');
-                            selectReplyingMessage?.(undefined);
+                            if (replyingMessage)setReplyingMessage?.(undefined);
                         }}
                     >
                         <ArrowUp />

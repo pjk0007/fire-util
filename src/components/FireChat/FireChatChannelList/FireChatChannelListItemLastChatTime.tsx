@@ -15,11 +15,11 @@ export default function FireChatChannelListItemLastChatTime<
     C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channel }: { channel: C }) {
+>({ channel }: { channel?: C }) {
     return (
         <time className="text-xs text-muted-foreground whitespace-nowrap">
             {formatTimeString(
-                channel[CHANNEL_LAST_MESSAGE_FIELD]?.[
+                channel?.[CHANNEL_LAST_MESSAGE_FIELD]?.[
                     MESSAGE_CREATED_AT_FIELD
                 ] as Timestamp
             )}

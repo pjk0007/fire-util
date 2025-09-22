@@ -14,16 +14,19 @@ import { X } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect } from 'react';
 
-export default function FireChatChannelRoomReplyMessage({
+export default function FireChatChannelRoomReplyMessage<
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>({
     replyingMessage,
     participants,
     isMine,
-    selectReplyingMessage,
+    setReplyingMessage,
 }: {
-    replyingMessage: FcMessage<FcMessageContent>;
+    replyingMessage: M;
     participants: FcUser[];
     isMine: boolean;
-    selectReplyingMessage?: (id?: string) => void;
+    setReplyingMessage?: (msg?: M) => void;
 }) {
     const {
         replyingMessageContent,
@@ -38,14 +41,14 @@ export default function FireChatChannelRoomReplyMessage({
     useEffect(() => {
         function onKeyDown(e: KeyboardEvent) {
             if (e.key === 'Escape') {
-                selectReplyingMessage?.(undefined);
+                if (replyingMessage) setReplyingMessage?.(undefined);
             }
         }
         window.addEventListener('keydown', onKeyDown);
         return () => {
             window.removeEventListener('keydown', onKeyDown);
         };
-    }, [selectReplyingMessage]);
+    }, []);
 
     return (
         <div className="rounded flex justify-between md:px-0 px-1">
@@ -84,7 +87,7 @@ export default function FireChatChannelRoomReplyMessage({
                 size="icon"
                 className="text-foreground"
                 onClick={() => {
-                    selectReplyingMessage?.(undefined);
+                    if (replyingMessage) setReplyingMessage?.(undefined);
                 }}
             >
                 <X />

@@ -57,12 +57,10 @@ function FireChatChannelRoomSidebarParticipants<
     participants,
     channel,
     me,
-    reFetchChannelParticipants,
 }: {
     participants: U[];
-    channel: C | null;
+    channel?: C;
     me?: U | null;
-    reFetchChannelParticipants: () => void;
 }) {
     // FireChat 컨텍스트에서 현재 선택된 채널 정보 가져오기
     // 참여자 목록을 보여줌
@@ -85,7 +83,7 @@ function FireChatChannelRoomSidebarParticipants<
                             duration: 3000,
                         }
                     );
-                    reFetchChannelParticipants();
+                    // reFetchChannelParticipants();
                 }
             );
         }
@@ -101,7 +99,7 @@ function FireChatChannelRoomSidebarParticipants<
             </div>
             {channel?.[CHANNEL_HOST_ID_FIELD] === me?.[USER_ID_FIELD] && (
                 <InviteParticipantsButton
-                    reFetchChannelParticipants={reFetchChannelParticipants}
+                    // reFetchChannelParticipants={reFetchChannelParticipants}
                     channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                 />
             )}
@@ -158,7 +156,7 @@ function FireChatChannelRoomSidebarParticipants<
                                 me?.[USER_ID_FIELD] &&
                                 user[USER_ID_FIELD] !== me?.[USER_ID_FIELD] && (
                                     <AlertDialog>
-                                        <AlertDialogTrigger>
+                                        <AlertDialogTrigger asChild>
                                             <Button
                                                 size="sm"
                                                 variant="destructive"
@@ -220,10 +218,8 @@ function FireChatChannelRoomSidebarParticipants<
 
 function InviteParticipantsButton<U extends FcUser>({
     channelId,
-    reFetchChannelParticipants,
 }: {
     channelId: string;
-    reFetchChannelParticipants: () => void;
 }) {
     // 초대가능한 유저 목록 (현재는 구현하지 않음)
     const { user: me } = useAuth();
@@ -245,7 +241,7 @@ function InviteParticipantsButton<U extends FcUser>({
     function handleInviteUser(userId: string) {
         setIsOpen(false);
         inviteUser(channelId, userId).then(() => {
-            reFetchChannelParticipants();
+            // reFetchChannelParticipants();
             toast.success(LOCALE.SIDEBAR.USER_INVITED, {
                 duration: 3000,
             });

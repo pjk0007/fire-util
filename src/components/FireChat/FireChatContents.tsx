@@ -1,4 +1,4 @@
-import { useFireChatChannel } from '@/components/FireChat/FireChatChannelProvider';
+import { useFireChatChannel } from '@/components/provider/FireChatChannelProvider';
 import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
+    CHANNEL_ID_FIELD,
     CHANNEL_NAME_FIELD,
     FcMessage,
     FcMessageFile,
@@ -24,13 +25,18 @@ import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
 import { Download, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
+import useListMessages from '@/lib/FireChat/hooks/useListMessages';
+import useListFiles from '@/lib/FireChat/hooks/useListFiles';
 
 export default function FireChatContents({
     defatultTab = 'image',
 }: {
     defatultTab?: 'image' | 'file';
 }) {
-    const { fileMessages, imageMessages, channel } = useFireChatChannel();
+    const { channel } = useFireChatChannel();
+    const { imageMessages, fileMessages } = useListFiles({
+        channelId: channel?.[CHANNEL_ID_FIELD],
+    });
     const reversedImageMessages = [...imageMessages].reverse();
     const reversedFileMessages = [...fileMessages].reverse();
     return (

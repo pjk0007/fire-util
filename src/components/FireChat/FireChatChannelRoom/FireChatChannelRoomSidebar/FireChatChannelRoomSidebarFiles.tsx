@@ -1,4 +1,4 @@
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useFireChat } from '@/components/provider/FireChatProvider';
 import { Card } from '@/components/ui/card';
 import {
     CHANNEL_COLLECTION,
@@ -90,7 +90,7 @@ function FireChatChannelRoomSidebarFiles<
                         const top =
                             window.screenY + (window.outerHeight - height) / 2;
                         window.open(
-                            `windows/${CHANNEL_COLLECTION}/${channelId}?tab=file`,
+                            `windows/${CHANNEL_COLLECTION}/${channelId}/contents?tab=file`,
                             '_blank',
                             `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`,
                         );

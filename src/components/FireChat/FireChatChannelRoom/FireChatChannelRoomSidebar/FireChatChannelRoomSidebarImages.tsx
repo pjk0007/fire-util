@@ -1,5 +1,5 @@
 import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useFireChat } from '@/components/provider/FireChatProvider';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -121,7 +121,7 @@ function FireChatChannelRoomSidebarImages<
                         const top =
                             window.screenY + (window.outerHeight - height) / 2;
                         window.open(
-                            `windows/${CHANNEL_COLLECTION}/${channelId}?tab=image`,
+                            `windows/${CHANNEL_COLLECTION}/${channelId}/contents?tab=image`,
                             '_blank',
                             `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`
                         );

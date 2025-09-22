@@ -1,4 +1,4 @@
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useFireChat } from '@/components/provider/FireChatProvider';
 import {
     FcMessage,
     FcMessageImage,

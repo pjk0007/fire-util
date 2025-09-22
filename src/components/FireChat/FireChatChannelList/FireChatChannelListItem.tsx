@@ -2,8 +2,9 @@ import FireChatChannelListItemAvatar from '@/components/FireChat/FireChatChannel
 import FireChatChannelListItemLastChatContent from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemLastChatContent';
 import FireChatChannelListItemLastChatTime from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemLastChatTime';
 import FireChatChannelListItemTitle from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemTitle';
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useFireChat } from '@/components/provider/FireChatProvider';
 import { Badge } from '@/components/ui/badge';
+import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 import useFireChatUnreadCount from '@/lib/FireChat/hooks/useFireChatUnreadCount';
 import {
     CHANNEL_ID_FIELD,
@@ -23,10 +24,10 @@ interface FireChatChannelListItemProps<
     M extends FcMessage<T>,
     T extends FcMessageContent
 > {
-    channel: C;
-    participants: U[];
-    selectedChannel?: C | null;
-    selectChannel: (channelId: string) => void;
+    // channel: C;
+    channelId: string;
+    isSelected?: boolean;
+    selectChannel: (channelId?: string) => void;
     me?: U | null;
 }
 
@@ -36,31 +37,36 @@ function FireChatChannelListItem<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({
-    channel,
-    participants,
-    selectedChannel,
+    channelId,
+    isSelected,
     selectChannel,
     me,
 }: FireChatChannelListItemProps<C, U, M, T>) {
-    const unreadCount = useFireChatUnreadCount<C, M, T>(
-        channel,
-        me?.[USER_ID_FIELD]
-    );
+    const { channel, participants, unreadCount } = useFireChatChannelInfo<
+        C,
+        M,
+        T,
+        U
+    >({
+        channelId,
+        userId: me?.[USER_ID_FIELD],
+    });
+    // const unreadCount = useFireChatUnreadCount<C, M, T>({
+    //     channel,
+    //     userId: me?.[USER_ID_FIELD],
+    // });
 
-    console.log(channel[CHANNEL_NAME_FIELD], unreadCount);
+    console.log(channel?.[CHANNEL_NAME_FIELD], unreadCount);
 
     return (
         <div
             className={cn('relative flex py-2 px-4 gap-4 items-start', {
-                'bg-primary-foreground':
-                    selectedChannel?.[CHANNEL_ID_FIELD] ===
-                    channel[CHANNEL_ID_FIELD],
+                'bg-primary-foreground': isSelected,
 
                 'hover:bg-accent hover:text-accent-foreground cursor-pointer':
-                    selectedChannel?.[CHANNEL_ID_FIELD] !==
-                    channel[CHANNEL_ID_FIELD],
+                    !isSelected,
             })}
-            onClick={() => selectChannel?.(channel[CHANNEL_ID_FIELD])}
+            onClick={() => selectChannel?.(channel?.[CHANNEL_ID_FIELD])}
         >
             <div className="w-14 h-14 relative">
                 <FireChatChannelListItemAvatar
@@ -74,10 +80,7 @@ function FireChatChannelListItem<
                     <FireChatChannelListItemTitle
                         channel={channel}
                         participants={participants}
-                        isSelected={
-                            selectedChannel?.[CHANNEL_ID_FIELD] ===
-                            channel[CHANNEL_ID_FIELD]
-                        }
+                        isSelected={isSelected}
                     />
                     <FireChatChannelListItemLastChatTime channel={channel} />
                 </div>

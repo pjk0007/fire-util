@@ -1,4 +1,4 @@
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
+import { useFireChat } from '@/components/provider/FireChatProvider';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';

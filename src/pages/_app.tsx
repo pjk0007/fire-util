@@ -1,4 +1,4 @@
-import { FireChatProvider } from '@/components/FireChat/FireChatProvider';
+import { FireChatProvider } from '@/components/provider/FireChatProvider';
 import { AuthProvider } from '@/components/provider/AuthProvider';
 import { auth } from '@/lib/firebase';
 import '@/styles/globals.css';

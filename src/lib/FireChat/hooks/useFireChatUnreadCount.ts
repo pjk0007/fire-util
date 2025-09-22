@@ -24,10 +24,14 @@ export default function useFireChatUnreadCount<
     C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent
->(channel: C, userId: string | undefined) {
+>({ channel, userId }: { channel?: C; userId?: string }) {
     const [unreadCount, setUnreadCount] = useState(0);
 
     useEffect(() => {
+        if (!channel || !userId) {
+            setUnreadCount(0);
+            return;
+        }
         const lastSeen = userId
             ? channel[CHANNEL_LAST_SEEN_FIELD]?.[userId] ??
               Timestamp.fromMillis(0)

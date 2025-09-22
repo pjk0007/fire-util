@@ -1,4 +1,4 @@
-import { useFireChatChannel } from '@/components/FireChat/FireChatChannelProvider';
+import { useFireChatChannel } from '@/components/provider/FireChatChannelProvider';
 import FireChatMessage from '@/components/FireChat/FireChatMessage/FireChatMessage';
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import FireChatSending from '@/components/FireChat/FireChatMessage/FireChatSending';
@@ -19,23 +19,53 @@ import {
 } from '@/lib/FireChat/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { ArrowDown } from 'lucide-react';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import useListMessages from '@/lib/FireChat/hooks/useListMessages';
+import useScroll from '@/lib/FireChat/hooks/useScroll';
 
 export default function FireChatChannelRoomBody() {
     const { user: me } = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
+
     const {
-        channel,
-        participants,
-        messages,
         scrollAreaRef,
         isBottom,
         scrollToBottom,
-        isLoading,
+        isTop,
+        getScrollState,
+        restoreScrollState,
         isScrolling,
         scrollDate,
-        sendingFiles,
-        selectReplyingMessage,
-    } = useFireChatChannel();
+    } = useScroll();
+    const { channel, participants, sendingFiles, setReplyingMessage } =
+        useFireChatChannel();
+
+    const { messages, hasMore, loadMoreMessages } = useListMessages({
+        channelId: channel?.[CHANNEL_ID_FIELD],
+    });
+
+    useEffect(() => {
+        if (hasMore && isTop && !isLoading) {
+            const scrollState = getScrollState();
+            setIsLoading(true);
+            loadMoreMessages()
+                .then(() => {
+                    setTimeout(() => {
+                        restoreScrollState(scrollState);
+                    }, 1);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+    }, [hasMore, isTop]);
+
+    // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
+    useEffect(() => {
+        if (isBottom) {
+            scrollToBottom(false);
+        }
+    }, [messages, sendingFiles]);
 
     if (!channel) {
         return null;
@@ -65,7 +95,7 @@ export default function FireChatChannelRoomBody() {
                                 currentDate.toDate().toDateString()
                         ) {
                             return (
-                                <Fragment key={index}>
+                                <Fragment key={msg[MESSAGE_ID_FIELD]}>
                                     <FireChatMessageSystem
                                         message={
                                             {
@@ -94,9 +124,7 @@ export default function FireChatChannelRoomBody() {
                                         message={msg}
                                         participants={participants || []}
                                         me={me}
-                                        selectReplyingMessage={
-                                            selectReplyingMessage
-                                        }
+                                        setReplyingMessage={setReplyingMessage}
                                     />
                                 </Fragment>
                             );
@@ -110,7 +138,7 @@ export default function FireChatChannelRoomBody() {
                                 }
                                 participants={participants || []}
                                 me={me}
-                                selectReplyingMessage={selectReplyingMessage}
+                                setReplyingMessage={setReplyingMessage}
                             />
                         );
                     })}

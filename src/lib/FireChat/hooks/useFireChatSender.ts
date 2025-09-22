@@ -32,38 +32,10 @@ export interface SendingFile {
 
 export default function useFireChatSender<
     C extends FcChannel<M, T>,
-    U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channel, user }: { channel: C | null; user?: U | null }) {
-    const [files, setFiles] = useState<File[]>([]);
+>({ channel }: { channel?: C }) {
     const [sendingFiles, setSendingFiles] = useState<SendingFile[]>([]);
-
-    // async function sendTextMessage<M extends FcMessage<FcMessageText>>(
-    //     message: string,
-    //     replyingMessage?: M
-    // ) {
-    //     if (!message.trim() || !channel) return;
-
-    //     const now = Timestamp.now();
-    //     const msg = {
-    //         [MESSAGE_ID_FIELD]: `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`,
-    //         [MESSAGE_USER_ID_FIELD]: user?.[USER_ID_FIELD] || '',
-    //         [MESSAGE_CREATED_AT_FIELD]: now,
-    //         [MESSAGE_TYPE_FIELD]: 'text',
-    //         [MESSAGE_CONTENTS_FIELD]: [
-    //             {
-    //                 [MESSAGE_TYPE_FIELD]: 'text',
-    //                 [MESSAGE_CONTENT_TEXT_FIELD]: message,
-    //             },
-    //         ],
-    //         [MESSAGE_REPLY_FIELD]: replyingMessage ?? null,
-    //     } as M;
-    //     if (channel) {
-    //         await sendMessage(channel[CHANNEL_ID_FIELD], msg);
-    //         await updateLastMessage(channel[CHANNEL_ID_FIELD], msg);
-    //     }
-    // }
 
     function onSendingFiles(files: File[]) {
         if (!channel) return;
@@ -77,9 +49,6 @@ export default function useFireChatSender<
     }
 
     return {
-        files,
-        setFiles,
-        // sendTextMessage,
         onSendingFiles,
         sendingFiles,
         setSendingFiles,

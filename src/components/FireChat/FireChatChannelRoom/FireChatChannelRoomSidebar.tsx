@@ -1,22 +1,21 @@
-import { useFireChatChannel } from '@/components/FireChat/FireChatChannelProvider';
+import { useFireChatChannel } from '@/components/provider/FireChatChannelProvider';
 import FireChatChannelRoomSidebarFiles from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarFiles';
 import FireChatChannelRoomSidebarImages from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarImages';
 import FireChatChannelRoomSidebarParticipants from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarParticipants';
-import { useFireChat } from '@/components/FireChat/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sidebar } from '@/components/ui/sidebar';
 import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
+import useListFiles from '@/lib/FireChat/hooks/useListFiles';
 
 export default function FireChatChannelRoomSidebar() {
     const { user: me } = useAuth();
-    const {
-        imageMessages,
-        fileMessages,
-        channel,
-        participants,
-        reFetchChannelParticipants,
-    } = useFireChatChannel();
+    const { channel, participants } =
+        useFireChatChannel();
+
+    const { imageMessages, fileMessages } = useListFiles({
+        channelId: channel?.[CHANNEL_ID_FIELD],
+    });
 
     return (
         <Sidebar side="right">
@@ -35,7 +34,6 @@ export default function FireChatChannelRoomSidebar() {
                         participants={participants || []}
                         channel={channel}
                         me={me}
-                        reFetchChannelParticipants={reFetchChannelParticipants}
                     />
                 </div>
             </ScrollArea>

@@ -24,8 +24,8 @@ export default function FireChatChannelListItemLastChatContent<
     C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channel }: { channel: C }) {
-    const lastMessage = channel[CHANNEL_LAST_MESSAGE_FIELD];
+>({ channel }: { channel?: C }) {
+    const lastMessage = channel?.[CHANNEL_LAST_MESSAGE_FIELD];
     const contents = lastMessage?.[MESSAGE_CONTENTS_FIELD]?.[0];
 
     if (!lastMessage || !contents) {

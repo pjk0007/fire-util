@@ -9,13 +9,11 @@ export default function FireChatChannelRoomFooterTextarea<
     message,
     setMessage,
     onSend,
-    selectReplyingMessage,
     replyingMessage,
 }: {
     message: string;
     setMessage: (msg: string) => void;
     onSend: () => void;
-    selectReplyingMessage?: (id?: string) => void;
     replyingMessage?: M;
 }) {
     return (

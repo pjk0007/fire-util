@@ -1,4 +1,4 @@
-import { FireChatChannelProvider } from '@/components/FireChat/FireChatChannelProvider';
+import { FireChatChannelProvider } from '@/components/provider/FireChatChannelProvider';
 import FireChatChannelRoomBody from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomBody';
 import FireChatChannelRoomFooter from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter';
 import FireChatChannelRoomHeader from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomHeader';
