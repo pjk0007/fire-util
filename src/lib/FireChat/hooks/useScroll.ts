@@ -49,7 +49,7 @@ export default function useScroll() {
                 clearTimeout(scrollTimeoutRef.current);
             }
         };
-    }, [scrollAreaRef.current]);
+    }, []);
 
     // 1. 현재 스크롤 상태 저장
     function getScrollState() {

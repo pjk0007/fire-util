@@ -20,7 +20,7 @@ import { LOCALE } from '@/lib/FireChat/settings';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { MoreHorizontal, MoreVertical } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 
 export default function FireChatFileUploaderDialog({
     files,
@@ -56,6 +56,7 @@ export default function FireChatFileUploaderDialog({
                             >
                                 {file.type.startsWith('image/') ? (
                                     <img
+                                        alt={file.name}
                                         src={URL.createObjectURL(file)}
                                         className="w-12 h-12 object-cover rounded-md"
                                     />
@@ -107,9 +108,7 @@ export default function FireChatFileUploaderDialog({
 
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button variant="outline">
-                            {LOCALE.CANCEL}
-                        </Button>
+                        <Button variant="outline">{LOCALE.CANCEL}</Button>
                     </DialogClose>
                     <Button onClick={onClickUpload}>
                         {LOCALE.FOOTER.UPLOAD_FILES}

@@ -3,7 +3,7 @@ import {
     CHANNEL_COLLECTION,
     CHANNEL_PARTICIPANTS_FIELD,
 } from '@/lib/FireChat/settings';
-import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
 
 export default async function removeUser(
     channelId: string,

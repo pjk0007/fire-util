@@ -1,11 +1,8 @@
 import {
     CHANNEL_LAST_MESSAGE_FIELD,
     FcChannel,
-    FcChannelParticipants,
     FcMessage,
     FcMessageContent,
-    FcMessageType,
-    FcUser,
     MESSAGE_CREATED_AT_FIELD,
 } from '@/lib/FireChat/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';

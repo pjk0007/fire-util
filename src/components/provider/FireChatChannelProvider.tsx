@@ -1,14 +1,9 @@
 import { useAuth } from '@/components/provider/AuthProvider';
-import getChannelById from '@/lib/FireChat/api/getChannelById';
-import getUsersById from '@/lib/FireChat/api/getUsersById';
 import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 import useFireChatSender, {
     SendingFile,
 } from '@/lib/FireChat/hooks/useFireChatSender';
-import useListMessages from '@/lib/FireChat/hooks/useListMessages';
-import useScroll from '@/lib/FireChat/hooks/useScroll';
 import {
-    CHANNEL_PARTICIPANTS_FIELD,
     FcChannel,
     FcMessage,
     FcMessageContent,
@@ -18,7 +13,6 @@ import {
 import {
     Dispatch,
     ReactNode,
-    RefObject,
     SetStateAction,
     useEffect,
     useState,
@@ -100,6 +94,7 @@ export function FireChatChannelProvider<
             return;
         }
         setSendingFiles([]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [channelId]);
 
     const contextValue: FireChatChannelContextValue<C, U, M, T> = {

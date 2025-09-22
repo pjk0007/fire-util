@@ -108,6 +108,7 @@ export default function useFireChatChannelInfo<
         });
 
         return () => unsubscribe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [channelId]);
 
     return { channel, participants, unreadCount };

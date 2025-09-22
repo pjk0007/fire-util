@@ -1,9 +1,7 @@
-import { useFireChat } from '@/components/provider/FireChatProvider';
 import {
     FcMessage,
     FcMessageImage,
     FcUser,
-    LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,

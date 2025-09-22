@@ -1,7 +1,6 @@
 import FireChatChannelListItem from '@/components/FireChat/FireChatChannelList/FireChatChannelListItem';
 import { useFireChat } from '@/components/provider/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
-import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
 
 export default function FireChatChannelList() {
     const { user: me } = useAuth();

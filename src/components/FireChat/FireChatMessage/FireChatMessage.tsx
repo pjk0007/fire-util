@@ -7,7 +7,6 @@ import {
     ContextMenuItem,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { Toggle } from '@/components/ui/toggle';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     FcMessage,
@@ -25,7 +24,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
-import { Bookmark, CornerDownRight } from 'lucide-react';
+import { CornerDownRight } from 'lucide-react';
 import { ReactNode } from 'react';
 
 export default function FireChatMessage<

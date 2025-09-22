@@ -1,4 +1,3 @@
-import { useFireChat } from '@/components/provider/FireChatProvider';
 import { Card } from '@/components/ui/card';
 import {
     CHANNEL_COLLECTION,

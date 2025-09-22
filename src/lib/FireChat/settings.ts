@@ -114,15 +114,6 @@ export const LOCALE = {
 /**
  * TypeScript interfaces for Firestore documents
  */
-export interface FcChannelParticipants<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
-> {
-    channel: C;
-    participants: U[];
-}
 
 /**
  * Generic interfaces for Firestore documents

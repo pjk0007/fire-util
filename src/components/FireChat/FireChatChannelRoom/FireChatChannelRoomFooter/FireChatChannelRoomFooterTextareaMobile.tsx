@@ -1,6 +1,5 @@
 import { FcMessage, FcMessageContent, LOCALE } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
-import { CornerDownRight } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 export default function FireChatChannelRoomFooterTextareaMobile<
@@ -43,7 +42,7 @@ export default function FireChatChannelRoomFooterTextareaMobile<
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
-                        if ((e.nativeEvent as any).isComposing) return; // 한글 조합 중이면 무시
+                        if (e.nativeEvent.isComposing) return; // 한글 조합 중이면 무시
                         e.preventDefault();
                         onSend();
                     }

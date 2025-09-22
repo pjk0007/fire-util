@@ -1,4 +1,3 @@
-import { useAuth } from '@/components/provider/AuthProvider';
 import { db } from '@/lib/firebase';
 import {
     CHANNEL_COLLECTION,
@@ -6,14 +5,12 @@ import {
     FcMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_ID_FIELD,
-    FcMessageText,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_REPLY_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_USER_ID_FIELD,
-    USER_ID_FIELD,
     CHANNEL_LAST_MESSAGE_FIELD,
 } from '@/lib/FireChat/settings';
 import { doc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';

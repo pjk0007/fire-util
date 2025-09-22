@@ -1,7 +1,6 @@
 import {
     CHANNEL_NAME_FIELD,
     FcChannel,
-    FcChannelParticipants,
     FcMessage,
     FcMessageContent,
     FcUser,

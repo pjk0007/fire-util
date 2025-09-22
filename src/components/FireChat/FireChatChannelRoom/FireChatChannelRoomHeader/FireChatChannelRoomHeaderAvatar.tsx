@@ -2,18 +2,17 @@ import { useAuth } from '@/components/provider/AuthProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
-    FcMessage,
-    FcMessageContent,
     FcUser,
     USER_AVATAR_FALLBACK_URL,
     USER_AVATAR_FIELD,
 } from '@/lib/FireChat/settings';
 import Image from 'next/image';
 
-export default function FireChatChannelRoomHeaderAvatar<
-    U extends FcUser,
-    T extends FcMessageContent
->({ participants }: { participants: U[] }) {
+export default function FireChatChannelRoomHeaderAvatar<U extends FcUser>({
+    participants,
+}: {
+    participants: U[];
+}) {
     const { user: me } = useAuth();
     if (!me) return <Skeleton className="w-8 h-8 rounded-full" />;
     // 참여자 목록에서 나를 제외한 참여자 추출

@@ -16,7 +16,7 @@ import {
     USER_AVATAR_FALLBACK_URL,
 } from '@/lib/FireChat/settings';
 import Image from 'next/image';
-import { Plus, Trash, Users, UserX2 } from 'lucide-react';
+import { Plus, Users, UserX2 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { memo, useState } from 'react';

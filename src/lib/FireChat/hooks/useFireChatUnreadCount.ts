@@ -6,7 +6,6 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
 } from '@/lib/FireChat/settings';

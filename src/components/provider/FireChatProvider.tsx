@@ -1,30 +1,17 @@
 import { useAuth } from '@/components/provider/AuthProvider';
 import getChannelsByUserId from '@/lib/FireChat/api/getChannelsByUserId';
-import useListChannels from '@/lib/FireChat/hooks/useListChannels';
 
-import {
-    FcChannel,
-    FcChannelParticipants,
-    FcMessage,
-    FcMessageContent,
-    FcUser,
-    USER_ID_FIELD,
-} from '@/lib/FireChat/settings';
+import { USER_ID_FIELD } from '@/lib/FireChat/settings';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
 
-interface FireChatContextValue<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
-> {
+interface FireChatContextValue {
     channelIds: string[];
     selectedChannelId?: string;
     setSelectedChannelId: (channelId?: string) => void;
 }
 
-const FireChatContext = createContext<
-    FireChatContextValue<FcMessage<FcMessageContent>, FcMessageContent>
->({
+const FireChatContext = createContext<FireChatContextValue>({
     channelIds: [],
     selectedChannelId: undefined,
 
@@ -43,12 +30,13 @@ export function FireChatProvider({ children }: FireChatProviderProps) {
     const [selectedChannelId, setSelectedChannelId] = useState<
         string | undefined
     >(undefined);
+    const userId = user?.[USER_ID_FIELD];
 
     useEffect(() => {
-        getChannelsByUserId(user?.[USER_ID_FIELD]).then((chs) => {
+        getChannelsByUserId(userId).then((chs) => {
             setChannelIds(chs);
         });
-    }, [user?.[USER_ID_FIELD]]);
+    }, [userId]);
 
     return (
         <FireChatContext.Provider

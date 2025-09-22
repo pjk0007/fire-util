@@ -33,7 +33,7 @@ export default function FireChatChannelRoomFooterTextarea<
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
-                        if ((e.nativeEvent as any).isComposing) return; // 한글 조합 중이면 무시
+                        if (e.nativeEvent.isComposing) return; // 한글 조합 중이면 무시
                         e.preventDefault();
                         onSend();
                     }

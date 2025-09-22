@@ -6,8 +6,6 @@ import {
 } from '@/lib/FireChat/settings';
 import {
     collection,
-    doc,
-    getDoc,
     getDocs,
     query,
     where,

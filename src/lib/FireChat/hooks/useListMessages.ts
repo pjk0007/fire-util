@@ -1,7 +1,5 @@
 import { useAuth } from '@/components/provider/AuthProvider';
 import { db } from '@/lib/firebase';
-import getFileMessages from '@/lib/FireChat/api/getFileMessages';
-import getImageMessages from '@/lib/FireChat/api/getImageMessages';
 import getMessages from '@/lib/FireChat/api/getMessages';
 import markMessageAsRead from '@/lib/FireChat/api/markMessageAsRead';
 import {
@@ -10,9 +8,6 @@ import {
     FcMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
-    MESSAGE_TYPE_FIELD,
-    MESSAGE_TYPE_FILE,
-    MESSAGE_TYPE_IMAGE,
     MESSAGE_UNIT,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
@@ -49,6 +44,7 @@ export default function useListMessages<
             setMessages((prev) => [...msgs, ...prev]);
         } catch (error) {
             // Handle error
+            console.error('Error loading more messages:', error);
         }
     }
 
@@ -111,7 +107,7 @@ export default function useListMessages<
         return () => {
             if (unsubscribe) unsubscribe();
         };
-    }, [channelId]);
+    }, [channelId, user]);
 
     return {
         newMessages,

@@ -5,7 +5,6 @@ import {
     FcUser,
     LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
-    MESSAGE_CONTENTS_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';

@@ -1,4 +1,3 @@
-import { useFireChat } from '@/components/provider/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
@@ -28,9 +27,11 @@ import {
 import { useEffect, useRef, useState } from 'react';
 
 export default function useFireChatSendingImages({
+    id,
     channelId,
     files,
 }: {
+    id: string;
     channelId: string;
     files: File[];
 }) {
@@ -49,13 +50,11 @@ export default function useFireChatSendingImages({
         setError(null);
 
         uploadTaskRef.current = [];
-        files.forEach(async (file, index) => {
-            const now = Timestamp.now();
-            const msgId = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
+        files.forEach(async (file) => {
 
             const storageRef = ref(
                 storage,
-                `${CHANNEL_COLLECTION}/${channelId}/${MESSAGE_COLLECTION}/${msgId}/${file.name}`
+                `${CHANNEL_COLLECTION}/${channelId}/${MESSAGE_COLLECTION}/${id}/${file.name}`
             );
             const uploadTask = uploadBytesResumable(storageRef, file);
             uploadTaskRef.current.push(uploadTask);
@@ -82,7 +81,7 @@ export default function useFireChatSendingImages({
                         const thumbnail = await createThumbnail(file);
                         const thumbnailRef = ref(
                             storage,
-                            `${CHANNEL_COLLECTION}/${channelId}/${MESSAGE_COLLECTION}/${msgId}/thumbnail_${file.name}`
+                            `${CHANNEL_COLLECTION}/${channelId}/${MESSAGE_COLLECTION}/${id}/thumbnail_${file.name}`
                         );
                         await uploadString(thumbnailRef, thumbnail, 'data_url');
 
@@ -115,7 +114,7 @@ export default function useFireChatSendingImages({
                 }
             });
         };
-    }, [files, channelId, isCompleted]);
+    }, [files, channelId, isCompleted, id]);
 
     useEffect(() => {
         if (contents.length === files.length && contents.length > 0) {

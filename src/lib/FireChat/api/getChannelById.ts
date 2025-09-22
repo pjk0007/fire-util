@@ -4,7 +4,6 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
 } from '@/lib/FireChat/settings';
 import { doc, getDoc } from 'firebase/firestore';
 

@@ -3,7 +3,6 @@ import {
     CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
-    FcMessageFile,
     FILE_UNIT,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,

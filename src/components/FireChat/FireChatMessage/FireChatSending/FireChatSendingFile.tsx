@@ -1,4 +1,3 @@
-import { useFireChat } from '@/components/provider/FireChatProvider';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
@@ -14,7 +13,6 @@ export default function FireChatSendingFile({
     sendingFile: SendingFile;
 }) {
     const file = sendingFile.files?.[0];
-    if (!file) return null;
 
     const { progress, error, isCompleted, cancelUpload } =
         useFireChatSendingFile({
@@ -23,6 +21,7 @@ export default function FireChatSendingFile({
             channelId: sendingFile.channelId,
         });
 
+    if (!file) return null;
     if (isCompleted) return null;
 
     return (

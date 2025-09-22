@@ -1,9 +1,6 @@
-import { useFireChat } from '@/components/provider/FireChatProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
-    FcMessage,
-    FcMessageContent,
     FcUser,
     USER_AVATAR_FALLBACK_URL,
     USER_AVATAR_FIELD,

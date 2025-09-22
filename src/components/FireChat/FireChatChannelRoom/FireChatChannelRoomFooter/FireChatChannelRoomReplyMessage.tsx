@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import {
     FcMessage,
     FcMessageContent,
@@ -48,6 +47,7 @@ export default function FireChatChannelRoomReplyMessage<
         return () => {
             window.removeEventListener('keydown', onKeyDown);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

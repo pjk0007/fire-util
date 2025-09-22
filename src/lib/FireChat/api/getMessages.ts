@@ -9,7 +9,6 @@ import {
 } from '@/lib/FireChat/settings';
 import {
     collection,
-    DocumentData,
     endBefore,
     getDocs,
     limitToLast,

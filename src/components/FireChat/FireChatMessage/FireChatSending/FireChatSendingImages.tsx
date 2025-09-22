@@ -1,4 +1,3 @@
-import { Card } from '@/components/ui/card';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 import useFireChatSendingImages from '@/lib/FireChat/hooks/useFireChatSendingImages';
 import getImageColSpan from '@/lib/FireChat/utils/getImageColSpan';
@@ -11,8 +10,9 @@ export default function FireChatSendingImages({
 }: {
     sendingFile: SendingFile;
 }) {
-    const { progress, error, isCompleted, cancelUpload } =
+    const { progress, isCompleted, cancelUpload } =
         useFireChatSendingImages({
+            id: sendingFile.id,
             files: sendingFile.files,
             channelId: sendingFile.channelId,
         });

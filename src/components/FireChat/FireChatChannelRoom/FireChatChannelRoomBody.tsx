@@ -9,7 +9,6 @@ import {
     CHANNEL_ID_FIELD,
     FcMessage,
     FcMessageSystem,
-    FcUser,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
@@ -60,14 +59,15 @@ export default function FireChatChannelRoomBody() {
                     setIsLoading(false);
                 });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasMore, isTop]);
 
     // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
     useEffect(() => {
-        console.log('newMessages', newMessages);
         if (isBottom) {
             scrollToBottom(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages, newMessages, sendingFiles]);
 
     if (!channel) {

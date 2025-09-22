@@ -1,6 +1,4 @@
-import FireChat from '@/components/FireChat/FireChat';
 import { FireChatChannelProvider } from '@/components/provider/FireChatChannelProvider';
-import FireChatChannelRoom from '@/components/FireChat/FireChatChannelRoom';
 import FireChatContents from '@/components/FireChat/FireChatContents';
 import { useRouter } from 'next/router';
 

@@ -17,7 +17,6 @@ import {
     or,
     orderBy,
     query,
-    startAfter,
     where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
@@ -73,6 +72,10 @@ export default function useListFiles<
                 });
             }
         );
+
+        return () => {
+            unsubscribe();
+        };
     }, [channelId]);
 
     return { imageMessages, fileMessages };

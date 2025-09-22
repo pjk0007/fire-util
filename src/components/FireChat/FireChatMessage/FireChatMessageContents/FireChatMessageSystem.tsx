@@ -1,7 +1,6 @@
 import {
     FcMessage,
     FcMessageSystem,
-    FcMessageText,
     LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CREATED_AT_FIELD,

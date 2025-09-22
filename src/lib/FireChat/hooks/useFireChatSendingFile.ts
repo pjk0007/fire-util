@@ -1,12 +1,8 @@
-import { useFireChat } from '@/components/provider/FireChatProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
-// import updateLastMessage from '@/lib/FireChat/api/updateLastMessage';
-import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 import {
     CHANNEL_COLLECTION,
-    CHANNEL_ID_FIELD,
     FcMessage,
     FcMessageFile,
     MESSAGE_COLLECTION,
@@ -50,7 +46,6 @@ export default function useFireChatSendingFile({
 
         setProgress(0);
 
-        const now = Timestamp.now();
         const metadata = {
             contentType: file.type,
         };
@@ -69,6 +64,7 @@ export default function useFireChatSendingFile({
                 setProgress(prog);
             },
             (err) => {
+                setError(err.message);
                 console.log(err);
             },
             async () => {
@@ -98,6 +94,7 @@ export default function useFireChatSendingFile({
                 uploadTaskRef.current.cancel();
             }
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [file, channelId]);
 
     function cancelUpload() {

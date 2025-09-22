@@ -1,5 +1,4 @@
 import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
-import { useFireChat } from '@/components/provider/FireChatProvider';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -17,7 +16,7 @@ import {
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
-import { ChevronRight, Image, ImagesIcon } from 'lucide-react';
+import { ChevronRight, ImageIcon, ImagesIcon } from 'lucide-react';
 import { memo } from 'react';
 
 function FireChatChannelRoomSidebarImages<
@@ -37,7 +36,7 @@ function FireChatChannelRoomSidebarImages<
         <Card className="gap-0 p-2">
             <div className="flex flex-col p-2 gap-2">
                 <div className="flex gap-2 items-center">
-                    <Image className="w-4 h-4 text-primary" />
+                    <ImageIcon className="w-4 h-4 text-primary" />
                     <h2 className="text-sm font-semibold tracking-tight">
                         {LOCALE.IMAGE}
                     </h2>

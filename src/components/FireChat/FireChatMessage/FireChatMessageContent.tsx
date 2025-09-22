@@ -1,14 +1,11 @@
 import FireChatMessageFile from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageFile';
 import FireChatMessageImages from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageImages';
-import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import FireChatMessageText from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageText';
-import { useFireChat } from '@/components/provider/FireChatProvider';
 import {
     FcMessage,
     FcMessageContent,
     FcMessageFile,
     FcMessageImage,
-    FcMessageSystem,
     FcMessageText,
     FcUser,
     MESSAGE_CONTENTS_FIELD,
@@ -16,7 +13,6 @@ import {
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_FILE,
     MESSAGE_TYPE_IMAGE,
-    MESSAGE_TYPE_SYSTEM,
     MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';

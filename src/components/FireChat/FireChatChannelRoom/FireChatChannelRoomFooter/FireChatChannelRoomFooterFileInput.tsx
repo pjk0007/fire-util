@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { Paperclip } from 'lucide-react';
 
@@ -10,7 +9,6 @@ export default function FireChatChannelRoomFooterFileInput({
 }: {
     onSelectFiles: (files: File[]) => void;
 }) {
-    const isMobile = useIsMobile();
     return (
         <>
             <Button

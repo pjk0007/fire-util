@@ -1,14 +1,10 @@
 import {
     CHANNEL_LAST_MESSAGE_FIELD,
     FcChannel,
-    FcChannelParticipants,
     FcMessage,
     FcMessageContent,
-    FcMessageFile,
-    FcMessageImage,
     FcMessageSystem,
     FcMessageText,
-    FcUser,
     LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -53,7 +49,6 @@ export default function FireChatChannelListItemLastChatContent<
     }
 
     if (type === MESSAGE_TYPE_IMAGE) {
-        const image = contents as FcMessageImage;
         return (
             <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">
@@ -64,7 +59,6 @@ export default function FireChatChannelListItemLastChatContent<
     }
 
     if (type === MESSAGE_TYPE_FILE) {
-        const file = contents as FcMessageFile;
         return (
             <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">
