@@ -37,12 +37,14 @@ export default function FireChatMessage<
     participants,
     me,
     setReplyingMessage,
+    onLoad,
 }: {
     message: M;
     beforeMessage?: M;
     participants: U[];
     me?: U | null;
     setReplyingMessage?: (message: M) => void;
+    onLoad?: () => void;
 }) {
     // const participants = selectedChannel?.participants || [];
     const messageUser = participants.find(
@@ -107,6 +109,7 @@ export default function FireChatMessage<
     return (
         <MessageContextMenu>
             <div
+                onLoad={onLoad}
                 data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}
                 id={`message-${message[MESSAGE_ID_FIELD]}`}
                 className={cn('flex group w-full gap-3', {

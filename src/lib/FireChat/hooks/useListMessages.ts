@@ -27,12 +27,16 @@ export default function useListMessages<
 >({ channelId }: { channelId?: string }) {
     const { user } = useAuth();
     const [messages, setMessages] = useState<M[]>([]);
+    const [beforeMessages, setBeforeMessages] = useState<M[]>([]);
     const [newMessages, setNewMessages] = useState<M[]>([]);
     const [lastVisible, setLastVisible] = useState<M | null>(null);
     const [hasMore, setHasMore] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
 
-    async function loadMoreMessages() {
+    useEffect(() => {
+        console.error('messages rendered', messages.length);
+    }, [messages]);
+
+    async function loadBeforeMessages() {
         if (!channelId || !hasMore) return;
         try {
             const msgs = await getMessages<M, T>(channelId, lastVisible);
@@ -41,7 +45,7 @@ export default function useListMessages<
             }
             const lastMsg = msgs.at(0) || null;
             setLastVisible(lastMsg);
-            setMessages((prev) => [...msgs, ...prev]);
+            setBeforeMessages((prev) => [...msgs, ...prev]);
         } catch (error) {
             // Handle error
             console.error('Error loading more messages:', error);
@@ -49,60 +53,55 @@ export default function useListMessages<
     }
 
     useEffect(() => {
-        console.log('channelId', channelId);
+        setBeforeMessages([]);
         setNewMessages([]);
         setMessages([]);
         if (!channelId) {
             return;
         }
-        setIsLoading(true);
         let unsubscribe: Unsubscribe;
-        getMessages<M, T>(channelId, null)
-            .then((msgs) => {
-                markMessageAsRead(channelId, user?.[USER_ID_FIELD]);
-                setMessages(msgs);
-                if (msgs.length >= MESSAGE_UNIT) {
-                    setHasMore(true);
-                } else {
-                    setHasMore(false);
-                }
+        getMessages<M, T>(channelId, null).then((msgs) => {
+            markMessageAsRead(channelId, user?.[USER_ID_FIELD]);
+            setMessages(msgs);
+            if (msgs.length >= MESSAGE_UNIT) {
+                setHasMore(true);
+            } else {
+                setHasMore(false);
+            }
 
-                const lastMsg = msgs.at(0) || null;
-                const recentMsg = msgs.at(-1) || null;
+            const lastMsg = msgs.at(0) || null;
+            const recentMsg = msgs.at(-1) || null;
 
-                setLastVisible(lastMsg);
-                unsubscribe = onSnapshot(
-                    query(
-                        collection(
-                            db,
-                            CHANNEL_COLLECTION,
-                            channelId,
-                            MESSAGE_COLLECTION
-                        ),
-                        orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
-                        startAfter(recentMsg?.[MESSAGE_CREATED_AT_FIELD] ?? 0)
+            setLastVisible(lastMsg);
+            unsubscribe = onSnapshot(
+                query(
+                    collection(
+                        db,
+                        CHANNEL_COLLECTION,
+                        channelId,
+                        MESSAGE_COLLECTION
                     ),
-                    (querySnapshot) => {
-                        querySnapshot.docChanges().forEach((change) => {
-                            if (change.type === 'added') {
-                                const msg = change.doc.data() as M;
-                                // setMessages((prev) => [...prev, msg]);
-                                setNewMessages((prev) => [...prev, msg]);
-                                // 메시지가 추가로 들어오면 읽음 처리
-                                if (user?.[USER_ID_FIELD]) {
-                                    markMessageAsRead(
-                                        channelId,
-                                        user?.[USER_ID_FIELD] || ''
-                                    );
-                                }
+                    orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
+                    startAfter(recentMsg?.[MESSAGE_CREATED_AT_FIELD] ?? 0)
+                ),
+                (querySnapshot) => {
+                    querySnapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            const msg = change.doc.data() as M;
+                            // setMessages((prev) => [...prev, msg]);
+                            setNewMessages((prev) => [...prev, msg]);
+                            // 메시지가 추가로 들어오면 읽음 처리
+                            if (user?.[USER_ID_FIELD]) {
+                                markMessageAsRead(
+                                    channelId,
+                                    user?.[USER_ID_FIELD] || ''
+                                );
                             }
-                        });
-                    }
-                );
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+                        }
+                    });
+                }
+            );
+        });
 
         return () => {
             if (unsubscribe) unsubscribe();
@@ -110,11 +109,11 @@ export default function useListMessages<
     }, [channelId, user]);
 
     return {
+        beforeMessages,
         newMessages,
         messages,
         lastVisible,
         hasMore,
-        loadMoreMessages,
-        isLoading,
+        loadBeforeMessages,
     };
 }

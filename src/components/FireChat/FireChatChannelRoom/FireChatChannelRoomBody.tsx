@@ -1,63 +1,59 @@
 import { useFireChatChannel } from '@/components/provider/FireChatChannelProvider';
-import FireChatMessage from '@/components/FireChat/FireChatMessage/FireChatMessage';
-import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
-import FireChatSending from '@/components/FireChat/FireChatMessage/FireChatSending';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-    CHANNEL_ID_FIELD,
-    FcMessage,
-    FcMessageSystem,
-    MESSAGE_CONTENT_TEXT_FIELD,
-    MESSAGE_CONTENTS_FIELD,
-    MESSAGE_CREATED_AT_FIELD,
-    MESSAGE_ID_FIELD,
-    MESSAGE_TYPE_FIELD,
-    MESSAGE_TYPE_SYSTEM,
-    MESSAGE_USER_ID_FIELD,
-} from '@/lib/FireChat/settings';
-import { formatDateString } from '@/lib/FireChat/utils/timeformat';
+import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
 import { ArrowDown } from 'lucide-react';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';
 import useScroll from '@/lib/FireChat/hooks/useScroll';
+import {
+    getScrollState,
+    restoreScrollPosition,
+    scrollToBottom,
+} from '@/lib/FireChat/utils/scroll';
+import FireChatChannelRoomBodyMessageList from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomBody/FireChatChannelRoomBodyMessageList';
 
 export default function FireChatChannelRoomBody() {
     const { user: me } = useAuth();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const {
-        scrollAreaRef,
-        isBottom,
-        scrollToBottom,
-        isTop,
-        getScrollState,
-        restoreScrollState,
-        isScrolling,
-        scrollDate,
-    } = useScroll();
+    const { scrollAreaRef, isScrolling, scrollDate, isTop, isBottom } =
+        useScroll();
+    const ref =
+        scrollAreaRef?.current?.querySelector(
+            '[data-slot="scroll-area-viewport"]'
+        ) ?? null;
+    // const isTop = isScrollAtTop(ref);
+    // const isBottom = isScrollAtBottom(ref);
+
     const { channel, participants, sendingFiles, setReplyingMessage } =
         useFireChatChannel();
 
-    const { messages, newMessages, hasMore, loadMoreMessages } =
-        useListMessages({
-            channelId: channel?.[CHANNEL_ID_FIELD],
-        });
+    const {
+        beforeMessages,
+        messages,
+        newMessages,
+        hasMore,
+        loadBeforeMessages,
+    } = useListMessages({
+        channelId: channel?.[CHANNEL_ID_FIELD],
+    });
+
+    console.log(isTop);
 
     useEffect(() => {
         if (hasMore && isTop && !isLoading) {
-            const scrollState = getScrollState();
-            setIsLoading(true);
-            loadMoreMessages()
-                .then(() => {
-                    setTimeout(() => {
-                        restoreScrollState(scrollState);
-                    }, 1);
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
+            const scrollState = getScrollState(ref);
+            loadBeforeMessages().then(() => {
+                setTimeout(() => {
+                    restoreScrollPosition(
+                        ref,
+                        scrollState.scrollHeight,
+                        scrollState.scrollTop
+                    );
+                }, 1);
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasMore, isTop]);
@@ -65,10 +61,23 @@ export default function FireChatChannelRoomBody() {
     // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
     useEffect(() => {
         if (isBottom) {
-            scrollToBottom(false);
+            setTimeout(() => {
+                scrollToBottom(ref, false);
+            }, 1);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messages, newMessages, sendingFiles]);
+    }, [newMessages, sendingFiles]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            scrollToBottom(ref, false);
+        }, 1);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages]);
+
+    useEffect(() => {
+        if (isBottom) setIsLoading(false);
+    }, [isBottom]);
 
     if (!channel) {
         return null;
@@ -76,155 +85,29 @@ export default function FireChatChannelRoomBody() {
 
     return (
         <div className="flex-1 overflow-hidden relative bg-white">
-            {isLoading && (
+            {/* {isLoading && (
                 <div className="absolute w-full h-full z-10 bg-white flex items-center justify-center">
                     <div className="w-8 h-8 border-2 border-t-transparent border-primary rounded-full animate-spin" />
                 </div>
-            )}
+            )} */}
             <ScrollArea className="h-full" ref={scrollAreaRef}>
                 <div className="flex flex-col max-w-full gap-2 py-6 px-3 md:px-5 box-border">
-                    {messages.map((msg, index) => {
-                        const beforeDate =
-                            index > 0
-                                ? messages[index - 1]?.[
-                                      MESSAGE_CREATED_AT_FIELD
-                                  ]
-                                : null;
-                        const currentDate = msg?.[MESSAGE_CREATED_AT_FIELD];
-                        if (
-                            beforeDate &&
-                            currentDate &&
-                            beforeDate.toDate().toDateString() !==
-                                currentDate.toDate().toDateString()
-                        ) {
-                            return (
-                                <Fragment key={msg[MESSAGE_ID_FIELD]}>
-                                    <FireChatMessageSystem
-                                        message={
-                                            {
-                                                [MESSAGE_ID_FIELD]: `date-separator-${msg[MESSAGE_ID_FIELD]}`,
-                                                [MESSAGE_CREATED_AT_FIELD]:
-                                                    currentDate,
-                                                [MESSAGE_TYPE_FIELD]:
-                                                    MESSAGE_TYPE_SYSTEM,
-                                                [MESSAGE_USER_ID_FIELD]:
-                                                    'system',
-                                                [MESSAGE_CONTENTS_FIELD]: [
-                                                    {
-                                                        [MESSAGE_CONTENT_TEXT_FIELD]:
-                                                            formatDateString(
-                                                                currentDate
-                                                            ),
-                                                        [MESSAGE_TYPE_FIELD]:
-                                                            MESSAGE_TYPE_SYSTEM,
-                                                    },
-                                                ],
-                                            } as FcMessage<FcMessageSystem>
-                                        }
-                                    />
-                                    <FireChatMessage
-                                        key={index}
-                                        message={msg}
-                                        participants={participants || []}
-                                        me={me}
-                                        setReplyingMessage={setReplyingMessage}
-                                    />
-                                </Fragment>
-                            );
-                        }
-                        return (
-                            <FireChatMessage
-                                key={index}
-                                message={msg}
-                                beforeMessage={
-                                    index > 0 ? messages[index - 1] : undefined
-                                }
-                                participants={participants || []}
-                                me={me}
-                                setReplyingMessage={setReplyingMessage}
-                            />
-                        );
-                    })}
-                    {newMessages.map((msg, index) => {
-                        const beforeDate =
-                            index > 0
-                                ? newMessages[index - 1]?.[
-                                      MESSAGE_CREATED_AT_FIELD
-                                  ]
-                                : null;
-                        const currentDate = msg?.[MESSAGE_CREATED_AT_FIELD];
-                        if (
-                            beforeDate &&
-                            currentDate &&
-                            beforeDate.toDate().toDateString() !==
-                                currentDate.toDate().toDateString()
-                        ) {
-                            return (
-                                <Fragment key={msg[MESSAGE_ID_FIELD]}>
-                                    <FireChatMessageSystem
-                                        message={
-                                            {
-                                                [MESSAGE_ID_FIELD]: `date-separator-${msg[MESSAGE_ID_FIELD]}`,
-                                                [MESSAGE_CREATED_AT_FIELD]:
-                                                    currentDate,
-                                                [MESSAGE_TYPE_FIELD]:
-                                                    MESSAGE_TYPE_SYSTEM,
-                                                [MESSAGE_USER_ID_FIELD]:
-                                                    'system',
-                                                [MESSAGE_CONTENTS_FIELD]: [
-                                                    {
-                                                        [MESSAGE_CONTENT_TEXT_FIELD]:
-                                                            formatDateString(
-                                                                currentDate
-                                                            ),
-                                                        [MESSAGE_TYPE_FIELD]:
-                                                            MESSAGE_TYPE_SYSTEM,
-                                                    },
-                                                ],
-                                            } as FcMessage<FcMessageSystem>
-                                        }
-                                    />
-                                    <FireChatMessage
-                                        key={index}
-                                        message={msg}
-                                        participants={participants || []}
-                                        me={me}
-                                        setReplyingMessage={setReplyingMessage}
-                                    />
-                                </Fragment>
-                            );
-                        }
-                        return (
-                            <FireChatMessage
-                                key={index}
-                                message={msg}
-                                beforeMessage={
-                                    index > 0
-                                        ? newMessages[index - 1]
-                                        : undefined
-                                }
-                                participants={participants || []}
-                                me={me}
-                                setReplyingMessage={setReplyingMessage}
-                            />
-                        );
-                    })}
-                    {sendingFiles
-                        .filter(
-                            (sf) => sf.channelId === channel?.[CHANNEL_ID_FIELD]
-                        )
-                        .map((sf, idx) => (
-                            <FireChatSending
-                                key={`sending-${idx}`}
-                                sendingFile={sf}
-                            />
-                        ))}
+                    <FireChatChannelRoomBodyMessageList
+                        beforeMessages={beforeMessages}
+                        messages={messages}
+                        newMessages={newMessages}
+                        participants={participants}
+                        me={me}
+                        setReplyingMessage={setReplyingMessage}
+                        channel={channel}
+                        sendingFiles={sendingFiles}
+                    />
                 </div>
                 {!isBottom && isScrolling && (
                     <Button
                         variant={'outline'}
                         className="w-10 h-10 absolute bottom-8 left-1/2 transform -translate-x-1/2 rounded-full opacity-50"
-                        onClick={() => scrollToBottom(true)}
+                        onClick={() => scrollToBottom(ref, true)}
                     >
                         <ArrowDown />
                     </Button>
