@@ -44,12 +44,10 @@ export default function useScroll() {
             }, 1000);
         };
 
-        viewport.addEventListener('wheel', onScroll);
-        viewport.addEventListener('touchmove', onScroll);
+        viewport.addEventListener('scroll', onScroll);
 
         return () => {
-            viewport.removeEventListener('wheel', onScroll);
-            viewport.removeEventListener('touchmove', onScroll);
+            viewport.removeEventListener('scroll', onScroll);
             if (scrollTimeoutRef.current) {
                 clearTimeout(scrollTimeoutRef.current);
             }
