@@ -30,7 +30,7 @@ export default function FireChatChannelRoomFooterTextareaMobile<
             <textarea
                 ref={textareaRef}
                 className={cn(
-                    'min-h-9 max-h-32 px-1 py-2 rounded-3xl focus:outline-none border-none w-full flex items-center placeholder:text-muted-foreground'
+                    'min-h-9 max-h-32 px-3 py-2 rounded-3xl focus:outline-none border-none w-full flex items-center placeholder:text-muted-foreground'
                 )}
                 rows={1}
                 placeholder={
