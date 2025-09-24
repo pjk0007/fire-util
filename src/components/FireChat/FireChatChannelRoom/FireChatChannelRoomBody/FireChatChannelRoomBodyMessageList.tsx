@@ -52,10 +52,9 @@ function renderMessages<
         | undefined
 ) {
     return messages.map((msg, index) => {
-        const prevMessages = messages;
         const prevDate =
             index > 0
-                ? prevMessages[index - 1]?.[MESSAGE_CREATED_AT_FIELD]
+                ? messages[index - 1]?.[MESSAGE_CREATED_AT_FIELD]
                 : null;
         const currentDate = msg?.[MESSAGE_CREATED_AT_FIELD];
         const key = `${msg[MESSAGE_ID_FIELD]}-${index}`;
@@ -92,7 +91,12 @@ function renderMessages<
                         key={msg[MESSAGE_ID_FIELD] + index}
                         message={msg}
                         beforeMessage={
-                            index > 0 ? prevMessages[index - 1] : undefined
+                            index > 0 ? messages[index - 1] : undefined
+                        }
+                        afterMessage={
+                            index < messages.length - 1
+                                ? messages[index + 1]
+                                : undefined
                         }
                         participants={participants}
                         me={me}
@@ -106,7 +110,12 @@ function renderMessages<
                 channelId={channelId}
                 key={msg[MESSAGE_ID_FIELD] + index}
                 message={msg}
-                beforeMessage={index > 0 ? prevMessages[index - 1] : undefined}
+                afterMessage={
+                    index < messages.length - 1
+                        ? messages[index + 1]
+                        : undefined
+                }
+                beforeMessage={index > 0 ? messages[index - 1] : undefined}
                 participants={participants}
                 me={me}
                 setReplyingMessage={setReplyingMessage}

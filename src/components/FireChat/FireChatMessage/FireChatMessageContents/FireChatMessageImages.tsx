@@ -29,7 +29,7 @@ export default function FireChatMessageImages<
     if (!senderUser) return <div></div>;
 
     return (
-        <div className={cn('grid grid-cols-6 gap-1 max-w-64 md:max-w-full')}>
+        <div className={cn('grid grid-cols-6 gap-0.5 max-w-64 md:max-w-full')}>
             {message[MESSAGE_CONTENTS_FIELD].map((img, idx) => {
                 const colSpan = getImageColSpan(totalImages, idx);
                 return (

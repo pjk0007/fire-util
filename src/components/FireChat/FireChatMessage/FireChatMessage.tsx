@@ -59,6 +59,7 @@ export default function FireChatMessage<
     channelId,
     message,
     beforeMessage,
+    afterMessage,
     participants,
     me,
     setReplyingMessage,
@@ -67,6 +68,7 @@ export default function FireChatMessage<
     channelId: string;
     message: M;
     beforeMessage?: M;
+    afterMessage?: M;
     participants: U[];
     me?: U | null;
     setReplyingMessage?: (message: M) => void;
@@ -88,8 +90,14 @@ export default function FireChatMessage<
 
     const isSameUserAndSameMinAsBefore =
         beforeMessage?.[MESSAGE_USER_ID_FIELD] ===
-            message[MESSAGE_USER_ID_FIELD] &&
+        message[MESSAGE_USER_ID_FIELD] &&
+        beforeMessage?.[MESSAGE_CREATED_AT_FIELD] &&
         Math.floor(beforeMessage?.[MESSAGE_CREATED_AT_FIELD].seconds / 60) ===
+            Math.floor(message[MESSAGE_CREATED_AT_FIELD].seconds / 60);
+
+    const isSameMinAsAfter =
+        afterMessage?.[MESSAGE_CREATED_AT_FIELD] &&
+        Math.floor(afterMessage?.[MESSAGE_CREATED_AT_FIELD].seconds / 60) ===
             Math.floor(message[MESSAGE_CREATED_AT_FIELD].seconds / 60);
 
     return (
@@ -106,13 +114,10 @@ export default function FireChatMessage<
                 className={cn('flex group w-full gap-3', {
                     'justify-end': isMine,
                     'justify-start': !isMine,
-                    'mt-3':
-                        !isSameUserAndSameMinAsBefore ||
-                        message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE,
+                    'mt-3': !isSameUserAndSameMinAsBefore,
                 })}
             >
-                {isMine ? null : isSameUserAndSameMinAsBefore &&
-                  message[MESSAGE_TYPE_FIELD] !== MESSAGE_TYPE_IMAGE ? (
+                {isMine ? null : isSameUserAndSameMinAsBefore ? (
                     <div className="w-8" />
                 ) : (
                     <FireChatMessageAvatar
@@ -127,23 +132,10 @@ export default function FireChatMessage<
                         'items-start': !isMine,
                     })}
                 >
-                    {(!isSameUserAndSameMinAsBefore ||
-                        message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE) && (
-                        <div
-                            className={cn('flex items-center gap-2', {
-                                'flex-row-reverse': isMine,
-                                'flex-row': !isMine,
-                            })}
-                        >
-                            <p className="text-sm text-foreground font-medium">
-                                {messageUser?.name || LOCALE.UNKNOWN}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                                {formatTimeString(
-                                    message[MESSAGE_CREATED_AT_FIELD]
-                                )}
-                            </p>
-                        </div>
+                    {!isSameUserAndSameMinAsBefore && !isMine && (
+                        <p className="text-sm text-foreground font-medium">
+                            {messageUser?.name || LOCALE.UNKNOWN}
+                        </p>
                     )}
                     <div className="flex flex-col relative">
                         <FireChatMessageContent
@@ -151,6 +143,21 @@ export default function FireChatMessage<
                             me={me}
                             participants={participants}
                         />
+                        {isSameMinAsAfter ? null : (
+                            <div
+                                className={cn(
+                                    'text-nowrap text-xs text-muted-foreground visible group-hover:invisible absolute md:items-center bottom-1',
+                                    {
+                                        'left-[calc(100%+8px)]': !isMine,
+                                        'right-[calc(100%+8px)]': isMine,
+                                    }
+                                )}
+                            >
+                                {formatTimeString(
+                                    message[MESSAGE_CREATED_AT_FIELD]
+                                )}
+                            </div>
+                        )}
 
                         <FireChatMessageActionButtons
                             channelId={channelId}
