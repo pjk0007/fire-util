@@ -30,7 +30,7 @@ type FireChatChannelRoomBodyMessageListProps<
 > = {
     beforeMessages: M[];
     messages: M[];
-    newMessages: M[];
+    // newMessages: M[];
     participants: U[];
     me?: U | null;
     setReplyingMessage?: (message?: FcMessage<FcMessageContent>) => void;
@@ -120,7 +120,7 @@ function FireChatChannelRoomBodyMessageList<
 >({
     beforeMessages,
     messages,
-    newMessages,
+    // newMessages,
     participants,
     me,
     setReplyingMessage,
@@ -136,7 +136,7 @@ function FireChatChannelRoomBodyMessageList<
                 setReplyingMessage
             )}
             {renderMessages(messages, participants, me, setReplyingMessage)}
-            {renderMessages(newMessages, participants, me, setReplyingMessage)}
+            {/* {renderMessages(newMessages, participants, me, setReplyingMessage)} */}
             {sendingFiles
                 .filter((sf) => sf.channelId === channel?.[CHANNEL_ID_FIELD])
                 .map((sf, idx) => (

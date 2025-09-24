@@ -7,8 +7,10 @@ import {
     ContextMenuItem,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
+    EMOJI_LIST,
     FcMessage,
     FcMessageContent,
     FcMessageSystem,
@@ -87,6 +89,17 @@ export default function FireChatMessage<
                 >
                     <CornerDownRight />
                 </ToggleGroupItem>
+                {EMOJI_LIST.map((emoji, i) => (
+                    <ToggleGroupItem
+                        key={emoji}
+                        value={emoji}
+                        className={cn('border-y', {
+                            'border-r': i === EMOJI_LIST.length - 1,
+                        })}
+                    >
+                        {emoji}
+                    </ToggleGroupItem>
+                ))}
             </ToggleGroup>
         );
     }

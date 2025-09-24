@@ -16,7 +16,6 @@ import FireChatChannelRoomBodyMessageList from '@/components/FireChat/FireChatCh
 
 export default function FireChatChannelRoomBody() {
     const { user: me } = useAuth();
-    const [isLoading, setIsLoading] = useState(true);
 
     const { scrollAreaRef, isScrolling, scrollDate, isTop, isBottom } =
         useScroll();
@@ -33,17 +32,17 @@ export default function FireChatChannelRoomBody() {
     const {
         beforeMessages,
         messages,
-        newMessages,
+        // newMessages,
         hasMore,
         loadBeforeMessages,
+        isLoading,
     } = useListMessages({
         channelId: channel?.[CHANNEL_ID_FIELD],
     });
 
-    console.log(isTop);
-
     useEffect(() => {
-        if (hasMore && isTop && !isLoading) {
+        if (isLoading) return;
+        if (hasMore && isTop) {
             const scrollState = getScrollState(ref);
             loadBeforeMessages().then(() => {
                 setTimeout(() => {
@@ -66,18 +65,13 @@ export default function FireChatChannelRoomBody() {
             }, 1);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [newMessages, sendingFiles]);
+    }, [messages, sendingFiles]);
 
-    useEffect(() => {
-        setTimeout(() => {
-            scrollToBottom(ref, false);
-        }, 1);
+    // useEffect(() => {
+        // scrollToBottom(ref, false);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messages]);
-
-    useEffect(() => {
-        if (isBottom) setIsLoading(false);
-    }, [isBottom]);
+    // }, [messages]);
 
     if (!channel) {
         return null;
@@ -95,7 +89,7 @@ export default function FireChatChannelRoomBody() {
                     <FireChatChannelRoomBodyMessageList
                         beforeMessages={beforeMessages}
                         messages={messages}
-                        newMessages={newMessages}
+                        // newMessages={newMessages}
                         participants={participants}
                         me={me}
                         setReplyingMessage={setReplyingMessage}

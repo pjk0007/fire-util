@@ -54,6 +54,7 @@ export const MESSAGE_CONTENT_FILE_SIZE_FIELD = 'size';
 export const MESSAGE_UNIT = 100;
 export const FILE_UNIT = 100;
 export const LARGE_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+export const EMOJI_LIST = ['👍', '✅', '❤️', '👀'];
 
 /**
  * Localization strings
@@ -94,7 +95,6 @@ export const LOCALE = {
         REMOVE_USER_CONFIRMATION_TITLE: '사용자 내보내기',
         REMOVE_USER_BUTTON: '내보내기',
         REMOVE_USER_SUCCESS: '사용자를 채팅방에서 내보냈습니다.',
-        
     },
     MESSAGE: {
         DOWNLOAD_ALL_IMAGE: '모든 사진 전체 저장',
