@@ -1,4 +1,3 @@
-import { findVisibleChild } from '@/lib/FireChat/utils/findVisibleChild';
 import {
     getScrollDate,
     isScrollAtBottom,
@@ -52,7 +51,7 @@ export default function useScroll() {
                 clearTimeout(scrollTimeoutRef.current);
             }
         };
-    }, [scrollAreaRef.current]);
+    }, [scrollAreaRef]);
 
     return {
         scrollAreaRef,

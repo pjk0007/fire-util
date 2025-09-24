@@ -3,8 +3,6 @@ import { memo, Fragment } from 'react';
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import FireChatSending from '@/components/FireChat/FireChatMessage/FireChatSending';
 import {
-    CHANNEL_ID_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
     FcMessageSystem,
@@ -23,7 +21,6 @@ import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 const FireChatMessage = memo(FireChatMessageOrigin);
 
 type FireChatChannelRoomBodyMessageListProps<
-    C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent,
     U extends FcUser
@@ -125,7 +122,6 @@ function renderMessages<
 }
 
 function FireChatChannelRoomBodyMessageList<
-    C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent,
     U extends FcUser
@@ -138,7 +134,7 @@ function FireChatChannelRoomBodyMessageList<
     setReplyingMessage,
     channelId,
     sendingFiles,
-}: FireChatChannelRoomBodyMessageListProps<C, M, T, U>) {
+}: FireChatChannelRoomBodyMessageListProps<M, T, U>) {
     return (
         <>
             {renderMessages(

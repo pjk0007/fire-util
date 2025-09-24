@@ -3,53 +3,24 @@ import FireChatMessageAvatar from '@/components/FireChat/FireChatMessage/FireCha
 import FireChatMessageContent from '@/components/FireChat/FireChatMessage/FireChatMessageContent';
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import FireChatMessageContextMenu from '@/components/FireChat/FireChatMessage/FireChatMessageContextMenu';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    ContextMenu,
-    ContextMenuContent,
-    ContextMenuItem,
-    ContextMenuSeparator,
-    ContextMenuShortcut,
-    ContextMenuTrigger,
-} from '@/components/ui/context-menu';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import handleEmojiReactionClick from '@/lib/FireChat/api/handleEmojiReactionClick';
 import {
-    EMOJI_LIST,
     FcMessage,
     FcMessageContent,
     FcMessageSystem,
-    FcMessageText,
     FcUser,
     LOCALE,
-    MESSAGE_CONTENT_TEXT_FIELD,
-    MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
     MESSAGE_REACTIONS_FIELD,
     MESSAGE_TYPE_FIELD,
-    MESSAGE_TYPE_IMAGE,
     MESSAGE_TYPE_SYSTEM,
-    MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
-import { Copy, CornerDownRight, User, User2 } from 'lucide-react';
-import { ReactNode, useState } from 'react';
-import { toast } from 'sonner';
 
 export default function FireChatMessage<
     M extends FcMessage<T>,
@@ -90,7 +61,7 @@ export default function FireChatMessage<
 
     const isSameUserAndSameMinAsBefore =
         beforeMessage?.[MESSAGE_USER_ID_FIELD] ===
-        message[MESSAGE_USER_ID_FIELD] &&
+            message[MESSAGE_USER_ID_FIELD] &&
         beforeMessage?.[MESSAGE_CREATED_AT_FIELD] &&
         Math.floor(beforeMessage?.[MESSAGE_CREATED_AT_FIELD].seconds / 60) ===
             Math.floor(message[MESSAGE_CREATED_AT_FIELD].seconds / 60);
@@ -172,7 +143,7 @@ export default function FireChatMessage<
                         <div className="flex gap-1 mb-2">
                             {Object.entries(
                                 message[MESSAGE_REACTIONS_FIELD] || {}
-                            ).map(([emoji, userIds], index) => (
+                            ).map(([emoji, userIds]) => (
                                 <Button
                                     key={emoji}
                                     variant={'outline'}

@@ -21,6 +21,7 @@ import { LOCALE } from '@/lib/FireChat/settings';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
 import { MoreVertical } from 'lucide-react';
+import Image from 'next/image';
 
 export default function FireChatFileUploaderDialog({
     files,
@@ -55,7 +56,9 @@ export default function FireChatFileUploaderDialog({
                                 className="p-2 border rounded-md gap-2 flex-row items-center"
                             >
                                 {file.type.startsWith('image/') ? (
-                                    <img
+                                    <Image
+                                        width={128}
+                                        height={128}
                                         alt={file.name}
                                         src={URL.createObjectURL(file)}
                                         className="w-12 h-12 object-cover rounded-md"

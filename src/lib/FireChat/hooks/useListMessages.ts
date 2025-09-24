@@ -17,10 +17,8 @@ import {
     onSnapshot,
     orderBy,
     query,
-    startAfter,
     startAt,
     Unsubscribe,
-    where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
@@ -35,10 +33,6 @@ export default function useListMessages<
     const [lastVisible, setLastVisible] = useState<M | null>(null);
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        console.error('messages rendered', messages.length);
-    }, [messages]);
 
     async function loadBeforeMessages() {
         if (!channelId || !hasMore) return;
@@ -60,7 +54,6 @@ export default function useListMessages<
     }
 
     useEffect(() => {
-        console.time('Setting up message listener');
         setIsLoading(true);
         setBeforeMessages([]);
         // setNewMessages([]);
@@ -69,7 +62,6 @@ export default function useListMessages<
             return;
         }
         let unsubscribe: Unsubscribe;
-        let emojiUnsubscribe: Unsubscribe;
         getMessages<M, T>(channelId, null).then((msgs) => {
             markMessageAsRead(channelId, user?.[USER_ID_FIELD]);
             // setMessages(msgs);
@@ -117,7 +109,7 @@ export default function useListMessages<
             );
         });
 
-        emojiUnsubscribe = onSnapshot(
+        const emojiUnsubscribe = onSnapshot(
             query(
                 collection(
                     db,
@@ -130,10 +122,12 @@ export default function useListMessages<
                 querySnapshot.docChanges().forEach((change) => {
                     if (change.type === 'modified') {
                         const msg = change.doc.data() as M;
-                        
+
                         setBeforeMessages((prev) => {
                             const index = prev.findIndex(
-                                (m) => m[MESSAGE_ID_FIELD] === msg[MESSAGE_ID_FIELD]
+                                (m) =>
+                                    m[MESSAGE_ID_FIELD] ===
+                                    msg[MESSAGE_ID_FIELD]
                             );
                             if (index !== -1) {
                                 const newMessages = [...prev];
@@ -145,7 +139,9 @@ export default function useListMessages<
 
                         setMessages((prev) => {
                             const index = prev.findIndex(
-                                (m) => m[MESSAGE_ID_FIELD] === msg[MESSAGE_ID_FIELD]
+                                (m) =>
+                                    m[MESSAGE_ID_FIELD] ===
+                                    msg[MESSAGE_ID_FIELD]
                             );
                             if (index !== -1) {
                                 const newMessages = [...prev];
@@ -158,7 +154,6 @@ export default function useListMessages<
                 });
             }
         );
-        console.timeEnd('Setting up message listener');
 
         return () => {
             if (unsubscribe) unsubscribe();

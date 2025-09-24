@@ -10,7 +10,6 @@ function FireTabs({
 }
 
 function FireTabsList({
-    className,
     children,
     ...props
 }: React.ComponentProps<typeof TabsPrimitive.List>) {
@@ -25,7 +24,6 @@ function FireTabsList({
 }
 
 function FireTabsTrigger({
-    className,
     children,
     ...props
 }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
@@ -51,10 +49,9 @@ function FireTabsTrigger({
     );
 }
 
-function FireTabsContent({
-    className,
-    ...props
-}: React.ComponentProps<typeof TabsPrimitive.Content>) {
+function FireTabsContent(
+    props: React.ComponentProps<typeof TabsPrimitive.Content>
+) {
     return <TabsContent {...props} />;
 }
 

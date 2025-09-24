@@ -24,7 +24,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { Copy, CornerDownRight } from 'lucide-react';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { toast } from 'sonner';
 
 interface FireChatMessageContextMenuProps<M, U> {

@@ -17,6 +17,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { ChevronRight, ImageIcon, ImagesIcon } from 'lucide-react';
+import Image from 'next/image';
 import { memo } from 'react';
 
 function FireChatChannelRoomSidebarImages<
@@ -41,7 +42,7 @@ function FireChatChannelRoomSidebarImages<
                         {LOCALE.IMAGE}
                     </h2>
                 </div>
-                {[imageMessages].length > 0 ? (
+                {imageMessages.length > 0 ? (
                     <div className="gap-2 py-1 w-full grid grid-cols-2">
                         {[...imageMessages]
                             .reverse()
@@ -72,7 +73,9 @@ function FireChatChannelRoomSidebarImages<
                                         key={index}
                                     >
                                         <AspectRatio ratio={1 / 1}>
-                                            <img
+                                            <Image
+                                                width={130}
+                                                height={130}
                                                 src={
                                                     message[
                                                         MESSAGE_CONTENTS_FIELD

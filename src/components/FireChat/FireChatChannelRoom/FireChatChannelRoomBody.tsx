@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
 import { ArrowDown } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';
 import useScroll from '@/lib/FireChat/hooks/useScroll';
 import {
@@ -66,12 +66,6 @@ export default function FireChatChannelRoomBody() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages, sendingFiles]);
-
-    // useEffect(() => {
-    // scrollToBottom(ref, false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [messages]);
 
     if (!channel) {
         return null;

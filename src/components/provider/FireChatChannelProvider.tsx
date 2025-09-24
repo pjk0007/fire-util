@@ -77,8 +77,6 @@ export function FireChatChannelProvider<
         FcMessage<FcMessageContent> | undefined
     >(undefined);
 
-    console.log('render FireChatChannelProvider', { channelId, channel });
-
     const { onSendingFiles, sendingFiles, setSendingFiles } = useFireChatSender<
         C,
         M,

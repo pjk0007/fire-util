@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 import {
     CHANNEL_ID_FIELD,
-    CHANNEL_NAME_FIELD,
     FcChannel,
     FcMessage,
     FcMessageContent,
@@ -44,12 +43,6 @@ function FireChatChannelListItem<
         channelId,
         userId: me?.[USER_ID_FIELD],
     });
-    // const unreadCount = useFireChatUnreadCount<C, M, T>({
-    //     channel,
-    //     userId: me?.[USER_ID_FIELD],
-    // });
-
-    console.log(channel?.[CHANNEL_NAME_FIELD], unreadCount);
 
     return (
         <div
