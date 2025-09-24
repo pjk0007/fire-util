@@ -45,12 +45,8 @@ export default function Home() {
                             onSubmit={(e) => {
                                 e.preventDefault();
                                 const form = e.target as HTMLFormElement;
-                                const email = (
-                                    form.elements[0] as HTMLInputElement
-                                ).value;
-                                const password = (
-                                    form.elements[1] as HTMLInputElement
-                                ).value;
+                                const email = form.email.value as string;
+                                const password = form.password.value as string;
                                 signInWithEmailAndPassword(
                                     auth,
                                     email,
@@ -65,11 +61,13 @@ export default function Home() {
                             }}
                         >
                             <Input
+                                name="email"
                                 type="email"
                                 placeholder="Email"
                                 className="mb-2"
                             />
                             <Input
+                                name="password"
                                 type="password"
                                 placeholder="Password"
                                 className="mb-2"

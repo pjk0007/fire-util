@@ -54,7 +54,7 @@ function FireChatChannelListItem<
     return (
         <div
             className={cn('relative flex py-2 px-4 gap-4 items-start', {
-                'bg-primary-foreground': isSelected,
+                'bg-muted': isSelected,
 
                 'hover:bg-accent hover:text-accent-foreground cursor-pointer':
                     !isSelected,

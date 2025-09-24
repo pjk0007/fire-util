@@ -26,7 +26,7 @@ export default function FireChatChannelRoom({
                         '--sidebar-width': '320px',
                     } as React.CSSProperties
                 }
-                className={cn('z-50 fixed md:static md:h-full flex-1 flex  inset-0', {
+                className={cn('bg-background z-50 fixed md:static md:h-full flex-1 flex  inset-0', {
                     ' hidden md:flex ': !channelId,
                 })}
             >

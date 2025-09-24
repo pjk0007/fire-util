@@ -68,9 +68,9 @@ export default function FireChatChannelRoomBody() {
     }, [messages, sendingFiles]);
 
     // useEffect(() => {
-        // scrollToBottom(ref, false);
+    // scrollToBottom(ref, false);
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [messages]);
 
     if (!channel) {
@@ -78,7 +78,7 @@ export default function FireChatChannelRoomBody() {
     }
 
     return (
-        <div className="flex-1 overflow-hidden relative bg-white">
+        <div className="flex-1 overflow-hidden relative bg-muted/40">
             {/* {isLoading && (
                 <div className="absolute w-full h-full z-10 bg-white flex items-center justify-center">
                     <div className="w-8 h-8 border-2 border-t-transparent border-primary rounded-full animate-spin" />
@@ -93,7 +93,7 @@ export default function FireChatChannelRoomBody() {
                         participants={participants}
                         me={me}
                         setReplyingMessage={setReplyingMessage}
-                        channel={channel}
+                        channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                         sendingFiles={sendingFiles}
                     />
                 </div>

@@ -35,7 +35,7 @@ export default function FireChatChannelRoomFooter() {
     }
 
     return (
-        <div className="w-full  bg-white md:px-5 md:pb-5 md:pt-0 border-t md:border-none p-2">
+        <div className="w-full  bg-muted/40 md:px-5 md:pb-5 md:pt-0 border-t md:border-none p-2">
             <FireChatFileUploaderDialog
                 files={files}
                 setFiles={setFiles}
@@ -44,7 +44,7 @@ export default function FireChatChannelRoomFooter() {
                     setFiles([]);
                 }}
             />
-            <div className="md:p-3 md:border border-input rounded-lg flex flex-col gap-2 md:gap-0">
+            <div className="md:p-3 md:border border-input rounded-lg flex flex-col gap-2 md:gap-0 bg-background">
                 {replyingMessage && (
                     <>
                         <FireChatChannelRoomReplyMessage

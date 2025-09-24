@@ -3,7 +3,12 @@ import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatIm
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    FireTabs,
+    FireTabsContent,
+    FireTabsList,
+    FireTabsTrigger,
+} from '@/components/FireUI/tabs';
 import {
     CHANNEL_ID_FIELD,
     CHANNEL_NAME_FIELD,
@@ -45,47 +50,17 @@ export default function FireChatContents({
                     {channel?.[CHANNEL_NAME_FIELD]}
                 </div>
             </div>
-            <div className="py-4 pl-12">
-                <Tabs className="w-full" defaultValue={defatultTab}>
-                    <TabsList className="h-8 w-full border-b justify-start rounded-none bg-transparent p-0">
-                        <div className="w-40 flex gap-2 h-8">
-                            <TabsTrigger value="image" asChild>
-                                <div
-                                    style={{
-                                        height: '32px',
-                                        margin: 0,
-                                        borderRadius: 0,
-                                        borderLeft: 'none',
-                                        borderTop: 'none',
-                                        borderRight: 'none',
-                                        boxShadow: 'none',
-                                        boxSizing: 'border-box',
-                                    }}
-                                    className="data-[state=active]:border-black data-[state=inactive]:border-transparent border-b"
-                                >
-                                    사진
-                                </div>
-                            </TabsTrigger>
-                            <TabsTrigger value="file" asChild>
-                                <div
-                                    style={{
-                                        height: '32px',
-                                        margin: 0,
-                                        borderRadius: 0,
-                                        borderLeft: 'none',
-                                        borderTop: 'none',
-                                        borderRight: 'none',
-                                        boxShadow: 'none',
-                                        boxSizing: 'border-box',
-                                    }}
-                                    className="data-[state=active]:border-black data-[state=inactive]:border-transparent border-b"
-                                >
-                                    파일
-                                </div>
-                            </TabsTrigger>
-                        </div>
-                    </TabsList>
-                    <TabsContent value="image">
+            <div className="py-4 md:pl-12 px-4">
+                <FireTabs className="w-full" defaultValue={defatultTab}>
+                    <FireTabsList className="h-8 w-full border-b justify-start rounded-none bg-transparent p-0">
+                        <FireTabsTrigger value="image" asChild>
+                            {LOCALE.IMAGE}
+                        </FireTabsTrigger>
+                        <FireTabsTrigger value="file" asChild>
+                            {LOCALE.FILE}
+                        </FireTabsTrigger>
+                    </FireTabsList>
+                    <FireTabsContent value="image">
                         <ScrollArea className="h-[calc(100vh-120px)] w-full">
                             <div className="h-full flex flex-wrap">
                                 {reversedImageMessages.map((msg, index) => {
@@ -191,8 +166,8 @@ export default function FireChatContents({
                                 )}
                             </div>
                         </ScrollArea>
-                    </TabsContent>
-                    <TabsContent value="file">
+                    </FireTabsContent>
+                    <FireTabsContent value="file">
                         <ScrollArea className="h-[calc(100vh-120px)] w-full">
                             <div className="h-full flex flex-wrap">
                                 {reversedFileMessages.map((msg, index) => {
@@ -264,8 +239,8 @@ export default function FireChatContents({
                                 )}
                             </div>
                         </ScrollArea>
-                    </TabsContent>
-                </Tabs>
+                    </FireTabsContent>
+                </FireTabs>
             </div>
         </div>
     );

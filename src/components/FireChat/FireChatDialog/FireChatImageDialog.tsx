@@ -82,7 +82,7 @@ export default function FireChatImageDialog({
                     }}
                     className="group bg-muted  border-t border-b"
                 >
-                    <CarouselContent className="max-h-[80vh]">
+                    <CarouselContent className="max-h-[80dvh]">
                         {images.map((img, i) => (
                             <CarouselItem key={i}>
                                 <ScrollArea className="h-full">

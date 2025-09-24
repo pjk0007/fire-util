@@ -34,6 +34,7 @@ export const MESSAGE_REPLY_FIELD = 'reply';
 export const MESSAGE_TYPE_FIELD = 'type';
 export const MESSAGE_CONTENTS_FIELD = 'contents';
 export const MESSAGE_CREATED_AT_FIELD = 'time';
+export const MESSAGE_REACTIONS_FIELD = 'reactions';
 
 // Message types
 export const MESSAGE_TYPE_TEXT = 'text';
@@ -68,6 +69,8 @@ export const LOCALE = {
     ME: '나',
     REPLYING_TO: (name: string) => `${name}에게 답장`,
     REPLY: '답장',
+    COPY: '복사',
+    COPIED: '복사됨',
     NO_IMAGES: '이미지가 없습니다.',
     NO_FILES: '파일이 없습니다.',
     UNDO: '실행 취소',
@@ -100,6 +103,8 @@ export const LOCALE = {
         DOWNLOAD_ALL_IMAGE: '모든 사진 전체 저장',
         DOWNLOAD_ONE_IMAGE: '이 사진만 저장',
         SIZE: '용량',
+        CLICK_TO_REMOVE: '클릭하여 삭제',
+        CLICK_TO_ADD: '클릭하여 추가',
     },
     FOOTER: {
         INPUT_PLACEHOLDER: '메시지 입력',
@@ -180,4 +185,5 @@ export interface FcMessage<T extends FcMessageContent> {
     [MESSAGE_TYPE_FIELD]: FcMessageType;
     [MESSAGE_CONTENTS_FIELD]: T[];
     [MESSAGE_CREATED_AT_FIELD]: Timestamp;
+    [MESSAGE_REACTIONS_FIELD]?: { [emoji: string]: string[] }; // emoji to userIds
 }

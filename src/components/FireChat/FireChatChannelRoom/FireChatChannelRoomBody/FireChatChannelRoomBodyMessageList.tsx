@@ -34,7 +34,7 @@ type FireChatChannelRoomBodyMessageListProps<
     participants: U[];
     me?: U | null;
     setReplyingMessage?: (message?: FcMessage<FcMessageContent>) => void;
-    channel?: C;
+    channelId: string;
     sendingFiles: SendingFile[];
 };
 
@@ -43,6 +43,7 @@ function renderMessages<
     T extends FcMessageContent,
     U extends FcUser
 >(
+    channelId: string,
     messages: M[],
     participants: U[],
     me: U | null | undefined,
@@ -87,6 +88,7 @@ function renderMessages<
                         }
                     />
                     <FireChatMessage
+                        channelId={channelId}
                         key={msg[MESSAGE_ID_FIELD] + index}
                         message={msg}
                         beforeMessage={
@@ -101,6 +103,7 @@ function renderMessages<
         }
         return (
             <FireChatMessage
+                channelId={channelId}
                 key={msg[MESSAGE_ID_FIELD] + index}
                 message={msg}
                 beforeMessage={index > 0 ? prevMessages[index - 1] : undefined}
@@ -124,21 +127,28 @@ function FireChatChannelRoomBodyMessageList<
     participants,
     me,
     setReplyingMessage,
-    channel,
+    channelId,
     sendingFiles,
 }: FireChatChannelRoomBodyMessageListProps<C, M, T, U>) {
     return (
         <>
             {renderMessages(
+                channelId,
                 beforeMessages,
                 participants,
                 me,
                 setReplyingMessage
             )}
-            {renderMessages(messages, participants, me, setReplyingMessage)}
+            {renderMessages(
+                channelId,
+                messages,
+                participants,
+                me,
+                setReplyingMessage
+            )}
             {/* {renderMessages(newMessages, participants, me, setReplyingMessage)} */}
             {sendingFiles
-                .filter((sf) => sf.channelId === channel?.[CHANNEL_ID_FIELD])
+                .filter((sf) => sf.channelId === channelId)
                 .map((sf, idx) => (
                     <FireChatSending key={`sending-${idx}`} sendingFile={sf} />
                 ))}

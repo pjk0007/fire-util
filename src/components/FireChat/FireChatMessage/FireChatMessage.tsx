@@ -1,39 +1,62 @@
+import FireChatMessageActionButtons from '@/components/FireChat/FireChatMessage/FireChatMessageActionButtons';
 import FireChatMessageAvatar from '@/components/FireChat/FireChatMessage/FireChatMessageAvatar';
 import FireChatMessageContent from '@/components/FireChat/FireChatMessage/FireChatMessageContent';
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
+import FireChatMessageContextMenu from '@/components/FireChat/FireChatMessage/FireChatMessageContextMenu';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
+    ContextMenuSeparator,
+    ContextMenuShortcut,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { Separator } from '@/components/ui/separator';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+import handleEmojiReactionClick from '@/lib/FireChat/api/handleEmojiReactionClick';
 import {
     EMOJI_LIST,
     FcMessage,
     FcMessageContent,
     FcMessageSystem,
+    FcMessageText,
     FcUser,
     LOCALE,
+    MESSAGE_CONTENT_TEXT_FIELD,
+    MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
+    MESSAGE_REACTIONS_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
     MESSAGE_TYPE_SYSTEM,
+    MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
-import { CornerDownRight } from 'lucide-react';
-import { ReactNode } from 'react';
+import { Copy, CornerDownRight, User, User2 } from 'lucide-react';
+import { ReactNode, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function FireChatMessage<
     M extends FcMessage<T>,
     T extends FcMessageContent,
     U extends FcUser
 >({
+    channelId,
     message,
     beforeMessage,
     participants,
@@ -41,6 +64,7 @@ export default function FireChatMessage<
     setReplyingMessage,
     onLoad,
 }: {
+    channelId: string;
     message: M;
     beforeMessage?: M;
     participants: U[];
@@ -48,7 +72,6 @@ export default function FireChatMessage<
     setReplyingMessage?: (message: M) => void;
     onLoad?: () => void;
 }) {
-    // const participants = selectedChannel?.participants || [];
     const messageUser = participants.find(
         (p) => p[USER_ID_FIELD] === message[MESSAGE_USER_ID_FIELD]
     );
@@ -69,58 +92,13 @@ export default function FireChatMessage<
         Math.floor(beforeMessage?.[MESSAGE_CREATED_AT_FIELD].seconds / 60) ===
             Math.floor(message[MESSAGE_CREATED_AT_FIELD].seconds / 60);
 
-    function ActionButtons() {
-        return (
-            <ToggleGroup
-                type="multiple"
-                value={[]}
-                className={cn(
-                    'group-hover:visible invisible h-7 absolute md:flex md:items-center hidden bottom-0',
-                    {
-                        'left-[calc(100%+8px)]': !isMine,
-                        'right-[calc(100%+8px)]': isMine,
-                    }
-                )}
-            >
-                <ToggleGroupItem
-                    value="reply"
-                    onClick={() => setReplyingMessage?.(message)}
-                    variant={'outline'}
-                >
-                    <CornerDownRight />
-                </ToggleGroupItem>
-                {EMOJI_LIST.map((emoji, i) => (
-                    <ToggleGroupItem
-                        key={emoji}
-                        value={emoji}
-                        className={cn('border-y', {
-                            'border-r': i === EMOJI_LIST.length - 1,
-                        })}
-                    >
-                        {emoji}
-                    </ToggleGroupItem>
-                ))}
-            </ToggleGroup>
-        );
-    }
-
-    function MessageContextMenu({ children }: { children: ReactNode }) {
-        return (
-            <ContextMenu>
-                <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-                <ContextMenuContent>
-                    <ContextMenuItem
-                        onSelect={() => setReplyingMessage?.(message)}
-                    >
-                        {LOCALE.REPLY}
-                    </ContextMenuItem>
-                </ContextMenuContent>
-            </ContextMenu>
-        );
-    }
-
     return (
-        <MessageContextMenu>
+        <FireChatMessageContextMenu
+            message={message}
+            me={me}
+            channelId={channelId}
+            setReplyingMessage={setReplyingMessage}
+        >
             <div
                 onLoad={onLoad}
                 data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}
@@ -133,19 +111,16 @@ export default function FireChatMessage<
                         message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE,
                 })}
             >
-                {!isMine &&
-                    isSameUserAndSameMinAsBefore &&
-                    message[MESSAGE_TYPE_FIELD] !== MESSAGE_TYPE_IMAGE && (
-                        <div className="w-8" />
-                    )}
-                {!isMine &&
-                    (!isSameUserAndSameMinAsBefore ||
-                        message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE) && (
-                        <FireChatMessageAvatar
-                            message={message}
-                            participants={participants}
-                        />
-                    )}
+                {isMine ? null : isSameUserAndSameMinAsBefore &&
+                  message[MESSAGE_TYPE_FIELD] !== MESSAGE_TYPE_IMAGE ? (
+                    <div className="w-8" />
+                ) : (
+                    <FireChatMessageAvatar
+                        message={message}
+                        participants={participants}
+                    />
+                )}
+
                 <div
                     className={cn('flex flex-col max-w-[78%] gap-2', {
                         'items-end': isMine,
@@ -170,17 +145,57 @@ export default function FireChatMessage<
                             </p>
                         </div>
                     )}
-                    <div className="relative">
+                    <div className="flex flex-col relative">
                         <FireChatMessageContent
                             message={message}
                             me={me}
                             participants={participants}
                         />
 
-                        <ActionButtons />
+                        <FireChatMessageActionButtons
+                            channelId={channelId}
+                            isMine={isMine}
+                            message={message}
+                            me={me}
+                            setReplyingMessage={setReplyingMessage}
+                        />
                     </div>
+                    {Object.entries(message[MESSAGE_REACTIONS_FIELD] || {})
+                        .length > 0 && (
+                        <div className="flex gap-1 mb-2">
+                            {Object.entries(
+                                message[MESSAGE_REACTIONS_FIELD] || {}
+                            ).map(([emoji, userIds], index) => (
+                                <Button
+                                    key={emoji}
+                                    variant={'outline'}
+                                    size="sm"
+                                    className={cn(
+                                        'rounded-sm px-1.5 py-1 text-xs gap-2 h-[22px]',
+                                        {
+                                            'border-primary bg-primary/5':
+                                                userIds.includes(
+                                                    me?.[USER_ID_FIELD] || ''
+                                                ),
+                                        }
+                                    )}
+                                    onClick={() => {
+                                        handleEmojiReactionClick({
+                                            channelId,
+                                            message,
+                                            emoji,
+                                            userId: me?.[USER_ID_FIELD] || '',
+                                        });
+                                    }}
+                                >
+                                    <p>{emoji} </p>
+                                    <p>{userIds.length}</p>
+                                </Button>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
-        </MessageContextMenu>
+        </FireChatMessageContextMenu>
     );
 }
