@@ -1,3 +1,4 @@
+import { useAuth } from '@/components/provider/AuthProvider';
 import { db } from '@/lib/firebase';
 import {
     CHANNEL_COLLECTION,
@@ -33,15 +34,15 @@ export default function useFireChatChannelInfo<
     U extends FcUser
 >({
     channelId,
-    userId,
     channelCollection = CHANNEL_COLLECTION,
     userCollection = USER_COLLECTION,
 }: {
     channelId?: string;
-    userId?: string;
     channelCollection?: string;
     userCollection?: string;
 }) {
+    const { user } = useAuth();
+    const userId = user?.[USER_ID_FIELD];
     const [channel, setChannel] = useState<C | undefined>(undefined);
     const [participants, setParticipants] = useState<U[]>([]);
     const [unreadCount, setUnreadCount] = useState(0);

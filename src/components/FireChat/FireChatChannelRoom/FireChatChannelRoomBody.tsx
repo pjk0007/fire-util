@@ -2,7 +2,10 @@ import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelPro
 import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
+import {
+    CHANNEL_ID_FIELD,
+    CHANNEL_PARTICIPANTS_FIELD,
+} from '@/lib/FireChat/settings';
 import { ArrowDown } from 'lucide-react';
 import { useEffect } from 'react';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';
@@ -13,9 +16,18 @@ import {
     scrollToBottom,
 } from '@/lib/FireChat/utils/scroll';
 import FireChatChannelRoomBodyMessageList from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomBody/FireChatChannelRoomBodyMessageList';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import useUsers from '@/lib/FireChat/hooks/useUsers';
 
 export default function FireChatChannelRoomBody() {
     const { user: me } = useAuth();
+
+    const { channels, selectedChannelId } = useFireChannel();
+    const channel = channels.find(
+        (ch) => ch[CHANNEL_ID_FIELD] === selectedChannelId
+    );
+    const participantIds = channel?.[CHANNEL_PARTICIPANTS_FIELD];
+    const { users: participants } = useUsers(participantIds || []);
 
     const { scrollAreaRef, isScrolling, scrollDate, isTop, isBottom } =
         useScroll();
@@ -23,11 +35,8 @@ export default function FireChatChannelRoomBody() {
         scrollAreaRef?.current?.querySelector(
             '[data-slot="scroll-area-viewport"]'
         ) ?? null;
-    // const isTop = isScrollAtTop(ref);
-    // const isBottom = isScrollAtBottom(ref);
 
-    const { channel, participants, sendingFiles, setReplyingMessage } =
-        useFireChatChannel();
+    const { sendingFiles, setReplyingMessage } = useFireChatChannel();
 
     const {
         beforeMessages,

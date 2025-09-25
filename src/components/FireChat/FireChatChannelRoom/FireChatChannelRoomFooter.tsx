@@ -11,26 +11,31 @@ import { sendTextMessage } from '@/lib/FireChat/api/sendMessage';
 import useFireChatChannelRoomFooter from '@/lib/FireChat/hooks/useFireChatChannelRoomFooter';
 import {
     CHANNEL_ID_FIELD,
+    CHANNEL_PARTICIPANTS_FIELD,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { ArrowUp } from 'lucide-react';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import useUsers from '@/lib/FireChat/hooks/useUsers';
 
 export default function FireChatChannelRoomFooter() {
     const { user: me } = useAuth();
 
-    const {
-        channel,
-        participants,
-        onSendingFiles,
-        replyingMessage,
-        setReplyingMessage,
-    } = useFireChatChannel();
+    const { channels, selectedChannelId } = useFireChannel();
+    const channel = channels.find(
+        (ch) => ch[CHANNEL_ID_FIELD] === selectedChannelId
+    );
+    const participantIds = channel?.[CHANNEL_PARTICIPANTS_FIELD] || [];
+    const { users: participants } = useUsers(participantIds);
+
+    const { onSendingFiles, replyingMessage, setReplyingMessage } =
+        useFireChatChannel();
     const { message, setMessage, files, setFiles } =
-        useFireChatChannelRoomFooter(channel?.[CHANNEL_ID_FIELD]);
+        useFireChatChannelRoomFooter(selectedChannelId);
 
     const isMine = replyingMessage?.userId === me?.id;
 
-    if (!channel) {
+    if (!selectedChannelId) {
         return null;
     }
 
@@ -62,7 +67,7 @@ export default function FireChatChannelRoomFooter() {
                     // sendTextMessage={sendTextMessage}
                     onSend={() => {
                         sendTextMessage(
-                            channel[CHANNEL_ID_FIELD],
+                            selectedChannelId,
                             me?.[USER_ID_FIELD] || '',
                             message,
                             replyingMessage
@@ -87,7 +92,7 @@ export default function FireChatChannelRoomFooter() {
                         setMessage={setMessage}
                         onSend={() => {
                             sendTextMessage(
-                                channel[CHANNEL_ID_FIELD],
+                                selectedChannelId,
                                 me?.[USER_ID_FIELD] || '',
                                 message,
                                 replyingMessage
@@ -105,13 +110,14 @@ export default function FireChatChannelRoomFooter() {
                         size={'icon'}
                         onClick={() => {
                             sendTextMessage(
-                                channel[CHANNEL_ID_FIELD],
+                                selectedChannelId,
                                 me?.[USER_ID_FIELD] || '',
                                 message,
                                 replyingMessage
                             );
                             setMessage('');
-                            if (replyingMessage)setReplyingMessage?.(undefined);
+                            if (replyingMessage)
+                                setReplyingMessage?.(undefined);
                         }}
                     >
                         <ArrowUp />

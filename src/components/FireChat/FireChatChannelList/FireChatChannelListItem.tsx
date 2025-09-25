@@ -2,6 +2,7 @@ import FireChatChannelListItemAvatar from '@/components/FireChat/FireChatChannel
 import FireChatChannelListItemLastChatContent from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemLastChatContent';
 import FireChatChannelListItemLastChatTime from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemLastChatTime';
 import FireChatChannelListItemTitle from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemTitle';
+import { useAuth } from '@/components/provider/AuthProvider';
 import { Badge } from '@/components/ui/badge';
 import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 import {
@@ -15,12 +16,10 @@ import {
 import { cn } from '@/lib/utils';
 import { memo } from 'react';
 
-interface FireChatChannelListItemProps<U extends FcUser> {
-    // channel: C;
+interface FireChatChannelListItemProps {
     channelId: string;
     isSelected?: boolean;
     selectChannel: (channelId?: string) => void;
-    me?: U | null;
 }
 
 function FireChatChannelListItem<
@@ -28,12 +27,8 @@ function FireChatChannelListItem<
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({
-    channelId,
-    isSelected,
-    selectChannel,
-    me,
-}: FireChatChannelListItemProps<U>) {
+>({ channelId, isSelected, selectChannel }: FireChatChannelListItemProps) {
+    const { user: me } = useAuth();
     const { channel, participants, unreadCount } = useFireChatChannelInfo<
         C,
         M,
@@ -41,7 +36,6 @@ function FireChatChannelListItem<
         U
     >({
         channelId,
-        userId: me?.[USER_ID_FIELD],
     });
 
     return (

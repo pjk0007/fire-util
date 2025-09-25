@@ -1,9 +1,13 @@
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 import useFireChatSender, {
     SendingFile,
 } from '@/lib/FireChat/hooks/useFireChatSender';
+import useUsers from '@/lib/FireChat/hooks/useUsers';
 import {
+    CHANNEL_ID_FIELD,
+    CHANNEL_PARTICIPANTS_FIELD,
     FcChannel,
     FcMessage,
     FcMessageContent,
@@ -21,69 +25,41 @@ import {
 } from 'react';
 
 interface FireChatChannelContextValue<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
 > {
-    channel?: C;
-    participants: U[];
     onSendingFiles: (files: File[]) => void;
     sendingFiles: SendingFile[];
     setSendingFiles: Dispatch<SetStateAction<SendingFile[]>>;
-    replyingMessage?: FcMessage<FcMessageContent>;
-    setReplyingMessage?: (message?: FcMessage<FcMessageContent>) => void;
-    resetChannel?: () => void;
+    replyingMessage?: M;
+    setReplyingMessage?: Dispatch<SetStateAction<M | undefined>>;
 }
 
 const FireChatChannelContext = createContext<
-    FireChatChannelContextValue<
-        FcChannel<FcMessage<FcMessageContent>, FcMessageContent>,
-        FcUser,
-        FcMessage<FcMessageContent>,
-        FcMessageContent
-    >
+    FireChatChannelContextValue<FcMessage<FcMessageContent>, FcMessageContent>
 >({
-    channel: undefined,
-    participants: [],
     sendingFiles: [],
     setSendingFiles: () => {},
     onSendingFiles: () => {},
     replyingMessage: undefined,
     setReplyingMessage: () => {},
-    resetChannel: () => {},
 });
 
 export const useFireChatChannel = () => useContext(FireChatChannelContext);
 
 interface FireChatProviderProps {
-    channelId?: string;
-    resetChannel?: () => void;
     children: ReactNode;
 }
 
-export function FireChatChannelProvider<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
->({ channelId, children, resetChannel }: FireChatProviderProps) {
-    const { user } = useAuth();
-    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
-        channelId,
-        userId: user?.[USER_ID_FIELD],
-    });
+export function FireChatChannelProvider({ children }: FireChatProviderProps) {
+    const { selectedChannelId: channelId } = useFireChannel();
+
     const [replyingMessage, setReplyingMessage] = useState<
         FcMessage<FcMessageContent> | undefined
     >(undefined);
 
-    const { onSendingFiles, sendingFiles, setSendingFiles } = useFireChatSender<
-        C,
-        M,
-        T
-    >({
-        channel,
-    });
+    const { onSendingFiles, sendingFiles, setSendingFiles } =
+        useFireChatSender(channelId);
 
     useEffect(() => {
         if (!channelId) {
@@ -95,19 +71,16 @@ export function FireChatChannelProvider<
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [channelId]);
 
-    const contextValue: FireChatChannelContextValue<C, U, M, T> = {
-        channel,
-        participants,
-        onSendingFiles,
-        sendingFiles,
-        setSendingFiles,
-        replyingMessage,
-        setReplyingMessage,
-        resetChannel,
-    };
-
     return (
-        <FireChatChannelContext.Provider value={contextValue}>
+        <FireChatChannelContext.Provider
+            value={{
+                onSendingFiles,
+                sendingFiles,
+                setSendingFiles,
+                replyingMessage,
+                setReplyingMessage,
+            }}
+        >
             {children}
         </FireChatChannelContext.Provider>
     );

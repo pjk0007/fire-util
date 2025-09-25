@@ -1,10 +1,11 @@
-import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
+import { FireChannelProvider } from '@/components/FireProvider/FireChannelProvider';
 import { AuthProvider } from '@/components/provider/AuthProvider';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Toaster } from 'sonner';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { FireChatSidebarProvider } from '@/components/FireProvider/FireChatSidebarProvider';
+import FireChatChannelSidebar from '@/components/FireChat/FireChatChannelSidebar';
 
 export function ThemeProvider({
     children,
@@ -24,12 +25,11 @@ export default function App({ Component, pageProps }: AppProps) {
             disableTransitionOnChange
         >
             <AuthProvider>
-                <FireChatProvider>
-                    <FireChatSidebarProvider>
-                        <Component {...pageProps} />
-                        <Toaster richColors position="top-center" />
-                    </FireChatSidebarProvider>
-                </FireChatProvider>
+                <FireChannelProvider>
+                    <Component {...pageProps} />
+                    <Toaster richColors position="top-center" />
+                    <FireChatChannelSidebar />
+                </FireChannelProvider>
             </AuthProvider>
         </ThemeProvider>
     );

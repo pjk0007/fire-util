@@ -17,21 +17,14 @@ export interface SendingFile {
     type: typeof MESSAGE_TYPE_IMAGE | typeof MESSAGE_TYPE_FILE;
 }
 
-export default function useFireChatSender<
-    C extends FcChannel<M, T>,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
->({ channel }: { channel?: C }) {
+export default function useFireChatSender(channelId?: string) {
     const [sendingFiles, setSendingFiles] = useState<SendingFile[]>([]);
 
     function onSendingFiles(files: File[]) {
-        if (!channel) return;
+        if (!channelId) return;
         if (files.length === 0) return;
 
-        const sendingFiles = createSendingFiles(
-            channel?.[CHANNEL_ID_FIELD],
-            files
-        );
+        const sendingFiles = createSendingFiles(channelId, files);
         setSendingFiles((prev) => [...prev, ...sendingFiles]);
     }
 

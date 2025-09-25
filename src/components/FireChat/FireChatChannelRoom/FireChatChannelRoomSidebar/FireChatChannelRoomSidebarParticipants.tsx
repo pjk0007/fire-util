@@ -53,15 +53,8 @@ function FireChatChannelRoomSidebarParticipants<
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({
-    participants,
-    channel,
-    me,
-}: {
-    participants: U[];
-    channel?: C;
-    me?: U | null;
-}) {
+>({ participants, channel }: { participants: U[]; channel?: C }) {
+    const { user: me } = useAuth();
     // FireChat 컨텍스트에서 현재 선택된 채널 정보 가져오기
     // 참여자 목록을 보여줌
 

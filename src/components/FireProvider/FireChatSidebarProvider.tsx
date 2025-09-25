@@ -24,7 +24,7 @@ const FIRE_CHAT_SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const FIRE_CHAT_SIDEBAR_WIDTH = '20rem';
 const FIRE_CHAT_SIDEBAR_WIDTH_MOBILE = '18rem';
 const FIRE_CHAT_SIDEBAR_WIDTH_ICON = '3rem';
-const FIRE_CHAT_SIDEBAR_KEYBOARD_SHORTCUT = 'b';
+const FIRE_CHAT_SIDEBAR_KEYBOARD_SHORTCUT = 'k';
 
 type SidebarContextProps = {
     state: 'expanded' | 'collapsed';

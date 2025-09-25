@@ -30,13 +30,17 @@ import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle'
 import { Download, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import useListFiles from '@/lib/FireChat/hooks/useListFiles';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 
 export default function FireChatContents({
     defatultTab = 'image',
 }: {
     defatultTab?: 'image' | 'file';
 }) {
-    const { channel } = useFireChatChannel();
+    const { channels, selectedChannelId } = useFireChannel();
+    const channel = channels.find(
+        (ch) => ch[CHANNEL_ID_FIELD] === selectedChannelId
+    );
     const { imageMessages, fileMessages } = useListFiles({
         channelId: channel?.[CHANNEL_ID_FIELD],
     });

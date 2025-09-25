@@ -1,17 +1,33 @@
-import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
 import FireChatChannelRoomSidebarFiles from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarFiles';
 import FireChatChannelRoomSidebarImages from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarImages';
 import FireChatChannelRoomSidebarParticipants from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarParticipants';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sidebar } from '@/components/ui/sidebar';
-import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
+import {
+    CHANNEL_ID_FIELD,
+    CHANNEL_PARTICIPANTS_FIELD,
+    FcChannel,
+    FcMessage,
+    FcMessageContent,
+    FcUser,
+} from '@/lib/FireChat/settings';
 import useListFiles from '@/lib/FireChat/hooks/useListFiles';
 import { FireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import useUsers from '@/lib/FireChat/hooks/useUsers';
+import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 
-export default function FireChatChannelRoomSidebar() {
-    const { user: me } = useAuth();
-    const { channel, participants } = useFireChatChannel();
+export default function FireChatChannelSidebar<
+    C extends FcChannel<M, T>,
+    U extends FcUser,
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>() {
+    const { selectedChannelId: channelId } = useFireChannel();
+
+    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
+        channelId,
+    });
 
     const { imageMessages, fileMessages } = useListFiles({
         channelId: channel?.[CHANNEL_ID_FIELD],
@@ -24,16 +40,15 @@ export default function FireChatChannelRoomSidebar() {
                     <FireChatChannelRoomSidebarImages
                         channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                         imageMessages={imageMessages}
-                        participants={participants || []}
+                        participants={participants}
                     />
                     <FireChatChannelRoomSidebarFiles
                         fileMessages={fileMessages}
                         channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                     />
                     <FireChatChannelRoomSidebarParticipants
-                        participants={participants || []}
+                        participants={participants}
                         channel={channel}
-                        me={me}
                     />
                 </div>
             </ScrollArea>
