@@ -1,4 +1,4 @@
-import { useFireChatChannel } from '@/components/provider/FireChatChannelProvider';
+import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
 import FireChatChannelRoomFooterFileInput from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterFileInput';
 import FireChatChannelRoomFooterTextarea from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextarea';
 import FireChatChannelRoomFooterTextareaMobile from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextareaMobile';

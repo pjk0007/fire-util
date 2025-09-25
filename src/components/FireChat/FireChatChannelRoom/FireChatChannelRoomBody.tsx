@@ -1,4 +1,4 @@
-import { useFireChatChannel } from '@/components/provider/FireChatChannelProvider';
+import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';

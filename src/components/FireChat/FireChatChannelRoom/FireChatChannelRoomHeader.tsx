@@ -1,12 +1,13 @@
-import { useFireChatChannel } from '@/components/provider/FireChatChannelProvider';
+import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
 import FireChatChannelRoomHeaderAvatar from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomHeader/FireChatChannelRoomHeaderAvatar';
 import { useSidebar } from '@/components/ui/sidebar';
 import { CHANNEL_NAME_FIELD, LOCALE } from '@/lib/FireChat/settings';
 import { ChevronLeft, Menu } from 'lucide-react';
+import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
 
 export default function FireChatChannelRoomHeader() {
     const { channel, participants, resetChannel } = useFireChatChannel();
-    const { toggleSidebar } = useSidebar();
+    const { toggleSidebar } = useFireChatSidebar();
     if (!channel) {
         return null;
     }

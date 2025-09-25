@@ -1,9 +1,10 @@
-import { FireChatProvider } from '@/components/provider/FireChatProvider';
+import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
 import { AuthProvider } from '@/components/provider/AuthProvider';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Toaster } from 'sonner';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { FireChatSidebarProvider } from '@/components/FireProvider/FireChatSidebarProvider';
 
 export function ThemeProvider({
     children,
@@ -24,8 +25,10 @@ export default function App({ Component, pageProps }: AppProps) {
         >
             <AuthProvider>
                 <FireChatProvider>
-                    <Component {...pageProps} />
-                    <Toaster richColors position="top-center" />
+                    <FireChatSidebarProvider>
+                        <Component {...pageProps} />
+                        <Toaster richColors position="top-center" />
+                    </FireChatSidebarProvider>
                 </FireChatProvider>
             </AuthProvider>
         </ThemeProvider>

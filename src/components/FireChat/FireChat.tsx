@@ -1,6 +1,6 @@
 import FireChatChannelRoom from '@/components/FireChat/FireChatChannelRoom';
 import FireChatChannelList from '@/components/FireChat/FireChatChannelList';
-import { useFireChat } from '@/components/provider/FireChatProvider';
+import { useFireChat } from '@/components/FireProvider/FireChatProvider';
 
 export default function FireChat({
     showChannelList = true,
