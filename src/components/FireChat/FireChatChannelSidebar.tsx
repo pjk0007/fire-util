@@ -1,11 +1,9 @@
 import FireChatChannelRoomSidebarFiles from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarFiles';
 import FireChatChannelRoomSidebarImages from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarImages';
 import FireChatChannelRoomSidebarParticipants from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarParticipants';
-import { useAuth } from '@/components/provider/AuthProvider';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     CHANNEL_ID_FIELD,
-    CHANNEL_PARTICIPANTS_FIELD,
     FcChannel,
     FcMessage,
     FcMessageContent,
@@ -14,7 +12,6 @@ import {
 import useListFiles from '@/lib/FireChat/hooks/useListFiles';
 import { FireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useUsers from '@/lib/FireChat/hooks/useUsers';
 import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 
 export default function FireChatChannelSidebar<

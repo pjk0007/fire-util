@@ -1,18 +1,10 @@
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import { useAuth } from '@/components/provider/AuthProvider';
-import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 import useFireChatSender, {
     SendingFile,
 } from '@/lib/FireChat/hooks/useFireChatSender';
-import useUsers from '@/lib/FireChat/hooks/useUsers';
 import {
-    CHANNEL_ID_FIELD,
-    CHANNEL_PARTICIPANTS_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import {
     Dispatch,

@@ -4,7 +4,10 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     CHANNEL_ID_FIELD,
-    CHANNEL_PARTICIPANTS_FIELD,
+    FcChannel,
+    FcMessage,
+    FcMessageContent,
+    FcUser,
 } from '@/lib/FireChat/settings';
 import { ArrowDown } from 'lucide-react';
 import { useEffect } from 'react';
@@ -17,17 +20,20 @@ import {
 } from '@/lib/FireChat/utils/scroll';
 import FireChatChannelRoomBodyMessageList from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomBody/FireChatChannelRoomBodyMessageList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useUsers from '@/lib/FireChat/hooks/useUsers';
+import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 
-export default function FireChatChannelRoomBody() {
+export default function FireChatChannelRoomBody<
+    C extends FcChannel<M, T>,
+    U extends FcUser,
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>() {
     const { user: me } = useAuth();
 
     const { channels, selectedChannelId } = useFireChannel();
-    const channel = channels.find(
-        (ch) => ch[CHANNEL_ID_FIELD] === selectedChannelId
-    );
-    const participantIds = channel?.[CHANNEL_PARTICIPANTS_FIELD];
-    const { users: participants } = useUsers(participantIds || []);
+    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
+        channelId: selectedChannelId,
+    });
 
     const { scrollAreaRef, isScrolling, scrollDate, isTop, isBottom } =
         useScroll();

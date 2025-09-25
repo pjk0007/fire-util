@@ -10,24 +10,28 @@ import { Separator } from '@/components/ui/separator';
 import { sendTextMessage } from '@/lib/FireChat/api/sendMessage';
 import useFireChatChannelRoomFooter from '@/lib/FireChat/hooks/useFireChatChannelRoomFooter';
 import {
-    CHANNEL_ID_FIELD,
-    CHANNEL_PARTICIPANTS_FIELD,
+    FcChannel,
+    FcMessage,
+    FcMessageContent,
+    FcUser,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { ArrowUp } from 'lucide-react';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useUsers from '@/lib/FireChat/hooks/useUsers';
+import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 
-export default function FireChatChannelRoomFooter() {
+export default function FireChatChannelRoomFooter<
+    C extends FcChannel<M, T>,
+    U extends FcUser,
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>() {
     const { user: me } = useAuth();
 
     const { channels, selectedChannelId } = useFireChannel();
-    const channel = channels.find(
-        (ch) => ch[CHANNEL_ID_FIELD] === selectedChannelId
-    );
-    const participantIds = channel?.[CHANNEL_PARTICIPANTS_FIELD] || [];
-    const { users: participants } = useUsers(participantIds);
-
+    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
+        channelId: selectedChannelId,
+    });
     const { onSendingFiles, replyingMessage, setReplyingMessage } =
         useFireChatChannel();
     const { message, setMessage, files, setFiles } =

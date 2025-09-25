@@ -1,22 +1,29 @@
 import FireChatChannelRoomHeaderAvatar from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomHeader/FireChatChannelRoomHeaderAvatar';
 import {
     CHANNEL_NAME_FIELD,
-    CHANNEL_PARTICIPANTS_FIELD,
+    FcChannel,
+    FcMessage,
+    FcMessageContent,
+    FcUser,
     LOCALE,
 } from '@/lib/FireChat/settings';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useUsers from '@/lib/FireChat/hooks/useUsers';
+import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 
-export default function FireChatChannelRoomHeader() {
-    const { channels, selectedChannelId, setSelectedChannelId } = useFireChannel();
+export default function FireChatChannelRoomHeader<
+    C extends FcChannel<M, T>,
+    U extends FcUser,
+    M extends FcMessage<T>,
+    T extends FcMessageContent
+>() {
+    const { channels, selectedChannelId, setSelectedChannelId } =
+        useFireChannel();
     const { toggleSidebar } = useFireChatSidebar();
-    const channel = channels.find((ch) => ch.id === selectedChannelId);
-
-    const { users: participants } = useUsers(
-        channel?.[CHANNEL_PARTICIPANTS_FIELD]
-    );
+    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
+        channelId: selectedChannelId,
+    });
 
     if (!channel) {
         return null;
