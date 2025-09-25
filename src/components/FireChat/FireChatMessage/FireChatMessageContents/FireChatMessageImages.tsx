@@ -2,6 +2,7 @@ import {
     FcMessage,
     FcMessageImage,
     FcUser,
+    LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -26,7 +27,6 @@ export default function FireChatMessageImages<
     const senderUser = participants.find(
         (p) => p.id === message[MESSAGE_USER_ID_FIELD]
     );
-    if (!senderUser) return <div></div>;
 
     return (
         <div className={cn('grid grid-cols-6 gap-0.5 max-w-64 md:max-w-full')}>
@@ -35,7 +35,7 @@ export default function FireChatMessageImages<
                 return (
                     <FireChatImageDialog
                         defaultIdx={idx}
-                        dialogTitle={`${senderUser.name}, ${formatDateString(
+                        dialogTitle={`${senderUser?.name ?? LOCALE.UNKNOWN}, ${formatDateString(
                             message[MESSAGE_CREATED_AT_FIELD]
                         )}`}
                         images={message[MESSAGE_CONTENTS_FIELD].map(

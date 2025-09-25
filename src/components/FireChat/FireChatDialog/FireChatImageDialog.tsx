@@ -68,10 +68,9 @@ export default function FireChatImageDialog({
     return (
         <Dialog>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent className="px-0 pt-4 pb-2 gap-2">
-                <DialogHeader className="text-sm px-4">
-                    <DialogTitle>{dialogTitle}</DialogTitle>
-                    <DialogDescription />
+            <DialogContent className="px-0 pt-4 pb-2 gap-2 rounded-sm">
+                <DialogHeader className="px-4">
+                    <DialogTitle className='text-sm'>{dialogTitle}</DialogTitle>
                 </DialogHeader>
                 <Carousel
                     setApi={setApi}
