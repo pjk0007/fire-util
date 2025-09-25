@@ -51,7 +51,7 @@ export default function useScroll() {
                 clearTimeout(scrollTimeoutRef.current);
             }
         };
-    }, [scrollAreaRef]);
+    }, [scrollAreaRef.current]);
 
     return {
         scrollAreaRef,

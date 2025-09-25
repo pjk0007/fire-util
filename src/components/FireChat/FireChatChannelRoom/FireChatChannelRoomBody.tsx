@@ -30,7 +30,7 @@ export default function FireChatChannelRoomBody<
 >() {
     const { user: me } = useAuth();
 
-    const { channels, selectedChannelId } = useFireChannel();
+    const { selectedChannelId } = useFireChannel();
     const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
         channelId: selectedChannelId,
     });
