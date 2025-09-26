@@ -4,13 +4,11 @@ import { useRouter } from 'next/router';
 
 export default function ChannelPage() {
     const router = useRouter();
-    const { channelId, tab } = router.query;
+    const { tab } = router.query;
 
     return (
         <div className="w-screen h-screen relative overflow-hidden">
-            <FireChatChannelProvider
-                channelId={channelId as string | undefined}
-            >
+            <FireChatChannelProvider>
                 <FireChatContents
                     defatultTab={
                         typeof tab === 'string'

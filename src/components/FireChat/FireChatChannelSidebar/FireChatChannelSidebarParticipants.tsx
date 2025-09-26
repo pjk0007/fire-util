@@ -48,7 +48,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-function FireChatChannelRoomSidebarParticipants<
+function FireChatChannelSidebarParticipants<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
@@ -362,4 +362,4 @@ function InviteParticipantsButton<U extends FcUser>({
     );
 }
 
-export default memo(FireChatChannelRoomSidebarParticipants);
+export default memo(FireChatChannelSidebarParticipants);

@@ -1,6 +1,6 @@
-import FireChatChannelRoomSidebarFiles from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarFiles';
-import FireChatChannelRoomSidebarImages from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarImages';
-import FireChatChannelRoomSidebarParticipants from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomSidebar/FireChatChannelRoomSidebarParticipants';
+import FireChatChannelSidebarFiles from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarFiles';
+import FireChatChannelSidebarImages from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarImages';
+import FireChatChannelSidebarParticipants from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarParticipants';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     CHANNEL_ID_FIELD,
@@ -34,16 +34,16 @@ export default function FireChatChannelSidebar<
         <FireChatSidebar side="right">
             <ScrollArea className="h-full">
                 <div className="p-2 h-full gap-2 flex flex-col">
-                    <FireChatChannelRoomSidebarImages
+                    <FireChatChannelSidebarImages
                         channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                         imageMessages={imageMessages}
                         participants={participants}
                     />
-                    <FireChatChannelRoomSidebarFiles
+                    <FireChatChannelSidebarFiles
                         fileMessages={fileMessages}
                         channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                     />
-                    <FireChatChannelRoomSidebarParticipants
+                    <FireChatChannelSidebarParticipants
                         participants={participants}
                         channel={channel}
                     />

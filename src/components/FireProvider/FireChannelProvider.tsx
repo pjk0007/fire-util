@@ -8,7 +8,7 @@ import {
     FcMessageContent,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import { ReactNode, useContext, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
 
 interface FireChatContextValue<
@@ -38,19 +38,26 @@ export const useFireChannel = () => useContext(FireChatContext);
 
 interface FireChatProviderProps {
     children: ReactNode;
+    defaultChannelId?: string;
 }
 
 export function FireChannelProvider<
     C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ children }: FireChatProviderProps) {
+>({ children, defaultChannelId }: FireChatProviderProps) {
     const { user } = useAuth();
     const [selectedChannelId, setSelectedChannelId] = useState<
         string | undefined
     >(undefined);
     const userId = user?.[USER_ID_FIELD];
     const { channels } = useFireChannelList(userId);
+
+    useEffect(() => {
+        if (defaultChannelId) {
+            setSelectedChannelId(defaultChannelId);
+        }
+    }, [defaultChannelId]);
 
     return (
         <FireChatContext.Provider

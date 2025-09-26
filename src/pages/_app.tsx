@@ -6,6 +6,7 @@ import { Toaster } from 'sonner';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { FireChatSidebarProvider } from '@/components/FireProvider/FireChatSidebarProvider';
 import FireChatChannelSidebar from '@/components/FireChat/FireChatChannelSidebar';
+import { useRouter } from 'next/router';
 
 export function ThemeProvider({
     children,
@@ -17,6 +18,7 @@ export function ThemeProvider({
 // const USER_ID = 'u3C0qmWf8qaiKi4zQHBRGbh9VA63';
 
 export default function App({ Component, pageProps }: AppProps) {
+    const router = useRouter();
     return (
         <ThemeProvider
             attribute="class"
@@ -25,7 +27,11 @@ export default function App({ Component, pageProps }: AppProps) {
             disableTransitionOnChange
         >
             <AuthProvider>
-                <FireChannelProvider>
+                <FireChannelProvider
+                    defaultChannelId={
+                        router.query.channelId as string | undefined
+                    }
+                >
                     <Component {...pageProps} />
                     <Toaster richColors position="top-center" />
                     <FireChatChannelSidebar />
