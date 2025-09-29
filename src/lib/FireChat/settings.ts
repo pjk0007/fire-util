@@ -67,6 +67,7 @@ export const LOCALE = {
     UNKNOWN: '(알 수 없음)',
     NO_CHANNEL_SELECTED: '채팅방이 선택되지 않았습니다.',
     ME: '나',
+    HOST: '방장',
     REPLYING_TO: (name: string) => `${name}에게 답장`,
     REPLY: '답장',
     COPY: '복사',
@@ -77,11 +78,11 @@ export const LOCALE = {
     CANCEL: '취소',
 
     SIDEBAR: {
-        PARTICIPANTS: '참여자',
-        NO_PARTICIPANTS: '참여자가 없습니다.',
-        INVITE_PARTICIPANTS: '초대하기',
+        PARTICIPANTS: '멤버',
+        NO_PARTICIPANTS: '멤버가 없습니다.',
+        INVITE_PARTICIPANTS: '신규 멤버 초대하기',
 
-        MORE: '더보기',
+        MORE: '전체보기',
 
         INVITE_PARTICIPANTS_DESCRIPTION:
             '초대할 사용자의 이름 또는 이메일을 입력하세요.',

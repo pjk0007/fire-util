@@ -69,7 +69,13 @@ export function FireChannelProvider<
                 } as FireChatContextValue<C, M, T>
             }
         >
-            <FireChatSidebarProvider>{children}</FireChatSidebarProvider>
+            <FireChatSidebarProvider
+                style={ {
+                    '--firechat-header-height': 'calc(var(--spacing) * 10)',
+                } as React.CSSProperties}
+            >
+                {children}
+            </FireChatSidebarProvider>
         </FireChatContext.Provider>
     );
 }

@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
     Sheet,
     SheetContent,
@@ -9,7 +8,6 @@ import {
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import { PanelLeftIcon } from 'lucide-react';
 import {
     createContext,
     useCallback,
@@ -21,7 +19,7 @@ import {
 
 const FIRE_CHAT_SIDEBAR_COOKIE_NAME = 'fire_chat_sidebar_state';
 const FIRE_CHAT_SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const FIRE_CHAT_SIDEBAR_WIDTH = '20rem';
+const FIRE_CHAT_SIDEBAR_WIDTH = '360px';
 const FIRE_CHAT_SIDEBAR_WIDTH_MOBILE = '18rem';
 const FIRE_CHAT_SIDEBAR_WIDTH_ICON = '3rem';
 const FIRE_CHAT_SIDEBAR_KEYBOARD_SHORTCUT = 'k';

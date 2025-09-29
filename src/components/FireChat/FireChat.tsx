@@ -9,14 +9,15 @@ export default function FireChat({
 }: {
     showChannelList?: boolean;
 }) {
+    const { selectedChannelId } = useFireChannel();
     return (
         <div className="w-full h-full flex">
             {showChannelList && <FireChatChannelList />}
 
-            <div className={cn('w-full h-full flex flex-col')}>
+            {selectedChannelId && <div className={cn('w-full h-full flex flex-col')}>
                 <FireChatChannelRoomHeader />
                 <FireChatChannelRoom />
-            </div>
+            </div>}
         </div>
     );
 }
