@@ -6,10 +6,19 @@ import { LOCALE } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
+import { useEffect } from 'react';
 
 export default function FireChatChannelRoom() {
     const { selectedChannelId: channelId } = useFireChannel();
     const isMobile = useIsMobile();
+    const { setOpen } = useFireChatSidebar();
+    
+    useEffect(() => {
+        return () => {
+            setOpen(false);
+        };
+    }, [channelId]);
 
     if (!channelId) {
         if (!isMobile) {
@@ -21,6 +30,7 @@ export default function FireChatChannelRoom() {
         }
         return null;
     }
+
     return (
         <FireChatChannelProvider>
             <FireChatChannelRoomBody />
