@@ -28,8 +28,8 @@ export default function FireChatChannelRoomFooter<
 >() {
     const { user: me } = useAuth();
 
-    const { channels, selectedChannelId } = useFireChannel();
-    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
+    const { selectedChannelId } = useFireChannel();
+    const { participants } = useFireChatChannelInfo<C, M, T, U>({
         channelId: selectedChannelId,
     });
     const { onSendingFiles, replyingMessage, setReplyingMessage } =
@@ -80,6 +80,7 @@ export default function FireChatChannelRoomFooter<
                         if (replyingMessage) setReplyingMessage?.(undefined);
                     }}
                     replyingMessage={replyingMessage}
+                    setFiles={setFiles}
                 />
 
                 <div className="flex justify-between items-center border rounded-lg md:border-none p-2 md:p-0">

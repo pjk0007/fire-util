@@ -1,4 +1,4 @@
-import FireChatChannelRoomHeaderAvatar from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomHeader/FireChatChannelRoomHeaderAvatar';
+import FireChatChannelHeaderAvatar from '@/components/FireChat/FireChatChannelHeader/FireChatChannelHeaderAvatar';
 import {
     CHANNEL_NAME_FIELD,
     FcChannel,
@@ -12,13 +12,13 @@ import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarPro
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
 
-export default function FireChatChannelRoomHeader<
+export default function FireChatChannelHeader<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
 >() {
-    const { channels, selectedChannelId, setSelectedChannelId } =
+    const { selectedChannelId, setSelectedChannelId } =
         useFireChannel();
     const { toggleSidebar } = useFireChatSidebar();
     const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
@@ -36,7 +36,7 @@ export default function FireChatChannelRoomHeader<
                     className="md:hidden cursor-pointer text-muted-foreground"
                     onClick={() => setSelectedChannelId(undefined)}
                 />
-                <FireChatChannelRoomHeaderAvatar participants={participants} />
+                <FireChatChannelHeaderAvatar participants={participants} />
                 <h2 className="md:text-base text-sm font-bold line-clamp-1">
                     {channel?.[CHANNEL_NAME_FIELD] || LOCALE.UNKNOWN}
                 </h2>

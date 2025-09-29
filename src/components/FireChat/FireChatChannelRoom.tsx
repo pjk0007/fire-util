@@ -1,7 +1,7 @@
 import { FireChatChannelProvider } from '@/components/FireProvider/FireChatChannelProvider';
 import FireChatChannelRoomBody from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomBody';
 import FireChatChannelRoomFooter from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter';
-import FireChatChannelRoomHeader from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomHeader';
+import FireChatChannelHeader from '@/components/FireChat/FireChatChannelHeader';
 import { LOCALE } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -13,7 +13,7 @@ export default function FireChatChannelRoom() {
     const { selectedChannelId: channelId } = useFireChannel();
     const isMobile = useIsMobile();
     const { setOpen } = useFireChatSidebar();
-    
+
     useEffect(() => {
         return () => {
             setOpen(false);
