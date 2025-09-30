@@ -10,7 +10,7 @@ import { FcUser } from '@/lib/FireAuth/settings';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
+import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
 export default function FireChatChannelHeader<
     C extends FcChannel<M, T>,
@@ -20,7 +20,7 @@ export default function FireChatChannelHeader<
 >() {
     const { selectedChannelId, setSelectedChannelId } = useFireChannel();
     const { toggleSidebar } = useFireChatSidebar();
-    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
+    const { channel, participants } = useFireChannelInfo<C, M, T, U>({
         channelId: selectedChannelId,
     });
 

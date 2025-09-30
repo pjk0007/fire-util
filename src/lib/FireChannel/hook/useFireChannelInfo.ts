@@ -1,4 +1,4 @@
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { db } from '@/lib/firebase';
 import {
     CHANNEL_COLLECTION,
@@ -29,7 +29,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
-export default function useFireChatChannelInfo<
+export default function useFireChannelInfo<
     C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent,
@@ -43,7 +43,7 @@ export default function useFireChatChannelInfo<
     channelCollection?: string;
     userCollection?: string;
 }) {
-    const { user } = useAuth();
+    const { user } = useFireAuth();
     const userId = user?.[USER_ID_FIELD];
     const [channel, setChannel] = useState<C | undefined>(undefined);
     const [participants, setParticipants] = useState<U[]>([]);

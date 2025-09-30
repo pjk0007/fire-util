@@ -1,6 +1,6 @@
 import { FireChatSidebarProvider } from '@/components/FireProvider/FireChatSidebarProvider';
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
-import useFireChannelList from '@/lib/FireChat/hooks/useFireChannelList';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
+import useFireChannelList from '@/lib/FireChannel/hook/useFireChannelList';
 
 import {
     FcChannel,
@@ -46,7 +46,7 @@ export function FireChannelProvider<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ children, defaultChannelId }: FireChatProviderProps) {
-    const { user } = useAuth();
+    const { user } = useFireAuth();
     const [selectedChannelId, setSelectedChannelId] = useState<
         string | undefined
     >(undefined);

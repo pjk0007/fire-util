@@ -1,10 +1,10 @@
-import FireChatChannelListItemAvatar from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemAvatar';
-import FireChatChannelListItemLastChatContent from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemLastChatContent';
-import FireChatChannelListItemLastChatTime from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemLastChatTime';
-import FireChatChannelListItemTitle from '@/components/FireChat/FireChatChannelList/FireChatChannelListItemTitle';
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import FireChatChannelListItemAvatar from '@/components/FireChannel/FireChannelList/FireChannelListItemAvatar';
+import FireChatChannelListItemLastChatContent from '@/components/FireChannel/FireChannelList/FireChannelListItemLastChatContent';
+import FireChatChannelListItemLastChatTime from '@/components/FireChannel/FireChannelList/FireChannelListItemLastChatTime';
+import FireChatChannelListItemTitle from '@/components/FireChannel/FireChannelList/FireChannelListItemTitle';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Badge } from '@/components/ui/badge';
-import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
+import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import {
     CHANNEL_ID_FIELD,
     FcChannel,
@@ -28,8 +28,8 @@ function FireChatChannelListItem<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ channelId, isSelected, selectChannel }: FireChatChannelListItemProps) {
-    const { user: me } = useAuth();
-    const { channel, participants, unreadCount } = useFireChatChannelInfo<
+    const { user: me } = useFireAuth();
+    const { channel, participants, unreadCount } = useFireChannelInfo<
         C,
         M,
         T,

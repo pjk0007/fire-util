@@ -5,7 +5,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 
-export default async function markMessageAsRead(
+export default async function updateLastSeen(
     channelId: string,
     userId?: string
 ) {

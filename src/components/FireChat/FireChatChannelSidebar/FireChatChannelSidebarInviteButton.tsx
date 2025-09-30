@@ -27,9 +27,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { findUsersByNameOrEmail } from '@/lib/FireAuth/api/getUsersByEmail';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { toast } from 'sonner';
-import inviteUser from '@/lib/FireChat/api/inviteUser';
+import inviteUser from '@/lib/FireChannel/api/inviteUser';
 
 export default function FireChatChannelSidebarInviteButton<U extends FcUser>({
     channelId,
@@ -37,7 +37,7 @@ export default function FireChatChannelSidebarInviteButton<U extends FcUser>({
     channelId: string;
 }) {
     // 초대가능한 유저 목록 (현재는 구현하지 않음)
-    const { user: me } = useAuth();
+    const { user: me } = useFireAuth();
     const [inviteableUsers, setInviteableUsers] = useState<U[] | undefined>();
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');

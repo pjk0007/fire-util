@@ -1,5 +1,5 @@
 import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -20,7 +20,7 @@ import {
 } from '@/lib/FireChat/utils/scroll';
 import FireChatChannelRoomBodyMessageList from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomBody/FireChatChannelRoomBodyMessageList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
+import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
 export default function FireChatChannelRoomBody<
     C extends FcChannel<M, T>,
@@ -28,10 +28,10 @@ export default function FireChatChannelRoomBody<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >() {
-    const { user: me } = useAuth();
+    const { user: me } = useFireAuth();
 
     const { selectedChannelId } = useFireChannel();
-    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
+    const { channel, participants } = useFireChannelInfo<C, M, T, U>({
         channelId: selectedChannelId,
     });
 

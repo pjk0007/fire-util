@@ -1,4 +1,4 @@
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
 import {
@@ -34,7 +34,7 @@ export default function useFireChatSendingFile({
     channelId: string;
     file: File;
 }) {
-    const { user: me } = useAuth();
+    const { user: me } = useFireAuth();
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [isCompleted, setIsCompleted] = useState(false);

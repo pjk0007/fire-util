@@ -17,7 +17,7 @@ import {
     useFireChatSidebar,
 } from '@/components/FireProvider/FireChatSidebarProvider';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
+import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,7 @@ export default function FireChatChannelSidebar<
 >() {
     const { selectedChannelId: channelId } = useFireChannel();
 
-    const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
+    const { channel, participants } = useFireChannelInfo<C, M, T, U>({
         channelId,
     });
 

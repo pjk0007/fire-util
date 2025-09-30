@@ -16,7 +16,7 @@ const FireAuthContext = createContext<FireAuthContextProps<FcUser>>({
     status: 'pending',
 });
 
-export const useAuth = () => useContext(FireAuthContext);
+export const useFireAuth = () => useContext(FireAuthContext);
 
 interface FireAuthProviderProps {
     children: ReactNode;

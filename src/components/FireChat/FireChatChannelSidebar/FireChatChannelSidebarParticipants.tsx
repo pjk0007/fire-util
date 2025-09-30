@@ -23,9 +23,9 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { memo } from 'react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { toast } from 'sonner';
-import removeUser from '@/lib/FireChat/api/removeUser';
+import removeUser from '@/lib/FireChannel/api/removeUser';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -45,7 +45,7 @@ function FireChatChannelSidebarParticipants<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ participants, channel }: { participants: U[]; channel?: C }) {
-    const { user: me } = useAuth();
+    const { user: me } = useFireAuth();
     // FireChat 컨텍스트에서 현재 선택된 채널 정보 가져오기
     // 참여자 목록을 보여줌
 

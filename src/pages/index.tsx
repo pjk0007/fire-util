@@ -1,5 +1,5 @@
 import FireChat from '@/components/FireChat/FireChat';
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -12,7 +12,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 
 export default function Home() {
-    const { user } = useAuth();
+    const { user } = useFireAuth();
     const [open, setOpen] = useState(false);
     return (
         <div className="w-[100dvw] h-[100dvh] relative">

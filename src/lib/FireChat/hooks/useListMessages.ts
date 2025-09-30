@@ -1,7 +1,7 @@
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { db } from '@/lib/firebase';
 import getMessages from '@/lib/FireChat/api/getMessages';
-import markMessageAsRead from '@/lib/FireChat/api/markMessageAsRead';
+import updateLastSeen from '@/lib/FireChat/api/updateLastSeen';
 import {
     CHANNEL_COLLECTION,
     FcMessage,
@@ -26,7 +26,7 @@ export default function useListMessages<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ channelId }: { channelId?: string }) {
-    const { user } = useAuth();
+    const { user } = useFireAuth();
     const [messages, setMessages] = useState<M[]>([]);
     const [beforeMessages, setBeforeMessages] = useState<M[]>([]);
     // const [newMessages, setNewMessages] = useState<M[]>([]);
@@ -63,7 +63,7 @@ export default function useListMessages<
         }
         let unsubscribe: Unsubscribe;
         getMessages<M, T>(channelId, null).then((msgs) => {
-            markMessageAsRead(channelId, user?.[USER_ID_FIELD]);
+            updateLastSeen(channelId, user?.[USER_ID_FIELD]);
             // setMessages(msgs);
 
             if (msgs.length >= MESSAGE_UNIT) {
@@ -98,7 +98,7 @@ export default function useListMessages<
                             // setNewMessages((prev) => [...prev, msg]);
                             // 메시지가 추가로 들어오면 읽음 처리
                             if (user?.[USER_ID_FIELD]) {
-                                markMessageAsRead(
+                                updateLastSeen(
                                     channelId,
                                     user?.[USER_ID_FIELD] || ''
                                 );

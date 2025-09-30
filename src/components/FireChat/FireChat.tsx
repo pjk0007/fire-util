@@ -1,5 +1,5 @@
 import FireChatChannelRoom from '@/components/FireChat/FireChatChannelRoom';
-import FireChatChannelList from '@/components/FireChat/FireChatChannelList';
+import FireChannelList from '@/components/FireChannel/FireChannelList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { cn } from '@/lib/utils';
 import FireChatChannelHeader from '@/components/FireChat/FireChatChannelHeader';
@@ -14,7 +14,7 @@ export default function FireChat({
 
     return (
         <div className="w-full h-full flex">
-            {showChannelList && <FireChatChannelList />}
+            {showChannelList && <FireChannelList />}
             {selectedChannelId && (
                 <div className={cn('w-full h-full flex flex-col')}>
                     <FireChatChannelHeader />

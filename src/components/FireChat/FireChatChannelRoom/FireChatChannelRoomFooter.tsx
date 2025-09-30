@@ -4,7 +4,7 @@ import FireChatChannelRoomFooterTextarea from '@/components/FireChat/FireChatCha
 import FireChatChannelRoomFooterTextareaMobile from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextareaMobile';
 import FireChatChannelRoomReplyMessage from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomReplyMessage';
 import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/FireChatFileUploaderDialog';
-import { useAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { sendTextMessage } from '@/lib/FireChat/api/sendMessage';
@@ -19,7 +19,7 @@ import { FcUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ArrowUp } from 'lucide-react';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
+import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import { useEffect, useState } from 'react';
 
 export default function FireChatChannelRoomFooter<
@@ -28,11 +28,11 @@ export default function FireChatChannelRoomFooter<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >() {
-    const { user: me } = useAuth();
+    const { user: me } = useFireAuth();
     const [isDragOver, setIsDragOver] = useState(false);
 
     const { selectedChannelId } = useFireChannel();
-    const { participants } = useFireChatChannelInfo<C, M, T, U>({
+    const { participants } = useFireChannelInfo<C, M, T, U>({
         channelId: selectedChannelId,
     });
     const { onSendingFiles, replyingMessage, setReplyingMessage } =
