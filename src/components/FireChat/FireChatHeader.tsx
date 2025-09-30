@@ -1,4 +1,4 @@
-import FireChatChannelHeaderAvatar from '@/components/FireChat/FireChatChannelHeader/FireChatChannelHeaderAvatar';
+import FireChatHeaderAvatar from '@/components/FireChat/FireChatHeader/FireChatHeaderAvatar';
 import {
     FcMessage,
     FcMessageContent,
@@ -35,7 +35,7 @@ export default function FireChatHeader<
                     className="md:hidden cursor-pointer text-muted-foreground"
                     onClick={() => setSelectedChannelId(undefined)}
                 />
-                <FireChatChannelHeaderAvatar participants={participants} />
+                <FireChatHeaderAvatar participants={participants} />
                 <h2 className="md:text-base text-sm font-bold line-clamp-1">
                     {channel?.[CHANNEL_NAME_FIELD] || FIRECHAT_LOCALE.UNKNOWN}
                 </h2>
