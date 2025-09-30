@@ -22,7 +22,7 @@ export default function FireChatChannelRoomFooterTextarea<
     const handlePaste = useCallback((event: React.ClipboardEvent) => {
         event.preventDefault();
         if (!event.clipboardData) return;
-        
+
         // 클립보드 이벤트에서 파일들을 추출합니다.
         const { items } = event.clipboardData;
         if (items.length === 0) return;

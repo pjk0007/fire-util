@@ -14,11 +14,13 @@ import {
     FcMessage,
     FcMessageContent,
     FcUser,
+    LOCALE,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { ArrowUp } from 'lucide-react';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';
+import { useEffect, useState } from 'react';
 
 export default function FireChatChannelRoomFooter<
     C extends FcChannel<M, T>,
@@ -27,6 +29,7 @@ export default function FireChatChannelRoomFooter<
     T extends FcMessageContent
 >() {
     const { user: me } = useAuth();
+    const [isDragOver, setIsDragOver] = useState(false);
 
     const { selectedChannelId } = useFireChannel();
     const { participants } = useFireChatChannelInfo<C, M, T, U>({
@@ -39,12 +42,40 @@ export default function FireChatChannelRoomFooter<
 
     const isMine = replyingMessage?.userId === me?.id;
 
+    const handleDrop = (event: React.DragEvent) => {
+        event.preventDefault();
+        const { files } = event.dataTransfer;
+
+        setFiles(Array.from(files));
+        setIsDragOver(false);
+    };
+
+    const handleDragOver = (event: React.DragEvent) => {
+        event.preventDefault();
+        setIsDragOver(true);
+    };
+
+    const handleDragLeave = (event: React.DragEvent) => {
+        event.preventDefault();
+        setIsDragOver(false);
+    };
+
     if (!selectedChannelId) {
         return null;
     }
 
     return (
-        <div className="w-full  bg-muted/40 md:px-5 md:pb-5 md:pt-0 border-t md:border-none p-2">
+        <div
+            className="w-full relative bg-muted/40 md:px-5 md:pb-5 md:pt-0 border-t md:border-none p-2"
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+        >
+            {isDragOver && (
+                <div className="absolute top-0 left-0 w-full h-full bg-muted z-50 flex items-center justify-center">
+                    {LOCALE.FOOTER.DRAG_DROP_TO_UPLOAD}
+                </div>
+            )}
             <FireChatFileUploaderDialog
                 files={files}
                 setFiles={setFiles}

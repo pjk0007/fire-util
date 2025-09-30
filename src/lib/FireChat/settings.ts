@@ -114,6 +114,7 @@ export const LOCALE = {
         UPLOAD_FILES: '파일 전송',
 
         REMOVE_FILE: '파일 삭제',
+        DRAG_DROP_TO_UPLOAD: '여기에 파일을 끌어다 놓으세요',
     },
 };
 
