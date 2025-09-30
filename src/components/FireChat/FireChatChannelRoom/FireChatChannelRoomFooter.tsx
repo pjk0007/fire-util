@@ -14,7 +14,7 @@ import {
     FcMessage,
     FcMessageContent,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { ArrowUp } from 'lucide-react';
@@ -73,7 +73,7 @@ export default function FireChatChannelRoomFooter<
         >
             {isDragOver && (
                 <div className="absolute top-0 left-0 w-full h-full bg-muted z-50 flex items-center justify-center">
-                    {LOCALE.FOOTER.DRAG_DROP_TO_UPLOAD}
+                    {FIRECHAT_LOCALE.FOOTER.DRAG_DROP_TO_UPLOAD}
                 </div>
             )}
             <FireChatFileUploaderDialog

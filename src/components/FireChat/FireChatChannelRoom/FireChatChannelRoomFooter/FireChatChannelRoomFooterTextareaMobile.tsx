@@ -1,4 +1,4 @@
-import { FcMessage, FcMessageContent, LOCALE } from '@/lib/FireChat/settings';
+import { FcMessage, FcMessageContent, FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef } from 'react';
 
@@ -35,8 +35,8 @@ export default function FireChatChannelRoomFooterTextareaMobile<
                 rows={1}
                 placeholder={
                     replyingMessage
-                        ? LOCALE.FOOTER.REPLY_MESSAGE
-                        : LOCALE.FOOTER.INPUT_PLACEHOLDER
+                        ? FIRECHAT_LOCALE.FOOTER.REPLY_MESSAGE
+                        : FIRECHAT_LOCALE.FOOTER.INPUT_PLACEHOLDER
                 }
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}

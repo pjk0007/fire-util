@@ -1,6 +1,6 @@
 import {
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
     USER_EMAIL_FIELD,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
@@ -55,7 +55,7 @@ export default function FireChatChannelSidebarInviteButton<U extends FcUser>({
         setIsOpen(false);
         inviteUser(channelId, userId).then(() => {
             // reFetchChannelParticipants();
-            toast.success(LOCALE.SIDEBAR.USER_INVITED, {
+            toast.success(FIRECHAT_LOCALE.SIDEBAR.USER_INVITED, {
                 duration: 3000,
             });
         });
@@ -65,21 +65,21 @@ export default function FireChatChannelSidebarInviteButton<U extends FcUser>({
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger>
                 <Button variant="secondary" className="w-full mt-4">
-                    {LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
+                    {FIRECHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
                 </Button>
             </DialogTrigger>
             <DialogContent className="md:max-w-md">
                 <DialogHeader>
                     <DialogTitle>
-                        {LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
+                        {FIRECHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
                     </DialogTitle>
                     <DialogDescription className="text-sm">
-                        {LOCALE.SIDEBAR.INVITE_PARTICIPANTS_DESCRIPTION}
+                        {FIRECHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS_DESCRIPTION}
                     </DialogDescription>
                     <form className="flex gap-2 mt-2" onSubmit={handleSearch}>
                         <Input
                             type="text"
-                            placeholder={LOCALE.SIDEBAR.SEARCH_USER_PLACEHOLDER}
+                            placeholder={FIRECHAT_LOCALE.SIDEBAR.SEARCH_USER_PLACEHOLDER}
                             className="w-full mb-4"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -89,7 +89,7 @@ export default function FireChatChannelSidebarInviteButton<U extends FcUser>({
                             className="w-fit"
                             variant={'outline'}
                         >
-                            {LOCALE.SIDEBAR.SEARCH_BUTTON}
+                            {FIRECHAT_LOCALE.SIDEBAR.SEARCH_BUTTON}
                         </Button>
                     </form>
                     {inviteableUsers && (
@@ -97,7 +97,7 @@ export default function FireChatChannelSidebarInviteButton<U extends FcUser>({
                             <div className="flex flex-col gap-2 max-h-96">
                                 {inviteableUsers.length === 0 ? (
                                     <span className="text-sm text-muted-foreground text-center py-4">
-                                        {LOCALE.SIDEBAR.NO_USERS_FOUND}
+                                        {FIRECHAT_LOCALE.SIDEBAR.NO_USERS_FOUND}
                                     </span>
                                 ) : (
                                     inviteableUsers.map((user) => (
@@ -153,7 +153,7 @@ export default function FireChatChannelSidebarInviteButton<U extends FcUser>({
                                                     }}
                                                 >
                                                     {
-                                                        LOCALE.SIDEBAR
+                                                        FIRECHAT_LOCALE.SIDEBAR
                                                             .INVITE_BUTTON
                                                     }
                                                 </Button>

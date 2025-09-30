@@ -9,7 +9,7 @@ import {
     FcMessage,
     FcMessageContent,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
 import useListFiles from '@/lib/FireChat/hooks/useListFiles';
 import {
@@ -61,10 +61,10 @@ export default function FireChatChannelSidebar<
                     <Tabs className="gap-4" defaultValue="images">
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="images" className="w-full">
-                                {LOCALE.IMAGE}
+                                {FIRECHAT_LOCALE.IMAGE}
                             </TabsTrigger>
                             <TabsTrigger value="files" className="w-full">
-                                {LOCALE.FILE}
+                                {FIRECHAT_LOCALE.FILE}
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="images" className="p-0">

@@ -1,7 +1,7 @@
 import {
     FcMessage,
     FcMessageSystem,
-    LOCALE,
+    FIRECHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
@@ -19,7 +19,7 @@ export default function FireChatMessageSystem<
         >
             <div className="text-xs text-foreground bg-muted px-3 py-1.5 rounded-xs">
                 {message.contents?.[0][MESSAGE_CONTENT_TEXT_FIELD] ||
-                    LOCALE.UNKNOWN}
+                    FIRECHAT_LOCALE.UNKNOWN}
             </div>
         </div>
     );

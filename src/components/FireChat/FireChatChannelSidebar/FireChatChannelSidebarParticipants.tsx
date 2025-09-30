@@ -5,7 +5,7 @@ import {
     FcMessage,
     FcMessageContent,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
     USER_EMAIL_FIELD,
     USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
@@ -58,7 +58,7 @@ function FireChatChannelSidebarParticipants<
             removeUser(channel[CHANNEL_ID_FIELD], user[USER_ID_FIELD]).then(
                 () => {
                     toast.error(
-                        LOCALE.SIDEBAR.PARTICIPANT_REMOVED(
+                        FIRECHAT_LOCALE.SIDEBAR.PARTICIPANT_REMOVED(
                             user[USER_NAME_FIELD]
                         ),
                         {
@@ -76,7 +76,7 @@ function FireChatChannelSidebarParticipants<
             <div className="flex items-center gap-2">
                 {/* <Users className="w-4 h-4 text-primary" /> */}
                 <h2 className="text-sm font-semibold tracking-tight">
-                    {LOCALE.SIDEBAR.PARTICIPANTS}
+                    {FIRECHAT_LOCALE.SIDEBAR.PARTICIPANTS}
                     <span className="ml-1.5 text-muted-foreground">
                         {sortedParticipants.length}
                     </span>
@@ -86,7 +86,7 @@ function FireChatChannelSidebarParticipants<
             <div className='flex flex-col gap-1'>
                 {sortedParticipants.length === 0 ? (
                     <span className="text-sm text-muted-foreground text-center py-6">
-                        {LOCALE.SIDEBAR.NO_PARTICIPANTS}
+                        {FIRECHAT_LOCALE.SIDEBAR.NO_PARTICIPANTS}
                     </span>
                 ) : (
                     sortedParticipants.map((user) => (
@@ -121,12 +121,12 @@ function FireChatChannelSidebarParticipants<
                                         {channel?.[CHANNEL_HOST_ID_FIELD] ===
                                         user[USER_ID_FIELD] ? (
                                             <Badge className="text-xs py-0.5 px-1 mr-1 bg-accent-foreground">
-                                                {LOCALE.HOST}
+                                                {FIRECHAT_LOCALE.HOST}
                                             </Badge>
                                         ) : user[USER_ID_FIELD] ===
                                           me?.[USER_ID_FIELD] ? (
                                             <Badge className="text-xs py-0.5 px-1 mr-1 bg-accent-foreground">
-                                                {LOCALE.ME}
+                                                {FIRECHAT_LOCALE.ME}
                                             </Badge>
                                         ) : null}
 
@@ -161,7 +161,7 @@ function FireChatChannelSidebarParticipants<
                                                     }
                                                 >
                                                     {
-                                                        LOCALE.SIDEBAR
+                                                        FIRECHAT_LOCALE.SIDEBAR
                                                             .REMOVE_USER_BUTTON
                                                     }
                                                 </Button>
@@ -169,14 +169,14 @@ function FireChatChannelSidebarParticipants<
                                             <AlertDialogContent>
                                                 <AlertDialogHeader>
                                                     <AlertDialogTitle>
-                                                        {LOCALE.SIDEBAR.REMOVE_PARTICIPANT(
+                                                        {FIRECHAT_LOCALE.SIDEBAR.REMOVE_PARTICIPANT(
                                                             user[
                                                                 USER_NAME_FIELD
                                                             ]
                                                         )}
                                                     </AlertDialogTitle>
                                                     <AlertDialogDescription className="text-sm">
-                                                        {LOCALE.SIDEBAR.REMOVE_PARTICIPANT(
+                                                        {FIRECHAT_LOCALE.SIDEBAR.REMOVE_PARTICIPANT(
                                                             user[
                                                                 USER_NAME_FIELD
                                                             ]
@@ -185,7 +185,7 @@ function FireChatChannelSidebarParticipants<
                                                 </AlertDialogHeader>
                                                 <AlertDialogFooter>
                                                     <AlertDialogCancel>
-                                                        {LOCALE.CANCEL}
+                                                        {FIRECHAT_LOCALE.CANCEL}
                                                     </AlertDialogCancel>
                                                     <AlertDialogAction asChild>
                                                         <Button
@@ -198,7 +198,7 @@ function FireChatChannelSidebarParticipants<
                                                             }}
                                                         >
                                                             {
-                                                                LOCALE.SIDEBAR
+                                                                FIRECHAT_LOCALE.SIDEBAR
                                                                     .REMOVE_USER_BUTTON
                                                             }
                                                         </Button>

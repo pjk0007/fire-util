@@ -5,7 +5,7 @@ import {
     FcMessageImage,
     FcMessageText,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -29,7 +29,7 @@ export default function getReplyingMessageContent({
     let replyingMessageThumbnail = '';
     if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE) {
         const imageMessage = replyingMessage as FcMessage<FcMessageImage>;
-        replyingMessageContent = LOCALE.IMAGE;
+        replyingMessageContent = FIRECHAT_LOCALE.IMAGE;
         replyingMessageThumbnail =
             imageMessage[MESSAGE_CONTENTS_FIELD][0][
                 MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
@@ -37,24 +37,24 @@ export default function getReplyingMessageContent({
     } else if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_FILE) {
         const fileMessage = replyingMessage as FcMessage<FcMessageFile>;
         replyingMessageContent =
-            LOCALE.FILE +
+            FIRECHAT_LOCALE.FILE +
             ': ' +
             (fileMessage[MESSAGE_CONTENTS_FIELD][0][
                 MESSAGE_CONTENT_FILE_NAME_FIELD
-            ] ?? LOCALE.FILE);
+            ] ?? FIRECHAT_LOCALE.FILE);
     } else if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_TEXT) {
         const textMessage = replyingMessage as FcMessage<FcMessageText>;
         if (
             !textMessage[MESSAGE_CONTENTS_FIELD] ||
             textMessage[MESSAGE_CONTENTS_FIELD].length === 0
         ) {
-            replyingMessageContent = LOCALE.UNKNOWN;
+            replyingMessageContent = FIRECHAT_LOCALE.UNKNOWN;
         } else {
             replyingMessageContent =
                 textMessage[MESSAGE_CONTENTS_FIELD][0]?.text ||
                 (textMessage[MESSAGE_CONTENTS_FIELD][0]?.text === ''
                     ? '""'
-                    : LOCALE.UNKNOWN);
+                    : FIRECHAT_LOCALE.UNKNOWN);
         }
     }
 

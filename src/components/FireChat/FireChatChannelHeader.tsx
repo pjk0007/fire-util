@@ -5,7 +5,7 @@ import {
     FcMessage,
     FcMessageContent,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
@@ -18,8 +18,7 @@ export default function FireChatChannelHeader<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >() {
-    const { selectedChannelId, setSelectedChannelId } =
-        useFireChannel();
+    const { selectedChannelId, setSelectedChannelId } = useFireChannel();
     const { toggleSidebar } = useFireChatSidebar();
     const { channel, participants } = useFireChatChannelInfo<C, M, T, U>({
         channelId: selectedChannelId,
@@ -30,7 +29,7 @@ export default function FireChatChannelHeader<
     }
 
     return (
-        <div className="flex items-center justify-between md:p-4 p-2 border-b md:h-[65px] h-[49px] bg-background">
+        <div className="flex items-center justify-between md:p-4 p-2 border-b h-[calc(var(--firechat-header-height))] bg-background">
             <div className="flex items-center md:gap-3 gap-2">
                 <ChevronLeft
                     className="md:hidden cursor-pointer text-muted-foreground"
@@ -38,7 +37,7 @@ export default function FireChatChannelHeader<
                 />
                 <FireChatChannelHeaderAvatar participants={participants} />
                 <h2 className="md:text-base text-sm font-bold line-clamp-1">
-                    {channel?.[CHANNEL_NAME_FIELD] || LOCALE.UNKNOWN}
+                    {channel?.[CHANNEL_NAME_FIELD] || FIRECHAT_LOCALE.UNKNOWN}
                 </h2>
             </div>
             <div className="text-sm text-muted-foreground">

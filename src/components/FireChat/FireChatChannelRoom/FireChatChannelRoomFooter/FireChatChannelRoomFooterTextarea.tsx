@@ -1,4 +1,4 @@
-import { FcMessage, FcMessageContent, LOCALE } from '@/lib/FireChat/settings';
+import { FcMessage, FcMessageContent, FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { CornerDownRight } from 'lucide-react';
 import { useCallback } from 'react';
@@ -50,7 +50,7 @@ export default function FireChatChannelRoomFooterTextarea<
                         'pl-[26px] pr-4': !!replyingMessage,
                     }
                 )}
-                placeholder={LOCALE.FOOTER.INPUT_PLACEHOLDER}
+                placeholder={FIRECHAT_LOCALE.FOOTER.INPUT_PLACEHOLDER}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {

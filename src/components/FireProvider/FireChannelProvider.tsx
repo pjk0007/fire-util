@@ -71,7 +71,7 @@ export function FireChannelProvider<
         >
             <FireChatSidebarProvider
                 style={ {
-                    '--firechat-header-height': 'calc(var(--spacing) * 10)',
+                    '--firechat-header-height': 'calc(var(--spacing) * 16)',
                 } as React.CSSProperties}
             >
                 {children}

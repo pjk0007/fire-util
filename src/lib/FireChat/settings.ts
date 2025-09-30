@@ -60,7 +60,7 @@ export const EMOJI_LIST = ['👍', '✅', '❤️', '👀'];
 /**
  * Localization strings
  */
-export const LOCALE = {
+export const FIRECHAT_LOCALE = {
     NO_MESSAGES: '메시지가 없습니다.',
     IMAGE: '사진',
     FILE: '파일',

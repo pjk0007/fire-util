@@ -25,7 +25,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { LOCALE } from '@/lib/FireChat/settings';
+import { FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { Download, ImageIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -148,7 +148,7 @@ export default function FireChatImageDialog({
                                         }
                                     }}
                                 >
-                                    {LOCALE.MESSAGE.DOWNLOAD_ALL_IMAGE}
+                                    {FIRECHAT_LOCALE.MESSAGE.DOWNLOAD_ALL_IMAGE}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     onClick={async () => {
@@ -175,7 +175,7 @@ export default function FireChatImageDialog({
                                         );
                                     }}
                                 >
-                                    {LOCALE.MESSAGE.DOWNLOAD_ONE_IMAGE}
+                                    {FIRECHAT_LOCALE.MESSAGE.DOWNLOAD_ONE_IMAGE}
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
                         </DropdownMenuContent>

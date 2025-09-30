@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { LOCALE } from '@/lib/FireChat/settings';
+import { FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
 import { MoreVertical } from 'lucide-react';
@@ -42,7 +42,7 @@ export default function FireChatFileUploaderDialog({
         >
             <DialogContent className="p-4">
                 <DialogHeader className="flex-row">
-                    <DialogTitle>{LOCALE.FOOTER.UPLOAD_FILES}</DialogTitle>
+                    <DialogTitle>{FIRECHAT_LOCALE.FOOTER.UPLOAD_FILES}</DialogTitle>
 
                     <DialogDescription>
                         ({files.length} {files.length > 1 ? 'files' : 'file'})
@@ -100,7 +100,7 @@ export default function FireChatFileUploaderDialog({
                                                 setFiles(newFiles);
                                             }}
                                         >
-                                            {LOCALE.FOOTER.REMOVE_FILE}
+                                            {FIRECHAT_LOCALE.FOOTER.REMOVE_FILE}
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
@@ -111,10 +111,10 @@ export default function FireChatFileUploaderDialog({
 
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button variant="outline">{LOCALE.CANCEL}</Button>
+                        <Button variant="outline">{FIRECHAT_LOCALE.CANCEL}</Button>
                     </DialogClose>
                     <Button onClick={onClickUpload}>
-                        {LOCALE.FOOTER.UPLOAD_FILES}
+                        {FIRECHAT_LOCALE.FOOTER.UPLOAD_FILES}
                     </Button>
                 </DialogFooter>
             </DialogContent>

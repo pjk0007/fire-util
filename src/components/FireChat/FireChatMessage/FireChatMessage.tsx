@@ -10,7 +10,7 @@ import {
     FcMessageContent,
     FcMessageSystem,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
     MESSAGE_REACTIONS_FIELD,
@@ -105,7 +105,7 @@ export default function FireChatMessage<
                 >
                     {!isSameUserAndSameMinAsBefore && !isMine && (
                         <p className="text-sm text-foreground font-medium">
-                            {messageUser?.name || LOCALE.UNKNOWN}
+                            {messageUser?.name || FIRECHAT_LOCALE.UNKNOWN}
                         </p>
                     )}
                     <div className="flex flex-col relative">

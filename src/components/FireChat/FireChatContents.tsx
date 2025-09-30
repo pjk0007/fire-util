@@ -15,7 +15,7 @@ import {
     FcMessage,
     FcMessageFile,
     FcMessageImage,
-    LOCALE,
+    FIRECHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
@@ -58,10 +58,10 @@ export default function FireChatContents({
                 <FireTabs className="w-full" defaultValue={defatultTab}>
                     <FireTabsList className="h-8 w-full border-b justify-start rounded-none bg-transparent p-0">
                         <FireTabsTrigger value="image" asChild>
-                            {LOCALE.IMAGE}
+                            {FIRECHAT_LOCALE.IMAGE}
                         </FireTabsTrigger>
                         <FireTabsTrigger value="file" asChild>
-                            {LOCALE.FILE}
+                            {FIRECHAT_LOCALE.FILE}
                         </FireTabsTrigger>
                     </FireTabsList>
                     <FireTabsContent value="image">
@@ -165,7 +165,7 @@ export default function FireChatContents({
                                 })}
                                 {reversedFileMessages.length === 0 && (
                                     <div className="text-sm text-muted-foreground p-4">
-                                        {LOCALE.NO_IMAGES}
+                                        {FIRECHAT_LOCALE.NO_IMAGES}
                                     </div>
                                 )}
                             </div>
@@ -238,7 +238,7 @@ export default function FireChatContents({
                                 })}
                                 {imageMessages.length === 0 && (
                                     <div className="text-sm text-muted-foreground p-4">
-                                        {LOCALE.NO_FILES}
+                                        {FIRECHAT_LOCALE.NO_FILES}
                                     </div>
                                 )}
                             </div>

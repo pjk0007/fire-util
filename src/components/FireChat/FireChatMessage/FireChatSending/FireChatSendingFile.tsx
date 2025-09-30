@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 import useFireChatSendingFile from '@/lib/FireChat/hooks/useFireChatSendingFile';
-import { LOCALE } from '@/lib/FireChat/settings';
+import { FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
@@ -50,7 +50,7 @@ export default function FireChatSendingFile({
                         />
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                        {LOCALE.MESSAGE.SIZE}:{' '}
+                        {FIRECHAT_LOCALE.MESSAGE.SIZE}:{' '}
                         {formatSizeString(file.size ?? 0)}
                     </p>
                     {error && (

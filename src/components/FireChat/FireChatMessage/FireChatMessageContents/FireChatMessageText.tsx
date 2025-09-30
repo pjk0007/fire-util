@@ -3,7 +3,7 @@ import {
     FcMessageContent,
     FcMessageText,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
@@ -62,19 +62,19 @@ export default function FireChatMessageText<
                         <Image
                             className="w-8 h-8 text-primary"
                             src={replyingMessageThumbnail}
-                            alt={LOCALE.IMAGE}
+                            alt={FIRECHAT_LOCALE.IMAGE}
                             width={32}
                             height={32}
                         />
                     )}
                     <div className="flex flex-col gap-1">
                         <p className="text-xs text-muted-foreground">
-                            {LOCALE.REPLYING_TO(
+                            {FIRECHAT_LOCALE.REPLYING_TO(
                                 isMine
-                                    ? LOCALE.ME
+                                    ? FIRECHAT_LOCALE.ME
                                     : replyingMessageUser?.name ||
                                           replyingMessage.userId ||
-                                          LOCALE.UNKNOWN
+                                          FIRECHAT_LOCALE.UNKNOWN
                             )}
                         </p>
                         <div

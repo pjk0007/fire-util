@@ -2,7 +2,7 @@ import {
     FcMessage,
     FcMessageImage,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -35,7 +35,7 @@ export default function FireChatMessageImages<
                 return (
                     <FireChatImageDialog
                         defaultIdx={idx}
-                        dialogTitle={`${senderUser?.name ?? LOCALE.UNKNOWN}, ${formatDateString(
+                        dialogTitle={`${senderUser?.name ?? FIRECHAT_LOCALE.UNKNOWN}, ${formatDateString(
                             message[MESSAGE_CREATED_AT_FIELD]
                         )}`}
                         images={message[MESSAGE_CONTENTS_FIELD].map(

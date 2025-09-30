@@ -4,7 +4,7 @@ import {
     FcMessage,
     FcMessageContent,
     FcMessageFile,
-    LOCALE,
+    FIRECHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
@@ -98,7 +98,7 @@ function FireChatChannelSidebarFiles<
                 </div>
             ) : (
                 <span className="text-sm text-muted-foreground text-center py-6">
-                    {LOCALE.NO_FILES}
+                    {FIRECHAT_LOCALE.NO_FILES}
                 </span>
             )}
 
@@ -121,7 +121,7 @@ function FireChatChannelSidebarFiles<
                         );
                     }}
                 >
-                    {LOCALE.SIDEBAR.MORE}
+                    {FIRECHAT_LOCALE.SIDEBAR.MORE}
                 </Button>
             )}
         </div>

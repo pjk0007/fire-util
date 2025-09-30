@@ -8,7 +8,7 @@ import {
     FcMessageContent,
     FcMessageImage,
     FcUser,
-    LOCALE,
+    FIRECHAT_LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -49,7 +49,7 @@ function FireChatChannelSidebarImages<
                                 <FireChatImageDialog
                                     defaultIdx={0}
                                     dialogTitle={`${
-                                        senderUser?.name || LOCALE.UNKNOWN
+                                        senderUser?.name || FIRECHAT_LOCALE.UNKNOWN
                                     }, ${formatDateString(
                                         message[MESSAGE_CREATED_AT_FIELD]
                                     )}`}
@@ -95,7 +95,7 @@ function FireChatChannelSidebarImages<
                 </div>
             ) : (
                 <span className="text-sm text-muted-foreground text-center py-2">
-                    {LOCALE.NO_IMAGES}
+                    {FIRECHAT_LOCALE.NO_IMAGES}
                 </span>
             )}
 
@@ -118,7 +118,7 @@ function FireChatChannelSidebarImages<
                         );
                     }}
                 >
-                    {LOCALE.SIDEBAR.MORE}
+                    {FIRECHAT_LOCALE.SIDEBAR.MORE}
                 </Button>
             )}
         </div>
