@@ -3,7 +3,7 @@ import FireChannelList from '@/components/FireChannel/FireChannelList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { cn } from '@/lib/utils';
 import FireChatChannelHeader from '@/components/FireChat/FireChatChannelHeader';
-import FireKanbanList from '@/components/FireKanban/FireKanbanList';
+import FireKanbanList from '@/components/FireTask/FireTaskList';
 
 export default function FireWork({
     showChannelList = true,

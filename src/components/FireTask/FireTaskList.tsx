@@ -5,12 +5,20 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
-import { ChevronsLeft, MoveDiagonal2, Plus } from 'lucide-react';
+import {
+    ChevronsLeft,
+    Minimize2,
+    MoveDiagonal,
+    MoveDiagonal2,
+    Plus,
+} from 'lucide-react';
 import { useState } from 'react';
 
 export default function FireKanbanList() {
     const [isOpen, setIsOpen] = useState(true);
+    const [isFullScreen, setIsFullScreen] = useState(false);
     const isMobile = useIsMobile();
     return (
         <div
@@ -23,23 +31,45 @@ export default function FireKanbanList() {
                           'w-full h-full top-0 left-0': isOpen,
                       }
                     : {
-                          'relative h-full inset-0 border-r overflow-hidden':
-                              true,
-                          'w-72': isOpen,
-                          'w-13 hover:bg-muted': !isOpen,
+                          'h-full overflow-hidden': true,
+                          'relative w-72 border-r ': isOpen && !isFullScreen,
+                          'absolute z-50 inset-0 h-full w-full':
+                              isOpen && isFullScreen,
+                          'relative w-13 hover:bg-muted border-r ': !isOpen,
                       }
             )}
             onClick={() => {
                 if (!isOpen) setIsOpen(true);
             }}
         >
-            <div className="md:w-72 w-full h-full flex flex-col gap-2 md:px-2 md:py-3.5 p-2">
+            <div
+                className={cn(
+                    'w-full h-full flex flex-col gap-2 md:px-2 md:py-3.5 p-2',
+                    {
+                        'md:w-72': isOpen && !isFullScreen,
+                        'md:w-full': isOpen && isFullScreen,
+                        'items-center': !isOpen,
+                    }
+                )}
+            >
                 {isOpen && (
                     <div className="flex w-full justify-between text-foreground items-center">
-                        <MoveDiagonal2
-                            size={18}
-                            className="hover:bg-muted rounded-sm"
-                        />
+                        {isMobile ? (
+                            <div></div>
+                        ) : isFullScreen ? (
+                            <Minimize2
+                                size={18}
+                                className="hover:bg-muted rounded-sm"
+                                onClick={() => setIsFullScreen(false)}
+                            />
+                        ) : (
+                            <MoveDiagonal
+                                size={18}
+                                className="hover:bg-muted rounded-sm"
+                                onClick={() => setIsFullScreen(true)}
+                            />
+                        )}
+
                         <ChevronsLeft
                             size={22}
                             className="hover:bg-muted rounded-sm"
@@ -50,11 +80,11 @@ export default function FireKanbanList() {
                 <div className="flex items-center gap-2">
                     <span
                         className={cn('font-semibold', {
-                            'hidden': !isOpen && !isMobile,
+                            hidden: !isOpen && !isMobile,
                             'text-xs text-center w-full': isMobile && !isOpen,
                         })}
                     >
-                        업무 리스트
+                        {TASK_LOCALE.TASK_LIST}
                     </span>
                     {(!isMobile || isOpen) && (
                         <Tooltip>
@@ -74,7 +104,7 @@ export default function FireKanbanList() {
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent side="right">
-                                신규 업무 추가
+                                {TASK_LOCALE.ADD_TASK}
                             </TooltipContent>
                         </Tooltip>
                     )}
