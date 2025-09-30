@@ -1,5 +1,5 @@
 import FireChat from '@/components/FireChat/FireChat';
-import { useAuth } from '@/components/provider/AuthProvider';
+import { useAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,

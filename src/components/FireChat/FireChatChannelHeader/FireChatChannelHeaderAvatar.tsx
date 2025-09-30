@@ -1,4 +1,4 @@
-import { useAuth } from '@/components/provider/AuthProvider';
+import { useAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { FcUser } from '@/lib/FireAuth/settings';

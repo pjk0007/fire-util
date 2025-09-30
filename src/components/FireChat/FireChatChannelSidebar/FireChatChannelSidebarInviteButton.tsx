@@ -27,7 +27,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { findUsersByNameOrEmail } from '@/lib/FireAuth/api/getUsersByEmail';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAuth } from '@/components/provider/AuthProvider';
+import { useAuth } from '@/components/FireProvider/FireAuthProvider';
 import { toast } from 'sonner';
 import inviteUser from '@/lib/FireChat/api/inviteUser';
 

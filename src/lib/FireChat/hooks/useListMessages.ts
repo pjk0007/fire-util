@@ -1,4 +1,4 @@
-import { useAuth } from '@/components/provider/AuthProvider';
+import { useAuth } from '@/components/FireProvider/FireAuthProvider';
 import { db } from '@/lib/firebase';
 import getMessages from '@/lib/FireChat/api/getMessages';
 import markMessageAsRead from '@/lib/FireChat/api/markMessageAsRead';

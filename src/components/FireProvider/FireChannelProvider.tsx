@@ -1,5 +1,5 @@
 import { FireChatSidebarProvider } from '@/components/FireProvider/FireChatSidebarProvider';
-import { useAuth } from '@/components/provider/AuthProvider';
+import { useAuth } from '@/components/FireProvider/FireAuthProvider';
 import useFireChannelList from '@/lib/FireChat/hooks/useFireChannelList';
 
 import {

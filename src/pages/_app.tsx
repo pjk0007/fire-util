@@ -1,5 +1,5 @@
 import { FireChannelProvider } from '@/components/FireProvider/FireChannelProvider';
-import { AuthProvider } from '@/components/provider/AuthProvider';
+import { FireAuthProvider } from '@/components/FireProvider/FireAuthProvider';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Toaster } from 'sonner';
@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
             enableSystem
             disableTransitionOnChange
         >
-            <AuthProvider>
+            <FireAuthProvider>
                 <FireChannelProvider
                     defaultChannelId={
                         router.query.channelId as string | undefined
@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     <Toaster richColors position="top-center" />
                     <FireChatChannelSidebar />
                 </FireChannelProvider>
-            </AuthProvider>
+            </FireAuthProvider>
         </ThemeProvider>
     );
 }

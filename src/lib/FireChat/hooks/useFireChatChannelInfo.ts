@@ -1,4 +1,4 @@
-import { useAuth } from '@/components/provider/AuthProvider';
+import { useAuth } from '@/components/FireProvider/FireAuthProvider';
 import { db } from '@/lib/firebase';
 import {
     CHANNEL_COLLECTION,

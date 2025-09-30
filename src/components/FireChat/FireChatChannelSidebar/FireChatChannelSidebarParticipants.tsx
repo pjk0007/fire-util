@@ -23,7 +23,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { memo } from 'react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/components/provider/AuthProvider';
+import { useAuth } from '@/components/FireProvider/FireAuthProvider';
 import { toast } from 'sonner';
 import removeUser from '@/lib/FireChat/api/removeUser';
 import {
