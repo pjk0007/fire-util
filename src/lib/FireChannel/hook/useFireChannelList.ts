@@ -1,11 +1,13 @@
 import { db } from '@/lib/firebase';
 import {
-    CHANNEL_COLLECTION,
-    CHANNEL_PARTICIPANTS_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '../settings';
+import {
+    CHANNEL_COLLECTION,
+    CHANNEL_PARTICIPANTS_FIELD
+} from '../settings';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 

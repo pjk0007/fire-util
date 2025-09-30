@@ -3,7 +3,6 @@ import { db } from '@/lib/firebase';
 import getMessages from '@/lib/FireChat/api/getMessages';
 import updateLastSeen from '@/lib/FireChat/api/updateLastSeen';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     MESSAGE_COLLECTION,
@@ -11,6 +10,7 @@ import {
     MESSAGE_ID_FIELD,
     MESSAGE_UNIT,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import {
     collection,

@@ -4,28 +4,36 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { ChevronsLeft, MoveDiagonal2, Plus } from 'lucide-react';
 import { useState } from 'react';
 
 export default function FireKanbanList() {
     const [isOpen, setIsOpen] = useState(true);
+    const isMobile = useIsMobile();
     return (
         <div
             className={cn(
-                'relative border-r md:static z-50 bg-background inset-0 overflow-hidden',
-                'transition-[width]',
-                {
-                    'md:w-72 w-full': isOpen,
-                    'md:w-13 w-0': !isOpen,
-                    'hover:bg-muted': !isOpen,
-                }
+                'bg-background transition-all',
+                isMobile
+                    ? {
+                          'absolute z-50 ': true,
+                          'border rounded-lg top-4 left-4 w-20 h-9': !isOpen,
+                          'w-full h-full top-0 left-0': isOpen,
+                      }
+                    : {
+                          'relative h-full inset-0 border-r overflow-hidden':
+                              true,
+                          'w-72': isOpen,
+                          'w-13 hover:bg-muted': !isOpen,
+                      }
             )}
             onClick={() => {
                 if (!isOpen) setIsOpen(true);
             }}
         >
-            <div className="w-72 h-full flex flex-col gap-2 px-2 py-3.5">
+            <div className="md:w-72 w-full h-full flex flex-col gap-2 md:px-2 md:py-3.5 p-2">
                 {isOpen && (
                     <div className="flex w-full justify-between text-foreground items-center">
                         <MoveDiagonal2
@@ -40,29 +48,36 @@ export default function FireKanbanList() {
                     </div>
                 )}
                 <div className="flex items-center gap-2">
-                    {isOpen && (
-                        <span className="font-semibold">업무 리스트</span>
+                    <span
+                        className={cn('font-semibold', {
+                            'hidden': !isOpen && !isMobile,
+                            'text-xs text-center w-full': isMobile && !isOpen,
+                        })}
+                    >
+                        업무 리스트
+                    </span>
+                    {(!isMobile || isOpen) && (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    size={'icon'}
+                                    variant={'outline'}
+                                    className={cn('rounded-full ', {
+                                        'w-6 h-6': isOpen,
+                                        'w-9 h-9': !isOpen,
+                                    })}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                    }}
+                                >
+                                    <Plus />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                                신규 업무 추가
+                            </TooltipContent>
+                        </Tooltip>
                     )}
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                size={'icon'}
-                                variant={'outline'}
-                                className={cn('rounded-full ', {
-                                    'w-6 h-6': isOpen,
-                                    'w-9 h-9': !isOpen,
-                                })}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                }}
-                            >
-                                <Plus />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">
-                            신규 업무 추가
-                        </TooltipContent>
-                    </Tooltip>
                 </div>
                 {/* <div>123asdfasdfasdf</div> */}
             </div>

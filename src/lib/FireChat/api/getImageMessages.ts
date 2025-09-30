@@ -1,6 +1,5 @@
 import { db } from '@/lib/firebase';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     FILE_UNIT,
@@ -9,6 +8,7 @@ import {
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import {
     collection,
     getDocs,

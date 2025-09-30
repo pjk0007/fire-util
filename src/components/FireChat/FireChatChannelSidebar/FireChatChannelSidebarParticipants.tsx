@@ -1,11 +1,13 @@
 import {
-    CHANNEL_HOST_ID_FIELD,
-    CHANNEL_ID_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
+import {
+    CHANNEL_HOST_ID_FIELD,
+    CHANNEL_ID_FIELD
+} from '@/lib/FireChannel/settings';
 import { FcUser } from '@/lib/FireAuth/settings';
 import {
     USER_EMAIL_FIELD,

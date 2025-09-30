@@ -1,12 +1,12 @@
 import { db } from '@/lib/firebase';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_ID_FIELD,
     MESSAGE_REACTIONS_FIELD,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { doc, updateDoc } from 'firebase/firestore';
 
 export default async function handleEmojiReactionClick<

@@ -1,8 +1,8 @@
 import { db } from '@/lib/firebase';
 import {
     CHANNEL_COLLECTION,
-    CHANNEL_LAST_SEEN_FIELD,
-} from '@/lib/FireChat/settings';
+    CHANNEL_LAST_SEEN_FIELD
+} from '@/lib/FireChannel/settings';
 import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 
 export default async function updateLastSeen(

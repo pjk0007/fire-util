@@ -1,12 +1,12 @@
 import { db } from '@/lib/firebase';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_UNIT,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import {
     collection,
     endBefore,

@@ -10,8 +10,6 @@ import {
     FireTabsTrigger,
 } from '@/components/FireUI/tabs';
 import {
-    CHANNEL_ID_FIELD,
-    CHANNEL_NAME_FIELD,
     FcMessage,
     FcMessageFile,
     FcMessageImage,
@@ -23,6 +21,10 @@ import {
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
 } from '@/lib/FireChat/settings';
+import {
+    CHANNEL_ID_FIELD,
+    CHANNEL_NAME_FIELD
+} from '@/lib/FireChannel/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';

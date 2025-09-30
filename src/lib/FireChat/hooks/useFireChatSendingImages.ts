@@ -2,7 +2,6 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageImage,
     MESSAGE_COLLECTION,
@@ -15,6 +14,7 @@ import {
     MESSAGE_TYPE_IMAGE,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import createThumbnail from '@/lib/FireChat/utils/createThumbnail';
 import { Timestamp } from 'firebase/firestore';
 import {

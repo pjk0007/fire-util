@@ -1,4 +1,4 @@
-import FireChat from '@/components/FireChat/FireChat';
+import FireWork from '@/components/FireWork';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,7 +16,7 @@ export default function Home() {
     const [open, setOpen] = useState(false);
     return (
         <div className="w-[100dvw] h-[100dvh] relative">
-            <FireChat />
+            <FireWork />
             {user ? (
                 <Button
                     className="absolute bottom-4 left-4"

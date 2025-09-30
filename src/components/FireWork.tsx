@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import FireChatChannelHeader from '@/components/FireChat/FireChatChannelHeader';
 import FireKanbanList from '@/components/FireKanban/FireKanbanList';
 
-export default function FireChat({
+export default function FireWork({
     showChannelList = true,
 }: {
     showChannelList?: boolean;

@@ -3,10 +3,10 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import useFireChannelList from '@/lib/FireChannel/hook/useFireChannelList';
 
 import {
-    FcChannel,
     FcMessage,
     FcMessageContent,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';

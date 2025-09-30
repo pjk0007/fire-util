@@ -1,9 +1,9 @@
 import {
-    CHANNEL_NAME_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
+import { CHANNEL_NAME_FIELD } from '@/lib/FireChannel/settings';
 import { FcUser } from '@/lib/FireAuth/settings';
 import {
     USER_ID_FIELD,

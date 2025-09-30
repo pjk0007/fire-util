@@ -1,6 +1,4 @@
 import {
-    CHANNEL_LAST_MESSAGE_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
     FcMessageSystem,
@@ -14,6 +12,8 @@ import {
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_TYPE_TEXT,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
+import { CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChannel/settings';
 import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 
 export default function FireChatChannelListItemLastChatContent<

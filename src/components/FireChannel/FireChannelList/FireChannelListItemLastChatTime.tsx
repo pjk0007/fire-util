@@ -1,10 +1,10 @@
 import {
-    CHANNEL_LAST_MESSAGE_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
     MESSAGE_CREATED_AT_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
+import { CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChannel/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { Timestamp } from 'firebase/firestore';
 

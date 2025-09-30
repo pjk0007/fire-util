@@ -3,13 +3,15 @@ import FireChatChannelSidebarImages from '@/components/FireChat/FireChatChannelS
 import FireChatChannelSidebarParticipants from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarParticipants';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
-    CHANNEL_ID_FIELD,
-    CHANNEL_NAME_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
+import {
+    CHANNEL_ID_FIELD,
+    CHANNEL_NAME_FIELD
+} from '@/lib/FireChannel/settings';
 import { FcUser } from '@/lib/FireAuth/settings';
 import useListFiles from '@/lib/FireChat/hooks/useListFiles';
 import {

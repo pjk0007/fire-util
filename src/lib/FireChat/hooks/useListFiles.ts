@@ -2,7 +2,6 @@ import { db } from '@/lib/firebase';
 import getFileMessages from '@/lib/FireChat/api/getFileMessages';
 import getImageMessages from '@/lib/FireChat/api/getImageMessages';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     MESSAGE_COLLECTION,
@@ -11,6 +10,7 @@ import {
     MESSAGE_TYPE_FILE,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import {
     collection,
     onSnapshot,

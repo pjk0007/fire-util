@@ -1,6 +1,5 @@
 import { db } from '@/lib/firebase';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     MESSAGE_COLLECTION,
@@ -11,8 +10,8 @@ import {
     MESSAGE_REPLY_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_USER_ID_FIELD,
-    CHANNEL_LAST_MESSAGE_FIELD,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION, CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChannel/settings';
 import { doc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 
 export default async function sendMessage<

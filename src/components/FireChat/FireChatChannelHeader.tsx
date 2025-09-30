@@ -1,11 +1,11 @@
 import FireChatChannelHeaderAvatar from '@/components/FireChat/FireChatChannelHeader/FireChatChannelHeaderAvatar';
 import {
-    CHANNEL_NAME_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
+import { CHANNEL_NAME_FIELD } from '@/lib/FireChannel/settings';
 import { FcUser } from '@/lib/FireAuth/settings';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';

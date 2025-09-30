@@ -10,11 +10,11 @@ import { Separator } from '@/components/ui/separator';
 import { sendTextMessage } from '@/lib/FireChat/api/sendMessage';
 import useFireChatChannelRoomFooter from '@/lib/FireChat/hooks/useFireChatChannelRoomFooter';
 import {
-    FcChannel,
     FcMessage,
     FcMessageContent,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
 import { FcUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ArrowUp } from 'lucide-react';

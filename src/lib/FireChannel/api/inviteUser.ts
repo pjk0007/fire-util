@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { CHANNEL_COLLECTION, CHANNEL_PARTICIPANTS_FIELD } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION, CHANNEL_PARTICIPANTS_FIELD } from '../settings';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 
 export default async function inviteUser(

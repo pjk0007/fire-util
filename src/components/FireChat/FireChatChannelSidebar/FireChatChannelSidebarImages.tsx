@@ -3,7 +3,6 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageContent,
     FcMessageImage,
@@ -14,6 +13,7 @@ import {
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { FcUser } from '@/lib/FireAuth/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { ChevronRight, ImageIcon, ImagesIcon } from 'lucide-react';

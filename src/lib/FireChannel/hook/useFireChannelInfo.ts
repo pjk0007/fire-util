@@ -1,16 +1,18 @@
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { db } from '@/lib/firebase';
 import {
-    CHANNEL_COLLECTION,
-    CHANNEL_ID_FIELD,
-    CHANNEL_LAST_SEEN_FIELD,
-    CHANNEL_PARTICIPANTS_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '../settings';
+import {
+    CHANNEL_COLLECTION,
+    CHANNEL_ID_FIELD,
+    CHANNEL_LAST_SEEN_FIELD,
+    CHANNEL_PARTICIPANTS_FIELD
+} from '../settings';
 import { FcUser } from '@/lib/FireAuth/settings';
 import {
     USER_COLLECTION,

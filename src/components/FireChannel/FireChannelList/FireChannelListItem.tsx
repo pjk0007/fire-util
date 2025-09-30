@@ -6,11 +6,11 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Badge } from '@/components/ui/badge';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import {
-    CHANNEL_ID_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
+import { CHANNEL_ID_FIELD } from '@/lib/FireChannel/settings';
 import { FcUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';

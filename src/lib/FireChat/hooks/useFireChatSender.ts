@@ -1,12 +1,12 @@
 import createSendingFiles from '@/lib/FireChat/utils/createSendingFiles';
 import {
-    CHANNEL_ID_FIELD,
-    FcChannel,
     FcMessage,
     FcMessageContent,
     MESSAGE_TYPE_FILE,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';
+import { FcChannel } from '@/lib/FireChannel/settings';
+import { CHANNEL_ID_FIELD } from '@/lib/FireChannel/settings';
 
 import { useState } from 'react';
 

@@ -1,7 +1,7 @@
 import FireChatChannelListItem from '@/components/FireChannel/FireChannelList/FireChannelListItem';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { CHANNEL_ID_FIELD } from '@/lib/FireChat/settings';
+import { CHANNEL_ID_FIELD } from '@/lib/FireChannel/settings';
 
 export default function FireChannelList() {
     const isMobile = useIsMobile();

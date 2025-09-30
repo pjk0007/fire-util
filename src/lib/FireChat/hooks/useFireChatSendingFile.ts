@@ -2,7 +2,6 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
 import {
-    CHANNEL_COLLECTION,
     FcMessage,
     FcMessageFile,
     MESSAGE_COLLECTION,
@@ -16,6 +15,7 @@ import {
     MESSAGE_TYPE_FILE,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { Timestamp } from 'firebase/firestore';
 import {
     getDownloadURL,
