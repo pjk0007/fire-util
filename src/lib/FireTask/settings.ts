@@ -15,5 +15,5 @@ export const TASK_UPDATED_AT_FIELD = 'updatedAt';
  */
 export const TASK_LOCALE = {
     TASK_LIST: '업무 리스트',
-    ADD_TASK: '새 업무',
+    ADD_TASK: '신규 업무 추가',
 };
