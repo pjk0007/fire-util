@@ -7,8 +7,8 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 import { ArrowDown } from 'lucide-react';
 import { useEffect } from 'react';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';

@@ -6,7 +6,6 @@ import {
     FcMessage,
     FcMessageContent,
     FcMessageSystem,
-    FcUser,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
@@ -15,6 +14,7 @@ import {
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 

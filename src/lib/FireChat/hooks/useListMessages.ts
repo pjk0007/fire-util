@@ -10,8 +10,8 @@ import {
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
     MESSAGE_UNIT,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import {
     collection,
     onSnapshot,

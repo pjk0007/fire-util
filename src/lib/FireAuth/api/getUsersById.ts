@@ -1,9 +1,9 @@
 import { db } from '@/lib/firebase';
+import { FcUser } from '@/lib/FireAuth/settings';
 import {
-    FcUser,
     USER_COLLECTION,
-    USER_ID_FIELD,
-} from '@/lib/FireChat/settings';
+    USER_ID_FIELD
+} from '@/lib/FireAuth/settings';
 import {
     collection,
     getDocs,

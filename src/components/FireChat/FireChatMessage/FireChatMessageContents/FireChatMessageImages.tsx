@@ -1,7 +1,6 @@
 import {
     FcMessage,
     FcMessageImage,
-    FcUser,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
@@ -9,6 +8,7 @@ import {
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';

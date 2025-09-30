@@ -1,11 +1,11 @@
 import { useAuth } from '@/components/provider/AuthProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { FcUser } from '@/lib/FireAuth/settings';
 import {
-    FcUser,
     USER_AVATAR_FALLBACK_URL,
-    USER_AVATAR_FIELD,
-} from '@/lib/FireChat/settings';
+    USER_AVATAR_FIELD
+} from '@/lib/FireAuth/settings';
 import Image from 'next/image';
 
 export default function FireChatChannelHeaderAvatar<U extends FcUser>({

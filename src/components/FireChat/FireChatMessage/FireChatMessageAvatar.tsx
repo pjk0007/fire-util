@@ -2,12 +2,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     FcMessage,
     FcMessageContent,
-    FcUser,
     MESSAGE_USER_ID_FIELD,
+} from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import {
     USER_AVATAR_FALLBACK_URL,
     USER_AVATAR_FIELD,
-    USER_NAME_FIELD,
-} from '@/lib/FireChat/settings';
+    USER_NAME_FIELD
+} from '@/lib/FireAuth/settings';
 import Image from 'next/image';
 
 export default function FireChatMessageAvatar<

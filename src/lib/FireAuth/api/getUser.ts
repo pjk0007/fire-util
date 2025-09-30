@@ -1,8 +1,9 @@
 import { db } from '@/lib/firebase';
-import { FcUser, USER_COLLECTION } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import { USER_COLLECTION } from '@/lib/FireAuth/settings';
 import { doc, getDoc } from 'firebase/firestore';
 
-export default async function getUser<T extends FcUser>({
+export default async function getUser<U extends FcUser>({
     id,
     userCollection = USER_COLLECTION,
 }: {
@@ -10,5 +11,5 @@ export default async function getUser<T extends FcUser>({
     userCollection?: string;
 }) {
     const user = await getDoc(doc(db, userCollection, id));
-    return user.data() as T;
+    return user.data() as U;
 }

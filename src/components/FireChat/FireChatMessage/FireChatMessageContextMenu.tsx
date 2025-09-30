@@ -12,7 +12,6 @@ import {
     FcMessage,
     FcMessageContent,
     FcMessageText,
-    FcUser,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -20,8 +19,9 @@ import {
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 import { Copy, CornerDownRight } from 'lucide-react';
 import { ReactNode } from 'react';

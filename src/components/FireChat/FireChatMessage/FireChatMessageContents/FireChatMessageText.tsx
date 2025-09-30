@@ -2,12 +2,12 @@ import {
     FcMessage,
     FcMessageContent,
     FcMessageText,
-    FcUser,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 import getReplyingMessageContent from '@/lib/FireChat/utils/getReplyingMessageContent';
 import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 import { cn } from '@/lib/utils';

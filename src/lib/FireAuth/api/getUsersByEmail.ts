@@ -1,10 +1,10 @@
 import { db } from '@/lib/firebase';
+import { FcUser } from '@/lib/FireAuth/settings';
 import {
-    FcUser,
     USER_COLLECTION,
     USER_EMAIL_FIELD,
-    USER_NAME_FIELD,
-} from '@/lib/FireChat/settings';
+    USER_NAME_FIELD
+} from '@/lib/FireAuth/settings';
 import { collection, getDocs, where, query, or } from 'firebase/firestore';
 
 export async function findUsersByNameOrEmail<U extends FcUser>(

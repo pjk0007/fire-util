@@ -3,10 +3,12 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
-    USER_ID_FIELD,
-    USER_NAME_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import {
+    USER_ID_FIELD,
+    USER_NAME_FIELD
+} from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 
 export default function FireChatChannelListItemTitle<

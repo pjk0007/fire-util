@@ -4,9 +4,9 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';

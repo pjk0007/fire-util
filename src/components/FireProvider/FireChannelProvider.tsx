@@ -6,8 +6,8 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
 

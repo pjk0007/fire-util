@@ -8,9 +8,9 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 import useListFiles from '@/lib/FireChat/hooks/useListFiles';
 import {
     FireChatSidebar,

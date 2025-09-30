@@ -1,15 +1,17 @@
 import {
-    FcUser,
     FIRECHAT_LOCALE,
-    USER_EMAIL_FIELD,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import {
+    USER_EMAIL_FIELD,
+    USER_ID_FIELD
+} from '@/lib/FireAuth/settings';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     USER_AVATAR_FIELD,
     USER_NAME_FIELD,
-    USER_AVATAR_FALLBACK_URL,
-} from '@/lib/FireChat/settings';
+    USER_AVATAR_FALLBACK_URL
+} from '@/lib/FireAuth/settings';
 import Image from 'next/image';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -23,7 +25,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { findUsersByNameOrEmail } from '@/lib/FireChat/api/getUsersByEmail';
+import { findUsersByNameOrEmail } from '@/lib/FireAuth/api/getUsersByEmail';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/components/provider/AuthProvider';
 import { toast } from 'sonner';

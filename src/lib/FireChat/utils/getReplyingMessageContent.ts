@@ -4,7 +4,6 @@ import {
     FcMessageFile,
     FcMessageImage,
     FcMessageText,
-    FcUser,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
@@ -14,6 +13,7 @@ import {
     MESSAGE_TYPE_IMAGE,
     MESSAGE_TYPE_TEXT,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 
 export default function getReplyingMessageContent({
     replyingMessage,

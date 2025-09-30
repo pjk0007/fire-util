@@ -8,12 +8,14 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
-    USER_COLLECTION,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import {
+    USER_COLLECTION,
+    USER_ID_FIELD
+} from '@/lib/FireAuth/settings';
 import {
     and,
     collection,

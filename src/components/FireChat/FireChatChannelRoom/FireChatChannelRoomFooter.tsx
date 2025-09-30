@@ -13,10 +13,10 @@ import {
     FcChannel,
     FcMessage,
     FcMessageContent,
-    FcUser,
     FIRECHAT_LOCALE,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ArrowUp } from 'lucide-react';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChatChannelInfo from '@/lib/FireChat/hooks/useFireChatChannelInfo';

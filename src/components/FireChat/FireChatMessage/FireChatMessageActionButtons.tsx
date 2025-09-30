@@ -4,10 +4,10 @@ import {
     EMOJI_LIST,
     FcMessage,
     FcMessageContent,
-    FcUser,
     MESSAGE_REACTIONS_FIELD,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 import { CornerDownRight } from 'lucide-react';
 

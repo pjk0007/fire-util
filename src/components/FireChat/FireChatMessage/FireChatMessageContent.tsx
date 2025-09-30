@@ -7,7 +7,6 @@ import {
     FcMessageFile,
     FcMessageImage,
     FcMessageText,
-    FcUser,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_REPLY_FIELD,
     MESSAGE_TYPE_FIELD,
@@ -16,6 +15,7 @@ import {
     MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 import { memo } from 'react';
 
 function FireChatMessageContent<

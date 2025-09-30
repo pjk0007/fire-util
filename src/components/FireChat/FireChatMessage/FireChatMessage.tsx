@@ -9,7 +9,6 @@ import {
     FcMessage,
     FcMessageContent,
     FcMessageSystem,
-    FcUser,
     FIRECHAT_LOCALE,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
@@ -17,8 +16,9 @@ import {
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_USER_ID_FIELD,
-    USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
+import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
 

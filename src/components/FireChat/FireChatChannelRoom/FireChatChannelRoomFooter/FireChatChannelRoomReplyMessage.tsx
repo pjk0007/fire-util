@@ -2,11 +2,11 @@ import { Button } from '@/components/ui/button';
 import {
     FcMessage,
     FcMessageContent,
-    FcUser,
     FIRECHAT_LOCALE,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';
+import { FcUser } from '@/lib/FireAuth/settings';
 import getReplyingMessageContent from '@/lib/FireChat/utils/getReplyingMessageContent';
 import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 import { X } from 'lucide-react';
