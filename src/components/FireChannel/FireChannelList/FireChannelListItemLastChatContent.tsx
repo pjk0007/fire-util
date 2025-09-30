@@ -16,7 +16,7 @@ import { FcChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChannel/settings';
 import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 
-export default function FireChatChannelListItemLastChatContent<
+export default function FireChannelListItemLastChatContent<
     C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent

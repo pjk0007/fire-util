@@ -1,4 +1,3 @@
-import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
 import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';

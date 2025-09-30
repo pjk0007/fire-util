@@ -1,6 +1,6 @@
-import FireChatChannelSidebarFiles from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarFiles';
-import FireChatChannelSidebarImages from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarImages';
-import FireChatChannelSidebarParticipants from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarParticipants';
+import FireChatSettingsFiles from '@/components/FireChat/FireChatSettings/FireChatSettingsFiles';
+import FireChatSettingsImages from '@/components/FireChat/FireChatSettings/FireChatSettingsImages';
+import FireChatSettingsParticipants from '@/components/FireChat/FireChatSettings/FireChatSettingsParticipants';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     FcMessage,
@@ -24,7 +24,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export default function FireChatChannelSidebar<
+export default function FireChatSettings<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
@@ -56,7 +56,7 @@ export default function FireChatChannelSidebar<
             <ScrollArea className="md:h-[calc(100%-var(--firechat-header-height))] h-full">
                 <div className="px-2 py-6 md:px-4 md:pt-0 md:pb-4 h-full gap-4 flex flex-col">
                     <div className='text-center font-semibold'>{channel?.[CHANNEL_NAME_FIELD]}</div>
-                    <FireChatChannelSidebarParticipants
+                    <FireChatSettingsParticipants
                         participants={participants}
                         channel={channel}
                     />
@@ -70,14 +70,14 @@ export default function FireChatChannelSidebar<
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="images" className="p-0">
-                            <FireChatChannelSidebarImages
+                            <FireChatSettingsImages
                                 channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                                 imageMessages={imageMessages}
                                 participants={participants}
                             />
                         </TabsContent>
                         <TabsContent value="files" className="p-0">
-                            <FireChatChannelSidebarFiles
+                            <FireChatSettingsFiles
                                 fileMessages={fileMessages}
                                 channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                             />

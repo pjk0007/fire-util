@@ -1,8 +1,8 @@
 import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
-import FireChatChannelRoomFooterFileInput from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterFileInput';
-import FireChatChannelRoomFooterTextarea from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextarea';
-import FireChatChannelRoomFooterTextareaMobile from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomFooterTextareaMobile';
-import FireChatChannelRoomReplyMessage from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomFooter/FireChatChannelRoomReplyMessage';
+import FireChatRoomFooterFileInput from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterFileInput';
+import FireChatRoomFooterTextarea from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextarea';
+import FireChatRoomFooterTextareaMobile from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextareaMobile';
+import FireChatRoomReplyMessage from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomReplyMessage';
 import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/FireChatFileUploaderDialog';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
@@ -87,7 +87,7 @@ export default function FireChatChannelRoomFooter<
             <div className="md:p-3 md:border border-input rounded-lg flex flex-col gap-2 md:gap-0 bg-background">
                 {replyingMessage && (
                     <>
-                        <FireChatChannelRoomReplyMessage
+                        <FireChatRoomReplyMessage
                             replyingMessage={replyingMessage}
                             participants={participants || []}
                             isMine={isMine}
@@ -96,7 +96,7 @@ export default function FireChatChannelRoomFooter<
                         <Separator className="md:block hidden my-2.5" />
                     </>
                 )}
-                <FireChatChannelRoomFooterTextarea
+                <FireChatRoomFooterTextarea
                     message={message}
                     setMessage={setMessage}
                     // sendTextMessage={sendTextMessage}
@@ -115,7 +115,7 @@ export default function FireChatChannelRoomFooter<
                 />
 
                 <div className="flex justify-between items-center border rounded-lg md:border-none p-2 md:p-0">
-                    <FireChatChannelRoomFooterFileInput
+                    <FireChatRoomFooterFileInput
                         onSelectFiles={(selectedFiles) => {
                             setFiles((prevFiles) => [
                                 ...prevFiles,
@@ -123,7 +123,7 @@ export default function FireChatChannelRoomFooter<
                             ]);
                         }}
                     />
-                    <FireChatChannelRoomFooterTextareaMobile
+                    <FireChatRoomFooterTextareaMobile
                         message={message}
                         setMessage={setMessage}
                         onSend={() => {

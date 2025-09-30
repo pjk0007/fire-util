@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app';
 import { Toaster } from 'sonner';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { FireChatSidebarProvider } from '@/components/FireProvider/FireChatSidebarProvider';
-import FireChatChannelSidebar from '@/components/FireChat/FireChatChannelSidebar';
+import FireChatSettings from '@/components/FireChat/FireChatSettings';
 import { useRouter } from 'next/router';
 
 export function ThemeProvider({
@@ -34,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 >
                     <Component {...pageProps} />
                     <Toaster richColors position="top-center" />
-                    <FireChatChannelSidebar />
+                    <FireChatSettings />
                 </FireChannelProvider>
             </FireAuthProvider>
         </ThemeProvider>

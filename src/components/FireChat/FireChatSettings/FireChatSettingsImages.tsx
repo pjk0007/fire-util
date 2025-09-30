@@ -20,7 +20,7 @@ import { ChevronRight, ImageIcon, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
 
-function FireChatChannelSidebarImages<
+function FireChatSettingsImages<
     M extends FcMessage<T>,
     T extends FcMessageContent,
     U extends FcUser
@@ -125,4 +125,4 @@ function FireChatChannelSidebarImages<
     );
 }
 
-export default memo(FireChatChannelSidebarImages);
+export default memo(FireChatSettingsImages);

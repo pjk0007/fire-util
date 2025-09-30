@@ -8,7 +8,7 @@ import { CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChannel/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { Timestamp } from 'firebase/firestore';
 
-export default function FireChatChannelListItemLastChatTime<
+export default function FireChannelListItemLastChatTime<
     C extends FcChannel<M, T>,
     M extends FcMessage<T>,
     T extends FcMessageContent

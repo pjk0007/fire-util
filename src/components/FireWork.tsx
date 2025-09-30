@@ -1,8 +1,8 @@
-import FireChatChannelRoom from '@/components/FireChat/FireChatChannelRoom';
+import FireChatRoom from '@/components/FireChat/FireChatRoom';
 import FireChannelList from '@/components/FireChannel/FireChannelList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { cn } from '@/lib/utils';
-import FireChatChannelHeader from '@/components/FireChat/FireChatChannelHeader';
+import FireChatHeader from '@/components/FireChat/FireChatHeader';
 import FireKanbanList from '@/components/FireTask/FireTaskList';
 
 export default function FireWork({
@@ -17,10 +17,10 @@ export default function FireWork({
             {showChannelList && <FireChannelList />}
             {selectedChannelId && (
                 <div className={cn('w-full h-full flex flex-col')}>
-                    <FireChatChannelHeader />
+                    <FireChatHeader />
                     <div className="relative flex h-[calc(100%-var(--firechat-header-height))]">
                         <FireKanbanList />
-                        <FireChatChannelRoom />
+                        <FireChatRoom />
                     </div>
                 </div>
             )}

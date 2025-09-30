@@ -1,9 +1,9 @@
-import FireChatChannelRoom from '@/components/FireChat/FireChatChannelRoom';
+import FireChatRoom from '@/components/FireChat/FireChatRoom';
 
 export default function Channel() {
     return (
         <div className="w-screen h-screen relative">
-            <FireChatChannelRoom />
+            <FireChatRoom />
         </div>
     );
 }

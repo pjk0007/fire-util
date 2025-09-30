@@ -18,7 +18,7 @@ import { memo } from 'react';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import { cn } from '@/lib/utils';
 
-function FireChatChannelSidebarFiles<
+function FireChatSettingsFiles<
     M extends FcMessage<T>,
     T extends FcMessageContent
 >({ fileMessages, channelId }: { fileMessages: M[]; channelId: string }) {
@@ -128,4 +128,4 @@ function FireChatChannelSidebarFiles<
     );
 }
 
-export default memo(FireChatChannelSidebarFiles);
+export default memo(FireChatSettingsFiles);

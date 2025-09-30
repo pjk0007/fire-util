@@ -18,11 +18,11 @@ import {
     restoreScrollPosition,
     scrollToBottom,
 } from '@/lib/FireChat/utils/scroll';
-import FireChatChannelRoomBodyMessageList from '@/components/FireChat/FireChatChannelRoom/FireChatChannelRoomBody/FireChatChannelRoomBodyMessageList';
+import FireChatRoomBodyMessageList from '@/components/FireChat/FireChatRoom/FireChatRoomBody/FireChatRoomBodyMessageList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
-export default function FireChatChannelRoomBody<
+export default function FireChatRoomBody<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
@@ -95,7 +95,7 @@ export default function FireChatChannelRoomBody<
             )} */}
             <ScrollArea className="h-full" ref={scrollAreaRef}>
                 <div className="flex flex-col max-w-full gap-2 py-6 px-3 md:px-5 box-border">
-                    <FireChatChannelRoomBodyMessageList
+                    <FireChatRoomBodyMessageList
                         beforeMessages={beforeMessages}
                         messages={messages}
                         // newMessages={newMessages}

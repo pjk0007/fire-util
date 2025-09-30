@@ -11,7 +11,7 @@ import {
 } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 
-export default function FireChatChannelListItemTitle<
+export default function FireChannelListItemTitle<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,

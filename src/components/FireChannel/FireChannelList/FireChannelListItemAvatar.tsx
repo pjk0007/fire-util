@@ -7,7 +7,7 @@ import {
 } from '@/lib/FireAuth/settings';
 import Image from 'next/image';
 
-export default function FireChatChannelListItemAvatar<U extends FcUser>({
+export default function FireChannelListItemAvatar<U extends FcUser>({
     participants,
     me,
 }: {

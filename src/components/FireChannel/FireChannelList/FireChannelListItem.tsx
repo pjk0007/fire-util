@@ -1,7 +1,7 @@
-import FireChatChannelListItemAvatar from '@/components/FireChannel/FireChannelList/FireChannelListItemAvatar';
-import FireChatChannelListItemLastChatContent from '@/components/FireChannel/FireChannelList/FireChannelListItemLastChatContent';
-import FireChatChannelListItemLastChatTime from '@/components/FireChannel/FireChannelList/FireChannelListItemLastChatTime';
-import FireChatChannelListItemTitle from '@/components/FireChannel/FireChannelList/FireChannelListItemTitle';
+import FireChannelListItemAvatar from '@/components/FireChannel/FireChannelList/FireChannelListItemAvatar';
+import FireChannelListItemLastChatContent from '@/components/FireChannel/FireChannelList/FireChannelListItemLastChatContent';
+import FireChannelListItemLastChatTime from '@/components/FireChannel/FireChannelList/FireChannelListItemLastChatTime';
+import FireChannelListItemTitle from '@/components/FireChannel/FireChannelList/FireChannelListItemTitle';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Badge } from '@/components/ui/badge';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
@@ -16,18 +16,18 @@ import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 import { memo } from 'react';
 
-interface FireChatChannelListItemProps {
+interface FireChannelListItemProps {
     channelId: string;
     isSelected?: boolean;
     selectChannel: (channelId?: string) => void;
 }
 
-function FireChatChannelListItem<
+function FireChannelListItem<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
     T extends FcMessageContent
->({ channelId, isSelected, selectChannel }: FireChatChannelListItemProps) {
+>({ channelId, isSelected, selectChannel }: FireChannelListItemProps) {
     const { user: me } = useFireAuth();
     const { channel, participants, unreadCount } = useFireChannelInfo<
         C,
@@ -49,7 +49,7 @@ function FireChatChannelListItem<
             onClick={() => selectChannel?.(channel?.[CHANNEL_ID_FIELD])}
         >
             <div className="w-14 h-14 relative">
-                <FireChatChannelListItemAvatar
+                <FireChannelListItemAvatar
                     participants={participants}
                     me={me}
                 />
@@ -57,14 +57,14 @@ function FireChatChannelListItem<
 
             <div className="flex flex-col gap-1 w-full">
                 <div className="flex justify-between items-center gap-4">
-                    <FireChatChannelListItemTitle
+                    <FireChannelListItemTitle
                         channel={channel}
                         participants={participants}
                         isSelected={isSelected}
                     />
-                    <FireChatChannelListItemLastChatTime channel={channel} />
+                    <FireChannelListItemLastChatTime channel={channel} />
                 </div>
-                <FireChatChannelListItemLastChatContent channel={channel} />
+                <FireChannelListItemLastChatContent channel={channel} />
             </div>
             <Badge
                 className="absolute right-2 bottom-2 rounded-full bg-destructive min-w-6 text-center"
@@ -80,4 +80,4 @@ function FireChatChannelListItem<
     );
 }
 
-export default memo(FireChatChannelListItem);
+export default memo(FireChannelListItem);

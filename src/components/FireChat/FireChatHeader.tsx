@@ -12,7 +12,7 @@ import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarPro
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
-export default function FireChatChannelHeader<
+export default function FireChatHeader<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,

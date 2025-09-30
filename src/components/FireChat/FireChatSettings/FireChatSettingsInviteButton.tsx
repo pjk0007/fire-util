@@ -31,7 +31,7 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { toast } from 'sonner';
 import inviteUser from '@/lib/FireChannel/api/inviteUser';
 
-export default function FireChatChannelSidebarInviteButton<U extends FcUser>({
+export default function FireChatSettingsInviteButton<U extends FcUser>({
     channelId,
 }: {
     channelId: string;

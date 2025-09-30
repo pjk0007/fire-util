@@ -39,9 +39,9 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import FireChatChannelSidebarInviteButton from '@/components/FireChat/FireChatChannelSidebar/FireChatChannelSidebarInviteButton';
+import FireChatSettingsInviteButton from '@/components/FireChat/FireChatSettings/FireChatSettingsInviteButton';
 
-function FireChatChannelSidebarParticipants<
+function FireChatSettingsParticipants<
     C extends FcChannel<M, T>,
     U extends FcUser,
     M extends FcMessage<T>,
@@ -216,7 +216,7 @@ function FireChatChannelSidebarParticipants<
                     ))
                 )}
                 {channel?.[CHANNEL_HOST_ID_FIELD] === me?.[USER_ID_FIELD] && (
-                    <FireChatChannelSidebarInviteButton
+                    <FireChatSettingsInviteButton
                         // reFetchChannelParticipants={reFetchChannelParticipants}
                         channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                     />
@@ -226,4 +226,4 @@ function FireChatChannelSidebarParticipants<
     );
 }
 
-export default memo(FireChatChannelSidebarParticipants);
+export default memo(FireChatSettingsParticipants);
