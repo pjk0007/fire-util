@@ -52,8 +52,8 @@ export const MESSAGE_CONTENT_FILE_SIZE_FIELD = 'size';
 /**
  * Other constants
  */
-export const MESSAGE_UNIT = 100;
-export const FILE_UNIT = 100;
+export const MESSAGE_UNIT = 48;
+export const FILE_UNIT = 13;
 export const LARGE_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 export const EMOJI_LIST = ['👍', '✅', '❤️', '👀'];
 
