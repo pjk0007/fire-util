@@ -3,12 +3,12 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_ID_FIELD } from '@/lib/FireChannel/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { ArrowDown } from 'lucide-react';
 import { useEffect } from 'react';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';
@@ -23,10 +23,10 @@ import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
 export default function FireChatRoomBody<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >() {
     const { user: me } = useFireAuth();
 

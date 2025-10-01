@@ -1,7 +1,7 @@
 import { db } from '@/lib/firebase';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_ID_FIELD,
     MESSAGE_REACTIONS_FIELD,
@@ -10,8 +10,8 @@ import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { doc, updateDoc } from 'firebase/firestore';
 
 export default async function handleEmojiReactionClick<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({
     userId,
     channelId,

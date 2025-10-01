@@ -1,10 +1,10 @@
-import { FcMessage, FcMessageContent, FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
+import { FireMessage, FireMessageContent, FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef } from 'react';
 
 export default function FireChatChannelRoomFooterTextareaMobile<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({
     message,
     setMessage,

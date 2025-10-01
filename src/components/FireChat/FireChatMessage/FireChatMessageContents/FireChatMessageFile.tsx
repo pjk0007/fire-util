@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { FcMessage, FcMessageFile, FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
+import { FireMessage, FireMessageFile, FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import { ArrowDownToLine } from 'lucide-react';
 import { useState } from 'react';
 
 export default function FireChatMessageFile<
-    M extends FcMessage<FcMessageFile>
+    M extends FireMessage<FireMessageFile>
 >({ message }: { message: M }) {
     const [isDownloading, setIsDownloading] = useState(false);
 

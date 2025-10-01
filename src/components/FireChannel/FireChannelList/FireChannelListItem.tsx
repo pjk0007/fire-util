@@ -6,12 +6,12 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Badge } from '@/components/ui/badge';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_ID_FIELD } from '@/lib/FireChannel/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 import { memo } from 'react';
@@ -23,10 +23,10 @@ interface FireChannelListItemProps {
 }
 
 function FireChannelListItem<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ channelId, isSelected, selectChannel }: FireChannelListItemProps) {
     const { user: me } = useFireAuth();
     const { channel, participants, unreadCount } = useFireChannelInfo<

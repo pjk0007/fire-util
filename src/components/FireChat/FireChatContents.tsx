@@ -9,9 +9,9 @@ import {
     FireTabsTrigger,
 } from '@/components/FireUI/tabs';
 import {
-    FcMessage,
-    FcMessageFile,
-    FcMessageImage,
+    FireMessage,
+    FireMessageFile,
+    FireMessageImage,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
@@ -70,10 +70,10 @@ export default function FireChatContents({
                             <div className="h-full flex flex-wrap">
                                 {reversedImageMessages.map((msg, index) => {
                                     const message =
-                                        msg as FcMessage<FcMessageImage>;
+                                        msg as FireMessage<FireMessageImage>;
                                     const content = msg?.[
                                         MESSAGE_CONTENTS_FIELD
-                                    ]?.[0] as FcMessageImage;
+                                    ]?.[0] as FireMessageImage;
                                     const before =
                                         index > 0
                                             ? reversedImageMessages[index - 1]
@@ -178,7 +178,7 @@ export default function FireChatContents({
                                 {reversedFileMessages.map((msg, index) => {
                                     const content = msg?.[
                                         MESSAGE_CONTENTS_FIELD
-                                    ]?.[0] as FcMessageFile;
+                                    ]?.[0] as FireMessageFile;
                                     const before =
                                         index > 0
                                             ? reversedFileMessages[index - 1]

@@ -1,6 +1,6 @@
 import {
-    FcMessage,
-    FcMessageImage,
+    FireMessage,
+    FireMessageImage,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
@@ -8,7 +8,7 @@ import {
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -16,8 +16,8 @@ import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatIm
 import getImageColSpan from '@/lib/FireChat/utils/getImageColSpan';
 
 export default function FireChatMessageImages<
-    M extends FcMessage<FcMessageImage>,
-    U extends FcUser
+    M extends FireMessage<FireMessageImage>,
+    U extends FireUser
 >({ message, participants }: { message: M; participants: U[] }) {
     const totalImages = message[MESSAGE_CONTENTS_FIELD].length;
     if (totalImages === 0) {

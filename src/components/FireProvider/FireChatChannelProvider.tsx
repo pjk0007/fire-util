@@ -3,8 +3,8 @@ import useFireChatSender, {
     SendingFile,
 } from '@/lib/FireChat/hooks/useFireChatSender';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
 } from '@/lib/FireChat/settings';
 import {
     Dispatch,
@@ -17,8 +17,8 @@ import {
 } from 'react';
 
 interface FireChatChannelContextValue<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 > {
     onSendingFiles: (files: File[]) => void;
     sendingFiles: SendingFile[];
@@ -28,7 +28,7 @@ interface FireChatChannelContextValue<
 }
 
 const FireChatChannelContext = createContext<
-    FireChatChannelContextValue<FcMessage<FcMessageContent>, FcMessageContent>
+    FireChatChannelContextValue<FireMessage<FireMessageContent>, FireMessageContent>
 >({
     sendingFiles: [],
     setSendingFiles: () => {},
@@ -47,7 +47,7 @@ export function FireChatChannelProvider({ children }: FireChatProviderProps) {
     const { selectedChannelId: channelId } = useFireChannel();
 
     const [replyingMessage, setReplyingMessage] = useState<
-        FcMessage<FcMessageContent> | undefined
+        FireMessage<FireMessageContent> | undefined
     >(undefined);
 
     const { onSendingFiles, sendingFiles, setSendingFiles } =

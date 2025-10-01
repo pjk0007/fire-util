@@ -18,7 +18,7 @@ import { useState } from 'react';
 
 export default function FireKanbanList() {
     const [isOpen, setIsOpen] = useState(true);
-    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
     const isMobile = useIsMobile();
     return (
         <div
@@ -32,9 +32,9 @@ export default function FireKanbanList() {
                       }
                     : {
                           'h-full overflow-hidden': true,
-                          'relative w-72 border-r ': isOpen && !isFullScreen,
+                          'relative w-72 border-r ': isOpen && !isExpanded,
                           'absolute z-50 inset-0 h-full w-full':
-                              isOpen && isFullScreen,
+                              isOpen && isExpanded,
                           'relative w-13 hover:bg-muted border-r ': !isOpen,
                       }
             )}
@@ -46,8 +46,8 @@ export default function FireKanbanList() {
                 className={cn(
                     'w-full h-full flex flex-col gap-2 md:px-2 md:py-3.5 p-2',
                     {
-                        'md:w-72': isOpen && !isFullScreen,
-                        'md:w-full': isOpen && isFullScreen,
+                        'md:w-72': isOpen && !isExpanded,
+                        'md:w-full': isOpen && isExpanded,
                         'items-center': !isOpen,
                     }
                 )}
@@ -56,17 +56,17 @@ export default function FireKanbanList() {
                     <div className="flex w-full justify-between text-foreground items-center">
                         {isMobile ? (
                             <div></div>
-                        ) : isFullScreen ? (
+                        ) : isExpanded ? (
                             <Minimize2
                                 size={18}
                                 className="hover:bg-muted rounded-sm"
-                                onClick={() => setIsFullScreen(false)}
+                                onClick={() => setIsExpanded(false)}
                             />
                         ) : (
                             <MoveDiagonal
                                 size={18}
                                 className="hover:bg-muted rounded-sm"
-                                onClick={() => setIsFullScreen(true)}
+                                onClick={() => setIsExpanded(true)}
                             />
                         )}
 

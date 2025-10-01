@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import {
     USER_COLLECTION,
     USER_EMAIL_FIELD,
@@ -7,7 +7,7 @@ import {
 } from '@/lib/FireAuth/settings';
 import { collection, getDocs, where, query, or } from 'firebase/firestore';
 
-export async function findUsersByNameOrEmail<U extends FcUser>(
+export async function findUsersByNameOrEmail<U extends FireUser>(
     search: string
 ): Promise<U[]> {
     const users = await getDocs(

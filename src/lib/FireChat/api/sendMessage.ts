@@ -1,7 +1,7 @@
 import { db } from '@/lib/firebase';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_ID_FIELD,
     MESSAGE_CONTENT_TEXT_FIELD,
@@ -15,8 +15,8 @@ import { CHANNEL_COLLECTION, CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChanne
 import { doc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 
 export default async function sendMessage<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >(channelId: string, message: M) {
     await setDoc(
         doc(
@@ -31,15 +31,15 @@ export default async function sendMessage<
 }
 
 export async function updateLastMessage<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >(channelId: string, msg: M) {
     await updateDoc(doc(db, CHANNEL_COLLECTION, channelId), {
         [CHANNEL_LAST_MESSAGE_FIELD]: msg,
     });
 }
 
-export async function sendTextMessage<M extends FcMessage<FcMessageContent>>(
+export async function sendTextMessage<M extends FireMessage<FireMessageContent>>(
     channelId: string,
     userId: string,
     message: string,

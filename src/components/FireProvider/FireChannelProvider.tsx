@@ -3,18 +3,18 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import useFireChannelList from '@/lib/FireChannel/hook/useFireChannelList';
 
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
 
 interface FireChatContextValue<
-    C extends FcChannel<M, T>,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 > {
     channels: C[];
     selectedChannelId?: string;
@@ -23,9 +23,9 @@ interface FireChatContextValue<
 
 const FireChatContext = createContext<
     FireChatContextValue<
-        FcChannel<FcMessage<FcMessageContent>, FcMessageContent>,
-        FcMessage<FcMessageContent>,
-        FcMessageContent
+        FireChannel<FireMessage<FireMessageContent>, FireMessageContent>,
+        FireMessage<FireMessageContent>,
+        FireMessageContent
     >
 >({
     channels: [],
@@ -42,9 +42,9 @@ interface FireChatProviderProps {
 }
 
 export function FireChannelProvider<
-    C extends FcChannel<M, T>,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ children, defaultChannelId }: FireChatProviderProps) {
     const { user } = useFireAuth();
     const [selectedChannelId, setSelectedChannelId] = useState<

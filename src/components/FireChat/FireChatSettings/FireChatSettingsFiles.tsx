@@ -1,8 +1,8 @@
 import { Card } from '@/components/ui/card';
 import {
-    FcMessage,
-    FcMessageContent,
-    FcMessageFile,
+    FireMessage,
+    FireMessageContent,
+    FireMessageFile,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
@@ -19,8 +19,8 @@ import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import { cn } from '@/lib/utils';
 
 function FireChatSettingsFiles<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ fileMessages, channelId }: { fileMessages: M[]; channelId: string }) {
     return (
         <div className="flex flex-col gap-4">
@@ -30,7 +30,7 @@ function FireChatSettingsFiles<
                         .reverse()
                         .slice(0, 8)
                         .map((msg, index) => {
-                            const message = msg as FcMessage<FcMessageFile>;
+                            const message = msg as FireMessage<FireMessageFile>;
 
                             return (
                                 <div

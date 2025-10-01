@@ -20,7 +20,7 @@ export const USER_EMAIL_FIELD = 'email';
  * T: Message content type
  */
 
-export interface FcUser {
+export interface FireUser {
     [USER_ID_FIELD]: string;
     [USER_NAME_FIELD]: string;
     [USER_AVATAR_FIELD]?: string;

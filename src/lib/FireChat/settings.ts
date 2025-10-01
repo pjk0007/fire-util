@@ -97,46 +97,46 @@ export const FIRECHAT_LOCALE = {
     },
 };
 
-export type FcMessageType =
+export type FireMessageType =
     | typeof MESSAGE_TYPE_TEXT
     | typeof MESSAGE_TYPE_IMAGE
     | typeof MESSAGE_TYPE_FILE
     | typeof MESSAGE_TYPE_SYSTEM;
 
-export interface FcMessageText {
+export interface FireMessageText {
     [MESSAGE_TYPE_FIELD]: typeof MESSAGE_TYPE_TEXT;
     [MESSAGE_CONTENT_TEXT_FIELD]: string;
 }
 
-export interface FcMessageImage {
+export interface FireMessageImage {
     [MESSAGE_TYPE_FIELD]: typeof MESSAGE_TYPE_IMAGE;
     [MESSAGE_CONTENT_URL_FIELD]: string;
     [MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD]?: string;
 }
 
-export interface FcMessageFile {
+export interface FireMessageFile {
     [MESSAGE_TYPE_FIELD]: typeof MESSAGE_TYPE_FILE;
     [MESSAGE_CONTENT_URL_FIELD]: string;
     [MESSAGE_CONTENT_FILE_NAME_FIELD]?: string;
     [MESSAGE_CONTENT_FILE_SIZE_FIELD]?: number;
 }
 
-export interface FcMessageSystem {
+export interface FireMessageSystem {
     [MESSAGE_TYPE_FIELD]: typeof MESSAGE_TYPE_SYSTEM;
     [MESSAGE_CONTENT_TEXT_FIELD]: string;
 }
 
-export type FcMessageContent =
-    | FcMessageText
-    | FcMessageImage
-    | FcMessageFile
-    | FcMessageSystem;
+export type FireMessageContent =
+    | FireMessageText
+    | FireMessageImage
+    | FireMessageFile
+    | FireMessageSystem;
 
-export interface FcMessage<T extends FcMessageContent> {
+export interface FireMessage<T extends FireMessageContent> {
     [MESSAGE_ID_FIELD]: string;
     [MESSAGE_USER_ID_FIELD]: string;
-    [MESSAGE_REPLY_FIELD]?: FcMessage<T> | null;
-    [MESSAGE_TYPE_FIELD]: FcMessageType;
+    [MESSAGE_REPLY_FIELD]?: FireMessage<T> | null;
+    [MESSAGE_TYPE_FIELD]: FireMessageType;
     [MESSAGE_CONTENTS_FIELD]: T[];
     [MESSAGE_CREATED_AT_FIELD]: Timestamp;
     [MESSAGE_REACTIONS_FIELD]?: { [emoji: string]: string[] }; // emoji to userIds

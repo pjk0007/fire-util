@@ -2,8 +2,8 @@ import { db } from '@/lib/firebase';
 import getFileMessages from '@/lib/FireChat/api/getFileMessages';
 import getImageMessages from '@/lib/FireChat/api/getImageMessages';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_TYPE_FIELD,
@@ -22,8 +22,8 @@ import {
 import { useEffect, useState } from 'react';
 
 export default function useListFiles<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ channelId }: { channelId?: string }) {
     const [imageMessages, setImageMessages] = useState<M[]>([]);
     const [fileMessages, setFileMessages] = useState<M[]>([]);

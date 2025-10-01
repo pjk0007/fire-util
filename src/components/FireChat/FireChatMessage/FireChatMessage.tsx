@@ -6,9 +6,9 @@ import FireChatMessageContextMenu from '@/components/FireChat/FireChatMessage/Fi
 import { Button } from '@/components/ui/button';
 import handleEmojiReactionClick from '@/lib/FireChat/api/handleEmojiReactionClick';
 import {
-    FcMessage,
-    FcMessageContent,
-    FcMessageSystem,
+    FireMessage,
+    FireMessageContent,
+    FireMessageSystem,
     FIRECHAT_LOCALE,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
@@ -17,15 +17,15 @@ import {
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
 
 export default function FireChatMessage<
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 >({
     channelId,
     message,
@@ -52,7 +52,7 @@ export default function FireChatMessage<
     if (message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_SYSTEM) {
         return (
             <FireChatMessageSystem
-                message={message as FcMessage<FcMessageSystem>}
+                message={message as FireMessage<FireMessageSystem>}
             />
         );
     }

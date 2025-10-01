@@ -2,11 +2,11 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import handleEmojiReactionClick from '@/lib/FireChat/api/handleEmojiReactionClick';
 import {
     EMOJI_LIST,
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_REACTIONS_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 import { CornerDownRight } from 'lucide-react';
@@ -20,9 +20,9 @@ interface FireChatMessageActionButtonsProps<M, U> {
 }
 
 export default function FireChatMessageActionButtons<
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 >({
     channelId,
     message,

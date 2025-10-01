@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import {
     USER_AVATAR_FALLBACK_URL,
     USER_AVATAR_FIELD,
@@ -13,9 +13,9 @@ import {
 import Image from 'next/image';
 
 export default function FireChatMessageAvatar<
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ message, participants }: { message: M; participants: U[] }) {
     const messageUser = participants.find(
         (p) => p.id === message[MESSAGE_USER_ID_FIELD]

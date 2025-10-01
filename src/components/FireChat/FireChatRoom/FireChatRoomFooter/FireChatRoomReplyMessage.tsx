@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     FIRECHAT_LOCALE,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import getReplyingMessageContent from '@/lib/FireChat/utils/getReplyingMessageContent';
 import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 import { X } from 'lucide-react';
@@ -14,8 +14,8 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 
 export default function FireChatChannelRoomReplyMessage<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({
     replyingMessage,
     participants,
@@ -23,7 +23,7 @@ export default function FireChatChannelRoomReplyMessage<
     setReplyingMessage,
 }: {
     replyingMessage: M;
-    participants: FcUser[];
+    participants: FireUser[];
     isMine: boolean;
     setReplyingMessage?: (msg?: M) => void;
 }) {

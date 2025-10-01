@@ -1,17 +1,17 @@
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_CREATED_AT_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChannel/settings';
 import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
 import { Timestamp } from 'firebase/firestore';
 
 export default function FireChannelListItemLastChatTime<
-    C extends FcChannel<M, T>,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ channel }: { channel?: C }) {
     return (
         <time className="text-xs text-muted-foreground whitespace-nowrap">

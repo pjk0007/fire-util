@@ -1,10 +1,10 @@
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_NAME_FIELD } from '@/lib/FireChannel/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import {
     USER_ID_FIELD,
     USER_NAME_FIELD
@@ -12,10 +12,10 @@ import {
 import { cn } from '@/lib/utils';
 
 export default function FireChannelListItemTitle<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({
     channel,
     participants,

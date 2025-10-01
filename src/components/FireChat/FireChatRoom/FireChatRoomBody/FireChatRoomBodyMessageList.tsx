@@ -3,9 +3,9 @@ import { memo, Fragment } from 'react';
 import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
 import FireChatSending from '@/components/FireChat/FireChatMessage/FireChatSending';
 import {
-    FcMessage,
-    FcMessageContent,
-    FcMessageSystem,
+    FireMessage,
+    FireMessageContent,
+    FireMessageSystem,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_CREATED_AT_FIELD,
@@ -14,38 +14,38 @@ import {
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 
 const FireChatMessage = memo(FireChatMessageOrigin);
 
 type FireChatChannelRoomBodyMessageListProps<
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 > = {
     beforeMessages: M[];
     messages: M[];
     // newMessages: M[];
     participants: U[];
     me?: U | null;
-    setReplyingMessage?: (message?: FcMessage<FcMessageContent>) => void;
+    setReplyingMessage?: (message?: FireMessage<FireMessageContent>) => void;
     channelId: string;
     sendingFiles: SendingFile[];
 };
 
 function renderMessages<
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 >(
     channelId: string,
     messages: M[],
     participants: U[],
     me: U | null | undefined,
     setReplyingMessage:
-        | ((message?: FcMessage<FcMessageContent>) => void)
+        | ((message?: FireMessage<FireMessageContent>) => void)
         | undefined
 ) {
     return messages.map((msg, index) => {
@@ -80,7 +80,7 @@ function renderMessages<
                                             MESSAGE_TYPE_SYSTEM,
                                     },
                                 ],
-                            } as FcMessage<FcMessageSystem>
+                            } as FireMessage<FireMessageSystem>
                         }
                     />
                     <FireChatMessage
@@ -122,9 +122,9 @@ function renderMessages<
 }
 
 function FireChatChannelRoomBodyMessageList<
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 >({
     beforeMessages,
     messages,

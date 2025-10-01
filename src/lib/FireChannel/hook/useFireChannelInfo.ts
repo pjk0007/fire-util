@@ -1,19 +1,19 @@
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { db } from '@/lib/firebase';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '../settings';
+import { FireChannel } from '../settings';
 import {
     CHANNEL_COLLECTION,
     CHANNEL_ID_FIELD,
     CHANNEL_LAST_SEEN_FIELD,
     CHANNEL_PARTICIPANTS_FIELD
 } from '../settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import {
     USER_COLLECTION,
     USER_ID_FIELD
@@ -32,10 +32,10 @@ import {
 import { useEffect, useState } from 'react';
 
 export default function useFireChannelInfo<
-    C extends FcChannel<M, T>,
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    C extends FireChannel<M, T>,
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 >({
     channelId,
     channelCollection = CHANNEL_COLLECTION,

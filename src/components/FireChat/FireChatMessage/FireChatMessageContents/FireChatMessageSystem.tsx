@@ -1,6 +1,6 @@
 import {
-    FcMessage,
-    FcMessageSystem,
+    FireMessage,
+    FireMessageSystem,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CREATED_AT_FIELD,
@@ -8,8 +8,8 @@ import {
 } from '@/lib/FireChat/settings';
 
 export default function FireChatMessageSystem<
-    M extends FcMessage<T>,
-    T extends FcMessageSystem
+    M extends FireMessage<T>,
+    T extends FireMessageSystem
 >({ message }: { message: M }) {
     return (
         <div

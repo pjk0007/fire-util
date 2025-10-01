@@ -1,14 +1,14 @@
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import {
     USER_AVATAR_FALLBACK_URL,
     USER_AVATAR_FIELD
 } from '@/lib/FireAuth/settings';
 import Image from 'next/image';
 
-export default function FireChatHeaderAvatar<U extends FcUser>({
+export default function FireChatHeaderAvatar<U extends FireUser>({
     participants,
 }: {
     participants: U[];

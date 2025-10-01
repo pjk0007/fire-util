@@ -1,9 +1,9 @@
 import { db } from '@/lib/firebase';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '../settings';
+import { FireChannel } from '../settings';
 import {
     CHANNEL_COLLECTION,
     CHANNEL_PARTICIPANTS_FIELD
@@ -12,9 +12,9 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 export default function useFireChannelList<
-    C extends FcChannel<M, T>,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >(userId?: string) {
     const [channels, setChannels] = useState<C[]>([]);
 

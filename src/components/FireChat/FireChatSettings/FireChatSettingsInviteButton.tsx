@@ -1,7 +1,7 @@
 import {
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import {
     USER_EMAIL_FIELD,
     USER_ID_FIELD
@@ -31,7 +31,7 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { toast } from 'sonner';
 import inviteUser from '@/lib/FireChannel/api/inviteUser';
 
-export default function FireChatSettingsInviteButton<U extends FcUser>({
+export default function FireChatSettingsInviteButton<U extends FireUser>({
     channelId,
 }: {
     channelId: string;

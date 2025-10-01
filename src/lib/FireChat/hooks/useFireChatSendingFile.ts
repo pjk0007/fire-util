@@ -2,8 +2,8 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
 import {
-    FcMessage,
-    FcMessageFile,
+    FireMessage,
+    FireMessageFile,
     MESSAGE_COLLECTION,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
@@ -69,7 +69,7 @@ export default function useFireChatSendingFile({
             },
             async () => {
                 const url = await getDownloadURL(uploadTask.snapshot.ref);
-                const msg: FcMessage<FcMessageFile> = {
+                const msg: FireMessage<FireMessageFile> = {
                     [MESSAGE_ID_FIELD]: id,
                     [MESSAGE_USER_ID_FIELD]: me?.id || '',
                     [MESSAGE_CREATED_AT_FIELD]: Timestamp.now(),

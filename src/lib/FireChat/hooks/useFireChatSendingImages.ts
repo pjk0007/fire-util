@@ -2,8 +2,8 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { storage } from '@/lib/firebase';
 import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
 import {
-    FcMessage,
-    FcMessageImage,
+    FireMessage,
+    FireMessageImage,
     MESSAGE_COLLECTION,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
@@ -39,7 +39,7 @@ export default function useFireChatSendingImages({
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [isCompleted, setIsCompleted] = useState(false);
-    const [contents, setContents] = useState<FcMessageImage[]>([]);
+    const [contents, setContents] = useState<FireMessageImage[]>([]);
     const uploadTaskRef = useRef<UploadTask[]>([]);
 
     useEffect(() => {
@@ -90,7 +90,7 @@ export default function useFireChatSendingImages({
                             uploadTask.snapshot.ref
                         );
 
-                        const content: FcMessageImage = {
+                        const content: FireMessageImage = {
                             [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_IMAGE,
                             [MESSAGE_CONTENT_URL_FIELD]: url,
                             [MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD]:
@@ -121,7 +121,7 @@ export default function useFireChatSendingImages({
             (async () => {
                 const now = Timestamp.now();
                 const msgId = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
-                const msg: FcMessage<FcMessageImage> = {
+                const msg: FireMessage<FireMessageImage> = {
                     [MESSAGE_ID_FIELD]: msgId,
                     [MESSAGE_USER_ID_FIELD]: me?.id || '',
                     [MESSAGE_CREATED_AT_FIELD]: Timestamp.now(),

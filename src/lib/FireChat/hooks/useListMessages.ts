@@ -3,8 +3,8 @@ import { db } from '@/lib/firebase';
 import getMessages from '@/lib/FireChat/api/getMessages';
 import updateLastSeen from '@/lib/FireChat/api/updateLastSeen';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
@@ -23,8 +23,8 @@ import {
 import { useEffect, useState } from 'react';
 
 export default function useListMessages<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ channelId }: { channelId?: string }) {
     const { user } = useFireAuth();
     const [messages, setMessages] = useState<M[]>([]);

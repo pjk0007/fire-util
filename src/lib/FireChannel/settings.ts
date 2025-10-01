@@ -1,7 +1,7 @@
 
 // Channel collection and field names
 
-import { FcMessage, FcMessageContent } from '@/lib/FireChat/settings';
+import { FireMessage, FireMessageContent } from '@/lib/FireChat/settings';
 import { Timestamp } from 'firebase/firestore';
 
 export const CHANNEL_COLLECTION = 'matches';
@@ -24,7 +24,7 @@ export const CHANNEL_LAST_SEEN_FIELD = 'lastSeen';
  * T: Message content type
  */
 
-export interface FcChannel<M extends FcMessage<T>, T extends FcMessageContent> {
+export interface FireChannel<M extends FireMessage<T>, T extends FireMessageContent> {
     [CHANNEL_ID_FIELD]: string;
     [CHANNEL_HOST_ID_FIELD]: string;
     [CHANNEL_NAME_FIELD]: string;

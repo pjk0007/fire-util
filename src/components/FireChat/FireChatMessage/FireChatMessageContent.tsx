@@ -2,11 +2,11 @@ import FireChatMessageFile from '@/components/FireChat/FireChatMessage/FireChatM
 import FireChatMessageImages from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageImages';
 import FireChatMessageText from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageText';
 import {
-    FcMessage,
-    FcMessageContent,
-    FcMessageFile,
-    FcMessageImage,
-    FcMessageText,
+    FireMessage,
+    FireMessageContent,
+    FireMessageFile,
+    FireMessageImage,
+    FireMessageText,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_REPLY_FIELD,
     MESSAGE_TYPE_FIELD,
@@ -15,13 +15,13 @@ import {
     MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { memo } from 'react';
 
 function FireChatMessageContent<
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 >({
     message,
     me,
@@ -46,7 +46,7 @@ function FireChatMessageContent<
                 <FireChatMessageText
                     participants={participants}
                     content={
-                        message[MESSAGE_CONTENTS_FIELD][0] as FcMessageText
+                        message[MESSAGE_CONTENTS_FIELD][0] as FireMessageText
                     }
                     replyingMessage={message[MESSAGE_REPLY_FIELD] ?? null}
                     isMine={isMine}
@@ -55,14 +55,14 @@ function FireChatMessageContent<
         case MESSAGE_TYPE_IMAGE:
             return (
                 <FireChatMessageImages
-                    message={message as FcMessage<FcMessageImage>}
+                    message={message as FireMessage<FireMessageImage>}
                     participants={participants}
                 />
             );
         case MESSAGE_TYPE_FILE:
             return (
                 <FireChatMessageFile
-                    message={message as FcMessage<FcMessageFile>}
+                    message={message as FireMessage<FireMessageFile>}
                 />
             );
         default:

@@ -10,12 +10,12 @@ import { Separator } from '@/components/ui/separator';
 import { sendTextMessage } from '@/lib/FireChat/api/sendMessage';
 import useFireChatChannelRoomFooter from '@/lib/FireChat/hooks/useFireChatChannelRoomFooter';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ArrowUp } from 'lucide-react';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
@@ -23,10 +23,10 @@ import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import { useEffect, useState } from 'react';
 
 export default function FireChatChannelRoomFooter<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >() {
     const { user: me } = useFireAuth();
     const [isDragOver, setIsDragOver] = useState(false);

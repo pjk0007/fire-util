@@ -2,16 +2,16 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import getUser from '@/lib/FireAuth/api/getUser';
 import { doc, onSnapshot } from 'firebase/firestore';
 
-interface FireAuthContextProps<U extends FcUser> {
+interface FireAuthContextProps<U extends FireUser> {
     user?: U | null;
     status: 'success' | 'pending';
 }
 
-const FireAuthContext = createContext<FireAuthContextProps<FcUser>>({
+const FireAuthContext = createContext<FireAuthContextProps<FireUser>>({
     user: null,
     status: 'pending',
 });
@@ -22,7 +22,7 @@ interface FireAuthProviderProps {
     children: ReactNode;
 }
 
-export function FireAuthProvider<U extends FcUser>({
+export function FireAuthProvider<U extends FireUser>({
     children,
 }: FireAuthProviderProps) {
     const [user, setUser] = useState<U | null>(null);

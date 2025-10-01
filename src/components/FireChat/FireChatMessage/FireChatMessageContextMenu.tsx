@@ -9,9 +9,9 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import handleEmojiReactionClick from '@/lib/FireChat/api/handleEmojiReactionClick';
 import {
     EMOJI_LIST,
-    FcMessage,
-    FcMessageContent,
-    FcMessageText,
+    FireMessage,
+    FireMessageContent,
+    FireMessageText,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -20,7 +20,7 @@ import {
     MESSAGE_TYPE_TEXT,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 import { Copy, CornerDownRight } from 'lucide-react';
@@ -36,9 +36,9 @@ interface FireChatMessageContextMenuProps<M, U> {
 }
 
 export default function FireChatMessageContextMenu<
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 >({
     children,
     message,
@@ -104,7 +104,7 @@ export default function FireChatMessageContextMenu<
                             onSelect={() => {
                                 const content = message[
                                     MESSAGE_CONTENTS_FIELD
-                                ][0] as FcMessageText;
+                                ][0] as FireMessageText;
                                 navigator.clipboard.writeText(
                                     content[MESSAGE_CONTENT_TEXT_FIELD]
                                 );

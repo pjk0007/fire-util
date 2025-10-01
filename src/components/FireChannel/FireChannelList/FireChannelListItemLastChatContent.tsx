@@ -1,8 +1,8 @@
 import {
-    FcMessage,
-    FcMessageContent,
-    FcMessageSystem,
-    FcMessageText,
+    FireMessage,
+    FireMessageContent,
+    FireMessageSystem,
+    FireMessageText,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -12,14 +12,14 @@ import {
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_TYPE_TEXT,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChannel/settings';
 import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 
 export default function FireChannelListItemLastChatContent<
-    C extends FcChannel<M, T>,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ channel }: { channel?: C }) {
     const lastMessage = channel?.[CHANNEL_LAST_MESSAGE_FIELD];
     const contents = lastMessage?.[MESSAGE_CONTENTS_FIELD]?.[0];
@@ -35,7 +35,7 @@ export default function FireChannelListItemLastChatContent<
     const type = lastMessage[MESSAGE_TYPE_FIELD];
 
     if (type === MESSAGE_TYPE_TEXT) {
-        const text = contents as FcMessageText;
+        const text = contents as FireMessageText;
         return (
             <div
                 className="text-xs text-muted-foreground line-clamp-2 whitespace-pre-line break-all"
@@ -69,7 +69,7 @@ export default function FireChannelListItemLastChatContent<
     }
 
     if (type === MESSAGE_TYPE_SYSTEM) {
-        const system = contents as FcMessageSystem;
+        const system = contents as FireMessageSystem;
         return (
             <div className="text-xs text-gray-400 italic">
                 {system[MESSAGE_CONTENT_TEXT_FIELD]}

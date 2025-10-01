@@ -3,16 +3,16 @@ import FireChatSettingsImages from '@/components/FireChat/FireChatSettings/FireC
 import FireChatSettingsParticipants from '@/components/FireChat/FireChatSettings/FireChatSettingsParticipants';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import {
     CHANNEL_ID_FIELD,
     CHANNEL_NAME_FIELD
 } from '@/lib/FireChannel/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import useListFiles from '@/lib/FireChat/hooks/useListFiles';
 import {
     FireChatSidebar,
@@ -25,10 +25,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function FireChatSettings<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >() {
     const { selectedChannelId: channelId } = useFireChannel();
 

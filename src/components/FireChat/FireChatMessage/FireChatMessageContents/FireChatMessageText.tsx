@@ -1,13 +1,13 @@
 import {
-    FcMessage,
-    FcMessageContent,
-    FcMessageText,
+    FireMessage,
+    FireMessageContent,
+    FireMessageText,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import getReplyingMessageContent from '@/lib/FireChat/utils/getReplyingMessageContent';
 import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 import { cn } from '@/lib/utils';
@@ -17,8 +17,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function FireChatMessageText<
-    T extends FcMessageText,
-    U extends FcUser
+    T extends FireMessageText,
+    U extends FireUser
 >({
     participants,
     content,
@@ -27,7 +27,7 @@ export default function FireChatMessageText<
 }: {
     participants: U[];
     content: T;
-    replyingMessage?: FcMessage<FcMessageContent> | null;
+    replyingMessage?: FireMessage<FireMessageContent> | null;
     isMine: boolean;
 }) {
     const {

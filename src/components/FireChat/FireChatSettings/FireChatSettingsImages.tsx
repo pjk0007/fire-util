@@ -3,9 +3,9 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
-    FcMessage,
-    FcMessageContent,
-    FcMessageImage,
+    FireMessage,
+    FireMessageContent,
+    FireMessageImage,
     FIRECHAT_LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
@@ -14,16 +14,16 @@ import {
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { formatDateString } from '@/lib/FireChat/utils/timeformat';
 import { ChevronRight, ImageIcon, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
 
 function FireChatSettingsImages<
-    M extends FcMessage<T>,
-    T extends FcMessageContent,
-    U extends FcUser
+    M extends FireMessage<T>,
+    T extends FireMessageContent,
+    U extends FireUser
 >({
     imageMessages,
     channelId,
@@ -41,7 +41,7 @@ function FireChatSettingsImages<
                         .reverse()
                         .slice(0, 12)
                         .map((msg, index) => {
-                            const message = msg as FcMessage<FcMessageImage>;
+                            const message = msg as FireMessage<FireMessageImage>;
                             const senderUser = participants.find(
                                 (p) => p.id === message[MESSAGE_USER_ID_FIELD]
                             );

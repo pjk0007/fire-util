@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import {
     USER_COLLECTION,
     USER_ID_FIELD
@@ -11,7 +11,7 @@ import {
     where,
 } from 'firebase/firestore';
 
-export default async function getUsersById<U extends FcUser>({
+export default async function getUsersById<U extends FireUser>({
     ids,
     userCollection = USER_COLLECTION,
 }: {

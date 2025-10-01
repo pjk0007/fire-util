@@ -1,7 +1,7 @@
 import { db } from '@/lib/firebase';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     FILE_UNIT,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
@@ -19,8 +19,8 @@ import {
 } from 'firebase/firestore';
 
 export default async function getImageMessages<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >(channelId: string): Promise<M[]> {
     const q = query(
         collection(db, CHANNEL_COLLECTION, channelId, MESSAGE_COLLECTION),

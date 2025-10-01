@@ -1,7 +1,7 @@
 import { db } from '@/lib/firebase';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_UNIT,
@@ -17,8 +17,8 @@ import {
 } from 'firebase/firestore';
 
 export default async function getMessages<
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >(channelId: string, lastMessage: M | null): Promise<M[]> {
     const q = lastMessage
         ? query(

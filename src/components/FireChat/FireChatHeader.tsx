@@ -1,22 +1,22 @@
 import FireChatHeaderAvatar from '@/components/FireChat/FireChatHeader/FireChatHeaderAvatar';
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_NAME_FIELD } from '@/lib/FireChannel/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
 export default function FireChatHeader<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >() {
     const { selectedChannelId, setSelectedChannelId } = useFireChannel();
     const { toggleSidebar } = useFireChatSidebar();

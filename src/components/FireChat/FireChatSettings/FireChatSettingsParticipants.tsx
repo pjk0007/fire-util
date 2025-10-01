@@ -1,14 +1,14 @@
 import {
-    FcMessage,
-    FcMessageContent,
+    FireMessage,
+    FireMessageContent,
     FIRECHAT_LOCALE,
 } from '@/lib/FireChat/settings';
-import { FcChannel } from '@/lib/FireChannel/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
 import {
     CHANNEL_HOST_ID_FIELD,
     CHANNEL_ID_FIELD
 } from '@/lib/FireChannel/settings';
-import { FcUser } from '@/lib/FireAuth/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
 import {
     USER_EMAIL_FIELD,
     USER_ID_FIELD
@@ -42,10 +42,10 @@ import {
 import FireChatSettingsInviteButton from '@/components/FireChat/FireChatSettings/FireChatSettingsInviteButton';
 
 function FireChatSettingsParticipants<
-    C extends FcChannel<M, T>,
-    U extends FcUser,
-    M extends FcMessage<T>,
-    T extends FcMessageContent
+    C extends FireChannel<M, T>,
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
 >({ participants, channel }: { participants: U[]; channel?: C }) {
     const { user: me } = useFireAuth();
     // FireChat 컨텍스트에서 현재 선택된 채널 정보 가져오기
