@@ -1,3 +1,4 @@
+import FireTaskClassCardSubDueDate from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSub/FireTaskClassCardSubDueDate';
 import { FireUser } from '@/lib/FireAuth/settings';
 import { localeDateString } from '@/lib/FireChat/utils/timeformat';
 import {
@@ -23,14 +24,7 @@ export default function FireTaskClassCardSub<
 >({ task }: FireTaskClassCardSubProps<FT, FU>) {
     return (
         <div className="w-full flex justify-between items-center">
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <Calendar className="w-3 h-3" />
-                {task[TASK_DUE_DATE_FIELD] ? (
-                    <div>{localeDateString(task[TASK_DUE_DATE_FIELD])}</div>
-                ) : (
-                    <div>{TASK_LOCALE.NO_DUE_DATE}</div>
-                )}
-            </div>
+            <FireTaskClassCardSubDueDate task={task} />
             <div className="text-xs text-foreground flex items-center gap-2">
                 <div className="flex items-center gap-1">
                     <MessageSquare className="w-3.5 h-3.5" />

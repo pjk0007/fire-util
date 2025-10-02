@@ -52,6 +52,11 @@ export const TASK_LOCALE = {
         NEW_WINDOW: '새 창 열기',
     },
 
+    CARD:{
+        EDIT: '편집',
+        DUE_DATE: '마감일',
+    },
+
     STATUS: {
         [TASK_STATUS_REQUEST]: '요청',
         [TASK_STATUS_PROCEED]: '진행',

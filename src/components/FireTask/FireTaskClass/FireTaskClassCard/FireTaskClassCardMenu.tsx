@@ -1,4 +1,10 @@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { TASK_LOCALE } from '@/lib/FireTask/settings';
 import { Ellipsis, PenLine } from 'lucide-react';
 
 interface FireTaskClassCardMenuProps {
@@ -21,10 +27,20 @@ export default function FireTaskClassCardMenu({
                 {!isEditingTitle && (
                     <ToggleGroupItem
                         value="edit"
-                        onClick={() => setIsEditingTitle(!isEditingTitle)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsEditingTitle(!isEditingTitle);
+                        }}
                         className="bg-background"
                     >
-                        <PenLine />
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <PenLine />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                {TASK_LOCALE.CARD.EDIT}
+                            </TooltipContent>
+                        </Tooltip>
                     </ToggleGroupItem>
                 )}
                 <ToggleGroupItem value="edit" className="bg-background">

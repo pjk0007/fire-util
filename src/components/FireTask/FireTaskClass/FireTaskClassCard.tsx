@@ -18,7 +18,12 @@ export default function FireTaskClassCard<
 >({ task }: FireTaskClassCardProps<FT, FU>) {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     return (
-        <Card className="relative p-3 rounded-lg h-24 flex flex-col justify-between gap-0 hover:shadow-md cursor-pointer group">
+        <Card
+            className="relative p-3 rounded-lg h-24 flex flex-col justify-between gap-0 hover:shadow-sm cursor-pointer group shadow-none"
+            onClick={() => {
+                console.log('task clicked', task);
+            }}
+        >
             <FireTaskClassCardMain
                 task={task}
                 isEditingTitle={isEditingTitle}

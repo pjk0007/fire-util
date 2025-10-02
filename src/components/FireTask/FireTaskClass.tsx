@@ -66,7 +66,7 @@ export default function FireTaskClass({
             <CollapsibleContent className="h-[calc(100%-36px)]">
                 <FireScrollArea className="flex flex-col gap-2 h-full px-2 pb-3">
                     {status === TASK_STATUS_REQUEST && (
-                        <Card className="rounded-lg w-full h-11 gap-1 hover:shadow-md items-center justify-center cursor-pointer">
+                        <Card className="rounded-lg w-full h-11 gap-1 hover:shadow-sm items-center justify-center cursor-pointer shadow-none">
                             <p className="text-sm flex font-medium items-center gap-2">
                                 {TASK_LOCALE.ADD_TASK}
                                 <Plus

@@ -7,7 +7,7 @@ import {
     FireTabsContent,
     FireTabsList,
     FireTabsTrigger,
-} from '@/components/FireUI/tabs';
+} from '@/components/FireUI/FireTabs';
 import {
     FireMessage,
     FireMessageFile,

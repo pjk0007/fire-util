@@ -1,6 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { FireMessage, FireMessageFile, FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
+import {
+    FireMessage,
+    FireMessageFile,
+    FIRECHAT_LOCALE,
+} from '@/lib/FireChat/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import { ArrowDownToLine } from 'lucide-react';
@@ -12,7 +16,7 @@ export default function FireChatMessageFile<
     const [isDownloading, setIsDownloading] = useState(false);
 
     return (
-        <Card className="p-3 max-w-64 md:max-w-80 gap-2">
+        <Card className="p-3 max-w-64 md:max-w-80 gap-2 shadow-none ">
             <div className="flex gap-4">
                 <div className="flex-1 text-sm line-clamp-2">
                     {message.contents?.[0]?.name}

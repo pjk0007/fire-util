@@ -14,7 +14,7 @@ import {
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface FireTaskClassCardMainProps<
     FT extends FireTask<FU>,
@@ -34,6 +34,15 @@ export default function FireTaskClassCardMain<
     isEditingTitle,
 }: FireTaskClassCardMainProps<FT, FU>) {
     const inputRef = useRef<HTMLInputElement>(null);
+    const [localTitle, setLocalTitle] = useState(task[TASK_TITLE_FIELD]);
+
+    useEffect(() => {
+        updateTaskTitle(
+            task[TASK_CHANNEL_ID_FIELD],
+            task[TASK_ID_FIELD],
+            localTitle
+        );
+    }, [localTitle]);
 
     return (
         <div className="flex justify-between items-center">
@@ -49,13 +58,9 @@ export default function FireTaskClassCardMain<
                             inputRef.current?.blur();
                         }
                     }}
-                    value={task[TASK_TITLE_FIELD]}
+                    value={localTitle}
                     onChange={(e) => {
-                        updateTaskTitle(
-                            task[TASK_CHANNEL_ID_FIELD],
-                            task[TASK_ID_FIELD],
-                            e.target.value
-                        );
+                        setLocalTitle(e.target.value);
                     }}
                     className="text-sm font-medium focus:outline-none md:max-w-40 max-w-64 text-card-foreground line-clamp-2 wrap-break-word"
                 />
