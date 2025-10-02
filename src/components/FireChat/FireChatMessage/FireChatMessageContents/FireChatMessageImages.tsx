@@ -9,7 +9,7 @@ import {
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { formatDateString } from '@/lib/FireChat/utils/timeformat';
+import { localeDateString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
@@ -35,7 +35,7 @@ export default function FireChatMessageImages<
                 return (
                     <FireChatImageDialog
                         defaultIdx={idx}
-                        dialogTitle={`${senderUser?.name ?? FIRECHAT_LOCALE.UNKNOWN}, ${formatDateString(
+                        dialogTitle={`${senderUser?.name ?? FIRECHAT_LOCALE.UNKNOWN}, ${localeDateString(
                             message[MESSAGE_CREATED_AT_FIELD]
                         )}`}
                         images={message[MESSAGE_CONTENTS_FIELD].map(

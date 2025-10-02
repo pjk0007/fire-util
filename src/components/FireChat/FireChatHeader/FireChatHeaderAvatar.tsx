@@ -1,7 +1,7 @@
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { FireUser } from '@/lib/FireAuth/settings';
+import { FireUser, USER_NAME_FIELD } from '@/lib/FireAuth/settings';
 import {
     USER_AVATAR_FALLBACK_URL,
     USER_AVATAR_FIELD
@@ -32,7 +32,7 @@ export default function FireChatHeaderAvatar<U extends FireUser>({
             <AvatarFallback className="rounded-none">
                 <Image
                     src={USER_AVATAR_FALLBACK_URL}
-                    alt={user.name}
+                    alt={user[USER_NAME_FIELD]}
                     width={isInnerAvatar ? 14 : 32}
                     height={isInnerAvatar ? 14 : 32}
                 />

@@ -15,7 +15,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { formatDateString } from '@/lib/FireChat/utils/timeformat';
+import { localeDateString } from '@/lib/FireChat/utils/timeformat';
 import { ChevronRight, ImageIcon, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
@@ -50,7 +50,7 @@ function FireChatSettingsImages<
                                     defaultIdx={0}
                                     dialogTitle={`${
                                         senderUser?.name || FIRECHAT_LOCALE.UNKNOWN
-                                    }, ${formatDateString(
+                                    }, ${localeDateString(
                                         message[MESSAGE_CREATED_AT_FIELD]
                                     )}`}
                                     images={message[MESSAGE_CONTENTS_FIELD].map(

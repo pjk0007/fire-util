@@ -19,7 +19,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
-import { formatTimeString } from '@/lib/FireChat/utils/timeformat';
+import { localeTimeString } from '@/lib/FireChat/utils/timeformat';
 import { cn } from '@/lib/utils';
 
 export default function FireChatMessage<
@@ -124,7 +124,7 @@ export default function FireChatMessage<
                                     }
                                 )}
                             >
-                                {formatTimeString(
+                                {localeTimeString(
                                     message[MESSAGE_CREATED_AT_FIELD]
                                 )}
                             </div>

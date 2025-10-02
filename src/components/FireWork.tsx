@@ -3,7 +3,10 @@ import FireChannelList from '@/components/FireChannel/FireChannelList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { cn } from '@/lib/utils';
 import FireChatHeader from '@/components/FireChat/FireChatHeader';
-import FireKanbanList from '@/components/FireTask/FireTaskList';
+import FireTask from '@/components/FireTask/FireTask';
+import { FireTaskSidebarProvider } from '@/components/FireProvider/FireTaskSidebarProvider';
+import { FireTaskProvider } from '@/components/FireProvider/FireTaskProvider';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function FireWork({
     showChannelList = true,
@@ -11,6 +14,11 @@ export default function FireWork({
     showChannelList?: boolean;
 }) {
     const { selectedChannelId } = useFireChannel();
+    const isMobile = useIsMobile();
+
+    if (isMobile && !selectedChannelId) {
+        return <FireChannelList />;
+    }
 
     return (
         <div className="w-full h-full flex">
@@ -19,7 +27,11 @@ export default function FireWork({
                 <div className={cn('w-full h-full flex flex-col')}>
                     <FireChatHeader />
                     <div className="relative flex h-[calc(100%-var(--firechat-header-height))]">
-                        <FireKanbanList />
+                        <FireTaskProvider>
+                            <FireTaskSidebarProvider>
+                                <FireTask />
+                            </FireTaskSidebarProvider>
+                        </FireTaskProvider>
                         <FireChatRoom />
                     </div>
                 </div>

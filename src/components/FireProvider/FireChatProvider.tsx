@@ -16,7 +16,7 @@ import {
     useContext,
 } from 'react';
 
-interface FireChatChannelContextValue<
+interface FireChatContextValue<
     M extends FireMessage<T>,
     T extends FireMessageContent
 > {
@@ -27,8 +27,8 @@ interface FireChatChannelContextValue<
     setReplyingMessage?: Dispatch<SetStateAction<M | undefined>>;
 }
 
-const FireChatChannelContext = createContext<
-    FireChatChannelContextValue<FireMessage<FireMessageContent>, FireMessageContent>
+const FireChatContext = createContext<
+    FireChatContextValue<FireMessage<FireMessageContent>, FireMessageContent>
 >({
     sendingFiles: [],
     setSendingFiles: () => {},
@@ -37,13 +37,13 @@ const FireChatChannelContext = createContext<
     setReplyingMessage: () => {},
 });
 
-export const useFireChatChannel = () => useContext(FireChatChannelContext);
+export const useFireChat = () => useContext(FireChatContext);
 
 interface FireChatProviderProps {
     children: ReactNode;
 }
 
-export function FireChatChannelProvider({ children }: FireChatProviderProps) {
+export function FireChatProvider({ children }: FireChatProviderProps) {
     const { selectedChannelId: channelId } = useFireChannel();
 
     const [replyingMessage, setReplyingMessage] = useState<
@@ -64,7 +64,7 @@ export function FireChatChannelProvider({ children }: FireChatProviderProps) {
     }, [channelId]);
 
     return (
-        <FireChatChannelContext.Provider
+        <FireChatContext.Provider
             value={{
                 onSendingFiles,
                 sendingFiles,
@@ -74,6 +74,6 @@ export function FireChatChannelProvider({ children }: FireChatProviderProps) {
             }}
         >
             {children}
-        </FireChatChannelContext.Provider>
+        </FireChatContext.Provider>
     );
 }

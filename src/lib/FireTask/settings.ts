@@ -42,7 +42,56 @@ export const TASK_COMMENT_UPDATED_AT_FIELD = 'updatedAt';
 export const TASK_LOCALE = {
     TASK_LIST: '업무 리스트',
     ADD_TASK: '신규 업무 추가',
+    NO_TASKS: '업무가 없습니다.',
+    NO_DUE_DATE: '마감일 없음',
+
+    STATUS: {
+        [TASK_STATUS_REQUEST]: '요청',
+        [TASK_STATUS_PROCEED]: '진행',
+        [TASK_STATUS_FEEDBACK]: '피드백',
+        [TASK_STATUS_END]: '완료',
+        [TASK_STATUS_HOLD]: '보류',
+    },
 };
+
+export const TASK_STATUS_OPTIONS: {
+    value: TaskStatus;
+    label: string;
+    color: string;
+}[] = [
+    {
+        value: TASK_STATUS_REQUEST,
+        label: TASK_LOCALE.STATUS[TASK_STATUS_REQUEST],
+        color: 'oklch(90.5% 0.182 98.111)',
+    },
+    {
+        value: TASK_STATUS_PROCEED,
+        label: TASK_LOCALE.STATUS[TASK_STATUS_PROCEED],
+        color: 'oklch(70.7% 0.165 254.624)',
+    },
+    {
+        value: TASK_STATUS_FEEDBACK,
+        label: TASK_LOCALE.STATUS[TASK_STATUS_FEEDBACK],
+        color: 'oklch(62.7% 0.265 303.9)',
+    },
+    {
+        value: TASK_STATUS_END,
+        label: TASK_LOCALE.STATUS[TASK_STATUS_END],
+        color: 'oklch(77.7% 0.152 181.912)',
+    },
+    {
+        value: TASK_STATUS_HOLD,
+        label: TASK_LOCALE.STATUS[TASK_STATUS_HOLD],
+        color: 'oklch(70.8% 0 0)',
+    },
+];
+
+export type TaskStatus =
+    | typeof TASK_STATUS_REQUEST
+    | typeof TASK_STATUS_PROCEED
+    | typeof TASK_STATUS_FEEDBACK
+    | typeof TASK_STATUS_END
+    | typeof TASK_STATUS_HOLD;
 
 // types for Firestore documents
 export interface FireTask<U> {

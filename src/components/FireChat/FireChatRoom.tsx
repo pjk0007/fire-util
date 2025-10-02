@@ -1,4 +1,4 @@
-import { FireChatChannelProvider } from '@/components/FireProvider/FireChatChannelProvider';
+import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
 import FireChatRoomBody from '@/components/FireChat/FireChatRoom/FireChatRoomBody';
 import FireChatRoomFooter from '@/components/FireChat/FireChatRoom/FireChatRoomFooter';
 import FireChatHeader from '@/components/FireChat/FireChatHeader';
@@ -32,11 +32,11 @@ export default function FireChatRoom() {
     }
 
     return (
-        <FireChatChannelProvider>
+        <FireChatProvider>
             <div className="flex flex-col h-full flex-1">
                 <FireChatRoomBody />
                 <FireChatRoomFooter />
             </div>
-        </FireChatChannelProvider>
+        </FireChatProvider>
     );
 }

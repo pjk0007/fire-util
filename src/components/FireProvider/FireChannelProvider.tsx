@@ -11,7 +11,7 @@ import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
 
-interface FireChatContextValue<
+interface FireChannelContextValue<
     C extends FireChannel<M, T>,
     M extends FireMessage<T>,
     T extends FireMessageContent
@@ -21,8 +21,8 @@ interface FireChatContextValue<
     setSelectedChannelId: (channelId?: string) => void;
 }
 
-const FireChatContext = createContext<
-    FireChatContextValue<
+const FireChannelContext = createContext<
+    FireChannelContextValue<
         FireChannel<FireMessage<FireMessageContent>, FireMessageContent>,
         FireMessage<FireMessageContent>,
         FireMessageContent
@@ -34,7 +34,7 @@ const FireChatContext = createContext<
     setSelectedChannelId: () => {},
 });
 
-export const useFireChannel = () => useContext(FireChatContext);
+export const useFireChannel = () => useContext(FireChannelContext);
 
 interface FireChatProviderProps {
     children: ReactNode;
@@ -60,13 +60,13 @@ export function FireChannelProvider<
     }, [defaultChannelId]);
 
     return (
-        <FireChatContext.Provider
+        <FireChannelContext.Provider
             value={
                 {
                     channels,
                     selectedChannelId,
                     setSelectedChannelId,
-                } as FireChatContextValue<C, M, T>
+                } as FireChannelContextValue<C, M, T>
             }
         >
             <FireChatSidebarProvider
@@ -76,6 +76,6 @@ export function FireChannelProvider<
             >
                 {children}
             </FireChatSidebarProvider>
-        </FireChatContext.Provider>
+        </FireChannelContext.Provider>
     );
 }

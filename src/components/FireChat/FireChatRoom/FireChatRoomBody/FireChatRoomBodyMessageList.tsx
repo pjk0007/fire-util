@@ -15,7 +15,7 @@ import {
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { formatDateString } from '@/lib/FireChat/utils/timeformat';
+import { localeDateString } from '@/lib/FireChat/utils/timeformat';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 
 const FireChatMessage = memo(FireChatMessageOrigin);
@@ -75,7 +75,7 @@ function renderMessages<
                                 [MESSAGE_CONTENTS_FIELD]: [
                                     {
                                         [MESSAGE_CONTENT_TEXT_FIELD]:
-                                            formatDateString(currentDate),
+                                            localeDateString(currentDate),
                                         [MESSAGE_TYPE_FIELD]:
                                             MESSAGE_TYPE_SYSTEM,
                                     },

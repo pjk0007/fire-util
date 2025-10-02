@@ -1,4 +1,4 @@
-import { FireChatChannelProvider } from '@/components/FireProvider/FireChatChannelProvider';
+import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
 import FireChatContents from '@/components/FireChat/FireChatContents';
 import { useRouter } from 'next/router';
 
@@ -8,7 +8,7 @@ export default function ChannelPage() {
 
     return (
         <div className="w-screen h-screen relative overflow-hidden">
-            <FireChatChannelProvider>
+            <FireChatProvider>
                 <FireChatContents
                     defatultTab={
                         typeof tab === 'string'
@@ -16,7 +16,7 @@ export default function ChannelPage() {
                             : undefined
                     }
                 />
-            </FireChatChannelProvider>
+            </FireChatProvider>
         </div>
     );
 }

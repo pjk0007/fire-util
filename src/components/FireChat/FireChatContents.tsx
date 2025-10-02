@@ -26,7 +26,7 @@ import {
 } from '@/lib/FireChannel/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
-import { formatDateString } from '@/lib/FireChat/utils/timeformat';
+import { localeDateString } from '@/lib/FireChat/utils/timeformat';
 import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
 import { Download, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -113,7 +113,7 @@ export default function FireChatContents({
                                             )}
                                             <FireChatImageDialog
                                                 defaultIdx={0}
-                                                dialogTitle={`${formatDateString(
+                                                dialogTitle={`${localeDateString(
                                                     msg[
                                                         MESSAGE_CREATED_AT_FIELD
                                                     ]

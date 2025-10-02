@@ -1,4 +1,4 @@
-import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
+import { useFireChat } from '@/components/FireProvider/FireChatProvider';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -42,7 +42,7 @@ export default function FireChatRoomBody<
             '[data-slot="scroll-area-viewport"]'
         ) ?? null;
 
-    const { sendingFiles, setReplyingMessage } = useFireChatChannel();
+    const { sendingFiles, setReplyingMessage } = useFireChat();
 
     const {
         beforeMessages,

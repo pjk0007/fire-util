@@ -1,4 +1,4 @@
-import { useFireChatChannel } from '@/components/FireProvider/FireChatChannelProvider';
+import { useFireChat } from '@/components/FireProvider/FireChatProvider';
 import FireChatRoomFooterFileInput from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterFileInput';
 import FireChatRoomFooterTextarea from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextarea';
 import FireChatRoomFooterTextareaMobile from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextareaMobile';
@@ -36,7 +36,7 @@ export default function FireChatChannelRoomFooter<
         channelId: selectedChannelId,
     });
     const { onSendingFiles, replyingMessage, setReplyingMessage } =
-        useFireChatChannel();
+        useFireChat();
     const { message, setMessage, files, setFiles } =
         useFireChatChannelRoomFooter(selectedChannelId);
 
