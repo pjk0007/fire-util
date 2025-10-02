@@ -3,7 +3,7 @@ import FireChatRoomFooterFileInput from '@/components/FireChat/FireChatRoom/Fire
 import FireChatRoomFooterTextarea from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextarea';
 import FireChatRoomFooterTextareaMobile from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextareaMobile';
 import FireChatRoomReplyMessage from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomReplyMessage';
-import FireChatFileUploaderDialog from '@/components/FireChat/FireChatDialog/FireChatFileUploaderDialog';
+import FireChatRoomFooterUploadDialog from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterUploadDialog';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -76,7 +76,7 @@ export default function FireChatChannelRoomFooter<
                     {FIRECHAT_LOCALE.FOOTER.DRAG_DROP_TO_UPLOAD}
                 </div>
             )}
-            <FireChatFileUploaderDialog
+            <FireChatRoomFooterUploadDialog
                 files={files}
                 setFiles={setFiles}
                 onClickUpload={() => {

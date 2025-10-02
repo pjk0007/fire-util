@@ -1,7 +1,7 @@
 import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskClassCard from '@/components/FireTask/FireTaskClass/FireTaskClassCard';
 import FireTaskListHeader from '@/components/FireTask/FireTaskClass/FireTaskClassHeader';
-import { FireScrollArea } from '@/components/FireUI/scroll';
+import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import {
     CollapsibleContent,
     CollapsibleTrigger,
@@ -54,7 +54,7 @@ export default function FireTaskClass({
             onOpenChange={setIsOpen}
         >
             <FireTaskListHeader
-                isOpen={isOpen }
+                isOpen={isOpen}
                 onlyOpen={onlyOpen}
                 filteredTasks={filteredTasks}
                 taskStatusOption={taskStatusOption}

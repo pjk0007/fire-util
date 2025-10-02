@@ -1,4 +1,4 @@
-import FireChatImageDialog from '@/components/FireChat/FireChatDialog/FireChatImageDialog';
+import FireImageViewDialog from '@/components/FireUI/FireImageViewDialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -46,7 +46,7 @@ function FireChatSettingsImages<
                                 (p) => p.id === message[MESSAGE_USER_ID_FIELD]
                             );
                             return (
-                                <FireChatImageDialog
+                                <FireImageViewDialog
                                     defaultIdx={0}
                                     dialogTitle={`${
                                         senderUser?.name || FIRECHAT_LOCALE.UNKNOWN
@@ -89,7 +89,7 @@ function FireChatSettingsImages<
                                             />
                                         )}
                                     </AspectRatio>
-                                </FireChatImageDialog>
+                                </FireImageViewDialog>
                             );
                         })}
                 </div>

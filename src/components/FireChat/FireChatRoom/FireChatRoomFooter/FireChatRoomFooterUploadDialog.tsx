@@ -23,7 +23,7 @@ import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle'
 import { MoreVertical } from 'lucide-react';
 import Image from 'next/image';
 
-export default function FireChatFileUploaderDialog({
+export default function FireChatRoomFooterUploadDialog({
     files,
     setFiles,
     onClickUpload,

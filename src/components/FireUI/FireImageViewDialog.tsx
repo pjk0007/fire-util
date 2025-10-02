@@ -31,7 +31,7 @@ import { Download, ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-export default function FireChatImageDialog({
+export default function FireImageViewDialog({
     children,
     dialogTitle,
     defaultIdx,

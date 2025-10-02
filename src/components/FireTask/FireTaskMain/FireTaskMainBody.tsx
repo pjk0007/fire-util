@@ -1,7 +1,7 @@
 import FireTaskClass from '@/components/FireTask/FireTaskClass';
 import { TASK_MAIN_HEADER_HEIGHT } from '@/components/FireTask/FireTaskMain';
-import { FireScrollArea } from '@/components/FireUI/scroll';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import { TASK_STATUS_OPTIONS } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 

@@ -6,7 +6,7 @@ type FireScrollAreaProps = {
     dir?: 'col' | 'row';
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function FireScrollArea({
+export default function FireScrollArea({
     children,
     dir = 'col',
     style,
