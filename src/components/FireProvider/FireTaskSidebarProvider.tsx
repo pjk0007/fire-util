@@ -1,6 +1,19 @@
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { TASK_COLLECTION, TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
-import { ChevronsLeft, Minimize2, MoveDiagonal } from 'lucide-react';
+import {
+    ChevronsLeft,
+    Minimize2,
+    MoveDiagonal,
+    SquareArrowOutUpRight,
+} from 'lucide-react';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 export const TASK_SIDEBAR_WIDTH = 288;
@@ -45,6 +58,7 @@ export function FireTaskSidebar({ children }: { children?: ReactNode }) {
     const { isExpanded, isOpen, setIsExpanded, setIsOpen } =
         useFireTaskSidebar();
     const isMobile = useIsMobile();
+    const { selectedChannelId: channelId } = useFireChannel();
     return (
         <div
             className={cn(
@@ -81,25 +95,79 @@ export function FireTaskSidebar({ children }: { children?: ReactNode }) {
                     >
                         {isMobile ? (
                             <div></div>
-                        ) : isExpanded ? (
-                            <Minimize2
-                                size={18}
-                                className="hover:bg-muted rounded-sm"
-                                onClick={() => setIsExpanded(false)}
-                            />
                         ) : (
-                            <MoveDiagonal
-                                size={18}
-                                className="hover:bg-muted rounded-sm"
-                                onClick={() => setIsExpanded(true)}
-                            />
+                            <div className="flex gap-2">
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        {isExpanded ? (
+                                            <Minimize2
+                                                size={18}
+                                                className="hover:bg-muted rounded-sm"
+                                                onClick={() =>
+                                                    setIsExpanded(false)
+                                                }
+                                            />
+                                        ) : (
+                                            <MoveDiagonal
+                                                size={18}
+                                                className="hover:bg-muted rounded-sm"
+                                                onClick={() =>
+                                                    setIsExpanded(true)
+                                                }
+                                            />
+                                        )}
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        {isExpanded
+                                            ? TASK_LOCALE.SIDEBAR.MINIMIZE
+                                            : TASK_LOCALE.SIDEBAR.MAXIMIZE}
+                                    </TooltipContent>
+                                </Tooltip>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <SquareArrowOutUpRight
+                                            className="hover:bg-muted rounded-sm"
+                                            size={18}
+                                            onClick={() => {
+                                                const width = 800;
+                                                const height = 600;
+                                                const left =
+                                                    window.screenX +
+                                                    (window.outerWidth -
+                                                        width) /
+                                                        2;
+                                                const top =
+                                                    window.screenY +
+                                                    (window.outerHeight -
+                                                        height) /
+                                                        2;
+                                                window.open(
+                                                    `windows/${CHANNEL_COLLECTION}/${channelId}/${TASK_COLLECTION}?tab=image`,
+                                                    '_blank',
+                                                    `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`
+                                                );
+                                            }}
+                                        />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        {TASK_LOCALE.SIDEBAR.NEW_WINDOW}
+                                    </TooltipContent>
+                                </Tooltip>
+                            </div>
                         )}
 
-                        <ChevronsLeft
-                            size={22}
-                            className="hover:bg-muted rounded-sm"
-                            onClick={() => setIsOpen(!isOpen)}
-                        />
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <ChevronsLeft
+                                    size={22}
+                                    className="hover:bg-muted rounded-sm"
+                                    onClick={() => setIsOpen(!isOpen)}
+                                />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                {TASK_LOCALE.SIDEBAR.CLOSE}
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                 )}
                 <div

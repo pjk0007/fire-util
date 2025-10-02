@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 export default function FireTaskMainHeader() {
     return (
         <div
-            className={cn('flex items-center gap-2 md:px-2 px-2')}
+            className={cn('flex self-start items-center gap-2 md:px-2 px-2')}
             style={{ height: TASK_MAIN_HEADER_HEIGHT }}
         >
             <span

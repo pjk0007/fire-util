@@ -45,6 +45,13 @@ export const TASK_LOCALE = {
     NO_TASKS: '업무가 없습니다.',
     NO_DUE_DATE: '마감일 없음',
 
+    SIDEBAR:{
+        MAXIMIZE: '확장',
+        MINIMIZE: '축소',
+        CLOSE: '닫기',
+        NEW_WINDOW: '새 창 열기',
+    },
+
     STATUS: {
         [TASK_STATUS_REQUEST]: '요청',
         [TASK_STATUS_PROCEED]: '진행',
