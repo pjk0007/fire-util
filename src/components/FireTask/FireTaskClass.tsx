@@ -2,6 +2,8 @@ import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskClassCard from '@/components/FireTask/FireTaskClass/FireTaskClassCard';
 import FireTaskListHeader from '@/components/FireTask/FireTaskClass/FireTaskClassHeader';
 import FireScrollArea from '@/components/FireUI/FireScrollArea';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import {
     CollapsibleContent,
     CollapsibleTrigger,
@@ -21,8 +23,10 @@ import {
     TASK_STATUS_OPTIONS,
     TASK_STATUS_REQUEST,
     TASK_STATUS_PROCEED,
+    TASK_LOCALE,
 } from '@/lib/FireTask/settings';
 import { Collapsible } from '@radix-ui/react-collapsible';
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
 interface FireTaskClassProps {
@@ -49,7 +53,7 @@ export default function FireTaskClass({
 
     return (
         <Collapsible
-            className="min-w-68 bg-accent/80 rounded-lg py-3  bg-y flex flex-col gap-3"
+            className="min-w-68 bg-accent/80 rounded-lg pt-3 flex flex-col gap-3"
             open={isOpen || onlyOpen}
             onOpenChange={setIsOpen}
         >
@@ -60,13 +64,29 @@ export default function FireTaskClass({
                 taskStatusOption={taskStatusOption}
             />
             <CollapsibleContent className="h-[calc(100%-36px)]">
-                <FireScrollArea className="flex flex-col gap-2 h-full px-2">
+                <FireScrollArea className="flex flex-col gap-2 h-full px-2 pb-3">
+                    {status === TASK_STATUS_REQUEST && (
+                        <Card className="rounded-lg w-full h-11 gap-1 hover:shadow-md items-center justify-center cursor-pointer">
+                            <p className="text-sm flex font-medium items-center gap-2">
+                                {TASK_LOCALE.ADD_TASK}
+                                <Plus
+                                    size={16}
+                                    className="text-muted-foreground"
+                                />
+                            </p>
+                        </Card>
+                    )}
                     {filteredTasks.map((task) => (
                         <FireTaskClassCard
                             key={task[TASK_ID_FIELD]}
                             task={task}
                         />
                     ))}
+                    {filteredTasks.length === 0 && (
+                        <div className="text-sm text-muted-foreground text-center">
+                            {TASK_LOCALE.NO_TASKS}
+                        </div>
+                    )}
                 </FireScrollArea>
             </CollapsibleContent>
         </Collapsible>

@@ -20,23 +20,3 @@ export function localeDateString(date?: Timestamp) {
         day: 'numeric',
     }).format(date?.toDate());
 }
-
-export function getDateString(
-    date: Timestamp,
-    {
-        separator = '-',
-        fullYear = false,
-    }: { separator?: string; fullYear?: boolean } = {
-        separator: '-',
-        fullYear: false,
-    }
-) {
-    if (!date || !date.toDate()) return '';
-    const d = date.toDate();
-    const year = d.getFullYear();
-    const month = (d.getMonth() + 1).toString().padStart(2, '0');
-    const day = d.getDate().toString().padStart(2, '0');
-    return [fullYear ? year : year.toString().slice(-2), month, day].join(
-        separator
-    );
-}
