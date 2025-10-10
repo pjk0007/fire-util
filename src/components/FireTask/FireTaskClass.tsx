@@ -53,7 +53,7 @@ export default function FireTaskClass({
 
     return (
         <Collapsible
-            className="min-w-68 bg-accent/80 rounded-lg pt-3 flex flex-col gap-3"
+            className="min-w-68 bg-accent/80 rounded-lg py-3 flex flex-col gap-3"
             open={isOpen || onlyOpen}
             onOpenChange={setIsOpen}
         >
@@ -64,7 +64,7 @@ export default function FireTaskClass({
                 taskStatusOption={taskStatusOption}
             />
             <CollapsibleContent className="h-[calc(100%-36px)]">
-                <FireScrollArea className="flex flex-col gap-2 h-full px-2 pb-3">
+                <FireScrollArea className="flex flex-col gap-2 h-full px-2">
                     {status === TASK_STATUS_REQUEST && (
                         <Card className="rounded-lg w-full h-11 gap-1 hover:shadow-sm items-center justify-center cursor-pointer shadow-none">
                             <p className="text-sm flex font-medium items-center gap-2">
