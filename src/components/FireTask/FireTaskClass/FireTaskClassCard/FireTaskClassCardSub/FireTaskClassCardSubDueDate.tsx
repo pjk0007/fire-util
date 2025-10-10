@@ -66,7 +66,7 @@ export default function FireTaskClassCardSubDueDate<
                                 updateTaskDueDate(
                                     task[TASK_CHANNEL_ID_FIELD],
                                     task[TASK_ID_FIELD],
-                                    date ? new Date(date) : null
+                                    date
                                 );
                                 setOpen(false);
                             }}

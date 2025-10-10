@@ -6,7 +6,7 @@ import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 export default async function updateTaskDueDate(
     channelId: string,
     taskId: string,
-    newDueDate: Date | undefined
+    newDueDate?: Date
 ) {
     const taskRef = doc(
         db,
