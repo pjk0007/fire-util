@@ -8,7 +8,7 @@ import { TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 
-export default function FireTaskAddNew({
+export default function FireTaskClassAddNew({
     size,
 }: {
     size: 'small' | 'large';

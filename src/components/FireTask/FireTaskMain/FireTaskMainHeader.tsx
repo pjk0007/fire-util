@@ -1,4 +1,4 @@
-import FireTaskAddNew from '@/components/FireTask/FireTaskAddNew';
+import FireTaskClassAddNew from '@/components/FireTask/FireTaskClass/FireTaskClassAddNew';
 import { TASK_MAIN_HEADER_HEIGHT } from '@/components/FireTask/FireTaskMain';
 import { TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
@@ -16,7 +16,7 @@ export default function FireTaskMainHeader() {
             >
                 {TASK_LOCALE.TASK_LIST}
             </span>
-            <FireTaskAddNew size={'small'} />
+            <FireTaskClassAddNew size={'small'} />
         </div>
     );
 }

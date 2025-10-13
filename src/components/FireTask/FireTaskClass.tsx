@@ -1,6 +1,6 @@
 import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskClassCard from '@/components/FireTask/FireTaskClass/FireTaskClassCard';
-import FireTaskListHeader from '@/components/FireTask/FireTaskClass/FireTaskClassHeader';
+import FireTaskClassHeader from '@/components/FireTask/FireTaskClass/FireTaskClassHeader';
 import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -98,7 +98,7 @@ export default function FireTaskClass({
                 });
             }}
         >
-            <FireTaskListHeader
+            <FireTaskClassHeader
                 isOpen={isOpen}
                 onlyOpen={onlyOpen}
                 filteredTasks={filteredTasks}
@@ -117,10 +117,11 @@ export default function FireTaskClass({
                             </p>
                         </Card>
                     )}
-                    {filteredTasks.map((task) => (
+                    {tasks.map((task) => (
                         <FireTaskClassCard
                             key={task[TASK_ID_FIELD]}
                             task={task}
+                            status={status}
                         />
                     ))}
                     {filteredTasks.length === 0 && (

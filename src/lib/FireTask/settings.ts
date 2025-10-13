@@ -44,17 +44,21 @@ export const TASK_LOCALE = {
     ADD_TASK: '신규 업무 추가',
     NO_TASKS: '업무가 없습니다.',
     NO_DUE_DATE: '마감일 없음',
+    NO_TITLE: '업무 이름을 입력하세요',
+    EMPTY: '비어 있음',
 
-    SIDEBAR:{
+    SIDEBAR: {
         MAXIMIZE: '확장',
         MINIMIZE: '축소',
         CLOSE: '닫기',
         NEW_WINDOW: '새 창 열기',
     },
 
-    CARD:{
+    CARD: {
         EDIT: '편집',
+        CREATED_AT: '요청일',
         DUE_DATE: '마감일',
+        CONTENT_PLACEHOLDER: '요청할 업무의 상세 내용을 입력하세요',
     },
 
     STATUS: {
@@ -114,7 +118,7 @@ export interface FireTask<U> {
     [TASK_IMAGES_FIELD]: string[]; // Array of image URLs
     [TASK_FILES_FIELD]: { name: string; url: string; size: number }[]; // Array of file objects
     [TASK_CONTENT_FIELD]: string;
-    [TASK_STATUS_FIELD]: string;
+    [TASK_STATUS_FIELD]: TaskStatus;
     [TASK_COMMENTS_FIELD]: { user: U; comment: string; createdAt: Timestamp }[]; // Array of comment objects
     [TASK_LAST_SEEN_FIELD]?: { [userId: string]: Timestamp }; // Map of userId to Timestamp
     [TASK_DUE_DATE_FIELD]?: Timestamp; // Due date as Timestamp

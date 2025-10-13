@@ -1,9 +1,14 @@
+import FireTaskStatusDot from '@/components/FireTask/FireTaskStatusDot';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { FireTask, TaskStatus } from '@/lib/FireTask/settings';
+import {
+    FireTask,
+    TASK_STATUS_REQUEST,
+    TaskStatus,
+} from '@/lib/FireTask/settings';
 import { CollapsibleTrigger } from '@radix-ui/react-collapsible';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
-interface FireTaskListHeaderProps<
+interface FireTaskClassHeaderProps<
     FT extends FireTask<FU>,
     FU extends FireUser
 > {
@@ -19,7 +24,7 @@ interface FireTaskListHeaderProps<
         | undefined;
 }
 
-export default function FireTaskListHeader<
+export default function FireTaskClassHeader<
     FT extends FireTask<FU>,
     FU extends FireUser
 >({
@@ -27,18 +32,13 @@ export default function FireTaskListHeader<
     onlyOpen,
     filteredTasks,
     taskStatusOption,
-}: FireTaskListHeaderProps<FT, FU>) {
+}: FireTaskClassHeaderProps<FT, FU>) {
     return (
         <CollapsibleTrigger className="w-full flex justify-between px-2">
             <div className="flex gap-1 items-center">
-                <div className="w-4 h-4 flex items-center justify-center">
-                    <div
-                        className="w-2 h-2 rounded-full"
-                        style={{
-                            backgroundColor: taskStatusOption?.color || 'gray',
-                        }}
-                    />
-                </div>
+                <FireTaskStatusDot
+                    status={taskStatusOption?.value ?? TASK_STATUS_REQUEST}
+                />
                 <div className="text-sm text-foreground font-medium">
                     {taskStatusOption?.label}
                 </div>

@@ -9,7 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { TASK_LOCALE, TASK_STATUS_OPTIONS } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import FireTaskMainHeader from '@/components/FireTask/FireTaskMain/FireTaskMainHeader';
-import FireTaskAddNew from '@/components/FireTask/FireTaskAddNew';
+import FireTaskClassAddNew from '@/components/FireTask/FireTaskClass/FireTaskClassAddNew';
 import FireTaskMain from '@/components/FireTask/FireTaskMain';
 
 export default function FireTask() {
@@ -20,7 +20,7 @@ export default function FireTask() {
         <FireTaskSidebar>
             {!isOpen && !isMobile && (
                 <div className="mt-2">
-                    <FireTaskAddNew size={'large'} />
+                    <FireTaskClassAddNew size={'large'} />
                 </div>
             )}
             {!isOpen && isMobile && (
