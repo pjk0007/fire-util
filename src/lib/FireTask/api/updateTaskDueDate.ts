@@ -1,12 +1,12 @@
 import { db } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
-import { TASK_COLLECTION } from '@/lib/FireTask/settings';
-import { doc, updateDoc } from 'firebase/firestore';
+import { TASK_COLLECTION, TASK_DUE_DATE_FIELD } from '@/lib/FireTask/settings';
+import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 
-export default async function updateTaskTitle(
+export default async function updateTaskDueDate(
     channelId: string,
     taskId: string,
-    newTitle: string
+    newDueDate?: Date
 ) {
     const taskRef = doc(
         db,
@@ -16,6 +16,8 @@ export default async function updateTaskTitle(
         taskId
     );
     await updateDoc(taskRef, {
-        title: newTitle,
+        [TASK_DUE_DATE_FIELD]: newDueDate
+            ? Timestamp.fromDate(newDueDate)
+            : null,
     });
 }

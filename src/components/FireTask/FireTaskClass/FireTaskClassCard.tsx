@@ -1,10 +1,16 @@
+import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskClassCardMain from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardMain';
 import FireTaskClassCardMenu from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardMenu';
 import FireTaskClassCardSub from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSub';
 import { Card } from '@/components/ui/card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { FireTask } from '@/lib/FireTask/settings';
+import {
+    FireTask,
+    TASK_ID_FIELD,
+    TASK_STATUS_FIELD,
+    TASK_TITLE_FIELD,
+} from '@/lib/FireTask/settings';
 import { Ellipsis, PenLine } from 'lucide-react';
 import { useState } from 'react';
 
@@ -20,8 +26,17 @@ export default function FireTaskClassCard<
     return (
         <Card
             className="relative p-3 rounded-lg h-24 flex flex-col justify-between gap-0 hover:shadow-sm cursor-pointer group shadow-none"
+            draggable
             onClick={() => {
                 console.log('task clicked', task);
+            }}
+            onDragStart={(e) => {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('id', task[TASK_ID_FIELD]);
+                e.dataTransfer.setData('title', task[TASK_TITLE_FIELD]);
+            }}
+            onDragOver={(e) => {
+                e.preventDefault();
             }}
         >
             <FireTaskClassCardMain

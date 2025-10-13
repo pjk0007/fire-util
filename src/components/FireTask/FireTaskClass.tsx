@@ -15,6 +15,7 @@ import {
     FireMessageText,
     MESSAGE_CONTENTS_FIELD,
 } from '@/lib/FireChat/settings';
+import updateTaskStatus from '@/lib/FireTask/api/updateTaskStatus';
 import {
     FireTask,
     TASK_ID_FIELD,
@@ -24,7 +25,9 @@ import {
     TASK_STATUS_REQUEST,
     TASK_STATUS_PROCEED,
     TASK_LOCALE,
+    TASK_CHANNEL_ID_FIELD,
 } from '@/lib/FireTask/settings';
+import { cn } from '@/lib/utils';
 import { Collapsible } from '@radix-ui/react-collapsible';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -39,6 +42,7 @@ export default function FireTaskClass({
     status,
 }: FireTaskClassProps) {
     const { tasks } = useFireTask();
+    const [isDragOver, setIsDragOver] = useState(false);
     const [isOpen, setIsOpen] = useState(
         status === TASK_STATUS_REQUEST || status === TASK_STATUS_PROCEED
     );
@@ -53,9 +57,46 @@ export default function FireTaskClass({
 
     return (
         <Collapsible
-            className="min-w-68 bg-accent/80 rounded-lg py-3 flex flex-col gap-3"
+            className={cn(
+                'min-w-68 bg-accent/80 rounded-lg py-3 flex flex-col gap-3',
+                {
+                    'ring-2 ring-primary': isDragOver,
+                    'ring-0': !isDragOver,
+                }
+            )}
             open={isOpen || onlyOpen}
             onOpenChange={setIsOpen}
+            onDragEnter={(e) => {
+                setIsDragOver(true);
+            }}
+            onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragOver(true);
+            }}
+            onDragLeave={() => {
+                setIsDragOver(false);
+            }}
+            onDrop={(e) => {
+                e.preventDefault();
+                setIsDragOver(false);
+
+                const draggedTaskId = e.dataTransfer.getData('id') as string;
+                if (!draggedTaskId) return;
+                if (
+                    filteredTasks.some(
+                        (task) => task[TASK_ID_FIELD] === draggedTaskId
+                    )
+                )
+                    return;
+                // 여기서 draggedTaskId를 사용하여 상태 업데이트 로직을 구현
+                updateTaskStatus(
+                    filteredTasks[0]?.[TASK_CHANNEL_ID_FIELD],
+                    draggedTaskId,
+                    status
+                ).then(() => {
+                    console.log('Task status updated');
+                });
+            }}
         >
             <FireTaskListHeader
                 isOpen={isOpen}

@@ -46,6 +46,11 @@ export default function FireChatChannelRoomFooter<
         event.preventDefault();
         const { files } = event.dataTransfer;
 
+        const taskTitle = event.dataTransfer.getData('title');
+        if (taskTitle) {
+            setMessage((prev) => (prev ? `${prev}\n${taskTitle}` : taskTitle));
+        }
+
         setFiles(Array.from(files));
         setIsDragOver(false);
     };
