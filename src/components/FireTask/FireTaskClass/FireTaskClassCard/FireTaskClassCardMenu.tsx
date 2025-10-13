@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     Tooltip,
@@ -18,15 +20,11 @@ export default function FireTaskClassCardMenu({
 }: FireTaskClassCardMenuProps) {
     return (
         <div className="absolute group-hover:visible invisible top-2 right-2">
-            <ToggleGroup
-                variant="outline"
-                type="multiple"
-                value={[]}
-                size={'sm'}
-            >
+            <ButtonGroup>
                 {!isEditingTitle && (
-                    <ToggleGroupItem
-                        value="edit"
+                    <Button
+                    size={'icon-sm'}
+                        variant={'outline'}
                         onClick={(e) => {
                             e.stopPropagation();
                             setIsEditingTitle(!isEditingTitle);
@@ -41,12 +39,17 @@ export default function FireTaskClassCardMenu({
                                 {TASK_LOCALE.CARD.EDIT}
                             </TooltipContent>
                         </Tooltip>
-                    </ToggleGroupItem>
+                    </Button>
                 )}
-                <ToggleGroupItem value="edit" className="bg-background">
+                <Button
+                size={'icon-sm'}
+                    variant={'outline'}
+                    value="edit"
+                    className="bg-background"
+                >
                     <Ellipsis />
-                </ToggleGroupItem>
-            </ToggleGroup>
+                </Button>
+            </ButtonGroup>
         </div>
     );
 }
