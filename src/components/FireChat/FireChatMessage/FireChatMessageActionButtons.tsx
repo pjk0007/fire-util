@@ -10,6 +10,8 @@ import { FireUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 import { CornerDownRight } from 'lucide-react';
+import { ButtonGroup } from '@/components/ui/button-group';
+import { Button } from '@/components/ui/button';
 
 interface FireChatMessageActionButtonsProps<M, U> {
     channelId: string;
@@ -30,7 +32,7 @@ export default function FireChatMessageActionButtons<
     me,
     setReplyingMessage,
 }: FireChatMessageActionButtonsProps<M, U>) {
-    const selectedEmojis = [];
+    const selectedEmojis: string[] = [];
     if (message[MESSAGE_REACTIONS_FIELD]) {
         for (const [emoji, userIds] of Object.entries(
             message[MESSAGE_REACTIONS_FIELD] || {}
@@ -42,9 +44,7 @@ export default function FireChatMessageActionButtons<
     }
 
     return (
-        <ToggleGroup
-            type="multiple"
-            value={selectedEmojis}
+        <ButtonGroup
             className={cn(
                 'group-hover:visible invisible h-7 absolute md:flex md:items-center hidden bottom-1',
                 {
@@ -53,20 +53,22 @@ export default function FireChatMessageActionButtons<
                 }
             )}
         >
-            <ToggleGroupItem
-                value="reply"
+            <Button
                 onClick={() => setReplyingMessage?.(message)}
                 variant={'outline'}
+                size={'icon-sm'}
             >
                 <CornerDownRight />
-            </ToggleGroupItem>
+            </Button>
             {EMOJI_LIST.map((emoji, i) => (
-                <ToggleGroupItem
+                <Button
                     key={emoji}
-                    value={emoji}
-                    className={cn('border-y', {
+                    variant={'outline'}
+                    className={cn('border-x-0', {
+                        'bg-accent': selectedEmojis.includes(emoji),
                         'border-r': i === EMOJI_LIST.length - 1,
                     })}
+                    size={'icon-sm'}
                     onClick={() => {
                         // Handle emoji reaction click
                         // recommend name of function
@@ -79,8 +81,8 @@ export default function FireChatMessageActionButtons<
                     }}
                 >
                     {emoji}
-                </ToggleGroupItem>
+                </Button>
             ))}
-        </ToggleGroup>
+        </ButtonGroup>
     );
 }
