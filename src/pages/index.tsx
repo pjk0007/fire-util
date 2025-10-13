@@ -19,7 +19,7 @@ export default function Home() {
             <FireWork />
             {user ? (
                 <Button
-                    className="absolute bottom-4 left-4"
+                    className="absolute bottom-40 left-4"
                     onClick={() => {
                         auth.signOut();
                     }}
