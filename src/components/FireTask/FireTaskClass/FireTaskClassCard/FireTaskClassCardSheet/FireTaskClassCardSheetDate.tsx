@@ -17,6 +17,7 @@ import {
     TASK_ID_FIELD,
     TASK_LOCALE,
 } from '@/lib/FireTask/settings';
+import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
 export default function FireTaskClassCardSheetDate<
@@ -33,7 +34,12 @@ export default function FireTaskClassCardSheetDate<
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger onClick={(e) => e.stopPropagation()}>
-                <div className="h-9 flex items-center gap-1 text-foreground hover:bg-muted py-0.5 px-1 rounded-sm">
+                <div className={
+                    cn("h-9 flex items-center gap-1 hover:bg-muted py-0.5 px-1 rounded-sm",{
+                        'text-foreground': task[dateField],
+                        'text-muted-foreground': !task[dateField],
+                    })
+                }>
                     {task[dateField]
                         ? localeDateString(task[dateField])
                         : TASK_LOCALE.EMPTY}

@@ -119,7 +119,7 @@ export interface FireTask<U> {
     [TASK_FILES_FIELD]: { name: string; url: string; size: number }[]; // Array of file objects
     [TASK_CONTENT_FIELD]: string;
     [TASK_STATUS_FIELD]: TaskStatus;
-    [TASK_COMMENTS_FIELD]: { user: U; comment: string; createdAt: Timestamp }[]; // Array of comment objects
+    [TASK_COMMENTS_FIELD]: FireTaskComment<U>[]; // Array of comments
     [TASK_LAST_SEEN_FIELD]?: { [userId: string]: Timestamp }; // Map of userId to Timestamp
     [TASK_DUE_DATE_FIELD]?: Timestamp; // Due date as Timestamp
     [TASK_CREATED_AT_FIELD]: Timestamp; // Creation time as Timestamp

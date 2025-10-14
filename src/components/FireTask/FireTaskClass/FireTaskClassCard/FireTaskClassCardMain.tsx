@@ -35,6 +35,25 @@ export default function FireTaskClassCardMain<
 }: FireTaskClassCardMainProps<FT, FU>) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [localTitle, setLocalTitle] = useState(task[TASK_TITLE_FIELD]);
+    const parentDraggableRef = useRef<{
+        el: HTMLElement | null;
+        orig: boolean;
+    } | null>(null);
+
+    // restore draggable if we left it disabled (safety)
+    useEffect(() => {
+        return () => {
+            if (parentDraggableRef.current?.el) {
+                try {
+                    parentDraggableRef.current.el.draggable =
+                        parentDraggableRef.current.orig;
+                } catch (e) {
+                    /* ignore */
+                }
+                parentDraggableRef.current = null;
+            }
+        };
+    }, []);
 
     useEffect(() => {
         updateTaskTitle(
@@ -53,10 +72,80 @@ export default function FireTaskClassCardMain<
                     onBlur={() => {
                         setIsEditingTitle(false);
                     }}
+                    draggable={false}
+                    onClick={(e) => e.stopPropagation()}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                             inputRef.current?.blur();
                         }
+                    }}
+                    // Prevent parent draggable while interacting with input so text selection works
+                    onMouseDownCapture={(e) => {
+                        e.stopPropagation();
+                        // disable closest draggable ancestor temporarily
+                        const el = inputRef.current?.closest('[draggable="true"]') as HTMLElement | null;
+                        if (el && !parentDraggableRef.current) {
+                            parentDraggableRef.current = { el, orig: el.draggable };
+                            try {
+                                el.draggable = false;
+                            } catch (err) {
+                                /* ignore */
+                            }
+
+                            const restore = () => {
+                                if (parentDraggableRef.current?.el) {
+                                    try {
+                                        parentDraggableRef.current.el.draggable = parentDraggableRef.current.orig;
+                                    } catch (e) {
+                                        /* ignore */
+                                    }
+                                    parentDraggableRef.current = null;
+                                }
+                                window.removeEventListener('pointerup', restore);
+                                window.removeEventListener('mouseup', restore);
+                                window.removeEventListener('touchend', restore);
+                            };
+
+                            window.addEventListener('pointerup', restore, { once: true });
+                            window.addEventListener('mouseup', restore, { once: true });
+                            window.addEventListener('touchend', restore, { once: true });
+                        }
+                    }}
+                    onTouchStartCapture={(e) => {
+                        e.stopPropagation();
+                        // same logic as mouse down
+                        const el = inputRef.current?.closest('[draggable="true"]') as HTMLElement | null;
+                        if (el && !parentDraggableRef.current) {
+                            parentDraggableRef.current = { el, orig: el.draggable };
+                            try {
+                                el.draggable = false;
+                            } catch (err) {
+                                /* ignore */
+                            }
+
+                            const restore = () => {
+                                if (parentDraggableRef.current?.el) {
+                                    try {
+                                        parentDraggableRef.current.el.draggable = parentDraggableRef.current.orig;
+                                    } catch (e) {
+                                        /* ignore */
+                                    }
+                                    parentDraggableRef.current = null;
+                                }
+                                window.removeEventListener('pointerup', restore);
+                                window.removeEventListener('mouseup', restore);
+                                window.removeEventListener('touchend', restore);
+                            };
+
+                            window.addEventListener('pointerup', restore, { once: true });
+                            window.addEventListener('mouseup', restore, { once: true });
+                            window.addEventListener('touchend', restore, { once: true });
+                        }
+                    }}
+                    onDragStartCapture={(e) => {
+                        // prevent any dragstart originating from the input
+                        e.stopPropagation();
+                        e.preventDefault();
                     }}
                     value={localTitle}
                     onChange={(e) => {
