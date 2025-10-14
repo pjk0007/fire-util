@@ -1,5 +1,8 @@
+import FireTaskClassCardSheetCommentsComment from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments/FireTaskClassCardSheetCommentsComment';
+import FireTaskClassCardSheetCommentsTextarea from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments/FireTaskClassCardSheetCommentsTextarea';
 import FireImageViewDialog from '@/components/FireUI/FireImageViewDialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
     Popover,
     PopoverContent,
@@ -16,6 +19,8 @@ import {
     USER_AVATAR_FIELD,
     USER_NAME_FIELD,
 } from '@/lib/FireAuth/settings';
+import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
+import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import {
     formatRelativeTime,
     localeDateString,
@@ -26,13 +31,15 @@ import {
     TASK_CHANNEL_USER_FIELD,
     TASK_COMMENT_CONTENT_FIELD,
     TASK_COMMENT_CREATED_AT_FIELD,
+    TASK_COMMENT_FILES_FIELD,
     TASK_COMMENT_IMAGES_FIELD,
     TASK_COMMENT_USER_FIELD,
     TASK_COMMENTS_FIELD,
+    TASK_FILES_FIELD,
     TASK_LOCALE,
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
-import { X } from 'lucide-react';
+import { ArrowUp, Clipboard, Link, Paperclip, X } from 'lucide-react';
 import Image from 'next/image';
 
 interface FireTaskClassCardSheetCommentsProps<
@@ -55,80 +62,13 @@ export default function FireTaskClassCardSheetComments<
                 </span>
             </div>
             {task[TASK_COMMENTS_FIELD].map((comment, index) => (
-                <div
+                <FireTaskClassCardSheetCommentsComment
                     key={index}
-                    className="text-sm text-foreground p-2 flex flex-col hover:bg-accent rounded-sm"
-                >
-                    <div className="flex gap-3 items-center mb-1">
-                        <Avatar className="w-6 h-6">
-                            <AvatarImage
-                                src={
-                                    (comment[TASK_COMMENT_USER_FIELD] as FU)[
-                                        USER_AVATAR_FIELD
-                                    ] || undefined
-                                }
-                                alt="User Avatar"
-                            />
-                            <AvatarFallback>
-                                <Image
-                                    src={USER_AVATAR_FALLBACK_URL}
-                                    alt={
-                                        comment[TASK_COMMENT_USER_FIELD][
-                                            USER_NAME_FIELD
-                                        ]
-                                    }
-                                    width={24}
-                                    height={24}
-                                />
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="font-semibold">
-                            {
-                                (comment[TASK_COMMENT_USER_FIELD] as FU)[
-                                    USER_NAME_FIELD
-                                ]
-                            }
-                        </div>
-                        <Tooltip>
-                            <TooltipTrigger>
-                                <div className="text-xs text-muted-foreground">
-                                    {formatRelativeTime(
-                                        comment[TASK_COMMENT_CREATED_AT_FIELD]
-                                    )}
-                                </div>
-                            </TooltipTrigger>
-                            <TooltipContent side="right">
-                                {localeDateString(
-                                    comment[TASK_COMMENT_CREATED_AT_FIELD]
-                                )}
-                            </TooltipContent>
-                        </Tooltip>
-                    </div>
-                    <div className="pl-6 border-l ml-3">
-                        {comment[TASK_COMMENT_CONTENT_FIELD]}
-                    </div>
-                    <div className="flex flex-wrap gap-2 pl-6 border-l ml-3 py-1">
-                        {comment[TASK_COMMENT_IMAGES_FIELD]?.map(
-                            (image, imgIndex) => (
-                                <FireImageViewDialog
-                                    defaultIdx={index}
-                                    images={comment[TASK_COMMENT_IMAGES_FIELD]}
-                                    key={index}
-                                    dialogTitle={task[TASK_TITLE_FIELD]}
-                                >
-                                    <div className="w-20 h-20 rounded-sm relative">
-                                        <img
-                                            src={image}
-                                            alt={`Image ${index + 1}`}
-                                            className="cursor-pointer object-cover w-full h-full rounded-sm"
-                                        />
-                                    </div>
-                                </FireImageViewDialog>
-                            )
-                        )}
-                    </div>
-                </div>
+                    taskTitle={task[TASK_TITLE_FIELD]}
+                    comment={comment}
+                />
             ))}
+            <FireTaskClassCardSheetCommentsTextarea task={task} />
         </div>
     );
 }

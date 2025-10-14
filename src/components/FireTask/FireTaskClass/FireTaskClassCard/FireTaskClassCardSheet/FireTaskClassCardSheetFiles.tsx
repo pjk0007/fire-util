@@ -3,9 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
+import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
 import uploadFilesToTask from '@/lib/FireTask/api/uploadFilesToTask';
 import {
@@ -31,19 +33,20 @@ export default function FireTaskClassCardSheetFiles<
     FT extends FireTask<FU>,
     FU extends FireUser
 >({ task }: FireTaskClassCardSheetFilesProps<FT, FU>) {
+    const isMobile = useIsMobile();
     const [uploadingImages, setUploadingImages] = useState<File[]>([]);
     const [uploadingFiles, setUploadingFiles] = useState<File[]>([]);
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-center">
-                <div className="text-sm font-medium flex gap-1">
+            <div className="flex justify-between items-center group">
+                <div className="text-sm font-medium flex gap-1 py-2">
                     <span>{TASK_LOCALE.SHEET.FILES}</span>
                     <span className="text-muted-foreground">
                         {task[TASK_FILES_FIELD].length +
                             task[TASK_IMAGES_FIELD].length}
                     </span>
                 </div>
-                <Button variant="outline" size="sm" className="text-xs" asChild>
+                <Button variant="outline" size="sm" className="text-xs hidden group-hover:flex" asChild>
                     <Label htmlFor="task-file-upload">
                         {TASK_LOCALE.SHEET.ADD_FILE}
                     </Label>
@@ -89,7 +92,7 @@ export default function FireTaskClassCardSheetFiles<
                         key={index}
                         dialogTitle={task[TASK_TITLE_FIELD]}
                     >
-                        <div className="w-20 h-20 rounded-sm relative group">
+                        <div className="w-20 h-20 rounded-sm relative group border">
                             <img
                                 src={image}
                                 alt={`Image ${index + 1}`}
@@ -140,9 +143,9 @@ export default function FireTaskClassCardSheetFiles<
                             <Link size={16} />
                             <div className="text-sm flex gap-2 items-center">
                                 <div className="font-semibold text-card-foreground">
-                                    {file.name}
+                                    {truncateFilenameMiddle(file.name, isMobile ? 28 : 40)}
                                 </div>
-                                <div className="text-muted-foreground">
+                                <div className="text-muted-foreground md:block hidden">
                                     {file.size
                                         ? formatSizeString(file.size)
                                         : ''}

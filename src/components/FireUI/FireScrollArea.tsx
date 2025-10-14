@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 type FireScrollAreaProps = {
     children: ReactNode;
     dir?: 'col' | 'row';
+    disabled?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export default function FireScrollArea({
@@ -11,13 +12,14 @@ export default function FireScrollArea({
     dir = 'col',
     style,
     className,
+    disabled,
     ...props
 }: FireScrollAreaProps) {
     return (
         <div
             style={{
-                overflowX: dir === 'row' ? 'auto' : 'hidden',
-                overflowY: dir === 'col' ? 'auto' : 'hidden',
+                overflowX: disabled ? 'hidden' : dir === 'row' ? 'auto' : 'hidden',
+                overflowY: disabled ? 'hidden' : dir === 'col' ? 'auto' : 'hidden',
                 ...style,
             }}
             className={cn(

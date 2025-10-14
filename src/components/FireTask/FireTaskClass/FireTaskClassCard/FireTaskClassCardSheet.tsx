@@ -8,6 +8,7 @@ import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
 import updateTaskContent from '@/lib/FireTask/api/updateTaskContent';
 import updateTaskTitle from '@/lib/FireTask/api/updateTaskTitle';
@@ -36,6 +37,7 @@ export default function FireTaskClassCardSheet<
     FU extends FireUser
 >({ task, children }: FireTaskClassCardSheetProps<FT, FU>) {
     const [isExpanded, setIsExpanded] = useState(false);
+    const isMobile = useIsMobile();
 
     return (
         <Sheet
@@ -48,31 +50,56 @@ export default function FireTaskClassCardSheet<
             <SheetTrigger asChild>{children}</SheetTrigger>
             <SheetContent
                 className={cn('w-full transition-all', {
-                    'sm:max-w-full': isExpanded,
-                    'sm:max-w-1/2': !isExpanded,
+                    'sm:max-w-full pt-10': isExpanded && !isMobile,
+                    'sm:max-w-1/2': !isExpanded || isMobile,
                 })}
             >
-                <FireScrollArea className="py-5 px-7 md:py-10 md:px-14 h-full">
-                    <FireTaskClassCardSheetExpandButton
-                        isExpanded={isExpanded}
-                        setIsExpanded={setIsExpanded}
-                    />
-                    <FireTaskClassCardSheetHeader task={task} />
+                <FireScrollArea
+                    className={cn(' h-full', {
+                        flex: isExpanded && !isMobile,
+                        'py-5 md:py-10 px-7 md:px-14': !isExpanded || isMobile,
+                    })}
+                    disabled={isExpanded}
+                >
+                    <FireScrollArea
+                        disabled={!isExpanded || isMobile}
+                        className={cn({
+                            'py-2 px-8 flex-3': isExpanded && !isMobile,
+                        })}
+                    >
+                        <FireTaskClassCardSheetExpandButton
+                            isExpanded={isExpanded}
+                            setIsExpanded={setIsExpanded}
+                        />
+                        <FireTaskClassCardSheetHeader task={task} />
 
-                    <Separator className="my-4" />
-                    <FireTaskClassCardSheetContent task={task} />
+                        <Separator className="my-4" />
+                        <FireTaskClassCardSheetContent task={task} />
 
-                    {/* <FireEditor
-                        defaultHTML={tempHTML}
-                        onChange={(html) => {
-                            console.log(html);
-                            setTempHTML(html);
-                        }}
-                    /> */}
-                    <Separator className="my-4" />
-                    <FireTaskClassCardSheetFiles task={task}/>
-                    <Separator className="my-4" />
-                    <FireTaskClassCardSheetComments task={task} />
+                        <Separator className="my-4" />
+                        <FireTaskClassCardSheetFiles task={task} />
+                    </FireScrollArea>
+                    {
+                        <Separator
+                            className={cn({
+                                'mr-4': isExpanded && !isMobile,
+                                'my-4': !isExpanded || isMobile,
+                            })}
+                            orientation={
+                                isExpanded && !isMobile
+                                    ? 'vertical'
+                                    : 'horizontal'
+                            }
+                        />
+                    }
+                    <FireScrollArea
+                        disabled={!isExpanded}
+                        className={cn({
+                            'py-2 px-4 flex-2': isExpanded && !isMobile,
+                        })}
+                    >
+                        <FireTaskClassCardSheetComments task={task} />
+                    </FireScrollArea>
                 </FireScrollArea>
             </SheetContent>
         </Sheet>

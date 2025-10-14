@@ -65,6 +65,7 @@ export const TASK_LOCALE = {
         COMMENTS: '댓글',
         FILES: '파일',
         ADD_FILE: '파일 첨부하기',
+        ADD_COMMENT_PLACEHOLDER: '댓글을 입력하세요',
     },
 
     STATUS: {
