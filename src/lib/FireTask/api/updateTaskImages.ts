@@ -2,16 +2,16 @@ import { db } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import {
     TASK_COLLECTION,
-    TASK_CONTENT_FIELD,
-    TASK_TITLE_FIELD,
-    TASK_UPDATED_AT_FIELD,
+    TASK_FILES_FIELD,
+    TASK_IMAGES_FIELD,
 } from '@/lib/FireTask/settings';
-import { doc, Timestamp, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 
-export default async function updateTaskContent(
+export default async function updateTaskImagesAndFiles(
     channelId: string,
     taskId: string,
-    newContent: string
+    images: string[],
+    files: { name: string; url: string; size: number }[]
 ) {
     const taskRef = doc(
         db,
@@ -20,8 +20,9 @@ export default async function updateTaskContent(
         TASK_COLLECTION,
         taskId
     );
+
     await updateDoc(taskRef, {
-        [TASK_CONTENT_FIELD]: newContent,
-        [TASK_UPDATED_AT_FIELD]: Timestamp.now(),
+        [TASK_IMAGES_FIELD]: images,
+        [TASK_FILES_FIELD]: files,
     });
 }

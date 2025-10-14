@@ -61,6 +61,12 @@ export const TASK_LOCALE = {
         CONTENT_PLACEHOLDER: '요청할 업무의 상세 내용을 입력하세요',
     },
 
+    SHEET: {
+        COMMENTS: '댓글',
+        FILES: '파일',
+        ADD_FILE: '파일 첨부하기',
+    },
+
     STATUS: {
         [TASK_STATUS_REQUEST]: '요청',
         [TASK_STATUS_PROCEED]: '진행',

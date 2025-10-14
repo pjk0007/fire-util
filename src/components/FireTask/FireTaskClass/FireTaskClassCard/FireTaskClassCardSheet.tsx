@@ -1,5 +1,7 @@
 import FireTaskClassCardSheetComments from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments';
+import FireTaskClassCardSheetContent from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetContent';
 import FireTaskClassCardSheetExpandButton from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetExpandButton';
+import FireTaskClassCardSheetFiles from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetFiles';
 import FireTaskClassCardSheetHeader from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetHeader';
 import FireEditor from '@/components/FireUI/FireEditor';
 import FireScrollArea from '@/components/FireUI/FireScrollArea';
@@ -19,7 +21,7 @@ import {
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 
 interface FireTaskClassCardSheetProps<
     FT extends FireTask<FU>,
@@ -34,20 +36,15 @@ export default function FireTaskClassCardSheet<
     FU extends FireUser
 >({ task, children }: FireTaskClassCardSheetProps<FT, FU>) {
     const [isExpanded, setIsExpanded] = useState(false);
-    const [localContent, setLocalContent] = useState(task[TASK_CONTENT_FIELD]);
-
-    const [tempHTML, setTempHTML] = useState('');
-
-    // useEffect(() => {
-    //     updateTaskContent(
-    //         task[TASK_CHANNEL_ID_FIELD],
-    //         task[TASK_ID_FIELD],
-    //         localContent
-    //     );
-    // }, [localContent]);
 
     return (
-        <Sheet>
+        <Sheet
+            onOpenChange={(open) => {
+                if (!open) {
+                    setIsExpanded(false);
+                }
+            }}
+        >
             <SheetTrigger asChild>{children}</SheetTrigger>
             <SheetContent
                 className={cn('w-full transition-all', {
@@ -63,12 +60,7 @@ export default function FireTaskClassCardSheet<
                     <FireTaskClassCardSheetHeader task={task} />
 
                     <Separator className="my-4" />
-                    <textarea
-                        className="w-full resize-none min-h-40 h-max py-2 px-0.5 text-sm outline-none"
-                        placeholder={TASK_LOCALE.CARD.CONTENT_PLACEHOLDER}
-                        value={localContent}
-                        onChange={(e) => setLocalContent(e.target.value)}
-                    />
+                    <FireTaskClassCardSheetContent task={task} />
 
                     {/* <FireEditor
                         defaultHTML={tempHTML}
@@ -77,7 +69,9 @@ export default function FireTaskClassCardSheet<
                             setTempHTML(html);
                         }}
                     /> */}
-                    <Separator className="mt-8 mb-4" />
+                    <Separator className="my-4" />
+                    <FireTaskClassCardSheetFiles task={task}/>
+                    <Separator className="my-4" />
                     <FireTaskClassCardSheetComments task={task} />
                 </FireScrollArea>
             </SheetContent>

@@ -17,7 +17,7 @@ export default function FireChatChannelRoomFooterFileInput({
                 size={'icon'}
                 asChild
             >
-                <Label htmlFor="file-upload" className="cursor-pointer">
+                <Label htmlFor="chat-file-upload" className="cursor-pointer">
                     <Paperclip className="text-muted-foreground" />
                 </Label>
             </Button>
@@ -33,7 +33,7 @@ export default function FireChatChannelRoomFooterFileInput({
                 }}
                 value={''}
                 className="hidden"
-                id="file-upload"
+                id="chat-file-upload"
             />
         </>
     );

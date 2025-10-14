@@ -63,7 +63,7 @@ export default function FireTaskClassCardSheetHeader<
             <SheetTitle className="flex justify-between md:items-center items-start md:flex-row flex-col gap-2">
                 <input
                     placeholder={TASK_LOCALE.NO_TITLE}
-                    className="flex-1 text-2xl ring-0 outline-0"
+                    className="flex-1 text-2xl ring-0 outline-0  md:mr-4"
                     value={localTitle}
                     onChange={(e) => {
                         setLocalTitle(e.target.value);
