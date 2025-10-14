@@ -2,9 +2,8 @@ import FireImageViewDialog from '@/components/FireUI/FireImageViewDialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Spinner } from '@/components/ui/spinner';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { storage } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
@@ -12,15 +11,14 @@ import uploadFilesToTask from '@/lib/FireTask/api/uploadFilesToTask';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
-    TASK_COLLECTION,
     TASK_FILES_FIELD,
     TASK_ID_FIELD,
     TASK_IMAGES_FIELD,
     TASK_LOCALE,
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { Link, Trash, X } from 'lucide-react';
+import { useState } from 'react';
 
 interface FireTaskClassCardSheetFilesProps<
     FT extends FireTask<FU>,
@@ -33,6 +31,8 @@ export default function FireTaskClassCardSheetFiles<
     FT extends FireTask<FU>,
     FU extends FireUser
 >({ task }: FireTaskClassCardSheetFilesProps<FT, FU>) {
+    const [uploadingImages, setUploadingImages] = useState<File[]>([]);
+    const [uploadingFiles, setUploadingFiles] = useState<File[]>([]);
     return (
         <div className="flex flex-col gap-2">
             <div className="flex justify-between items-center">
@@ -54,11 +54,26 @@ export default function FireTaskClassCardSheetFiles<
                     multiple
                     id="task-file-upload"
                     onChange={async (e) => {
+                        const files = e.target.files
+                            ? Array.from(e.target.files)
+                            : [];
+                        const imageFiles = files.filter((file) =>
+                            file.type.startsWith('image/')
+                        );
+                        const otherFiles = files.filter(
+                            (file) => !file.type.startsWith('image/')
+                        );
+                        setUploadingImages(imageFiles);
+                        setUploadingFiles(otherFiles);
+
                         await uploadFilesToTask(
                             task[TASK_CHANNEL_ID_FIELD],
                             task[TASK_ID_FIELD],
-                            e.target.files ? Array.from(e.target.files) : []
+                            files
                         );
+
+                        setUploadingImages([]);
+                        setUploadingFiles([]);
 
                         // uploadFiles(task[TASK_CHANNEL_ID_FIELD], task[TASK_ID_FIELD], Array.from(files));
                         e.target.value = '';
@@ -97,6 +112,18 @@ export default function FireTaskClassCardSheetFiles<
                             />
                         </div>
                     </FireImageViewDialog>
+                ))}
+                {uploadingImages.map((image, index) => (
+                    <div className="w-20 h-20 rounded-sm relative group">
+                        <img
+                            src={URL.createObjectURL(image)}
+                            alt={`Image ${index + 1}`}
+                            className="cursor-pointer object-cover w-full h-full rounded-sm"
+                        />
+                        <div className='absolute inset-0 bg-black/30 flex items-center justify-center rounded-sm'>
+                            <Spinner className='text-muted'/>
+                        </div>
+                    </div>
                 ))}
             </div>
 
@@ -137,6 +164,27 @@ export default function FireTaskClassCardSheetFiles<
                             className="cursor-default md:opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground p-[1px] hover:bg-accent"
                             size={16}
                         />
+                    </div>
+                ))}
+                {uploadingFiles.map((file, index) => (
+                    <div
+                        key={index}
+                        className="cursor-pointer p-2 group flex items-center justify-between text-xs bg-accent rounded-sm"
+                    >
+                        <div className="flex gap-3 items-center">
+                            <Spinner />
+                            <div className="text-sm flex gap-2 items-center">
+                                <div className="font-semibold text-card-foreground">
+                                    {file.name}
+                                </div>
+                                <div className="text-muted-foreground">
+                                    {file.size
+                                        ? formatSizeString(file.size)
+                                        : ''}
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 ))}
             </div>

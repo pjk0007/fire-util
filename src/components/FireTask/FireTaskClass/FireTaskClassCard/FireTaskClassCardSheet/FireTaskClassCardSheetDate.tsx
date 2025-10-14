@@ -5,6 +5,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
 import { localeDateString } from '@/lib/FireChat/utils/timeformat';
 import updateTaskCreatedAt from '@/lib/FireTask/api/updateTaskCreatedAt';
@@ -31,15 +32,19 @@ export default function FireTaskClassCardSheetDate<
     dateField: typeof TASK_DUE_DATE_FIELD | typeof TASK_CREATED_AT_FIELD;
 }) {
     const [open, setOpen] = useState(false);
+    const isMobile = useIsMobile();
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger onClick={(e) => e.stopPropagation()}>
-                <div className={
-                    cn("h-9 flex items-center gap-1 hover:bg-muted py-0.5 px-1 rounded-sm",{
-                        'text-foreground': task[dateField],
-                        'text-muted-foreground': !task[dateField],
-                    })
-                }>
+                <div
+                    className={cn(
+                        'h-9 flex items-center gap-1 hover:bg-muted py-0.5 px-1 rounded-sm',
+                        {
+                            'text-foreground': task[dateField],
+                            'text-muted-foreground': !task[dateField],
+                        }
+                    )}
+                >
                     {task[dateField]
                         ? localeDateString(task[dateField])
                         : TASK_LOCALE.EMPTY}
@@ -47,7 +52,7 @@ export default function FireTaskClassCardSheetDate<
             </PopoverTrigger>
             <PopoverContent
                 className="w-auto overflow-hidden p-0"
-                align="start"
+                align={isMobile ? 'end' : 'start'}
             >
                 <Calendar
                     mode="single"
