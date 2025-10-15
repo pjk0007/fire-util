@@ -22,6 +22,7 @@ import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import { useEffect, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import FireChatRoomFooterLinkInput from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterLinkInput';
 
 export default function FireChatChannelRoomFooter<
     C extends FireChannel<M, T>,
@@ -131,6 +132,7 @@ export default function FireChatChannelRoomFooter<
                                 ]);
                             }}
                         />
+                        <FireChatRoomFooterLinkInput />
                     </div>
                     <FireChatRoomFooterTextareaMobile
                         message={message}

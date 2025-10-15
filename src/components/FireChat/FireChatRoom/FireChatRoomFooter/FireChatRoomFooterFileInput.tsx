@@ -34,7 +34,7 @@ export default function FireChatChannelRoomFooterFileInput({
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    {FIRE_CHAT_LOCALE.FOOTER.ATTACTH_FILE}
+                    {FIRE_CHAT_LOCALE.FOOTER.ATTATCH_FILE}
                 </TooltipContent>
             </Tooltip>
             <Input

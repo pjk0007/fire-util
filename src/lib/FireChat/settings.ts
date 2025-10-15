@@ -90,7 +90,8 @@ export const FIRE_CHAT_LOCALE = {
         INPUT_PLACEHOLDER: '메시지 입력',
         REPLY_MESSAGE: '답장 쓰기',
         SEND: '전송',
-        ATTACTH_FILE: '파일 첨부',
+        ATTATCH_FILE: '파일 첨부',
+        ATTATCH_LINK: '링크 첨부',
         UPLOAD_FILES: '파일 전송',
 
         REMOVE_FILE: '파일 삭제',
