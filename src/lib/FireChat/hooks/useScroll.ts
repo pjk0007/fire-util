@@ -51,6 +51,7 @@ export default function useScroll() {
                 clearTimeout(scrollTimeoutRef.current);
             }
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollAreaRef.current]);
 
     return {

@@ -11,7 +11,6 @@ import {
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -70,7 +69,7 @@ export default function FireImageViewDialog({
             <DialogTrigger asChild>{children}</DialogTrigger>
             <DialogContent className="px-0 pt-4 pb-2 gap-2 rounded-sm">
                 <DialogHeader className="px-4">
-                    <DialogTitle className='text-sm'>{dialogTitle}</DialogTitle>
+                    <DialogTitle className="text-sm">{dialogTitle}</DialogTitle>
                 </DialogHeader>
                 <Carousel
                     setApi={setApi}

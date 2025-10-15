@@ -20,6 +20,7 @@ import {
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import { Link, Trash, X } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 interface FireTaskClassCardSheetFilesProps<
@@ -46,7 +47,12 @@ export default function FireTaskClassCardSheetFiles<
                             task[TASK_IMAGES_FIELD].length}
                     </span>
                 </div>
-                <Button variant="outline" size="sm" className="text-xs hidden group-hover:flex" asChild>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs hidden group-hover:flex"
+                    asChild
+                >
                     <Label htmlFor="task-file-upload">
                         {TASK_LOCALE.SHEET.ADD_FILE}
                     </Label>
@@ -93,7 +99,9 @@ export default function FireTaskClassCardSheetFiles<
                         dialogTitle={task[TASK_TITLE_FIELD]}
                     >
                         <div className="w-20 h-20 rounded-sm relative group border">
-                            <img
+                            <Image
+                                width={80}
+                                height={80}
                                 src={image}
                                 alt={`Image ${index + 1}`}
                                 className="cursor-pointer object-cover w-full h-full rounded-sm"
@@ -117,14 +125,17 @@ export default function FireTaskClassCardSheetFiles<
                     </FireImageViewDialog>
                 ))}
                 {uploadingImages.map((image, index) => (
-                    <div className="w-20 h-20 rounded-sm relative group">
+                    <div
+                        className="w-20 h-20 rounded-sm relative group"
+                        key={index}
+                    >
                         <img
                             src={URL.createObjectURL(image)}
                             alt={`Image ${index + 1}`}
                             className="cursor-pointer object-cover w-full h-full rounded-sm"
                         />
-                        <div className='absolute inset-0 bg-black/30 flex items-center justify-center rounded-sm'>
-                            <Spinner className='text-muted'/>
+                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-sm">
+                            <Spinner className="text-muted" />
                         </div>
                     </div>
                 ))}
@@ -143,7 +154,10 @@ export default function FireTaskClassCardSheetFiles<
                             <Link size={16} />
                             <div className="text-sm flex gap-2 items-center">
                                 <div className="font-semibold text-card-foreground">
-                                    {truncateFilenameMiddle(file.name, isMobile ? 28 : 40)}
+                                    {truncateFilenameMiddle(
+                                        file.name,
+                                        isMobile ? 28 : 40
+                                    )}
                                 </div>
                                 <div className="text-muted-foreground md:block hidden">
                                     {file.size
@@ -187,7 +201,6 @@ export default function FireTaskClassCardSheetFiles<
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                 ))}
             </div>

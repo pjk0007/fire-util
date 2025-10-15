@@ -1,4 +1,3 @@
-import { FireUser } from '@/lib/FireAuth/settings';
 import { db } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { TASK_COLLECTION, TASK_LAST_SEEN_FIELD } from '@/lib/FireTask/settings';

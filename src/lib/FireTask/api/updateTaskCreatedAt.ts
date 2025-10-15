@@ -1,6 +1,6 @@
 import { db } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
-import { TASK_COLLECTION, TASK_CREATED_AT_FIELD, TASK_DUE_DATE_FIELD } from '@/lib/FireTask/settings';
+import { TASK_COLLECTION, TASK_CREATED_AT_FIELD } from '@/lib/FireTask/settings';
 import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 
 export default async function updateTaskCreatedAt(

@@ -3,7 +3,6 @@ import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import {
     TASK_COLLECTION,
     TASK_CONTENT_FIELD,
-    TASK_TITLE_FIELD,
     TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
 import { doc, Timestamp, updateDoc } from 'firebase/firestore';

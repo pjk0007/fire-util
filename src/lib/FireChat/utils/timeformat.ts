@@ -50,6 +50,7 @@ export function formatRelativeTime(input: Timestamp) {
             const rtf = new Intl.RelativeTimeFormat(loc, { numeric: 'auto' });
             return rtf.format(0, 'second');
         } catch (e) {
+            console.log(e);
             // fallback to neutral English
             return 'now';
         }
@@ -61,6 +62,7 @@ export function formatRelativeTime(input: Timestamp) {
             const rtf = new Intl.RelativeTimeFormat(loc, { numeric: 'auto' });
             return rtf.format(-minutes, 'minute');
         } catch (e) {
+            console.log(e);
             return `${minutes} minutes ago`;
         }
     }
@@ -71,6 +73,7 @@ export function formatRelativeTime(input: Timestamp) {
             const rtf = new Intl.RelativeTimeFormat(loc, { numeric: 'auto' });
             return rtf.format(-hours, 'hour');
         } catch (e) {
+            console.log(e);
             return `${hours} hours ago`;
         }
     }
@@ -82,6 +85,7 @@ export function formatRelativeTime(input: Timestamp) {
             day: 'numeric',
         }).format(date);
     } catch (e) {
+        console.log(e);
         // fallback to yyyy-mm-dd
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
             2,

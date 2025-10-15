@@ -1,5 +1,4 @@
 import FireTaskClassCardSheetDate from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetDate';
-import FireTaskClassCardSheetExpandButton from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetExpandButton';
 import FireTaskStatusDot from '@/components/FireTask/FireTaskStatusDot';
 import { Button } from '@/components/ui/button';
 import {
@@ -7,14 +6,10 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Separator } from '@/components/ui/separator';
 import {
-    Sheet,
-    SheetContent,
     SheetDescription,
     SheetHeader,
     SheetTitle,
-    SheetTrigger,
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
@@ -33,7 +28,7 @@ import {
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { CalendarIcon, ChevronDown } from 'lucide-react';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FireTaskClassCardSheetHeaderProps<
     FT extends FireTask<FU>,
@@ -94,7 +89,7 @@ export default function FireTaskClassCardSheetHeader<
                                         ? 'bg-accent text-accent-foreground'
                                         : ''
                                 )}
-                                onClick={(e) => {
+                                onClick={() => {
                                     updateTaskStatus(
                                         task[TASK_CHANNEL_ID_FIELD],
                                         task[TASK_ID_FIELD],

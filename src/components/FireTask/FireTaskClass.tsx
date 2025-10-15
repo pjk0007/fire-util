@@ -4,23 +4,13 @@ import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskClassCard from '@/components/FireTask/FireTaskClass/FireTaskClassCard';
 import FireTaskClassHeader from '@/components/FireTask/FireTaskClass/FireTaskClassHeader';
 import FireScrollArea from '@/components/FireUI/FireScrollArea';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
     CollapsibleContent,
-    CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { FireUser } from '@/lib/FireAuth/settings';
-import {
-    FireMessage,
-    FireMessageImage,
-    FireMessageText,
-    MESSAGE_CONTENTS_FIELD,
-} from '@/lib/FireChat/settings';
 import createTask from '@/lib/FireTask/api/createTask';
 import updateTaskStatus from '@/lib/FireTask/api/updateTaskStatus';
 import {
-    FireTask,
     TASK_ID_FIELD,
     TaskStatus,
     TASK_STATUS_FIELD,
@@ -73,6 +63,7 @@ export default function FireTaskClass({
             open={isOpen || onlyOpen}
             onOpenChange={setIsOpen}
             onDragEnter={(e) => {
+                e.preventDefault();
                 setIsDragOver(true);
             }}
             onDragOver={(e) => {

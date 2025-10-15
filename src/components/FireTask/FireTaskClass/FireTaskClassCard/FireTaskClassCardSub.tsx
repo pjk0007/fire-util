@@ -1,15 +1,12 @@
 import FireTaskClassCardSubDueDate from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSub/FireTaskClassCardSubDueDate';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { localeDateString } from '@/lib/FireChat/utils/timeformat';
 import {
     FireTask,
     TASK_COMMENTS_FIELD,
-    TASK_DUE_DATE_FIELD,
     TASK_FILES_FIELD,
     TASK_IMAGES_FIELD,
-    TASK_LOCALE,
 } from '@/lib/FireTask/settings';
-import { Calendar, MessageSquare, Paperclip } from 'lucide-react';
+import { MessageSquare, Paperclip } from 'lucide-react';
 
 interface FireTaskClassCardSubProps<
     FT extends FireTask<FU>,

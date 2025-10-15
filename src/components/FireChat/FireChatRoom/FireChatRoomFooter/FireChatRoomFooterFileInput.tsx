@@ -13,7 +13,7 @@ export default function FireChatChannelRoomFooterFileInput({
         <>
             <Button
                 variant={'ghost'}
-                className={cn('rounded-full')}
+                className={cn('rounded-lg')}
                 size={'icon'}
                 asChild
             >

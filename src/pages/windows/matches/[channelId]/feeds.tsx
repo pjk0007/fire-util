@@ -1,4 +1,3 @@
-import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
 import { FireTaskProvider } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskMain from '@/components/FireTask/FireTaskMain';
 

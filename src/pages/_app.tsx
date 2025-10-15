@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Toaster } from 'sonner';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { FireChatSidebarProvider } from '@/components/FireProvider/FireChatSidebarProvider';
 import FireChatSettings from '@/components/FireChat/FireChatSettings';
 import { useRouter } from 'next/router';
 
