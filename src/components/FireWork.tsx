@@ -11,9 +11,11 @@ import { useIsMobile } from '@/hooks/use-mobile';
 export default function FireWork({
     showChannelList = true,
     showChatHeader = true,
+    showTask = true,
 }: {
     showChannelList?: boolean;
     showChatHeader?: boolean;
+    showTask?: boolean;
 }) {
     const { selectedChannelId } = useFireChannel();
     const isMobile = useIsMobile();
@@ -27,9 +29,7 @@ export default function FireWork({
             {showChannelList && <FireChannelList />}
             {selectedChannelId && (
                 <div className={cn('w-full h-full flex flex-col')}>
-                    {
-                        showChatHeader && <FireChatHeader />
-                    }
+                    {showChatHeader && <FireChatHeader />}
                     <div
                         className={cn('relative flex', {
                             'h-[calc(100%-var(--firechat-header-height))]':
@@ -37,11 +37,13 @@ export default function FireWork({
                             'h-full': !showChatHeader,
                         })}
                     >
-                        <FireTaskProvider>
-                            <FireTaskSidebarProvider>
-                                <FireTask />
-                            </FireTaskSidebarProvider>
-                        </FireTaskProvider>
+                        {showTask && (
+                            <FireTaskProvider>
+                                <FireTaskSidebarProvider>
+                                    <FireTask />
+                                </FireTaskSidebarProvider>
+                            </FireTaskProvider>
+                        )}
                         <FireChatRoom />
                     </div>
                 </div>
