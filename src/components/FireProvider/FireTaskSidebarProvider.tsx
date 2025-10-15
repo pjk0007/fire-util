@@ -72,7 +72,7 @@ export function FireTaskSidebar({ children }: { children?: ReactNode }) {
                     : {
                           'h-full overflow-hidden': true,
                           'relative w-72 border-r ': isOpen && !isExpanded,
-                          'absolute z-50 inset-0 h-full w-full':
+                          'absolute z-10 inset-0 h-full w-full':
                               isOpen && isExpanded,
                           'relative w-13 hover:bg-muted border-r ': !isOpen,
                       }
