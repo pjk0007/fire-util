@@ -142,7 +142,7 @@ export function FireTaskSidebar({ children }: { children?: ReactNode }) {
                                                         height) /
                                                         2;
                                                 window.open(
-                                                    `/windows/${CHANNEL_COLLECTION}/${channelId}/${TASK_COLLECTION}?tab=image`,
+                                                    `/windows/${CHANNEL_COLLECTION}/${channelId}/${TASK_COLLECTION}`,
                                                     '_blank',
                                                     `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`
                                                 );
