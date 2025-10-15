@@ -12,8 +12,6 @@ export default function useFireTaskList<
     const [tasks, setTasks] = useState<FT[]>([]);
 
     useEffect(() => {
-        console.log(CHANNEL_COLLECTION, channelId, TASK_COLLECTION);
-        
         if (!channelId) {
             setTasks([]);
             return;

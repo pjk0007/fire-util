@@ -24,6 +24,7 @@ export default function FireTaskClassCardSheetContent<
     const [localContent, setLocalContent] = useState(task[TASK_CONTENT_FIELD]);
 
     useEffect(() => {
+        if (localContent === task[TASK_CONTENT_FIELD]) return;
         updateTaskContent(
             task[TASK_CHANNEL_ID_FIELD],
             task[TASK_ID_FIELD],

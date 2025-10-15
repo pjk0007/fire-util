@@ -65,7 +65,7 @@ export default function FireChatSettingsInviteButton<U extends FireUser>({
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger>
+            <DialogTrigger asChild>
                 <Button variant="secondary" className="w-full mt-4">
                     {FIRECHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
                 </Button>

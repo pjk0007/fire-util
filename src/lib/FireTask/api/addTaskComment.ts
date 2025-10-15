@@ -11,6 +11,7 @@ import {
     TASK_COMMENT_UPDATED_AT_FIELD,
     TASK_COMMENT_USER_FIELD,
     TASK_COMMENTS_FIELD,
+    TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
 import { arrayUnion, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -65,5 +66,6 @@ export default async function addTaskComment<FU extends FireUser>(
             [TASK_COMMENT_UPDATED_AT_FIELD]: Timestamp.now(),
             [TASK_COMMENT_USER_FIELD]: user,
         }),
+        [TASK_UPDATED_AT_FIELD]: Timestamp.now(),
     });
 }

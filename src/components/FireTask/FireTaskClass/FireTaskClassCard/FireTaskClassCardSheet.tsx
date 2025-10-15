@@ -1,28 +1,22 @@
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import FireTaskClassCardSheetComments from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments';
 import FireTaskClassCardSheetContent from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetContent';
 import FireTaskClassCardSheetExpandButton from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetExpandButton';
 import FireTaskClassCardSheetFiles from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetFiles';
 import FireTaskClassCardSheetHeader from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetHeader';
-import FireEditor from '@/components/FireUI/FireEditor';
 import FireScrollArea from '@/components/FireUI/FireScrollArea';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { FireUser } from '@/lib/FireAuth/settings';
-import updateTaskContent from '@/lib/FireTask/api/updateTaskContent';
-import updateTaskTitle from '@/lib/FireTask/api/updateTaskTitle';
+import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
+import updateTaskLastSeen from '@/lib/FireTask/api/updateTaskLastSeen';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
-    TASK_COMMENTS_FIELD,
-    TASK_CONTENT_FIELD,
     TASK_ID_FIELD,
-    TASK_LOCALE,
-    TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 interface FireTaskClassCardSheetProps<
     FT extends FireTask<FU>,
@@ -38,10 +32,16 @@ export default function FireTaskClassCardSheet<
 >({ task, children }: FireTaskClassCardSheetProps<FT, FU>) {
     const [isExpanded, setIsExpanded] = useState(false);
     const isMobile = useIsMobile();
+    const { user } = useFireAuth();
 
     return (
         <Sheet
             onOpenChange={(open) => {
+                updateTaskLastSeen(
+                    task[TASK_CHANNEL_ID_FIELD],
+                    task[TASK_ID_FIELD],
+                    user?.[USER_ID_FIELD]
+                );
                 if (!open) {
                     setIsExpanded(false);
                 }

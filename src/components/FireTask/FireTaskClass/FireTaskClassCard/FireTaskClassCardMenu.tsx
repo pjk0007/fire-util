@@ -32,7 +32,7 @@ export default function FireTaskClassCardMenu({
                         className="bg-background"
                     >
                         <Tooltip>
-                            <TooltipTrigger>
+                            <TooltipTrigger asChild>
                                 <PenLine />
                             </TooltipTrigger>
                             <TooltipContent>

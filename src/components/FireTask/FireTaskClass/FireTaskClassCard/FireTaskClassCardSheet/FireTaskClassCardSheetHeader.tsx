@@ -110,7 +110,7 @@ export default function FireTaskClassCardSheetHeader<
                     </DropdownMenuContent>
                 </DropdownMenu>
             </SheetTitle>
-            <SheetDescription>
+            <SheetDescription asChild>
                 <div className="grid grid-cols-[100_1fr] items-center gap-1 text-sm">
                     <div className="h-9 flex items-center gap-0.5">
                         <CalendarIcon className="w-3 h-3" />

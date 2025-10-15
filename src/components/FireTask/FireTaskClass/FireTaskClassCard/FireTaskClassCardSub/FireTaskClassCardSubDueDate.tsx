@@ -40,7 +40,7 @@ export default function FireTaskClassCardSubDueDate<
         <Tooltip>
             <TooltipTrigger>
                 <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger onClick={(e) => e.stopPropagation()}>
+                    <PopoverTrigger onClick={(e) => e.stopPropagation()} asChild>
                         <div className="flex items-center gap-1 text-xs text-muted-foreground hover:bg-muted py-0.5 px-1 rounded-sm">
                             <CalendarIcon className="w-3 h-3" />
                             {task[TASK_DUE_DATE_FIELD] ? (
