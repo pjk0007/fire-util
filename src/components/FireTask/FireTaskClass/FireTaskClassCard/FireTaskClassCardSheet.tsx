@@ -14,6 +14,8 @@ import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
     TASK_ID_FIELD,
+    TASK_LAST_SEEN_FIELD,
+    TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
@@ -34,16 +36,27 @@ export default function FireTaskClassCardSheet<
     const isMobile = useIsMobile();
     const { user } = useFireAuth();
 
+    const updatedAt = task[TASK_UPDATED_AT_FIELD]?.toDate();
+    const lastSeen =
+        task[TASK_LAST_SEEN_FIELD]?.[user?.[USER_ID_FIELD] || ''].toDate();
+
+    // If updatedAt or lastSeen is undefined, show as not seen
+    const isUnseen = !lastSeen || updatedAt > lastSeen;
+
     return (
         <Sheet
             onOpenChange={(open) => {
-                updateTaskLastSeen(
-                    task[TASK_CHANNEL_ID_FIELD],
-                    task[TASK_ID_FIELD],
-                    user?.[USER_ID_FIELD]
-                );
                 if (!open) {
                     setIsExpanded(false);
+                    if (isUnseen) {
+                        setTimeout(() => {
+                            updateTaskLastSeen(
+                                task[TASK_CHANNEL_ID_FIELD],
+                                task[TASK_ID_FIELD],
+                                user?.[USER_ID_FIELD]
+                            );
+                        }, 1000);
+                    }
                 }
             }}
         >

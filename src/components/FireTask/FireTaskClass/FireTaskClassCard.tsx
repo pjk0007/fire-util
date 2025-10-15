@@ -1,45 +1,20 @@
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskClassCardMain from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardMain';
 import FireTaskClassCardMenu from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardMenu';
 import FireTaskClassCardSheet from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet';
 import FireTaskClassCardSub from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSub';
-import { Badge } from '@/components/ui/badge';
-import { Calendar } from '@/components/ui/calendar';
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/components/ui/sheet';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
-import { localeDateString } from '@/lib/FireChat/utils/timeformat';
-import updateTaskDueDate from '@/lib/FireTask/api/updateTaskDueDate';
 import {
     FireTask,
-    TASK_CHANNEL_ID_FIELD,
-    TASK_CREATED_AT_FIELD,
-    TASK_DUE_DATE_FIELD,
     TASK_ID_FIELD,
     TASK_LAST_SEEN_FIELD,
-    TASK_LOCALE,
     TASK_STATUS_FIELD,
     TASK_TITLE_FIELD,
     TASK_UPDATED_AT_FIELD,
     TaskStatus,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
-import { CalendarIcon, Ellipsis, MoveDiagonal2, PenLine } from 'lucide-react';
 import { useState } from 'react';
 
 interface FireTaskClassCardProps<FT extends FireTask<FU>, FU extends FireUser> {
@@ -60,12 +35,6 @@ export default function FireTaskClassCard<
 
     // If updatedAt or lastSeen is undefined, show as not seen
     const isUnseen = !lastSeen || updatedAt > lastSeen;
-    if (task[TASK_TITLE_FIELD] === '가나다라마바') {
-        console.log(task[TASK_TITLE_FIELD]);
-
-        console.log(lastSeen);
-        console.log(updatedAt);
-    }
 
     return (
         <FireTaskClassCardSheet task={task}>
@@ -99,6 +68,7 @@ export default function FireTaskClassCard<
                 />
                 <FireTaskClassCardSub task={task} />
                 <FireTaskClassCardMenu
+                    task={task}
                     isEditingTitle={isEditingTitle}
                     setIsEditingTitle={setIsEditingTitle}
                 />

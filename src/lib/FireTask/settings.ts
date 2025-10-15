@@ -55,10 +55,12 @@ export const TASK_LOCALE = {
     },
 
     CARD: {
+        CHANGE_STATUS: '상태 변경',
         EDIT: '편집',
         CREATED_AT: '요청일',
         DUE_DATE: '마감일',
         CONTENT_PLACEHOLDER: '요청할 업무의 상세 내용을 입력하세요',
+        DELETE: '삭제',
     },
 
     SHEET: {
