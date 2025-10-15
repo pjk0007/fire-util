@@ -1,4 +1,4 @@
-import FireWork from '@/components/FireWork';
+import FireWork from '@/components/FireUI/FireWork';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import {

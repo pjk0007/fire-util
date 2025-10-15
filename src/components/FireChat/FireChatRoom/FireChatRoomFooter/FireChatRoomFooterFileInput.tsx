@@ -29,7 +29,7 @@ export default function FireChatChannelRoomFooterFileInput({
                             htmlFor="chat-file-upload"
                             className="cursor-pointer"
                         >
-                            <Paperclip className="text-muted-foreground" />
+                            <Paperclip className="text-foreground" />
                         </Label>
                     </Button>
                 </TooltipTrigger>

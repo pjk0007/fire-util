@@ -122,7 +122,7 @@ export default function FireChatChannelRoomFooter<
                 />
 
                 <div className="flex justify-between items-center border rounded-lg md:border-none p-2 md:p-0">
-                    <div className="flex gap-1">
+                    <div className="flex">
                         <FireChatRoomFooterFileInput
                             onSelectFiles={(selectedFiles) => {
                                 setFiles((prevFiles) => [
