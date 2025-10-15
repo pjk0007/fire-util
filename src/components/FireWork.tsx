@@ -26,7 +26,13 @@ export default function FireWork({
             {selectedChannelId && (
                 <div className={cn('w-full h-full flex flex-col')}>
                     <FireChatHeader />
-                    <div className="relative flex h-[calc(100%-var(--firechat-header-height))]">
+                    <div
+                        className={cn('relative flex', {
+                            'h-[calc(100%-var(--firechat-header-height))]':
+                                showChannelList,
+                            'h-full': !showChannelList,
+                        })}
+                    >
                         <FireTaskProvider>
                             <FireTaskSidebarProvider>
                                 <FireTask />

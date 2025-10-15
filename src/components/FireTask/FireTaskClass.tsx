@@ -99,9 +99,7 @@ export default function FireTaskClass({
                     filteredTasks[0]?.[TASK_CHANNEL_ID_FIELD],
                     draggedTaskId,
                     status
-                ).then(() => {
-                    console.log('Task status updated');
-                });
+                );
             }}
         >
             <FireTaskClassHeader
@@ -115,7 +113,8 @@ export default function FireTaskClass({
                     {status === TASK_STATUS_REQUEST && (
                         <Card
                             className="rounded-lg w-full h-11 gap-1 hover:shadow-sm items-center justify-center cursor-pointer shadow-none"
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 // Create a new task
                                 if (selectedChannelId && user) {
                                     createTask(selectedChannelId, user);
