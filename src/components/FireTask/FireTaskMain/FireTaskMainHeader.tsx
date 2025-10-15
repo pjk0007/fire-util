@@ -1,6 +1,6 @@
 import FireTaskClassAddNew from '@/components/FireTask/FireTaskClass/FireTaskClassAddNew';
 import { TASK_MAIN_HEADER_HEIGHT } from '@/components/FireTask/FireTaskMain';
-import { TASK_LOCALE } from '@/lib/FireTask/settings';
+import { FIRE_TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 
 export default function FireTaskMainHeader() {
@@ -14,7 +14,7 @@ export default function FireTaskMainHeader() {
                     'font-semibold md:text-left  text-center'
                 )}
             >
-                {TASK_LOCALE.TASK_LIST}
+                {FIRE_TASK_LOCALE.TASK_LIST}
             </span>
             <FireTaskClassAddNew size={'small'} />
         </div>

@@ -12,7 +12,7 @@ import {
     FireMessage,
     FireMessageFile,
     FireMessageImage,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
@@ -25,9 +25,9 @@ import {
     CHANNEL_NAME_FIELD
 } from '@/lib/FireChannel/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
-import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
-import { localeDateString } from '@/lib/FireChat/utils/timeformat';
-import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
+import { localeDateString } from '@/lib/FireUtil/timeformat';
+import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { Download, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import useListFiles from '@/lib/FireChat/hooks/useListFiles';
@@ -59,10 +59,10 @@ export default function FireChatContents({
                 <FireTabs className="w-full" defaultValue={defatultTab}>
                     <FireTabsList className="h-8 w-full border-b justify-start rounded-none bg-transparent p-0">
                         <FireTabsTrigger value="image" asChild>
-                            {FIRECHAT_LOCALE.IMAGE}
+                            {FIRE_CHAT_LOCALE.IMAGE}
                         </FireTabsTrigger>
                         <FireTabsTrigger value="file" asChild>
-                            {FIRECHAT_LOCALE.FILE}
+                            {FIRE_CHAT_LOCALE.FILE}
                         </FireTabsTrigger>
                     </FireTabsList>
                     <FireTabsContent value="image">
@@ -166,7 +166,7 @@ export default function FireChatContents({
                                 })}
                                 {reversedFileMessages.length === 0 && (
                                     <div className="text-sm text-muted-foreground p-4">
-                                        {FIRECHAT_LOCALE.NO_IMAGES}
+                                        {FIRE_CHAT_LOCALE.NO_IMAGES}
                                     </div>
                                 )}
                             </div>
@@ -239,7 +239,7 @@ export default function FireChatContents({
                                 })}
                                 {imageMessages.length === 0 && (
                                     <div className="text-sm text-muted-foreground p-4">
-                                        {FIRECHAT_LOCALE.NO_FILES}
+                                        {FIRE_CHAT_LOCALE.NO_FILES}
                                     </div>
                                 )}
                             </div>

@@ -27,7 +27,7 @@ import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
     TASK_ID_FIELD,
-    TASK_LOCALE,
+    FIRE_TASK_LOCALE,
     TASK_STATUS_FIELD,
     TASK_STATUS_OPTIONS,
     TASK_STATUS_REQUEST,
@@ -70,7 +70,7 @@ export default function FireTaskClassCardMenu<
                                 <PenLine />
                             </TooltipTrigger>
                             <TooltipContent>
-                                {TASK_LOCALE.CARD.EDIT}
+                                {FIRE_TASK_LOCALE.CARD.EDIT}
                             </TooltipContent>
                         </Tooltip>
                     </Button>
@@ -99,11 +99,11 @@ export default function FireTaskClassCardMenu<
                         <DropdownMenuGroup>
                             <DropdownMenuSub>
                                 <DropdownMenuSubTrigger>
-                                    {TASK_LOCALE.CARD.CHANGE_STATUS}
+                                    {FIRE_TASK_LOCALE.CARD.CHANGE_STATUS}
                                 </DropdownMenuSubTrigger>
                                 <DropdownMenuSubContent className="w-40">
                                     <DropdownMenuLabel>
-                                        {TASK_LOCALE.CARD.CHANGE_STATUS}
+                                        {FIRE_TASK_LOCALE.CARD.CHANGE_STATUS}
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuRadioGroup
@@ -138,7 +138,7 @@ export default function FireTaskClassCardMenu<
                                     );
                                 }}
                             >
-                                {TASK_LOCALE.CARD.DELETE}
+                                {FIRE_TASK_LOCALE.CARD.DELETE}
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>

@@ -3,7 +3,7 @@ import {
     FireMessageContent,
     FireMessageSystem,
     FireMessageText,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_TYPE_FIELD,
@@ -27,7 +27,7 @@ export default function FireChannelListItemLastChatContent<
     if (!lastMessage || !contents) {
         return (
             <div className="text-xs text-muted-foreground">
-                {FIRECHAT_LOCALE.NO_MESSAGES}
+                {FIRE_CHAT_LOCALE.NO_MESSAGES}
             </div>
         );
     }
@@ -52,7 +52,7 @@ export default function FireChannelListItemLastChatContent<
         return (
             <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">
-                    {FIRECHAT_LOCALE.IMAGE}
+                    {FIRE_CHAT_LOCALE.IMAGE}
                 </span>
             </div>
         );
@@ -62,7 +62,7 @@ export default function FireChannelListItemLastChatContent<
         return (
             <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">
-                    {FIRECHAT_LOCALE.FILE}
+                    {FIRE_CHAT_LOCALE.FILE}
                 </span>
             </div>
         );
@@ -78,6 +78,6 @@ export default function FireChannelListItemLastChatContent<
     }
 
     return (
-        <div className="text-xs text-muted-foreground">{FIRECHAT_LOCALE.UNKNOWN}</div>
+        <div className="text-xs text-muted-foreground">{FIRE_CHAT_LOCALE.UNKNOWN}</div>
     );
 }

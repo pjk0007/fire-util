@@ -10,14 +10,14 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { localeDateString } from '@/lib/FireChat/utils/timeformat';
+import { localeDateString } from '@/lib/FireUtil/timeformat';
 import updateTaskDueDate from '@/lib/FireTask/api/updateTaskDueDate';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
     TASK_DUE_DATE_FIELD,
     TASK_ID_FIELD,
-    TASK_LOCALE,
+    FIRE_TASK_LOCALE,
 } from '@/lib/FireTask/settings';
 import { CalendarIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -49,7 +49,7 @@ export default function FireTaskClassCardSubDueDate<
                                     )}
                                 </div>
                             ) : (
-                                <div>{TASK_LOCALE.NO_DUE_DATE}</div>
+                                <div>{FIRE_TASK_LOCALE.NO_DUE_DATE}</div>
                             )}
                         </div>
                     </PopoverTrigger>
@@ -75,7 +75,7 @@ export default function FireTaskClassCardSubDueDate<
             </TooltipTrigger>
             {task[TASK_DUE_DATE_FIELD] && (
                 <TooltipContent side="left">
-                    {TASK_LOCALE.CARD.DUE_DATE}
+                    {FIRE_TASK_LOCALE.CARD.DUE_DATE}
                 </TooltipContent>
             )}
         </Tooltip>

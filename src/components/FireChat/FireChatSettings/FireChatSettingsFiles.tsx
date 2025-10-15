@@ -3,7 +3,7 @@ import {
     FireMessage,
     FireMessageContent,
     FireMessageFile,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
@@ -11,11 +11,11 @@ import {
 } from '@/lib/FireChat/settings';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { ChevronRight, Download, File } from 'lucide-react';
-import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
+import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { Button } from '@/components/ui/button';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
 import { memo } from 'react';
-import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import { cn } from '@/lib/utils';
 
 function FireChatSettingsFiles<
@@ -98,7 +98,7 @@ function FireChatSettingsFiles<
                 </div>
             ) : (
                 <span className="text-sm text-muted-foreground text-center py-6">
-                    {FIRECHAT_LOCALE.NO_FILES}
+                    {FIRE_CHAT_LOCALE.NO_FILES}
                 </span>
             )}
 
@@ -121,7 +121,7 @@ function FireChatSettingsFiles<
                         );
                     }}
                 >
-                    {FIRECHAT_LOCALE.SIDEBAR.MORE}
+                    {FIRE_CHAT_LOCALE.SIDEBAR.MORE}
                 </Button>
             )}
         </div>

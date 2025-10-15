@@ -20,11 +20,11 @@ import {
     USER_NAME_FIELD,
 } from '@/lib/FireAuth/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
-import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import {
     formatRelativeTime,
     localeDateString,
-} from '@/lib/FireChat/utils/timeformat';
+} from '@/lib/FireUtil/timeformat';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
 import {
     FireTask,
@@ -36,7 +36,7 @@ import {
     TASK_COMMENT_USER_FIELD,
     TASK_COMMENTS_FIELD,
     TASK_FILES_FIELD,
-    TASK_LOCALE,
+    FIRE_TASK_LOCALE,
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import { ArrowUp, Clipboard, Link, Paperclip, X } from 'lucide-react';
@@ -56,7 +56,7 @@ export default function FireTaskClassCardSheetComments<
     return (
         <div className="flex flex-col">
             <div className="text-sm font-medium flex gap-1 mb-3">
-                <span>{TASK_LOCALE.SHEET.COMMENTS}</span>
+                <span>{FIRE_TASK_LOCALE.SHEET.COMMENTS}</span>
                 <span className="text-muted-foreground">
                     {task[TASK_COMMENTS_FIELD].length}
                 </span>

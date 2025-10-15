@@ -7,14 +7,14 @@ import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
-import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
+import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import addTaskComment from '@/lib/FireTask/api/addTaskComment';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
     TASK_ID_FIELD,
-    TASK_LOCALE,
+    FIRE_TASK_LOCALE,
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
@@ -121,7 +121,7 @@ export default function FireTaskClassCardSheetCommentsTextarea<
                             )}
                             rows={1}
                             placeholder={
-                                TASK_LOCALE.SHEET.ADD_COMMENT_PLACEHOLDER
+                                FIRE_TASK_LOCALE.SHEET.ADD_COMMENT_PLACEHOLDER
                             }
                             value={content}
                             onChange={(e) => setContent(e.target.value)}

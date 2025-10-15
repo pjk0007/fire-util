@@ -5,7 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     FireMessage,
     FireMessageContent,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
 } from '@/lib/FireChat/settings';
 import { FireChannel } from '@/lib/FireChannel/settings';
 import {
@@ -63,10 +63,10 @@ export default function FireChatSettings<
                     <Tabs className="gap-4" defaultValue="images">
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="images" className="w-full">
-                                {FIRECHAT_LOCALE.IMAGE}
+                                {FIRE_CHAT_LOCALE.IMAGE}
                             </TabsTrigger>
                             <TabsTrigger value="files" className="w-full">
-                                {FIRECHAT_LOCALE.FILE}
+                                {FIRE_CHAT_LOCALE.FILE}
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="images" className="p-0">

@@ -12,7 +12,7 @@ import {
     FireMessage,
     FireMessageContent,
     FireMessageText,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
     MESSAGE_CONTENT_TEXT_FIELD,
     MESSAGE_CONTENTS_FIELD,
     MESSAGE_REACTIONS_FIELD,
@@ -108,12 +108,12 @@ export default function FireChatMessageContextMenu<
                                 navigator.clipboard.writeText(
                                     content[MESSAGE_CONTENT_TEXT_FIELD]
                                 );
-                                toast.success(FIRECHAT_LOCALE.COPIED, {
+                                toast.success(FIRE_CHAT_LOCALE.COPIED, {
                                     duration: 1000,
                                 });
                             }}
                         >
-                            {FIRECHAT_LOCALE.COPY}
+                            {FIRE_CHAT_LOCALE.COPY}
                             <ContextMenuShortcut>
                                 <Copy />
                             </ContextMenuShortcut>
@@ -123,7 +123,7 @@ export default function FireChatMessageContextMenu<
                         className="px-2 py-3"
                         onSelect={() => setReplyingMessage?.(message)}
                     >
-                        {FIRECHAT_LOCALE.REPLY}
+                        {FIRE_CHAT_LOCALE.REPLY}
                         <ContextMenuShortcut>
                             <CornerDownRight />
                         </ContextMenuShortcut>

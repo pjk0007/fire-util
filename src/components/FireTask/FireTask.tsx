@@ -6,7 +6,7 @@ import {
 import FireTaskClass from '@/components/FireTask/FireTaskClass';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { TASK_LOCALE, TASK_STATUS_OPTIONS } from '@/lib/FireTask/settings';
+import { FIRE_TASK_LOCALE, TASK_STATUS_OPTIONS } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import FireTaskMainHeader from '@/components/FireTask/FireTaskMain/FireTaskMainHeader';
 import FireTaskClassAddNew from '@/components/FireTask/FireTaskClass/FireTaskClassAddNew';
@@ -25,7 +25,7 @@ export default function FireTask() {
             )}
             {!isOpen && isMobile && (
                 <div className="text-xs flex text-center mt-2 font-semibold">
-                    {TASK_LOCALE.TASK_LIST}
+                    {FIRE_TASK_LOCALE.TASK_LIST}
                 </div>
             )}
             {isOpen && (

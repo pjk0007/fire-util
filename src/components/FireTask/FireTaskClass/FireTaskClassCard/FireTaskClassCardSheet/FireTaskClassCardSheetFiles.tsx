@@ -6,8 +6,8 @@ import { Spinner } from '@/components/ui/spinner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
-import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
-import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
+import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
 import uploadFilesToTask from '@/lib/FireTask/api/uploadFilesToTask';
 import {
@@ -16,7 +16,7 @@ import {
     TASK_FILES_FIELD,
     TASK_ID_FIELD,
     TASK_IMAGES_FIELD,
-    TASK_LOCALE,
+    FIRE_TASK_LOCALE,
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import { Link, Trash, X } from 'lucide-react';
@@ -41,7 +41,7 @@ export default function FireTaskClassCardSheetFiles<
         <div className="flex flex-col gap-2">
             <div className="flex justify-between items-center group">
                 <div className="text-sm font-medium flex gap-1 py-2">
-                    <span>{TASK_LOCALE.SHEET.FILES}</span>
+                    <span>{FIRE_TASK_LOCALE.SHEET.FILES}</span>
                     <span className="text-muted-foreground">
                         {task[TASK_FILES_FIELD].length +
                             task[TASK_IMAGES_FIELD].length}
@@ -54,7 +54,7 @@ export default function FireTaskClassCardSheetFiles<
                     asChild
                 >
                     <Label htmlFor="task-file-upload">
-                        {TASK_LOCALE.SHEET.ADD_FILE}
+                        {FIRE_TASK_LOCALE.SHEET.ADD_FILE}
                     </Label>
                 </Button>
                 <Input

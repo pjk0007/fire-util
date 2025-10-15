@@ -15,7 +15,7 @@ import {
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { localeDateString } from '@/lib/FireChat/utils/timeformat';
+import { localeDateString } from '@/lib/FireUtil/timeformat';
 import { SendingFile } from '@/lib/FireChat/hooks/useFireChatSender';
 
 const FireChatMessage = memo(FireChatMessageOrigin);

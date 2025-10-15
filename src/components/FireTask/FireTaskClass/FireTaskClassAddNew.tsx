@@ -7,7 +7,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import createTask from '@/lib/FireTask/api/createTask';
-import { TASK_LOCALE } from '@/lib/FireTask/settings';
+import { FIRE_TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 
@@ -38,7 +38,7 @@ export default function FireTaskClassAddNew({
                     <Plus />
                 </Button>
             </TooltipTrigger>
-            <TooltipContent side="right">{TASK_LOCALE.ADD_TASK}</TooltipContent>
+            <TooltipContent side="right">{FIRE_TASK_LOCALE.ADD_TASK}</TooltipContent>
         </Tooltip>
     );
 }

@@ -5,7 +5,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_LAST_MESSAGE_FIELD } from '@/lib/FireChannel/settings';
-import { localeTimeString } from '@/lib/FireChat/utils/timeformat';
+import { localeTimeString } from '@/lib/FireUtil/timeformat';
 import { Timestamp } from 'firebase/firestore';
 
 export default function FireChannelListItemLastChatTime<

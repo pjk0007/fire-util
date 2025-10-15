@@ -3,10 +3,10 @@ import { Card } from '@/components/ui/card';
 import {
     FireMessage,
     FireMessageFile,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
 } from '@/lib/FireChat/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
-import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import { ArrowDownToLine } from 'lucide-react';
 import { useState } from 'react';
 
@@ -43,7 +43,7 @@ export default function FireChatMessageFile<
                 </Button>
             </div>
             <p className="text-xs text-muted-foreground">
-                {FIRECHAT_LOCALE.MESSAGE.SIZE}:{' '}
+                {FIRE_CHAT_LOCALE.MESSAGE.SIZE}:{' '}
                 {formatSizeString(message.contents?.[0]?.size ?? 0)}
             </p>
         </Card>

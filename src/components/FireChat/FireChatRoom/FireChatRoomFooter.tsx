@@ -12,7 +12,7 @@ import useFireChatChannelRoomFooter from '@/lib/FireChat/hooks/useFireChatChanne
 import {
     FireMessage,
     FireMessageContent,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
 } from '@/lib/FireChat/settings';
 import { FireChannel } from '@/lib/FireChannel/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
@@ -21,6 +21,7 @@ import { ArrowUp } from 'lucide-react';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import { useEffect, useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function FireChatChannelRoomFooter<
     C extends FireChannel<M, T>,
@@ -28,6 +29,7 @@ export default function FireChatChannelRoomFooter<
     M extends FireMessage<T>,
     T extends FireMessageContent
 >() {
+    const isMobile = useIsMobile();
     const { user: me } = useFireAuth();
     const [isDragOver, setIsDragOver] = useState(false);
 
@@ -78,7 +80,7 @@ export default function FireChatChannelRoomFooter<
         >
             {isDragOver && (
                 <div className="absolute top-0 left-0 w-full h-full bg-muted z-50 flex items-center justify-center">
-                    {FIRECHAT_LOCALE.FOOTER.DRAG_DROP_TO_UPLOAD}
+                    {FIRE_CHAT_LOCALE.FOOTER.DRAG_DROP_TO_UPLOAD}
                 </div>
             )}
             <FireChatRoomFooterUploadDialog
@@ -120,14 +122,16 @@ export default function FireChatChannelRoomFooter<
                 />
 
                 <div className="flex justify-between items-center border rounded-lg md:border-none p-2 md:p-0">
-                    <FireChatRoomFooterFileInput
-                        onSelectFiles={(selectedFiles) => {
-                            setFiles((prevFiles) => [
-                                ...prevFiles,
-                                ...selectedFiles,
-                            ]);
-                        }}
-                    />
+                    <div className="flex gap-1">
+                        <FireChatRoomFooterFileInput
+                            onSelectFiles={(selectedFiles) => {
+                                setFiles((prevFiles) => [
+                                    ...prevFiles,
+                                    ...selectedFiles,
+                                ]);
+                            }}
+                        />
+                    </div>
                     <FireChatRoomFooterTextareaMobile
                         message={message}
                         setMessage={setMessage}

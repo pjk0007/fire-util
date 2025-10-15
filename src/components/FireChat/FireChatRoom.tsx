@@ -2,7 +2,7 @@ import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
 import FireChatRoomBody from '@/components/FireChat/FireChatRoom/FireChatRoomBody';
 import FireChatRoomFooter from '@/components/FireChat/FireChatRoom/FireChatRoomFooter';
 import FireChatHeader from '@/components/FireChat/FireChatHeader';
-import { FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
+import { FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
@@ -24,7 +24,7 @@ export default function FireChatRoom() {
         if (!isMobile) {
             return (
                 <span className="w-full h-full flex items-center justify-center text-muted-foreground">
-                    {FIRECHAT_LOCALE.NO_CHANNEL_SELECTED}
+                    {FIRE_CHAT_LOCALE.NO_CHANNEL_SELECTED}
                 </span>
             );
         }

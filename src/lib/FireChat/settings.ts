@@ -39,7 +39,7 @@ export const EMOJI_LIST = ['👍', '✅', '❤️', '👀'];
 /**
  * Localization strings
  */
-export const FIRECHAT_LOCALE = {
+export const FIRE_CHAT_LOCALE = {
     NO_MESSAGES: '메시지가 없습니다.',
     IMAGE: '사진',
     FILE: '파일',
@@ -90,6 +90,7 @@ export const FIRECHAT_LOCALE = {
         INPUT_PLACEHOLDER: '메시지 입력',
         REPLY_MESSAGE: '답장 쓰기',
         SEND: '전송',
+        ATTACTH_FILE: '파일 첨부',
         UPLOAD_FILES: '파일 전송',
 
         REMOVE_FILE: '파일 삭제',

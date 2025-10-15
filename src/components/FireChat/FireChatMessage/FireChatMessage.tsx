@@ -9,7 +9,7 @@ import {
     FireMessage,
     FireMessageContent,
     FireMessageSystem,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_ID_FIELD,
     MESSAGE_REACTIONS_FIELD,
@@ -19,7 +19,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
-import { localeTimeString } from '@/lib/FireChat/utils/timeformat';
+import { localeTimeString } from '@/lib/FireUtil/timeformat';
 import { cn } from '@/lib/utils';
 
 export default function FireChatMessage<
@@ -105,7 +105,7 @@ export default function FireChatMessage<
                 >
                     {!isSameUserAndSameMinAsBefore && !isMine && (
                         <p className="text-sm text-foreground font-medium">
-                            {messageUser?.name || FIRECHAT_LOCALE.UNKNOWN}
+                            {messageUser?.name || FIRE_CHAT_LOCALE.UNKNOWN}
                         </p>
                     )}
                     <div className="flex flex-col relative">

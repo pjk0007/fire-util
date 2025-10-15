@@ -1,6 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { Paperclip } from 'lucide-react';
 
@@ -11,16 +17,26 @@ export default function FireChatChannelRoomFooterFileInput({
 }) {
     return (
         <>
-            <Button
-                variant={'ghost'}
-                className={cn('rounded-lg')}
-                size={'icon'}
-                asChild
-            >
-                <Label htmlFor="chat-file-upload" className="cursor-pointer">
-                    <Paperclip className="text-muted-foreground" />
-                </Label>
-            </Button>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <Button
+                        variant={'ghost'}
+                        className={cn('rounded-lg')}
+                        size={'icon'}
+                        asChild
+                    >
+                        <Label
+                            htmlFor="chat-file-upload"
+                            className="cursor-pointer"
+                        >
+                            <Paperclip className="text-muted-foreground" />
+                        </Label>
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                    {FIRE_CHAT_LOCALE.FOOTER.ATTACTH_FILE}
+                </TooltipContent>
+            </Tooltip>
             <Input
                 type="file"
                 multiple

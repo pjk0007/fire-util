@@ -4,7 +4,7 @@ import {
     FireMessageFile,
     FireMessageImage,
     FireMessageText,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
     MESSAGE_CONTENT_FILE_NAME_FIELD,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -29,7 +29,7 @@ export default function getReplyingMessageContent({
     let replyingMessageThumbnail = '';
     if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_IMAGE) {
         const imageMessage = replyingMessage as FireMessage<FireMessageImage>;
-        replyingMessageContent = FIRECHAT_LOCALE.IMAGE;
+        replyingMessageContent = FIRE_CHAT_LOCALE.IMAGE;
         replyingMessageThumbnail =
             imageMessage[MESSAGE_CONTENTS_FIELD][0][
                 MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD
@@ -37,24 +37,24 @@ export default function getReplyingMessageContent({
     } else if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_FILE) {
         const fileMessage = replyingMessage as FireMessage<FireMessageFile>;
         replyingMessageContent =
-            FIRECHAT_LOCALE.FILE +
+            FIRE_CHAT_LOCALE.FILE +
             ': ' +
             (fileMessage[MESSAGE_CONTENTS_FIELD][0][
                 MESSAGE_CONTENT_FILE_NAME_FIELD
-            ] ?? FIRECHAT_LOCALE.FILE);
+            ] ?? FIRE_CHAT_LOCALE.FILE);
     } else if (replyingMessage?.[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_TEXT) {
         const textMessage = replyingMessage as FireMessage<FireMessageText>;
         if (
             !textMessage[MESSAGE_CONTENTS_FIELD] ||
             textMessage[MESSAGE_CONTENTS_FIELD].length === 0
         ) {
-            replyingMessageContent = FIRECHAT_LOCALE.UNKNOWN;
+            replyingMessageContent = FIRE_CHAT_LOCALE.UNKNOWN;
         } else {
             replyingMessageContent =
                 textMessage[MESSAGE_CONTENTS_FIELD][0]?.text ||
                 (textMessage[MESSAGE_CONTENTS_FIELD][0]?.text === ''
                     ? '""'
-                    : FIRECHAT_LOCALE.UNKNOWN);
+                    : FIRE_CHAT_LOCALE.UNKNOWN);
         }
     }
 

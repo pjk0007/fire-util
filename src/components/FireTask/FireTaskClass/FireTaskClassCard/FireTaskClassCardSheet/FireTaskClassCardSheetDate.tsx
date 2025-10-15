@@ -7,7 +7,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { localeDateString } from '@/lib/FireChat/utils/timeformat';
+import { localeDateString } from '@/lib/FireUtil/timeformat';
 import updateTaskCreatedAt from '@/lib/FireTask/api/updateTaskCreatedAt';
 import updateTaskDueDate from '@/lib/FireTask/api/updateTaskDueDate';
 import {
@@ -16,7 +16,7 @@ import {
     TASK_CREATED_AT_FIELD,
     TASK_DUE_DATE_FIELD,
     TASK_ID_FIELD,
-    TASK_LOCALE,
+    FIRE_TASK_LOCALE,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
@@ -47,7 +47,7 @@ export default function FireTaskClassCardSheetDate<
                 >
                     {task[dateField]
                         ? localeDateString(task[dateField])
-                        : TASK_LOCALE.EMPTY}
+                        : FIRE_TASK_LOCALE.EMPTY}
                 </div>
             </PopoverTrigger>
             <PopoverContent

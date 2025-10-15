@@ -1,5 +1,5 @@
 import {
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
 } from '@/lib/FireChat/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
 import {
@@ -57,7 +57,7 @@ export default function FireChatSettingsInviteButton<U extends FireUser>({
         setIsOpen(false);
         inviteUser(channelId, userId).then(() => {
             // reFetchChannelParticipants();
-            toast.success(FIRECHAT_LOCALE.SIDEBAR.USER_INVITED, {
+            toast.success(FIRE_CHAT_LOCALE.SIDEBAR.USER_INVITED, {
                 duration: 3000,
             });
         });
@@ -67,21 +67,21 @@ export default function FireChatSettingsInviteButton<U extends FireUser>({
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button variant="secondary" className="w-full mt-4">
-                    {FIRECHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
+                    {FIRE_CHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
                 </Button>
             </DialogTrigger>
             <DialogContent className="md:max-w-md">
                 <DialogHeader>
                     <DialogTitle>
-                        {FIRECHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
+                        {FIRE_CHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS}
                     </DialogTitle>
                     <DialogDescription className="text-sm">
-                        {FIRECHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS_DESCRIPTION}
+                        {FIRE_CHAT_LOCALE.SIDEBAR.INVITE_PARTICIPANTS_DESCRIPTION}
                     </DialogDescription>
                     <form className="flex gap-2 mt-2" onSubmit={handleSearch}>
                         <Input
                             type="text"
-                            placeholder={FIRECHAT_LOCALE.SIDEBAR.SEARCH_USER_PLACEHOLDER}
+                            placeholder={FIRE_CHAT_LOCALE.SIDEBAR.SEARCH_USER_PLACEHOLDER}
                             className="w-full mb-4"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -91,7 +91,7 @@ export default function FireChatSettingsInviteButton<U extends FireUser>({
                             className="w-fit"
                             variant={'outline'}
                         >
-                            {FIRECHAT_LOCALE.SIDEBAR.SEARCH_BUTTON}
+                            {FIRE_CHAT_LOCALE.SIDEBAR.SEARCH_BUTTON}
                         </Button>
                     </form>
                     {inviteableUsers && (
@@ -99,7 +99,7 @@ export default function FireChatSettingsInviteButton<U extends FireUser>({
                             <div className="flex flex-col gap-2 max-h-96">
                                 {inviteableUsers.length === 0 ? (
                                     <span className="text-sm text-muted-foreground text-center py-4">
-                                        {FIRECHAT_LOCALE.SIDEBAR.NO_USERS_FOUND}
+                                        {FIRE_CHAT_LOCALE.SIDEBAR.NO_USERS_FOUND}
                                     </span>
                                 ) : (
                                     inviteableUsers.map((user) => (
@@ -155,7 +155,7 @@ export default function FireChatSettingsInviteButton<U extends FireUser>({
                                                     }}
                                                 >
                                                     {
-                                                        FIRECHAT_LOCALE.SIDEBAR
+                                                        FIRE_CHAT_LOCALE.SIDEBAR
                                                             .INVITE_BUTTON
                                                     }
                                                 </Button>

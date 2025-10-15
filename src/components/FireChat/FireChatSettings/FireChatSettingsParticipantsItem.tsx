@@ -1,5 +1,5 @@
 import {
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
     FireMessage,
     FireMessageContent,
 } from '@/lib/FireChat/settings';
@@ -58,7 +58,7 @@ export default function FireChatSettingsParticipantsItem<
             removeUser(channel[CHANNEL_ID_FIELD], user[USER_ID_FIELD]).then(
                 () => {
                     toast.error(
-                        FIRECHAT_LOCALE.SIDEBAR.PARTICIPANT_REMOVED(
+                        FIRE_CHAT_LOCALE.SIDEBAR.PARTICIPANT_REMOVED(
                             user[USER_NAME_FIELD]
                         ),
                         {
@@ -101,11 +101,11 @@ export default function FireChatSettingsParticipantsItem<
                     {channel?.[CHANNEL_HOST_ID_FIELD] ===
                     user[USER_ID_FIELD] ? (
                         <Badge className="text-xs py-0.5 px-1 bg-accent-foreground">
-                            {FIRECHAT_LOCALE.HOST}
+                            {FIRE_CHAT_LOCALE.HOST}
                         </Badge>
                     ) : user[USER_ID_FIELD] === me?.[USER_ID_FIELD] ? (
                         <Badge className="text-xs py-0.5 px-1 bg-accent-foreground">
-                            {FIRECHAT_LOCALE.ME}
+                            {FIRE_CHAT_LOCALE.ME}
                         </Badge>
                     ) : null}
                     {user[USER_NAME_FIELD]}
@@ -128,25 +128,25 @@ export default function FireChatSettingsParticipantsItem<
                                             me?.[USER_ID_FIELD]
                                     }
                                 >
-                                    {FIRECHAT_LOCALE.SIDEBAR.REMOVE_USER_BUTTON}
+                                    {FIRE_CHAT_LOCALE.SIDEBAR.REMOVE_USER_BUTTON}
                                 </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>
-                                        {FIRECHAT_LOCALE.SIDEBAR.REMOVE_PARTICIPANT(
+                                        {FIRE_CHAT_LOCALE.SIDEBAR.REMOVE_PARTICIPANT(
                                             user[USER_NAME_FIELD]
                                         )}
                                     </AlertDialogTitle>
                                     <AlertDialogDescription className="text-sm">
-                                        {FIRECHAT_LOCALE.SIDEBAR.REMOVE_PARTICIPANT(
+                                        {FIRE_CHAT_LOCALE.SIDEBAR.REMOVE_PARTICIPANT(
                                             user[USER_NAME_FIELD]
                                         )}
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>
-                                        {FIRECHAT_LOCALE.CANCEL}
+                                        {FIRE_CHAT_LOCALE.CANCEL}
                                     </AlertDialogCancel>
                                     <AlertDialogAction asChild>
                                         <Button
@@ -157,7 +157,7 @@ export default function FireChatSettingsParticipantsItem<
                                             }}
                                         >
                                             {
-                                                FIRECHAT_LOCALE.SIDEBAR
+                                                FIRE_CHAT_LOCALE.SIDEBAR
                                                     .REMOVE_USER_BUTTON
                                             }
                                         </Button>

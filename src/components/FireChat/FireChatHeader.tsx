@@ -2,7 +2,7 @@ import FireChatHeaderAvatar from '@/components/FireChat/FireChatHeader/FireChatH
 import {
     FireMessage,
     FireMessageContent,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
 } from '@/lib/FireChat/settings';
 import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_NAME_FIELD } from '@/lib/FireChannel/settings';
@@ -37,7 +37,7 @@ export default function FireChatHeader<
                 />
                 <FireChatHeaderAvatar participants={participants} />
                 <h2 className="md:text-base text-sm font-bold line-clamp-1">
-                    {channel?.[CHANNEL_NAME_FIELD] || FIRECHAT_LOCALE.UNKNOWN}
+                    {channel?.[CHANNEL_NAME_FIELD] || FIRE_CHAT_LOCALE.UNKNOWN}
                 </h2>
             </div>
             <div className="text-sm text-muted-foreground">

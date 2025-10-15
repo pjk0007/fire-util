@@ -17,7 +17,7 @@ import {
     TASK_STATUS_OPTIONS,
     TASK_STATUS_REQUEST,
     TASK_STATUS_PROCEED,
-    TASK_LOCALE,
+    FIRE_TASK_LOCALE,
     TASK_CHANNEL_ID_FIELD,
     TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
@@ -113,7 +113,7 @@ export default function FireTaskClass({
                             }}
                         >
                             <p className="text-sm flex font-medium items-center gap-2">
-                                {TASK_LOCALE.ADD_TASK}
+                                {FIRE_TASK_LOCALE.ADD_TASK}
                                 <Plus
                                     size={16}
                                     className="text-muted-foreground"
@@ -136,7 +136,7 @@ export default function FireTaskClass({
                         ))}
                     {filteredTasks.length === 0 && (
                         <div className="text-sm text-muted-foreground text-center">
-                            {TASK_LOCALE.NO_TASKS}
+                            {FIRE_TASK_LOCALE.NO_TASKS}
                         </div>
                     )}
                 </FireScrollArea>

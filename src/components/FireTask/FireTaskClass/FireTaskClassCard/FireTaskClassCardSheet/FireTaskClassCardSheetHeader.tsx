@@ -21,7 +21,7 @@ import {
     TASK_CREATED_AT_FIELD,
     TASK_DUE_DATE_FIELD,
     TASK_ID_FIELD,
-    TASK_LOCALE,
+    FIRE_TASK_LOCALE,
     TASK_STATUS_FIELD,
     TASK_STATUS_OPTIONS,
     TASK_TITLE_FIELD,
@@ -57,7 +57,7 @@ export default function FireTaskClassCardSheetHeader<
         <SheetHeader className="p-0 gap-4">
             <SheetTitle className="flex justify-between md:items-center items-start md:flex-row flex-col gap-2">
                 <input
-                    placeholder={TASK_LOCALE.NO_TITLE}
+                    placeholder={FIRE_TASK_LOCALE.NO_TITLE}
                     className="flex-1 text-2xl ring-0 outline-0  md:mr-4"
                     value={localTitle}
                     onChange={(e) => {
@@ -72,7 +72,7 @@ export default function FireTaskClassCardSheetHeader<
                                 status={task[TASK_STATUS_FIELD]}
                             />
                             <div className="text-sm">
-                                {TASK_LOCALE.STATUS[task[TASK_STATUS_FIELD]]}
+                                {FIRE_TASK_LOCALE.STATUS[task[TASK_STATUS_FIELD]]}
                             </div>
                             <ChevronDown className="w-4 h-4" />
                         </Button>
@@ -109,7 +109,7 @@ export default function FireTaskClassCardSheetHeader<
                 <div className="grid grid-cols-[100px_1fr] items-center gap-1 text-sm">
                     <div className="h-9 flex items-center gap-0.5">
                         <CalendarIcon className="w-3 h-3" />
-                        {TASK_LOCALE.CARD.CREATED_AT}
+                        {FIRE_TASK_LOCALE.CARD.CREATED_AT}
                     </div>
                     <FireTaskClassCardSheetDate
                         task={task}
@@ -117,7 +117,7 @@ export default function FireTaskClassCardSheetHeader<
                     />
                     <div className="h-9 flex items-center gap-0.5">
                         <CalendarIcon className="w-3 h-3" />
-                        {TASK_LOCALE.CARD.DUE_DATE}
+                        {FIRE_TASK_LOCALE.CARD.DUE_DATE}
                     </div>
                     <FireTaskClassCardSheetDate
                         task={task}

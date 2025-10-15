@@ -1,7 +1,7 @@
 import {
     FireMessage,
     FireMessageContent,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
 } from '@/lib/FireChat/settings';
 import { FireChannel } from '@/lib/FireChannel/settings';
 import {
@@ -40,7 +40,7 @@ function FireChatSettingsParticipants<
             <div className="flex items-center gap-2">
                 {/* <Users className="w-4 h-4 text-primary" /> */}
                 <h2 className="text-sm font-semibold tracking-tight">
-                    {FIRECHAT_LOCALE.SIDEBAR.PARTICIPANTS}
+                    {FIRE_CHAT_LOCALE.SIDEBAR.PARTICIPANTS}
                     <span className="ml-1.5 text-muted-foreground">
                         {sortedParticipants.length}
                     </span>
@@ -50,7 +50,7 @@ function FireChatSettingsParticipants<
             <div className="flex flex-col gap-1">
                 {sortedParticipants.length === 0 ? (
                     <span className="text-sm text-muted-foreground text-center py-6">
-                        {FIRECHAT_LOCALE.SIDEBAR.NO_PARTICIPANTS}
+                        {FIRE_CHAT_LOCALE.SIDEBAR.NO_PARTICIPANTS}
                     </span>
                 ) : (
                     sortedParticipants.map((user) => (

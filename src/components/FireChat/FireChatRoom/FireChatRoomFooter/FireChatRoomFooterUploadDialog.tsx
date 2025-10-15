@@ -17,9 +17,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { FIRECHAT_LOCALE } from '@/lib/FireChat/settings';
-import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
-import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
+import { FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
+import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { MoreVertical } from 'lucide-react';
 import Image from 'next/image';
 
@@ -42,7 +42,7 @@ export default function FireChatRoomFooterUploadDialog({
         >
             <DialogContent className="p-4">
                 <DialogHeader className="flex-row">
-                    <DialogTitle>{FIRECHAT_LOCALE.FOOTER.UPLOAD_FILES}</DialogTitle>
+                    <DialogTitle>{FIRE_CHAT_LOCALE.FOOTER.UPLOAD_FILES}</DialogTitle>
 
                     <DialogDescription>
                         ({files.length} {files.length > 1 ? 'files' : 'file'})
@@ -100,7 +100,7 @@ export default function FireChatRoomFooterUploadDialog({
                                                 setFiles(newFiles);
                                             }}
                                         >
-                                            {FIRECHAT_LOCALE.FOOTER.REMOVE_FILE}
+                                            {FIRE_CHAT_LOCALE.FOOTER.REMOVE_FILE}
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
@@ -111,10 +111,10 @@ export default function FireChatRoomFooterUploadDialog({
 
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button variant="outline">{FIRECHAT_LOCALE.CANCEL}</Button>
+                        <Button variant="outline">{FIRE_CHAT_LOCALE.CANCEL}</Button>
                     </DialogClose>
                     <Button onClick={onClickUpload}>
-                        {FIRECHAT_LOCALE.FOOTER.UPLOAD_FILES}
+                        {FIRE_CHAT_LOCALE.FOOTER.UPLOAD_FILES}
                     </Button>
                 </DialogFooter>
             </DialogContent>

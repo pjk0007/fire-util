@@ -13,11 +13,11 @@ import {
     USER_NAME_FIELD,
 } from '@/lib/FireAuth/settings';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
-import { formatSizeString } from '@/lib/FireChat/utils/sizeformat';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import {
     formatRelativeTime,
     localeDateString,
-} from '@/lib/FireChat/utils/timeformat';
+} from '@/lib/FireUtil/timeformat';
 import {
     TASK_COMMENT_CONTENT_FIELD,
     TASK_COMMENT_CREATED_AT_FIELD,
@@ -28,7 +28,7 @@ import {
 } from '@/lib/FireTask/settings';
 import { Link } from 'lucide-react';
 import Image from 'next/image';
-import truncateFilenameMiddle from '@/lib/FireChat/utils/truncateFilenameMiddle';
+import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface FireTaskClassCardSheetCommentsCommentProps<

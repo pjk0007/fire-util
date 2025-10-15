@@ -6,7 +6,7 @@ import {
     FireMessage,
     FireMessageContent,
     FireMessageImage,
-    FIRECHAT_LOCALE,
+    FIRE_CHAT_LOCALE,
     MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD,
     MESSAGE_CONTENT_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,
@@ -15,7 +15,7 @@ import {
 } from '@/lib/FireChat/settings';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { localeDateString } from '@/lib/FireChat/utils/timeformat';
+import { localeDateString } from '@/lib/FireUtil/timeformat';
 import { ChevronRight, ImageIcon, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
@@ -49,7 +49,7 @@ function FireChatSettingsImages<
                                 <FireImageViewDialog
                                     defaultIdx={0}
                                     dialogTitle={`${
-                                        senderUser?.name || FIRECHAT_LOCALE.UNKNOWN
+                                        senderUser?.name || FIRE_CHAT_LOCALE.UNKNOWN
                                     }, ${localeDateString(
                                         message[MESSAGE_CREATED_AT_FIELD]
                                     )}`}
@@ -95,7 +95,7 @@ function FireChatSettingsImages<
                 </div>
             ) : (
                 <span className="text-sm text-muted-foreground text-center py-2">
-                    {FIRECHAT_LOCALE.NO_IMAGES}
+                    {FIRE_CHAT_LOCALE.NO_IMAGES}
                 </span>
             )}
 
@@ -118,7 +118,7 @@ function FireChatSettingsImages<
                         );
                     }}
                 >
-                    {FIRECHAT_LOCALE.SIDEBAR.MORE}
+                    {FIRE_CHAT_LOCALE.SIDEBAR.MORE}
                 </Button>
             )}
         </div>

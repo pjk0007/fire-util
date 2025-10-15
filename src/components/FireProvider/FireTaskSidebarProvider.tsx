@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
-import { TASK_COLLECTION, TASK_LOCALE } from '@/lib/FireTask/settings';
+import { TASK_COLLECTION, FIRE_TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import {
     ChevronsLeft,
@@ -119,8 +119,8 @@ export function FireTaskSidebar({ children }: { children?: ReactNode }) {
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         {isExpanded
-                                            ? TASK_LOCALE.SIDEBAR.MINIMIZE
-                                            : TASK_LOCALE.SIDEBAR.MAXIMIZE}
+                                            ? FIRE_TASK_LOCALE.SIDEBAR.MINIMIZE
+                                            : FIRE_TASK_LOCALE.SIDEBAR.MAXIMIZE}
                                     </TooltipContent>
                                 </Tooltip>
                                 <Tooltip>
@@ -150,7 +150,7 @@ export function FireTaskSidebar({ children }: { children?: ReactNode }) {
                                         />
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        {TASK_LOCALE.SIDEBAR.NEW_WINDOW}
+                                        {FIRE_TASK_LOCALE.SIDEBAR.NEW_WINDOW}
                                     </TooltipContent>
                                 </Tooltip>
                             </div>
@@ -165,7 +165,7 @@ export function FireTaskSidebar({ children }: { children?: ReactNode }) {
                                 />
                             </TooltipTrigger>
                             <TooltipContent>
-                                {TASK_LOCALE.SIDEBAR.CLOSE}
+                                {FIRE_TASK_LOCALE.SIDEBAR.CLOSE}
                             </TooltipContent>
                         </Tooltip>
                     </div>

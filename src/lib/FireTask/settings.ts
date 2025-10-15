@@ -39,7 +39,7 @@ export const TASK_COMMENT_UPDATED_AT_FIELD = 'updatedAt';
 /**
  * Localization strings
  */
-export const TASK_LOCALE = {
+export const FIRE_TASK_LOCALE = {
     TASK_LIST: '업무 리스트',
     ADD_TASK: '신규 업무 추가',
     NO_TASKS: '업무가 없습니다.',
@@ -86,27 +86,27 @@ export const TASK_STATUS_OPTIONS: {
 }[] = [
     {
         value: TASK_STATUS_REQUEST,
-        label: TASK_LOCALE.STATUS[TASK_STATUS_REQUEST],
+        label: FIRE_TASK_LOCALE.STATUS[TASK_STATUS_REQUEST],
         color: 'oklch(90.5% 0.182 98.111)',
     },
     {
         value: TASK_STATUS_PROCEED,
-        label: TASK_LOCALE.STATUS[TASK_STATUS_PROCEED],
+        label: FIRE_TASK_LOCALE.STATUS[TASK_STATUS_PROCEED],
         color: 'oklch(70.7% 0.165 254.624)',
     },
     {
         value: TASK_STATUS_FEEDBACK,
-        label: TASK_LOCALE.STATUS[TASK_STATUS_FEEDBACK],
+        label: FIRE_TASK_LOCALE.STATUS[TASK_STATUS_FEEDBACK],
         color: 'oklch(62.7% 0.265 303.9)',
     },
     {
         value: TASK_STATUS_END,
-        label: TASK_LOCALE.STATUS[TASK_STATUS_END],
+        label: FIRE_TASK_LOCALE.STATUS[TASK_STATUS_END],
         color: 'oklch(77.7% 0.152 181.912)',
     },
     {
         value: TASK_STATUS_HOLD,
-        label: TASK_LOCALE.STATUS[TASK_STATUS_HOLD],
+        label: FIRE_TASK_LOCALE.STATUS[TASK_STATUS_HOLD],
         color: 'oklch(70.8% 0 0)',
     },
 ];
