@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import {
     FireTask,
+    TASK_CREATED_AT_FIELD,
     TASK_ID_FIELD,
     TASK_LAST_SEEN_FIELD,
     TASK_STATUS_FIELD,
@@ -15,7 +16,7 @@ import {
     TaskStatus,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FireTaskClassCardProps<FT extends FireTask<FU>, FU extends FireUser> {
     task: FT;
@@ -31,10 +32,23 @@ export default function FireTaskClassCard<
 
     const updatedAt = task[TASK_UPDATED_AT_FIELD]?.toDate();
     const lastSeen =
-        task[TASK_LAST_SEEN_FIELD]?.[user?.[USER_ID_FIELD] || ''].toDate();
+        task[TASK_LAST_SEEN_FIELD]?.[user?.[USER_ID_FIELD] || '']?.toDate();
 
     // If updatedAt or lastSeen is undefined, show as not seen
     const isUnseen = !lastSeen || updatedAt > lastSeen;
+
+    // On mount, if the task is newly created (createdAt == updatedAt) and has no title, set to editing mode
+    useEffect(() => {
+        if (
+            task[TASK_UPDATED_AT_FIELD].seconds ===
+                task[TASK_CREATED_AT_FIELD].seconds &&
+            task[TASK_UPDATED_AT_FIELD].nanoseconds ===
+                task[TASK_CREATED_AT_FIELD].nanoseconds &&
+            !task[TASK_TITLE_FIELD]
+        ) {
+            setIsEditingTitle(true);
+        }
+    }, []);
 
     return (
         <FireTaskClassCardSheet task={task}>

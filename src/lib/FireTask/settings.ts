@@ -8,7 +8,7 @@ export const TASK_COLLECTION = 'feeds';
 
 export const TASK_ID_FIELD = 'id';
 export const TASK_CHANNEL_ID_FIELD = 'matchId';
-export const TASK_CHANNEL_USER_FIELD = 'user';
+export const TASK_USER_FIELD = 'user';
 export const TASK_TITLE_FIELD = 'title';
 export const TASK_IMAGES_FIELD = 'images';
 export const TASK_FILES_FIELD = 'files';
@@ -122,7 +122,7 @@ export type TaskStatus =
 export interface FireTask<U> {
     [TASK_ID_FIELD]: string;
     [TASK_CHANNEL_ID_FIELD]: string;
-    [TASK_CHANNEL_USER_FIELD]: U;
+    [TASK_USER_FIELD]: U;
     [TASK_TITLE_FIELD]: string;
     [TASK_IMAGES_FIELD]: string[]; // Array of image URLs
     [TASK_FILES_FIELD]: { name: string; url: string; size: number }[]; // Array of file objects
@@ -130,7 +130,7 @@ export interface FireTask<U> {
     [TASK_STATUS_FIELD]: TaskStatus;
     [TASK_COMMENTS_FIELD]: FireTaskComment<U>[]; // Array of comments
     [TASK_LAST_SEEN_FIELD]?: { [userId: string]: Timestamp }; // Map of userId to Timestamp
-    [TASK_DUE_DATE_FIELD]?: Timestamp; // Due date as Timestamp
+    [TASK_DUE_DATE_FIELD]?: Timestamp | null; // Due date as Timestamp
     [TASK_CREATED_AT_FIELD]: Timestamp; // Creation time as Timestamp
     [TASK_UPDATED_AT_FIELD]: Timestamp; // Last update time as Timestamp
 }

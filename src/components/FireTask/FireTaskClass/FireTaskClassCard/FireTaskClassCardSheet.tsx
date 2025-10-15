@@ -38,7 +38,7 @@ export default function FireTaskClassCardSheet<
 
     const updatedAt = task[TASK_UPDATED_AT_FIELD]?.toDate();
     const lastSeen =
-        task[TASK_LAST_SEEN_FIELD]?.[user?.[USER_ID_FIELD] || ''].toDate();
+        task[TASK_LAST_SEEN_FIELD]?.[user?.[USER_ID_FIELD] || '']?.toDate();
 
     // If updatedAt or lastSeen is undefined, show as not seen
     const isUnseen = !lastSeen || updatedAt > lastSeen;

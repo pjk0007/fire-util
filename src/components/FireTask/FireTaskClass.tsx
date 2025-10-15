@@ -1,3 +1,5 @@
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskClassCard from '@/components/FireTask/FireTaskClass/FireTaskClassCard';
 import FireTaskClassHeader from '@/components/FireTask/FireTaskClass/FireTaskClassHeader';
@@ -15,6 +17,7 @@ import {
     FireMessageText,
     MESSAGE_CONTENTS_FIELD,
 } from '@/lib/FireChat/settings';
+import createTask from '@/lib/FireTask/api/createTask';
 import updateTaskStatus from '@/lib/FireTask/api/updateTaskStatus';
 import {
     FireTask,
@@ -26,6 +29,7 @@ import {
     TASK_STATUS_PROCEED,
     TASK_LOCALE,
     TASK_CHANNEL_ID_FIELD,
+    TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { Collapsible } from '@radix-ui/react-collapsible';
@@ -41,7 +45,9 @@ export default function FireTaskClass({
     onlyOpen,
     status,
 }: FireTaskClassProps) {
+    const { selectedChannelId } = useFireChannel();
     const { tasks } = useFireTask();
+    const { user } = useFireAuth();
     const [isDragOver, setIsDragOver] = useState(false);
     const [isOpen, setIsOpen] = useState(
         status === TASK_STATUS_REQUEST || status === TASK_STATUS_PROCEED
@@ -107,7 +113,15 @@ export default function FireTaskClass({
             <CollapsibleContent className="h-[calc(100%-36px)]">
                 <FireScrollArea className="flex flex-col gap-2 h-full px-2">
                     {status === TASK_STATUS_REQUEST && (
-                        <Card className="rounded-lg w-full h-11 gap-1 hover:shadow-sm items-center justify-center cursor-pointer shadow-none">
+                        <Card
+                            className="rounded-lg w-full h-11 gap-1 hover:shadow-sm items-center justify-center cursor-pointer shadow-none"
+                            onClick={() => {
+                                // Create a new task
+                                if (selectedChannelId && user) {
+                                    createTask(selectedChannelId, user);
+                                }
+                            }}
+                        >
                             <p className="text-sm flex font-medium items-center gap-2">
                                 {TASK_LOCALE.ADD_TASK}
                                 <Plus
@@ -117,13 +131,19 @@ export default function FireTaskClass({
                             </p>
                         </Card>
                     )}
-                    {tasks.map((task) => (
-                        <FireTaskClassCard
-                            key={task[TASK_ID_FIELD]}
-                            task={task}
-                            status={status}
-                        />
-                    ))}
+                    {tasks
+                        .sort(
+                            (a, b) =>
+                                b[TASK_UPDATED_AT_FIELD].seconds -
+                                a[TASK_UPDATED_AT_FIELD].seconds
+                        )
+                        .map((task) => (
+                            <FireTaskClassCard
+                                key={task[TASK_ID_FIELD]}
+                                task={task}
+                                status={status}
+                            />
+                        ))}
                     {filteredTasks.length === 0 && (
                         <div className="text-sm text-muted-foreground text-center">
                             {TASK_LOCALE.NO_TASKS}

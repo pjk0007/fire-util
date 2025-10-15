@@ -9,7 +9,7 @@ import updateTaskTitle from '@/lib/FireTask/api/updateTaskTitle';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
-    TASK_CHANNEL_USER_FIELD,
+    TASK_USER_FIELD,
     TASK_ID_FIELD,
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
@@ -161,7 +161,7 @@ export default function FireTaskClassCardMain<
             <Avatar className="w-6 h-6">
                 <AvatarImage
                     src={
-                        (task[TASK_CHANNEL_USER_FIELD] as FU)[
+                        (task[TASK_USER_FIELD] as FU)[
                             USER_AVATAR_FIELD
                         ] || undefined
                     }
@@ -170,7 +170,7 @@ export default function FireTaskClassCardMain<
                 <AvatarFallback>
                     <Image
                         src={USER_AVATAR_FALLBACK_URL}
-                        alt={task[TASK_CHANNEL_USER_FIELD][USER_NAME_FIELD]}
+                        alt={task[TASK_USER_FIELD][USER_NAME_FIELD]}
                         width={24}
                         height={24}
                     />

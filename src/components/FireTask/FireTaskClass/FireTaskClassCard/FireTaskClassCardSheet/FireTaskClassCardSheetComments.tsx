@@ -28,7 +28,7 @@ import {
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
 import {
     FireTask,
-    TASK_CHANNEL_USER_FIELD,
+    TASK_USER_FIELD,
     TASK_COMMENT_CONTENT_FIELD,
     TASK_COMMENT_CREATED_AT_FIELD,
     TASK_COMMENT_FILES_FIELD,
