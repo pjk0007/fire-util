@@ -34,7 +34,16 @@ const FireChannelContext = createContext<
     setSelectedChannelId: () => {},
 });
 
-export const useFireChannel = () => useContext(FireChannelContext);
+// export const useFireChannel = () => useContext(FireChannelContext);
+export function useFireChannel<
+    C extends FireChannel<M, T>,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
+>() {
+    return useContext(
+        FireChannelContext
+    ) as FireChannelContextValue<C, M, T>;
+}
 
 interface FireChatProviderProps {
     children: ReactNode;
