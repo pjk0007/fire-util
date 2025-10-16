@@ -20,6 +20,7 @@ import {
 import { cn } from '@/lib/utils';
 import { ArrowUp, Link, Paperclip, Trash, X } from 'lucide-react';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import Image from 'next/image';
 
 interface FireTaskClassCardSheetCommentsTextareaProps<
     FT extends FireTask<FU>,
@@ -41,7 +42,6 @@ export default function FireTaskClassCardSheetCommentsTextarea<
     // create object URLs once per file array change to avoid recreating during unrelated re-renders
     const imageUrls = useMemo(() => {
         return imageFiles.map((f) => URL.createObjectURL(f));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [imageFiles]);
 
     useEffect(() => {
@@ -204,7 +204,8 @@ const ImagePreviewList = memo(function ImagePreviewList({
                     dialogTitle={title}
                 >
                     <div className="w-20 h-20 rounded-sm relative group border">
-                        <img
+                        <Image
+                            fill
                             src={urls[index]}
                             alt={`Image ${index + 1}`}
                             className="cursor-pointer object-cover w-full h-full rounded-sm"

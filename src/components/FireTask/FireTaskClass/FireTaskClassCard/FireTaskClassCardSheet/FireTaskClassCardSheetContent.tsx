@@ -30,6 +30,7 @@ export default function FireTaskClassCardSheetContent<
             task[TASK_ID_FIELD],
             localContent
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localContent]);
 
     useEffect(() => {

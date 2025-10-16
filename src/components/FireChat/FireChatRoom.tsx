@@ -1,9 +1,7 @@
 import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
 import FireChatRoomBody from '@/components/FireChat/FireChatRoom/FireChatRoomBody';
 import FireChatRoomFooter from '@/components/FireChat/FireChatRoom/FireChatRoomFooter';
-import FireChatHeader from '@/components/FireChat/FireChatHeader';
 import { FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
-import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { useFireChatSidebar } from '@/components/FireProvider/FireChatSidebarProvider';
@@ -18,7 +16,7 @@ export default function FireChatRoom() {
         return () => {
             setOpen(false);
         };
-    }, [channelId]);
+    }, [channelId, setOpen]);
 
     if (!channelId) {
         if (!isMobile) {

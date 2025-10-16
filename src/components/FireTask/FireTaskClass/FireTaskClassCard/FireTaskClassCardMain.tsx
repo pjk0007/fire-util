@@ -48,6 +48,8 @@ export default function FireTaskClassCardMain<
                     parentDraggableRef.current.el.draggable =
                         parentDraggableRef.current.orig;
                 } catch (e) {
+                    console.log(e);
+                    
                     /* ignore */
                 }
                 parentDraggableRef.current = null;
@@ -61,6 +63,7 @@ export default function FireTaskClassCardMain<
             task[TASK_ID_FIELD],
             localTitle
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localTitle]);
 
     return (
@@ -89,6 +92,7 @@ export default function FireTaskClassCardMain<
                             try {
                                 el.draggable = false;
                             } catch (err) {
+                                console.log(err);
                                 /* ignore */
                             }
 
@@ -97,6 +101,7 @@ export default function FireTaskClassCardMain<
                                     try {
                                         parentDraggableRef.current.el.draggable = parentDraggableRef.current.orig;
                                     } catch (e) {
+                                        console.log(e);
                                         /* ignore */
                                     }
                                     parentDraggableRef.current = null;
@@ -120,6 +125,7 @@ export default function FireTaskClassCardMain<
                             try {
                                 el.draggable = false;
                             } catch (err) {
+                                console.log(err);
                                 /* ignore */
                             }
 
@@ -128,6 +134,7 @@ export default function FireTaskClassCardMain<
                                     try {
                                         parentDraggableRef.current.el.draggable = parentDraggableRef.current.orig;
                                     } catch (e) {
+                                        console.log(e);
                                         /* ignore */
                                     }
                                     parentDraggableRef.current = null;

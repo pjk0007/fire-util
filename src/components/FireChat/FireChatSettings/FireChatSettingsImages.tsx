@@ -1,7 +1,6 @@
 import FireImageViewDialog from '@/components/FireUI/FireImageViewDialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import {
     FireMessage,
     FireMessageContent,
@@ -16,7 +15,7 @@ import {
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
 import { localeDateString } from '@/lib/FireUtil/timeformat';
-import { ChevronRight, ImageIcon, ImagesIcon } from 'lucide-react';
+import { ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
 

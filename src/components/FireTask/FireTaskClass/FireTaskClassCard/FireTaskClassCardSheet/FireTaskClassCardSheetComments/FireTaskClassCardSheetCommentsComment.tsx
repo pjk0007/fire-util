@@ -24,7 +24,6 @@ import {
     TASK_COMMENT_FILES_FIELD,
     TASK_COMMENT_IMAGES_FIELD,
     TASK_COMMENT_USER_FIELD,
-    TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import { Link } from 'lucide-react';
 import Image from 'next/image';
@@ -99,7 +98,8 @@ export default function FireTaskClassCardSheetCommentsComment<
                         dialogTitle={taskTitle}
                     >
                         <div className="w-20 h-20 rounded-sm relative border">
-                            <img
+                            <Image
+                                fill
                                 src={image}
                                 alt={`Image ${imgIndex + 1}`}
                                 className="cursor-pointer object-cover w-full h-full rounded-sm"

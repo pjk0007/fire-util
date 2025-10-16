@@ -20,8 +20,7 @@ import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ArrowUp } from 'lucide-react';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
-import { useEffect, useState } from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useState } from 'react';
 import FireChatRoomFooterLinkInput from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterLinkInput';
 
 export default function FireChatChannelRoomFooter<
@@ -30,7 +29,6 @@ export default function FireChatChannelRoomFooter<
     M extends FireMessage<T>,
     T extends FireMessageContent
 >() {
-    const isMobile = useIsMobile();
     const { user: me } = useFireAuth();
     const [isDragOver, setIsDragOver] = useState(false);
 

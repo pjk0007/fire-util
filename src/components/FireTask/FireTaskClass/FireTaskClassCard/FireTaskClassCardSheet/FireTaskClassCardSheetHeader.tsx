@@ -51,6 +51,7 @@ export default function FireTaskClassCardSheetHeader<
             task[TASK_ID_FIELD],
             localTitle
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps --- IGNORE ---
     }, [localTitle]);
 
     return (

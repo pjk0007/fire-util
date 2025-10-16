@@ -14,8 +14,6 @@ import { USER_NAME_FIELD } from '@/lib/FireAuth/settings';
 import { Card } from '@/components/ui/card';
 import { memo } from 'react';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import { toast } from 'sonner';
-import removeUser from '@/lib/FireChannel/api/removeUser';
 import FireChatSettingsInviteButton from '@/components/FireChat/FireChatSettings/FireChatSettingsInviteButton';
 import FireChatSettingsParticipantsItem from '@/components/FireChat/FireChatSettings/FireChatSettingsParticipantsItem';
 

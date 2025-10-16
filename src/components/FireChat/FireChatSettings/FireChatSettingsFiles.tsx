@@ -1,4 +1,3 @@
-import { Card } from '@/components/ui/card';
 import {
     FireMessage,
     FireMessageContent,
@@ -10,7 +9,7 @@ import {
     MESSAGE_CONTENTS_FIELD,
 } from '@/lib/FireChat/settings';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
-import { ChevronRight, Download, File } from 'lucide-react';
+import { Download } from 'lucide-react';
 import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { Button } from '@/components/ui/button';
 import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';

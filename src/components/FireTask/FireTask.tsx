@@ -1,14 +1,9 @@
 import {
     FireTaskSidebar,
-    TASK_SIDEBAR_WIDTH,
     useFireTaskSidebar,
 } from '@/components/FireProvider/FireTaskSidebarProvider';
-import FireTaskClass from '@/components/FireTask/FireTaskClass';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { FIRE_TASK_LOCALE, TASK_STATUS_OPTIONS } from '@/lib/FireTask/settings';
-import { cn } from '@/lib/utils';
-import FireTaskMainHeader from '@/components/FireTask/FireTaskMain/FireTaskMainHeader';
+import { FIRE_TASK_LOCALE } from '@/lib/FireTask/settings';
 import FireTaskClassAddNew from '@/components/FireTask/FireTaskClass/FireTaskClassAddNew';
 import FireTaskMain from '@/components/FireTask/FireTaskMain';
 
