@@ -60,6 +60,11 @@ export function FireChatProvider({ children }: FireChatProviderProps) {
             return;
         }
         setSendingFiles([]);
+
+        return () => {
+            setSendingFiles([]);
+            setReplyingMessage(undefined);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [channelId]);
 
