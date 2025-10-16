@@ -1,46 +1,14 @@
 import FireTaskClassCardSheetCommentsComment from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments/FireTaskClassCardSheetCommentsComment';
 import FireTaskClassCardSheetCommentsTextarea from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments/FireTaskClassCardSheetCommentsTextarea';
-import FireImageViewDialog from '@/components/FireUI/FireImageViewDialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import {
     FireUser,
-    USER_AVATAR_FALLBACK_URL,
-    USER_AVATAR_FIELD,
-    USER_NAME_FIELD,
 } from '@/lib/FireAuth/settings';
-import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
-import { formatSizeString } from '@/lib/FireUtil/sizeformat';
-import {
-    formatRelativeTime,
-    localeDateString,
-} from '@/lib/FireUtil/timeformat';
-import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
 import {
     FireTask,
-    TASK_USER_FIELD,
-    TASK_COMMENT_CONTENT_FIELD,
-    TASK_COMMENT_CREATED_AT_FIELD,
-    TASK_COMMENT_FILES_FIELD,
-    TASK_COMMENT_IMAGES_FIELD,
-    TASK_COMMENT_USER_FIELD,
     TASK_COMMENTS_FIELD,
-    TASK_FILES_FIELD,
     FIRE_TASK_LOCALE,
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
-import { ArrowUp, Clipboard, Link, Paperclip, X } from 'lucide-react';
-import Image from 'next/image';
 
 interface FireTaskClassCardSheetCommentsProps<
     FT extends FireTask<FU>,

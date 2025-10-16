@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { FireUser } from '@/lib/FireAuth/settings';
-import getUser from '@/lib/FireAuth/api/getUser';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 interface FireAuthContextProps<U extends FireUser> {

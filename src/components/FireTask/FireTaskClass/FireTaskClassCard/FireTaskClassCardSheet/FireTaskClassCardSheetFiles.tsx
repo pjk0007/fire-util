@@ -129,7 +129,8 @@ export default function FireTaskClassCardSheetFiles<
                         className="w-20 h-20 rounded-sm relative group"
                         key={index}
                     >
-                        <img
+                        <Image
+                            fill
                             src={URL.createObjectURL(image)}
                             alt={`Image ${index + 1}`}
                             className="cursor-pointer object-cover w-full h-full rounded-sm"

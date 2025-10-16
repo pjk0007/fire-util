@@ -13,7 +13,6 @@ import {
     USER_AVATAR_FALLBACK_URL
 } from '@/lib/FireAuth/settings';
 import Image from 'next/image';
-import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import {
     Dialog,

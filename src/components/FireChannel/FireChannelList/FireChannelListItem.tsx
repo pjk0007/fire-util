@@ -12,7 +12,6 @@ import {
 import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_ID_FIELD } from '@/lib/FireChannel/settings';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { cn } from '@/lib/utils';
 import { memo } from 'react';
 

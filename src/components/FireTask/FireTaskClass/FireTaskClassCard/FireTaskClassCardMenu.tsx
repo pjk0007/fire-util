@@ -14,7 +14,6 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     Tooltip,
     TooltipContent,
@@ -30,7 +29,6 @@ import {
     FIRE_TASK_LOCALE,
     TASK_STATUS_FIELD,
     TASK_STATUS_OPTIONS,
-    TASK_STATUS_REQUEST,
     TaskStatus,
 } from '@/lib/FireTask/settings';
 import { Ellipsis, PenLine } from 'lucide-react';

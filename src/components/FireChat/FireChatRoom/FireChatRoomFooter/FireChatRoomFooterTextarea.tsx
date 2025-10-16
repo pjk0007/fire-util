@@ -35,7 +35,8 @@ export default function FireChatChannelRoomFooterTextarea<
 
         setFiles(pasteFiles);
         if (pasteFiles.length > 0) event.preventDefault();
-    }, []);
+
+    }, [setFiles]);
 
     return (
         <div className="relative md:block hidden">
