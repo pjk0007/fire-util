@@ -1,3 +1,4 @@
+import FireEditor from '@/components/FireEditor/FireEditor';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import FireTaskClassCardSheetComments from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments';
 import FireTaskClassCardSheetContent from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetContent';
@@ -88,6 +89,14 @@ export default function FireTaskClassCardSheet<
 
                         <Separator className="my-4" />
                         <FireTaskClassCardSheetContent task={task} />
+                        {/* <FireEditor
+                            initialDoc={
+                                task.doc ?? {
+                                    blocks: [],
+                                }
+                            }
+                            minHeight="240px"
+                        /> */}
 
                         <Separator className="my-4" />
                         <FireTaskClassCardSheetFiles task={task} />

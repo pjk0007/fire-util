@@ -1,4 +1,5 @@
 // settings for FireTask
+import { FireDoc } from '@/lib/FireEditor/settings';
 import { Timestamp } from 'firebase/firestore';
 
 /**
@@ -19,6 +20,8 @@ export const TASK_LAST_SEEN_FIELD = 'lastSeen';
 export const TASK_DUE_DATE_FIELD = 'dueDate';
 export const TASK_CREATED_AT_FIELD = 'createdAt';
 export const TASK_UPDATED_AT_FIELD = 'updatedAt';
+// Task Doc
+// export const TASK_DOC_FIELD = 'doc';
 
 // Task status values
 export const TASK_STATUS_REQUEST = 'request';
@@ -133,6 +136,7 @@ export interface FireTask<U> {
     [TASK_DUE_DATE_FIELD]?: Timestamp | null; // Due date as Timestamp
     [TASK_CREATED_AT_FIELD]: Timestamp; // Creation time as Timestamp
     [TASK_UPDATED_AT_FIELD]: Timestamp; // Last update time as Timestamp
+    // [TASK_DOC_FIELD]: Doc; // Document content as Doc
 }
 
 export interface FireTaskComment<U> {
