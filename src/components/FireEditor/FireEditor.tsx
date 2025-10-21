@@ -1,4 +1,3 @@
-import FireEditorDoc from '@/components/FireEditor/FireEditorDoc';
 import FireEditorToolbar from '@/components/FireEditor/FireEditorToolbar';
 import useEditorSync from '@/lib/FireEditor/hooks/useEditorSync';
 import useSelectionToolbar from '@/lib/FireEditor/hooks/useSelectionToolbar';
