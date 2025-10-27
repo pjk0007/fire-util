@@ -113,7 +113,7 @@ export default function TableMenu({ editor }: { editor: Editor }) {
                 placement: 'bottom',
                 offset: 16,
             }}
-            className="bg-background shadow flex border rounded-lg p-1"
+            className="bg-background shadow flex border rounded-lg p-1 md:flex-row flex-col items-start"
         >
             {tableMenuOptions.map((option) => (
                 <Tooltip key={option.label}>
@@ -126,6 +126,7 @@ export default function TableMenu({ editor }: { editor: Editor }) {
                             }}
                         >
                             {option.icon}
+                            <span className="md:hidden">{option.label}</span>
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>{option.label}</TooltipContent>
