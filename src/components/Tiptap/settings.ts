@@ -1,5 +1,6 @@
 export const TIP_TAP_LOCALE = {
     CONVERSION: '전환',
+    MEDIA: '미디어',
     NO_RESULTS_FOUND: '결과 없음',
     NODE_LABEL: {
         PARAGRAPH: '텍스트',
@@ -18,6 +19,7 @@ export const TIP_TAP_LOCALE = {
         SUMMARY: '토글',
         IMAGE: '이미지',
         YOUTUBE: '유튜브 영상',
+        INPUT_YOUTUBE_URL: '유튜브 영상 URL을 입력하세요:',
         TABLE: '표',
     },
     MARK: {
@@ -46,14 +48,14 @@ export const TIP_TAP_LOCALE = {
         PINK: '분홍색',
         RED: '빨간색',
     },
-    ALIGN:{
+    ALIGN: {
         TITLE: '정렬',
         LEFT: '왼쪽 정렬',
         CENTER: '가운데 정렬',
         RIGHT: '오른쪽 정렬',
         JUSTIFY: '양쪽 정렬',
     },
-    LINK:{
+    LINK: {
         TITLE: '링크 추가',
     },
     DRAG_HANDLE: {

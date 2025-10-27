@@ -3,18 +3,21 @@ import {
     Heading1,
     Heading2,
     Heading3,
+    Image,
     List,
     ListCollapse,
     ListOrdered,
     ListTodo,
     Quote,
     SeparatorHorizontal,
+    TvMinimalPlay,
     Type,
 } from 'lucide-react';
 import { Editor } from '@tiptap/react';
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 
 export interface INodeItem {
+    group: 'basic' | 'media';
     onlyCommand?: boolean;
     label: string;
     tags?: string[];
@@ -31,6 +34,7 @@ export interface INodeItem {
 
 const Nodes: INodeItem[] = [
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.PARAGRAPH,
         tags: ['text', '텍스트', 'paragraph'],
         type: 'paragraph',
@@ -44,6 +48,7 @@ const Nodes: INodeItem[] = [
         },
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.HEADING1,
         tags: ['heading1', '헤딩1', 'title1'],
         type: 'heading',
@@ -59,6 +64,7 @@ const Nodes: INodeItem[] = [
         prefix: '#',
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.HEADING2,
         tags: ['heading2', '헤딩2', 'title2'],
         type: 'heading',
@@ -74,6 +80,7 @@ const Nodes: INodeItem[] = [
         prefix: '##',
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.HEADING3,
         tags: ['heading3', '헤딩3', 'title3'],
         type: 'heading',
@@ -89,6 +96,7 @@ const Nodes: INodeItem[] = [
         prefix: '###',
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.BULLET_LIST,
         tags: ['bulletList', '글머리 기호 목록'],
         type: 'bulletList',
@@ -103,6 +111,7 @@ const Nodes: INodeItem[] = [
         prefix: '- ',
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.ORDERED_LIST,
         tags: ['orderedList', '번호 매기기 목록'],
         type: 'orderedList',
@@ -117,6 +126,7 @@ const Nodes: INodeItem[] = [
         prefix: '1. ',
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.TASK_LIST,
         tags: ['taskList', '할일 목록', 'todoList'],
         type: 'taskList',
@@ -131,6 +141,7 @@ const Nodes: INodeItem[] = [
         prefix: '[] ',
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.SUMMARY,
         tags: ['summary', '요약', '토글', 'toggle'],
         type: 'details',
@@ -140,6 +151,7 @@ const Nodes: INodeItem[] = [
         },
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.CODE_BLOCK,
         tags: ['codeBlock', '코드 블록'],
         type: 'codeBlock',
@@ -154,6 +166,7 @@ const Nodes: INodeItem[] = [
         prefix: '```',
     },
     {
+        group: 'basic',
         label: TIP_TAP_LOCALE.NODE_LABEL.BLOCKQUOTE,
         tags: ['blockquote', '인용문'],
         type: 'blockquote',
@@ -168,6 +181,7 @@ const Nodes: INodeItem[] = [
         prefix: '> ',
     },
     {
+        group: 'basic',
         onlyCommand: true,
         label: TIP_TAP_LOCALE.NODE_LABEL.HORIZONTAL_RULE,
         tags: ['horizontalRule', '구분선', 'separator'],
@@ -177,6 +191,29 @@ const Nodes: INodeItem[] = [
             editor.commands.setHorizontalRule();
         },
         prefix: '---',
+    },
+    {
+        group: 'media',
+        onlyCommand: true,
+        label: TIP_TAP_LOCALE.NODE_LABEL.IMAGE,
+        tags: ['image', '사진', '그림'],
+        type: 'image',
+        icon: <Image />,
+        onSelect: (editor: Editor) => {},
+    },
+    {
+        group: 'media',
+        onlyCommand: true,
+        label: TIP_TAP_LOCALE.NODE_LABEL.YOUTUBE,
+        tags: ['youtube', '유튜브'],
+        type: 'youtube',
+        icon: <TvMinimalPlay />,
+        onSelect: (editor: Editor) => {
+            const url = prompt(TIP_TAP_LOCALE.NODE_LABEL.INPUT_YOUTUBE_URL);
+            if (url) {
+                editor.chain().focus().setYoutubeVideo({ src: url }).run();
+            }
+        },
     },
 ];
 

@@ -1,6 +1,6 @@
 import { Editor } from '@tiptap/react';
 import React, { useEffect, useImperativeHandle, useState } from 'react';
-import Nodes, { INodeItem } from '@/components/Tiptap/config/nodes';
+import { INodeItem } from '@/components/Tiptap/config/nodes';
 import {
     Command,
     CommandEmpty,
@@ -69,15 +69,18 @@ export default function NodeList(props: {
         },
     }));
 
+    const basicItems = props.items.filter((item) => item.group === 'basic');
+    const mediaItems = props.items.filter((item) => item.group === 'media');
+
     return (
         <Command className="border shadow-lg bg-popover rounded-md w-60">
-            <CommandList className='max-h-96'>
+            <CommandList className="max-h-[360px]">
                 <CommandEmpty className="text-muted-foreground text-center py-2 text-sm">
                     {TIP_TAP_LOCALE.NO_RESULTS_FOUND}
                 </CommandEmpty>
-                {props.items.length > 0 && (
-                    <CommandGroup heading={TIP_TAP_LOCALE.CONVERSION} >
-                        {props.items.map((node, index) => (
+                {basicItems.length > 0 && (
+                    <CommandGroup heading={TIP_TAP_LOCALE.CONVERSION}>
+                        {basicItems.map((node, index) => (
                             <CommandItem
                                 key={node.label}
                                 className="text-xs font-[500] flex items-center gap-2"
@@ -86,6 +89,37 @@ export default function NodeList(props: {
                                 style={{
                                     backgroundColor:
                                         index === selectedIndex
+                                            ? 'var(--color-accent)'
+                                            : 'transparent',
+                                }}
+                            >
+                                {node.icon}
+                                {node.label}
+                                {node.prefix && (
+                                    <CommandShortcut>
+                                        {node.prefix}
+                                    </CommandShortcut>
+                                )}
+                            </CommandItem>
+                        ))}
+                    </CommandGroup>
+                )}
+                {mediaItems.length > 0 && (
+                    <CommandGroup heading={TIP_TAP_LOCALE.MEDIA}>
+                        {mediaItems.map((node, index) => (
+                            <CommandItem
+                                key={node.label}
+                                className="text-xs font-[500] flex items-center gap-2"
+                                onSelect={() =>
+                                    selectItem(index + basicItems.length)
+                                }
+                                onMouseEnter={() =>
+                                    hoverHandler(index + basicItems.length)
+                                }
+                                style={{
+                                    backgroundColor:
+                                        index + basicItems.length ===
+                                        selectedIndex
                                             ? 'var(--color-accent)'
                                             : 'transparent',
                                 }}
