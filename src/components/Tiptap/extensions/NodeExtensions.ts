@@ -28,10 +28,21 @@ import { TableKit } from '@tiptap/extension-table';
 import Youtube from '@tiptap/extension-youtube';
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 import FileNode from '@/components/Tiptap/extensions/nodes/FileNode';
+import { ImageUploadNode } from '@/components/Tiptap/extensions/nodes/image-upload-node';
+import { toast } from 'sonner';
 
 const lowlight = createLowlight(all);
 
-export default function NodeExtensions(mentionItems?: string[]): Extensions {
+export default function NodeExtensions({
+    mentionItems,
+    uploadFile,
+}: {
+    mentionItems?: string[];
+    uploadFile?: (
+        file: File,
+        onProgress?: (event: { progress: number }) => void
+    ) => Promise<{ fileName: string; fileSize: string; src: string }>;
+}): Extensions {
     return [
         Document,
         Paragraph,
@@ -113,5 +124,23 @@ export default function NodeExtensions(mentionItems?: string[]): Extensions {
             nocookie: true,
         }),
         FileNode,
+        ImageUploadNode.configure({
+            limit: 3,
+            maxSize: 5 * 1024 * 1024, // 5MB
+            upload: async (
+                file: File,
+                onProgress?: (event: { progress: number }) => void
+            ) => {
+                if (!uploadFile) {
+                    throw new Error('Upload function is not provided');
+                }
+                const { src } = await uploadFile(file, onProgress);
+                return src;
+            },
+            onError: (error) => {
+                toast.error(`이미지 업로드 실패: ${error.message}`);
+            },
+            onSuccess: (url) => console.log('Upload successful:', url),
+        }),
     ];
 }

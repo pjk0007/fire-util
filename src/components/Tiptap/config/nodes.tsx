@@ -215,7 +215,9 @@ const Nodes: INodeItem[] = [
         tags: ['image', '사진', '그림'],
         type: 'image',
         icon: <Image />,
-        onSelect: (editor: Editor) => {},
+        onSelect: (editor: Editor) => {
+            editor.chain().focus().setImageUploadNode().run();
+        },
     },
     {
         group: 'media',

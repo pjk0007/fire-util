@@ -74,4 +74,12 @@ export const TIP_TAP_LOCALE = {
         TOGGLE_HEADER_COLUMN: '제목 행 전환',
         TOGGLE_HEADER_ROW: '제목 열 전환',
     },
+    IMAGE_UPLOAD_NODE: {
+        CLICK_TO_UPLOAD: '클릭하여 이미지 업로드',
+        OR_DRAG_DROP: '또는 끌어서 놓기',
+        MAXIMUM_FILES: (limit: number) => `최대 ${limit}개 파일`,
+        MAX_SIZE: (sizeMB: number) => `각 파일 크기 ${sizeMB}MB 이하`,
+        UPLOADING: '업로드 중...',
+        FAILED: '업로드 실패. 다시 시도해주세요.',
+    },
 };

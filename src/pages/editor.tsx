@@ -1,7 +1,12 @@
 import Tiptap from '@/components/Tiptap/Tiptap';
 import { storage } from '@/lib/firebase';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import {
+    getDownloadURL,
+    ref,
+    uploadBytes,
+    uploadBytesResumable,
+} from 'firebase/storage';
 
 const testContent = ` 
 <file-node src="https://placehold.co/600x400/0000FF/FFFFFF" fileSize="100 KB" fileName="placeholder.png" alt="Placeholder Image" >
@@ -196,14 +201,40 @@ export default function Editor() {
                     'Winona Ryder',
                     'Christina Applegate',
                 ]}
-                uploadFile={async (file) => {
+                uploadFile={async (file, onProgress) => {
                     const storageRef = ref(storage, `test/test/${file.name}`);
-                    await uploadBytes(storageRef, file);
-                    return {
-                        fileName: file.name,
-                        fileSize: formatSizeString(file.size),
-                        src: await getDownloadURL(storageRef),
-                    };
+                    const uploadTask = uploadBytesResumable(storageRef, file);
+
+                    return new Promise((resolve, reject) => {
+                        uploadTask.on(
+                            'state_changed',
+                            (snapshot) => {
+                                const progress = Math.round(
+                                    (snapshot.bytesTransferred /
+                                        snapshot.totalBytes) *
+                                        100
+                                );
+                                if (onProgress) {
+                                    onProgress({
+                                        progress: progress,
+                                    });
+                                }
+                            },
+                            (error) => {
+                                reject(error);
+                            },
+                            async () => {
+                                const downloadURL = await getDownloadURL(
+                                    storageRef
+                                );
+                                resolve({
+                                    fileName: file.name,
+                                    fileSize: formatSizeString(file.size),
+                                    src: downloadURL,
+                                });
+                            }
+                        );
+                    });
                 }}
             />
         </div>

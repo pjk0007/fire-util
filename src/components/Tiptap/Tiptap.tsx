@@ -28,14 +28,15 @@ const Tiptap = ({
     mentionItems?: string[];
     className?: string;
     uploadFile?: (
-        file: File
+        file: File,
+        onProgress?: (event: { progress: number }) => void
     ) => Promise<{ fileName: string; fileSize: string; src: string }>;
 }) => {
     console.log('rerender');
 
     const editor = useEditor({
         extensions: [
-            ...NodeExtensions(mentionItems),
+            ...NodeExtensions({ mentionItems, uploadFile }),
             ...MarkExtensions(),
             ...FunctionExtensions({
                 uploadFile,
