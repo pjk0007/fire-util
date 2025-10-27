@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/popover';
 import SelectionMenuAlign from '@/components/Tiptap/extensions/menus/SelectionMenuAlign';
 import SelectionMenuLink from '@/components/Tiptap/extensions/menus/SelectionMenuLink';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 function MarkTypes(
     editor: Editor,
@@ -143,6 +144,8 @@ function MarkTypes(
 
 export default function SelectionMenu({ editor }: { editor: Editor }) {
     const os = useOs();
+    const isMobile = useIsMobile();
+
     const mark = useEditorState({
         editor,
         selector: (ctx) => ({
@@ -159,48 +162,61 @@ export default function SelectionMenu({ editor }: { editor: Editor }) {
     return (
         <BubbleMenu
             editor={editor}
-            className="bg-background border rounded-lg px-1 py-0.5 flex shadow-xl"
+            className="bg-background border rounded-lg px-1 py-0.5 flex shadow-xl md:flex-row flex-col"
         >
             <SelectionMenuNode editor={editor} />
-            <div className="h-6 my-auto">
-                <Separator orientation="vertical" className="mx-1" />
+            <div className="md:h-6 h-2 my-auto">
+                <Separator
+                    orientation={isMobile ? 'horizontal' : 'vertical'}
+                    className="md:mx-1"
+                />
             </div>
 
-            {MarkTypes(editor, mark).map((mark) => (
-                <Tooltip key={mark.type}>
-                    <TooltipTrigger asChild>
-                        <Button
-                            variant={'ghost'}
-                            onClick={mark.onSelect}
-                            className={cn(
-                                'w-8 h-8 p-0 text-xs',
-                                mark.className,
-                                {
-                                    'text-primary bg-accent': mark.isActive,
-                                }
+            <div className="flex">
+                {MarkTypes(editor, mark).map((mark) => (
+                    <Tooltip key={mark.type}>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant={'ghost'}
+                                onClick={mark.onSelect}
+                                className={cn(
+                                    'w-8 h-8 p-0 text-xs',
+                                    mark.className,
+                                    {
+                                        'text-primary bg-accent': mark.isActive,
+                                    }
+                                )}
+                            >
+                                {mark.icon}
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {mark.label}{' '}
+                            {os === 'macos' ? (
+                                <Kbd>{mark.shortcut.macos}</Kbd>
+                            ) : (
+                                <Kbd>{mark.shortcut.windows}</Kbd>
                             )}
-                        >
-                            {mark.icon}
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        {mark.label}{' '}
-                        {os === 'macos' ? (
-                            <Kbd>{mark.shortcut.macos}</Kbd>
-                        ) : (
-                            <Kbd>{mark.shortcut.windows}</Kbd>
-                        )}
-                    </TooltipContent>
-                </Tooltip>
-            ))}
-
-            <div className="h-6 my-auto">
-                <Separator orientation="vertical" className="mx-1" />
+                        </TooltipContent>
+                    </Tooltip>
+                ))}
             </div>
-            <SelectionMenuLink editor={editor} />
-            <SelectionMenuColor editor={editor} />
-            <div className="h-6 my-auto">
-                <Separator orientation="vertical" className="mx-1" />
+
+            <div className="md:h-6 h-2 my-auto">
+                <Separator
+                    orientation={isMobile ? 'horizontal' : 'vertical'}
+                    className="md:mx-1"
+                />
+            </div>
+            <div className="flex">
+                <SelectionMenuLink editor={editor} />
+                <SelectionMenuColor editor={editor} />
+            </div>
+            <div className="md:h-6 h-2 my-auto">
+                <Separator
+                    orientation={isMobile ? 'horizontal' : 'vertical'}
+                    className="md:mx-1"
+                />
             </div>
             <SelectionMenuAlign editor={editor} />
         </BubbleMenu>

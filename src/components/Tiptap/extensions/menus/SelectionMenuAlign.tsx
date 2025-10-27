@@ -11,6 +11,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { Editor } from '@tiptap/react';
 import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from 'lucide-react';
 
@@ -54,6 +55,38 @@ const textAlignOptions = [
 ];
 
 export default function SelectionMenuAlign({ editor }: { editor: Editor }) {
+    const isMobile = useIsMobile();
+
+    if (isMobile) {
+        return (
+            <div className="flex">
+                {textAlignOptions.map((option) => (
+                    <Tooltip key={option.align}>
+                        <TooltipTrigger asChild>
+                            <Button
+                                key={option.align}
+                                variant="ghost"
+                                className="w-8 h-8 p-0 text-xs"
+                                onClick={() => {
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .setTextAlign(option.align)
+                                        .run();
+                                }}
+                            >
+                                {option.label}
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {option.title} <Kbd>{option.shortcut.macos}</Kbd>
+                        </TooltipContent>
+                    </Tooltip>
+                ))}
+            </div>
+        );
+    }
+
     return (
         <Popover>
             <PopoverTrigger>
@@ -93,7 +126,7 @@ export default function SelectionMenuAlign({ editor }: { editor: Editor }) {
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                            {option.title}{' '} <Kbd>{option.shortcut.macos}</Kbd>
+                            {option.title} <Kbd>{option.shortcut.macos}</Kbd>
                         </TooltipContent>
                     </Tooltip>
                 ))}
