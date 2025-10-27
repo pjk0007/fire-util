@@ -62,4 +62,16 @@ export const TIP_TAP_LOCALE = {
         MOVE: '옮기기',
         WITH_DRAG: '드래그해서',
     },
+    TABLE_MENU: {
+        ADD_COLUMN_BEFORE: '왼쪽에 열 추가',
+        ADD_COLUMN_AFTER: '오른쪽에 열 추가',
+        DELETE_COLUMN: '열 삭제',
+        ADD_ROW_BEFORE: '위에 행 추가',
+        ADD_ROW_AFTER: '아래에 행 추가',
+        DELETE_ROW: '행 삭제',
+        MERGE_CELLS: '셀 병합',
+        SPLIT_CELL: '셀 분할',
+        TOGGLE_HEADER_COLUMN: '제목 행 전환',
+        TOGGLE_HEADER_ROW: '제목 열 전환',
+    },
 };

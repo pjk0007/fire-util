@@ -1,5 +1,6 @@
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 import { Button } from '@/components/ui/button';
+import { Kbd } from '@/components/ui/kbd';
 import {
     Popover,
     PopoverContent,
@@ -14,21 +15,41 @@ import { Editor } from '@tiptap/react';
 import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from 'lucide-react';
 
 const textAlignOptions = [
-    { label: <AlignLeft />, align: 'left', title: TIP_TAP_LOCALE.ALIGN.LEFT },
+    {
+        label: <AlignLeft />,
+        align: 'left',
+        title: TIP_TAP_LOCALE.ALIGN.LEFT,
+        shortcut: {
+            macos: '⌘⇧L',
+            windows: 'Ctrl+Shift+L',
+        },
+    },
     {
         label: <AlignCenter />,
         align: 'center',
         title: TIP_TAP_LOCALE.ALIGN.CENTER,
+        shortcut: {
+            macos: '⌘⇧E',
+            windows: 'Ctrl+Shift+E',
+        },
     },
     {
         label: <AlignRight />,
         align: 'right',
         title: TIP_TAP_LOCALE.ALIGN.RIGHT,
+        shortcut: {
+            macos: '⌘⇧R',
+            windows: 'Ctrl+Shift+R',
+        },
     },
     {
         label: <AlignJustify />,
         align: 'justify',
         title: TIP_TAP_LOCALE.ALIGN.JUSTIFY,
+        shortcut: {
+            macos: '⌘⇧J',
+            windows: 'Ctrl+Shift+J',
+        },
     },
 ];
 
@@ -71,7 +92,9 @@ export default function SelectionMenuAlign({ editor }: { editor: Editor }) {
                                 {option.label}
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent>{option.title}</TooltipContent>
+                        <TooltipContent>
+                            {option.title}{' '} <Kbd>{option.shortcut.macos}</Kbd>
+                        </TooltipContent>
                     </Tooltip>
                 ))}
             </PopoverContent>

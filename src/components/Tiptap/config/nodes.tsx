@@ -10,6 +10,7 @@ import {
     ListTodo,
     Quote,
     SeparatorHorizontal,
+    Table,
     TvMinimalPlay,
     Type,
 } from 'lucide-react';
@@ -191,6 +192,21 @@ const Nodes: INodeItem[] = [
             editor.commands.setHorizontalRule();
         },
         prefix: '---',
+    },
+    {
+        group: 'basic',
+        onlyCommand: true,
+        label: TIP_TAP_LOCALE.NODE_LABEL.TABLE,
+        tags: ['table', '표', '테이블'],
+        type: 'table',
+        icon: <Table />,
+        onSelect: (editor: Editor) => {
+            editor
+                .chain()
+                .focus()
+                .insertTable({ rows: 3, cols: 3, withHeaderRow: false })
+                .run();
+        },
     },
     {
         group: 'media',

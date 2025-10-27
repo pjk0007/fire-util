@@ -11,6 +11,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
+import TableMenu from '@/components/Tiptap/extensions/menus/TableMenu';
 
 const Tiptap = ({
     defaultContent,
@@ -40,6 +41,7 @@ const Tiptap = ({
     return (
         <>
             {editor && <SelectionMenu editor={editor} />}
+            {editor && <TableMenu editor={editor} />}
             {/* {editor && <CommandMenu editor={editor} />} */}
             {editor && (
                 <DragHandle editor={editor} className="flex">
