@@ -1,7 +1,6 @@
 import FireEditorToolbar from '@/components/FireEditor/FireEditorToolbar';
 import useEditorSync from '@/lib/FireEditor/hooks/useEditorSync';
 import useSelectionToolbar from '@/lib/FireEditor/hooks/useSelectionToolbar';
-import useTestDoc from '@/lib/FireEditor/hooks/useTestDoc';
 import { Block, FireDoc } from '@/lib/FireEditor/settings';
 import { useRef, useState } from 'react';
 // import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';

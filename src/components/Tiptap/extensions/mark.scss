@@ -1,0 +1,26 @@
+.tiptap {
+    /* Code and preformatted text styles */
+    code {
+        background-color: rgba(135, 131, 120, 0.15);
+        border-radius: 4px;
+        color: #eb5757;
+        font-size: 85%;
+        padding: 0.2em 0.4em;
+    }
+
+    /* Highlight styles */
+    mark {
+        background-color: #faf594;
+        box-decoration-break: clone;
+    }
+
+    /* Link styles */
+    a {
+        color: var(--muted-foreground);
+        cursor: pointer;
+
+        &:hover {
+            color: var(--accent-foreground);
+        }
+    }
+}

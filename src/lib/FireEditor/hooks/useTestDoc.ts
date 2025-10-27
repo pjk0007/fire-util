@@ -6,21 +6,37 @@ import {
     onSnapshot,
     query,
     setDoc,
+    updateDoc,
     where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { Content } from '@tiptap/react';
 
-export default function useTestDoc() {
-    const [docData, setDocData] = useState<FireDoc>({
-        blocks: [],
-    });
+export default function useTestDoc(id: string) {
+    const initialContent = {
+        type: 'doc',
+        content: [
+            {
+                type: 'paragraph',
+                content: [],
+            },
+        ],
+    };
+    const [content, setContent] = useState<Content>();
 
     useEffect(() => {
-        const q = query(collection(db, 'test'), where('id', '==', 'test'));
+        const q = query(collection(db, 'test'), where('id', '==', id));
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            const newDoc = snapshot.docs[0]?.data() as FireDoc;
+            const newDoc = snapshot.docs[0]?.data() as Content | undefined;
             if (newDoc) {
-                setDocData(newDoc);
+                setContent(newDoc);
+            } else {
+                setContent(initialContent);
+                // create new doc
+                const docRef = doc(db, 'test', id);
+                setDoc(docRef, {
+                    content: initialContent,
+                });
             }
         });
         return () => {
@@ -28,11 +44,12 @@ export default function useTestDoc() {
         };
     }, []);
 
-    function updateDoc(newDoc: FireDoc) {
-        const docRef = doc(collection(db, 'test'), 'test');
-        setDoc(docRef, newDoc);
+    function update(newDoc: Content) {
+        const docRef = doc(db, 'test', id);
+        updateDoc(docRef, {
+            content: newDoc,
+        });
     }
-    console.log(docData);
 
-    return { docData, updateDoc };
+    return { content, update };
 }

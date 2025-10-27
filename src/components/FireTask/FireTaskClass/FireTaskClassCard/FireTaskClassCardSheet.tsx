@@ -14,12 +14,19 @@ import updateTaskLastSeen from '@/lib/FireTask/api/updateTaskLastSeen';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
+    TASK_COLLECTION,
+    TASK_DOC_FIELD,
     TASK_ID_FIELD,
     TASK_LAST_SEEN_FIELD,
     TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
+import { Content } from '@tiptap/react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import Tiptap from '@/components/Tiptap/Tiptap';
 
 interface FireTaskClassCardSheetProps<
     FT extends FireTask<FU>,
@@ -43,6 +50,21 @@ export default function FireTaskClassCardSheet<
 
     // If updatedAt or lastSeen is undefined, show as not seen
     const isUnseen = !lastSeen || updatedAt > lastSeen;
+
+    function updateDocContent(newContent: Content) {
+        updateDoc(
+            doc(
+                db,
+                CHANNEL_COLLECTION,
+                task[TASK_CHANNEL_ID_FIELD],
+                TASK_COLLECTION,
+                task[TASK_ID_FIELD]
+            ),
+            {
+                [TASK_DOC_FIELD]: newContent,
+            }
+        );
+    }
 
     return (
         <Sheet
@@ -88,7 +110,7 @@ export default function FireTaskClassCardSheet<
                         <FireTaskClassCardSheetHeader task={task} />
 
                         <Separator className="my-4" />
-                        <FireTaskClassCardSheetContent task={task} />
+                        {/* <FireTaskClassCardSheetContent task={task} /> */}
                         {/* <FireEditor
                             initialDoc={
                                 task.doc ?? {
@@ -97,6 +119,12 @@ export default function FireTaskClassCardSheet<
                             }
                             minHeight="240px"
                         /> */}
+                        {
+                            <Tiptap
+                                defaultContent={task[TASK_DOC_FIELD] || {}}
+                                onUpdate={updateDocContent}
+                            />
+                        }
 
                         <Separator className="my-4" />
                         <FireTaskClassCardSheetFiles task={task} />
