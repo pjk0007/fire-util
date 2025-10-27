@@ -1,3 +1,4 @@
+import FireEditor from '@/components/FireEditor/FireEditor';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import FireTaskClassCardSheetComments from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments';
 import FireTaskClassCardSheetContent from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetContent';
@@ -8,17 +9,31 @@ import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
+import {
+    FireUser,
+    USER_ID_FIELD,
+    USER_NAME_FIELD,
+} from '@/lib/FireAuth/settings';
 import updateTaskLastSeen from '@/lib/FireTask/api/updateTaskLastSeen';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
+    TASK_COLLECTION,
+    TASK_CONTENT_FIELD,
+    TASK_DOC_FIELD,
     TASK_ID_FIELD,
     TASK_LAST_SEEN_FIELD,
     TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
+import { Content } from '@tiptap/react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import Tiptap from '@/components/Tiptap/Tiptap';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
 interface FireTaskClassCardSheetProps<
     FT extends FireTask<FU>,
@@ -32,6 +47,9 @@ export default function FireTaskClassCardSheet<
     FT extends FireTask<FU>,
     FU extends FireUser
 >({ task, children }: FireTaskClassCardSheetProps<FT, FU>) {
+    const { participants } = useFireChannelInfo({
+        channelId: task[TASK_CHANNEL_ID_FIELD],
+    });
     const [isExpanded, setIsExpanded] = useState(false);
     const isMobile = useIsMobile();
     const { user } = useFireAuth();
@@ -42,6 +60,21 @@ export default function FireTaskClassCardSheet<
 
     // If updatedAt or lastSeen is undefined, show as not seen
     const isUnseen = !lastSeen || updatedAt > lastSeen;
+
+    function updateDocContent(newContent: Content) {
+        updateDoc(
+            doc(
+                db,
+                CHANNEL_COLLECTION,
+                task[TASK_CHANNEL_ID_FIELD],
+                TASK_COLLECTION,
+                task[TASK_ID_FIELD]
+            ),
+            {
+                [TASK_DOC_FIELD]: newContent,
+            }
+        );
+    }
 
     return (
         <Sheet
@@ -87,7 +120,26 @@ export default function FireTaskClassCardSheet<
                         <FireTaskClassCardSheetHeader task={task} />
 
                         <Separator className="my-4" />
-                        <FireTaskClassCardSheetContent task={task} />
+                        {/* <FireTaskClassCardSheetContent task={task} /> */}
+                        {/* <FireEditor
+                            initialDoc={
+                                task.doc ?? {
+                                    blocks: [],
+                                }
+                            }
+                            minHeight="240px"
+                        /> */}
+                        {
+                            <Tiptap
+                                id={task[TASK_ID_FIELD]}
+                                defaultContent={task[TASK_CONTENT_FIELD] || {}}
+                                onUpdate={updateDocContent}
+                                mentionItems={participants.map(
+                                    (p) => p[USER_NAME_FIELD]
+                                )}
+                                className="p-0 min-h-40"
+                            />
+                        }
 
                         <Separator className="my-4" />
                         <FireTaskClassCardSheetFiles task={task} />
