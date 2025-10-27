@@ -2,7 +2,7 @@ import { useEditor, EditorContent, Content } from '@tiptap/react';
 import NodeExtensions from '@/components/Tiptap/extensions/NodeExtensions';
 import MarkExtensions from '@/components/Tiptap/extensions/MarkExtensions';
 import SelectionMenu from '@/components/Tiptap/extensions/menus/SelectionMenu';
-import FuncionExtensions from '@/components/Tiptap/extensions/FunctionExtensions';
+import FunctionExtensions from '@/components/Tiptap/extensions/FunctionExtensions';
 import DragHandle from '@tiptap/extension-drag-handle-react';
 import { GripVertical, Plus } from 'lucide-react';
 import {
@@ -20,12 +20,16 @@ const Tiptap = ({
     onUpdate,
     mentionItems,
     className,
+    uploadFile,
 }: {
     id: string;
     defaultContent: Content;
     onUpdate?: (content: Content) => void;
     mentionItems?: string[];
     className?: string;
+    uploadFile?: (
+        file: File
+    ) => Promise<{ fileName: string; fileSize: string; src: string }>;
 }) => {
     console.log('rerender');
 
@@ -33,7 +37,9 @@ const Tiptap = ({
         extensions: [
             ...NodeExtensions(mentionItems),
             ...MarkExtensions(),
-            ...FuncionExtensions(),
+            ...FunctionExtensions({
+                uploadFile,
+            }),
         ],
         content: defaultContent,
         // Don't render immediately on the server to avoid SSR issues

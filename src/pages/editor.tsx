@@ -1,9 +1,14 @@
-import FireEditor from '@/components/FireEditor/FireEditor';
-import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import Tiptap from '@/components/Tiptap/Tiptap';
-import useTestDoc from '@/lib/FireEditor/hooks/useTestDoc';
+import { storage } from '@/lib/firebase';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
-const testContent = ` <blockquote>
+const testContent = ` 
+<file-node src="https://placehold.co/600x400/0000FF/FFFFFF" fileSize="100 KB" fileName="placeholder.png" alt="Placeholder Image" >
+<p>test</p>
+</file-node>
+
+<blockquote>
         Nothing is impossible, the word itself says “I’m possible!”
       </blockquote>
   <p>Look at these details</p>
@@ -179,6 +184,7 @@ export default function Editor() {
     return (
         <div className="w-[100dvw] h-[100dvh]">
             <Tiptap
+                id="test"
                 defaultContent={testContent}
                 mentionItems={[
                     'Lea Thompson',
@@ -190,6 +196,15 @@ export default function Editor() {
                     'Winona Ryder',
                     'Christina Applegate',
                 ]}
+                uploadFile={async (file) => {
+                    const storageRef = ref(storage, `test/test/${file.name}`);
+                    await uploadBytes(storageRef, file);
+                    return {
+                        fileName: file.name,
+                        fileSize: formatSizeString(file.size),
+                        src: await getDownloadURL(storageRef),
+                    };
+                }}
             />
         </div>
     );

@@ -27,6 +27,7 @@ import mentionSuggestion from '@/components/Tiptap/extensions/suggestions/mensio
 import { TableKit } from '@tiptap/extension-table';
 import Youtube from '@tiptap/extension-youtube';
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
+import FileNode from '@/components/Tiptap/extensions/nodes/FileNode';
 
 const lowlight = createLowlight(all);
 
@@ -111,5 +112,6 @@ export default function NodeExtensions(mentionItems?: string[]): Extensions {
         Youtube.configure({
             nocookie: true,
         }),
+        FileNode,
     ];
 }
