@@ -27,9 +27,17 @@ export default function mentionSuggestion(items: string[]) {
                         return;
                     }
 
-                    component.element.style.position = 'absolute';
+                    const parent = props.editor.view.dom.parentElement;
 
-                    document.body.appendChild(component.element);
+                    if (!parent) {
+                        return;
+                    }
+
+                    component.element.style.position = 'absolute';
+                    component.element.style.zIndex = '1000';
+
+                    // document.body.appendChild(component.element);
+                    parent.appendChild(component.element);
 
                     updatePosition(props.editor, component.element);
                 },

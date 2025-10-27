@@ -9,12 +9,17 @@ import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
+import {
+    FireUser,
+    USER_ID_FIELD,
+    USER_NAME_FIELD,
+} from '@/lib/FireAuth/settings';
 import updateTaskLastSeen from '@/lib/FireTask/api/updateTaskLastSeen';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
     TASK_COLLECTION,
+    TASK_CONTENT_FIELD,
     TASK_DOC_FIELD,
     TASK_ID_FIELD,
     TASK_LAST_SEEN_FIELD,
@@ -27,6 +32,8 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import Tiptap from '@/components/Tiptap/Tiptap';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
 interface FireTaskClassCardSheetProps<
     FT extends FireTask<FU>,
@@ -40,6 +47,9 @@ export default function FireTaskClassCardSheet<
     FT extends FireTask<FU>,
     FU extends FireUser
 >({ task, children }: FireTaskClassCardSheetProps<FT, FU>) {
+    const { participants } = useFireChannelInfo({
+        channelId: task[TASK_CHANNEL_ID_FIELD],
+    });
     const [isExpanded, setIsExpanded] = useState(false);
     const isMobile = useIsMobile();
     const { user } = useFireAuth();
@@ -121,8 +131,13 @@ export default function FireTaskClassCardSheet<
                         /> */}
                         {
                             <Tiptap
-                                defaultContent={task[TASK_DOC_FIELD] || {}}
+                                id={task[TASK_ID_FIELD]}
+                                defaultContent={task[TASK_CONTENT_FIELD] || {}}
                                 onUpdate={updateDocContent}
+                                mentionItems={participants.map(
+                                    (p) => p[USER_NAME_FIELD]
+                                )}
+                                className="p-0 min-h-40"
                             />
                         }
 

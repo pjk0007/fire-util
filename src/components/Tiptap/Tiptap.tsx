@@ -12,16 +12,23 @@ import {
 } from '@/components/ui/tooltip';
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 import TableMenu from '@/components/Tiptap/extensions/menus/TableMenu';
+import { memo } from 'react';
 
 const Tiptap = ({
+    id,
     defaultContent,
     onUpdate,
     mentionItems,
+    className,
 }: {
+    id: string;
     defaultContent: Content;
     onUpdate?: (content: Content) => void;
     mentionItems?: string[];
+    className?: string;
 }) => {
+    console.log('rerender');
+
     const editor = useEditor({
         extensions: [
             ...NodeExtensions(mentionItems),
@@ -31,7 +38,12 @@ const Tiptap = ({
         content: defaultContent,
         // Don't render immediately on the server to avoid SSR issues
         immediatelyRender: false,
-        onUpdate: ({ editor }) => {
+        // onUpdate: ({ editor }) => {
+        //     if (onUpdate) {
+        //         onUpdate(editor.getJSON());
+        //     }
+        // },
+        onBlur: ({ editor }) => {
             if (onUpdate) {
                 onUpdate(editor.getJSON());
             }
@@ -61,9 +73,14 @@ const Tiptap = ({
                     </Tooltip>
                 </DragHandle>
             )}
-            <EditorContent editor={editor} className="py-8 px-12" />
+            <EditorContent
+                editor={editor}
+                className={className ?? 'py-8 px-12'}
+            />
         </>
     );
 };
 
-export default Tiptap;
+export default memo(Tiptap, (prevProps, nextProps) => {
+    return prevProps.id === nextProps.id;
+});

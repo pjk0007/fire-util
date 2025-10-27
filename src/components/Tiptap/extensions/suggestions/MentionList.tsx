@@ -1,5 +1,5 @@
 import React, { useEffect, useImperativeHandle, useState } from 'react';
-import styles from './MentionList.module.scss';
+
 import {
     Command,
     CommandEmpty,
