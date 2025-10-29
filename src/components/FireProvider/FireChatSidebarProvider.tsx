@@ -17,8 +17,6 @@ import {
     useState,
 } from 'react';
 
-const FIRE_CHAT_SIDEBAR_COOKIE_NAME = 'fire_chat_sidebar_state';
-const FIRE_CHAT_SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const FIRE_CHAT_SIDEBAR_WIDTH = '360px';
 const FIRE_CHAT_SIDEBAR_WIDTH_MOBILE = '18rem';
 const FIRE_CHAT_SIDEBAR_WIDTH_ICON = '3rem';
@@ -49,7 +47,6 @@ export function useFireChatSidebar() {
 export function FireChatSidebarProvider({
     defaultOpen = false,
     open: openProp,
-    onOpenChange: setOpenProp,
     className,
     style,
     children,
@@ -64,22 +61,7 @@ export function FireChatSidebarProvider({
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
-    const [_open, _setOpen] = useState(defaultOpen);
-    const open = openProp ?? _open;
-    const setOpen = useCallback(
-        (value: boolean | ((value: boolean) => boolean)) => {
-            const openState = typeof value === 'function' ? value(open) : value;
-            if (setOpenProp) {
-                setOpenProp(openState);
-            } else {
-                _setOpen(openState);
-            }
-
-            // This sets the cookie to keep the sidebar state.
-            document.cookie = `${FIRE_CHAT_SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${FIRE_CHAT_SIDEBAR_COOKIE_MAX_AGE}`;
-        },
-        [setOpenProp, open]
-    );
+    const [open, setOpen] = useState(defaultOpen);
 
     // Helper to toggle the sidebar.
     const toggleSidebar = useCallback(() => {
@@ -194,7 +176,8 @@ export function FireChatSidebar({
                     className="bg-sidebar text-sidebar-foreground w-(--firechat-sidebar-width) p-0 [&>button]:hidden"
                     style={
                         {
-                            '--firechat-sidebar-width': FIRE_CHAT_SIDEBAR_WIDTH_MOBILE,
+                            '--firechat-sidebar-width':
+                                FIRE_CHAT_SIDEBAR_WIDTH_MOBILE,
                         } as React.CSSProperties
                     }
                     side={side}
