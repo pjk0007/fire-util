@@ -1,14 +1,31 @@
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import React from 'react';
+import { Node } from '@tiptap/pm/model';
+
+interface CodeBlockNode extends Node {
+    attrs: {
+        language?: string;
+        [key: string]: unknown;
+    };
+}
+
+interface CodeBlockExtension {
+    options: {
+        lowlight: {
+            listLanguages: () => string[];
+        };
+        [key: string]: unknown;
+    };
+}
 
 export default function CodeBlock({
     node,
     updateAttributes,
     extension,
 }: {
-    node: any;
+    node: CodeBlockNode;
     updateAttributes: (attrs: { language: string }) => void;
-    extension: any;
+    extension: CodeBlockExtension;
 }) {
     return (
         <NodeViewWrapper className="relative group">
@@ -33,7 +50,7 @@ export default function CodeBlock({
                 </select>
             </div>
             <pre>
-                <NodeViewContent as={'code' as any} />
+                <NodeViewContent as={"code" as "div"} />
             </pre>
         </NodeViewWrapper>
     );

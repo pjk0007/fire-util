@@ -6,7 +6,7 @@ import {
     ReactNodeViewProps,
     ReactNodeViewRenderer,
 } from '@tiptap/react';
-import { File, FileUp, Trash } from 'lucide-react';
+import { FileUp, Trash } from 'lucide-react';
 
 const FileNode = Node.create({
     name: 'fileNode',

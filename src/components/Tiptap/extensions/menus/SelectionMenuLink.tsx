@@ -1,7 +1,6 @@
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { InputGroup, InputGroupButton } from '@/components/ui/input-group';
 import {
     Popover,
     PopoverContent,

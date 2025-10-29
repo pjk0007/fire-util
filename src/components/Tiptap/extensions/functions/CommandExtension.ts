@@ -1,6 +1,11 @@
 import { Editor, Extension } from '@tiptap/react';
 import { Suggestion } from '@tiptap/suggestion';
 
+interface CommandProps {
+    command: (params: { editor: Editor; range: { from: number; to: number } }) => void;
+    [key: string]: unknown;
+}
+
 export default Extension.create({
     name: 'commandBlock',
 
@@ -15,7 +20,7 @@ export default Extension.create({
                 }: {
                     editor: Editor;
                     range: { from: number; to: number };
-                    props: Record<string, any>;
+                    props: CommandProps;
                 }) => {
                     props.command({ editor, range });
                 },

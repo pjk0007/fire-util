@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import {
     Command,
     CommandGroup,
-    CommandItem,
     CommandList,
 } from '@/components/ui/command';
 import {

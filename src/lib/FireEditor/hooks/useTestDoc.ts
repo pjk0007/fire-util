@@ -1,5 +1,4 @@
 import { db } from '@/lib/firebase';
-import { FireDoc } from '@/lib/FireEditor/settings';
 import {
     collection,
     doc,
@@ -42,6 +41,7 @@ export default function useTestDoc(id: string) {
         return () => {
             unsubscribe();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function update(newDoc: Content) {

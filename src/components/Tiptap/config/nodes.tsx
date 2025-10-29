@@ -23,7 +23,7 @@ export interface INodeItem {
     label: string;
     tags?: string[];
     type: string;
-    attrs?: Record<string, any>;
+    attrs?: Record<string, unknown>;
     icon: React.ReactNode;
     onSelect: (editor: Editor) => void;
     shortcut?: {
@@ -214,6 +214,7 @@ const Nodes: INodeItem[] = [
         label: TIP_TAP_LOCALE.NODE_LABEL.IMAGE,
         tags: ['image', '사진', '그림'],
         type: 'image',
+        // eslint-disable-next-line jsx-a11y/alt-text
         icon: <Image />,
         onSelect: (editor: Editor) => {
             editor.chain().focus().setImageUploadNode().run();

@@ -11,12 +11,18 @@ import {
 } from '@/components/ui/command';
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 
-export default function NodeList(props: {
+interface NodeListRef {
+    onKeyDown: ({ event }: { event: KeyboardEvent }) => boolean;
+}
+
+interface NodeListProps {
     items: INodeItem[];
-    ref: React.Ref<any>;
+    ref: React.Ref<NodeListRef>;
     editor: Editor;
     range: { from: number; to: number };
-}) {
+}
+
+export default function NodeList(props: NodeListProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const selectItem = (index: number) => {
@@ -48,7 +54,7 @@ export default function NodeList(props: {
 
     useEffect(() => setSelectedIndex(0), [props.items]);
 
-    useImperativeHandle(props.ref, () => ({
+    useImperativeHandle(props.ref, (): NodeListRef => ({
         onKeyDown: ({ event }: { event: KeyboardEvent }) => {
             if (event.key === 'ArrowUp') {
                 upHandler();

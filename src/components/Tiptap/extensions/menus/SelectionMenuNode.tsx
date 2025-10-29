@@ -9,16 +9,6 @@ import {
 import { cn } from '@/lib/utils';
 import {
     ChevronDown,
-    Code,
-    CodeXml,
-    Heading1,
-    Heading2,
-    Heading3,
-    List,
-    ListOrdered,
-    ListTodo,
-    Quote,
-    Type,
 } from 'lucide-react';
 import { Editor, useEditorState } from '@tiptap/react';
 import useDropdownPosition from '@/components/Tiptap/hooks/useDropdownPosition';

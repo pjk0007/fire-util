@@ -9,11 +9,17 @@ import {
 } from '@/components/ui/command';
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 
-export default function MentionList(props: {
+interface MentionListRef {
+    onKeyDown: ({ event }: { event: KeyboardEvent }) => boolean;
+}
+
+interface MentionListProps {
     items: string[];
     command: ({ id }: { id: string }) => void;
-    ref: React.Ref<any>;
-}) {
+    ref: React.Ref<MentionListRef>;
+}
+
+export default function MentionList(props: MentionListProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const selectItem = (index: number) => {
@@ -44,7 +50,7 @@ export default function MentionList(props: {
 
     useEffect(() => setSelectedIndex(0), [props.items]);
 
-    useImperativeHandle(props.ref, () => ({
+    useImperativeHandle(props.ref, (): MentionListRef => ({
         onKeyDown: ({ event }: { event: KeyboardEvent }) => {
             if (event.key === 'ArrowUp') {
                 upHandler();

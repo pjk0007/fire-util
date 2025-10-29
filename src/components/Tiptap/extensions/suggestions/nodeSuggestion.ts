@@ -1,7 +1,17 @@
-import { Editor, ReactRenderer } from '@tiptap/react';
+import { ReactRenderer } from '@tiptap/react';
+import { SuggestionProps } from '@tiptap/suggestion';
 import updatePosition from '@/components/Tiptap/extensions/suggestions/updatePosition';
 import NodeList from '@/components/Tiptap/extensions/suggestions/NodeList';
 import Nodes from '@/components/Tiptap/config/nodes';
+
+interface SuggestionComponent {
+    element: HTMLElement;
+    updateProps: (props: SuggestionProps) => void;
+    destroy: () => void;
+    ref?: {
+        onKeyDown: ({ event }: { event: KeyboardEvent }) => boolean;
+    };
+}
 
 export default function nodeSuggestion() {
     return {
@@ -16,18 +26,22 @@ export default function nodeSuggestion() {
         },
 
         render: () => {
-            let component: any;
+            let component: SuggestionComponent;
 
             return {
-                onStart: (props: Record<string, any>) => {
+                onStart: (props: SuggestionProps) => {
                     console.log(props);
 
                     component = new ReactRenderer(NodeList, {
                         props,
                         editor: props.editor,
-                    });
+                    }) as SuggestionComponent;
 
-                    if (!props.clientRect) {
+                    const clientRect = typeof props.clientRect === 'function' 
+                        ? props.clientRect() 
+                        : props.clientRect;
+
+                    if (!clientRect) {
                         return;
                     }
 
@@ -46,17 +60,21 @@ export default function nodeSuggestion() {
                     updatePosition(props.editor, component.element);
                 },
 
-                onUpdate(props: Record<string, any>) {
+                onUpdate(props: SuggestionProps) {
                     component.updateProps(props);
 
-                    if (!props.clientRect) {
+                    const clientRect = typeof props.clientRect === 'function' 
+                        ? props.clientRect() 
+                        : props.clientRect;
+
+                    if (!clientRect) {
                         return;
                     }
 
                     updatePosition(props.editor, component.element);
                 },
 
-                onKeyDown(props: Record<string, any>) {
+                onKeyDown(props: { event: KeyboardEvent }) {
                     if (props.event.key === 'Escape') {
                         component.destroy();
                         component.element.remove();
@@ -64,7 +82,7 @@ export default function nodeSuggestion() {
                         return true;
                     }
 
-                    return component.ref?.onKeyDown(props);
+                    return component.ref?.onKeyDown({ event: props.event }) ?? false;
                 },
 
                 onExit() {

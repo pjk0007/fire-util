@@ -4,7 +4,7 @@ import MarkExtensions from '@/components/Tiptap/extensions/MarkExtensions';
 import SelectionMenu from '@/components/Tiptap/extensions/menus/SelectionMenu';
 import FunctionExtensions from '@/components/Tiptap/extensions/FunctionExtensions';
 import DragHandle from '@tiptap/extension-drag-handle-react';
-import { GripVertical, Plus } from 'lucide-react';
+import { GripVertical } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -32,8 +32,6 @@ const Tiptap = ({
         onProgress?: (event: { progress: number }) => void
     ) => Promise<{ fileName: string; fileSize: string; src: string }>;
 }) => {
-    console.log('rerender');
-
     const editor = useEditor({
         extensions: [
             ...NodeExtensions({ mentionItems, uploadFile }),
@@ -81,6 +79,7 @@ const Tiptap = ({
                 </DragHandle>
             )}
             <EditorContent
+                id={id}
                 editor={editor}
                 className={className ?? 'py-8 px-12'}
             />

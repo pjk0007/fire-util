@@ -1,7 +1,5 @@
-import FireEditor from '@/components/FireEditor/FireEditor';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import FireTaskClassCardSheetComments from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments';
-import FireTaskClassCardSheetContent from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetContent';
 import FireTaskClassCardSheetExpandButton from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetExpandButton';
 import FireTaskClassCardSheetFiles from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetFiles';
 import FireTaskClassCardSheetHeader from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetHeader';
@@ -32,7 +30,6 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import Tiptap from '@/components/Tiptap/Tiptap';
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 
 interface FireTaskClassCardSheetProps<

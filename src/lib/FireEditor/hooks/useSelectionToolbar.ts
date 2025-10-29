@@ -14,7 +14,6 @@ export function useSelectionToolbar(
     const debounceMs = opts?.debounceMs ?? 120;
     const {
         save: saveSelection,
-        restore: restoreSelection,
         getSelectionRect,
     } = useSelection();
 
@@ -73,6 +72,7 @@ export function useSelectionToolbar(
                     }, debounceMs);
                 }
             } catch (e) {
+                console.log('Failed to handle selection change:', e);
                 // ignore
             }
         }

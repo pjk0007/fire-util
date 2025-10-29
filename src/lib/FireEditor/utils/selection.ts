@@ -38,6 +38,7 @@ export function saveSelectionPath(root: Node, range: Range): SelectionPathInfo {
     temp.setEnd(range.endContainer, range.endOffset);
     isBackward = temp.collapsed;
   } catch (e) {
+    console.error('Failed to determine if selection is backward:', e);
     isBackward = false;
   }
   return {

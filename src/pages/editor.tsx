@@ -4,7 +4,6 @@ import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import {
     getDownloadURL,
     ref,
-    uploadBytes,
     uploadBytesResumable,
 } from 'firebase/storage';
 

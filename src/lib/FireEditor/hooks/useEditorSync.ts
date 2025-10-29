@@ -58,6 +58,7 @@ export function useEditorSync(
                         setDocState(newDoc);
                     }
                 } catch (err) {
+                    console.error('Failed to sync editor content:', err);
                     // ignore
                 }
 
@@ -83,6 +84,7 @@ export function useEditorSync(
                     setDocState(newDoc);
                 }
             } catch (err) {
+                console.error('Failed to sync editor content on blur:', err);
                 // ignore
             }
         };

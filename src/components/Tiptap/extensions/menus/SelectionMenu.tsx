@@ -22,11 +22,6 @@ import {
     Underline,
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
 import SelectionMenuAlign from '@/components/Tiptap/extensions/menus/SelectionMenuAlign';
 import SelectionMenuLink from '@/components/Tiptap/extensions/menus/SelectionMenuLink';
 import { useIsMobile } from '@/hooks/use-mobile';

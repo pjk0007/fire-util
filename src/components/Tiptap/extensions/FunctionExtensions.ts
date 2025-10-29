@@ -4,7 +4,6 @@ import CommandExtension from '@/components/Tiptap/extensions/functions/CommandEx
 import nodeSuggestion from '@/components/Tiptap/extensions/suggestions/nodeSuggestion';
 import TextAlign from '@tiptap/extension-text-align';
 import FileHandler from '@tiptap/extension-file-handler';
-import { ChainedCommands } from '@tiptap/react';
 
 export default function FunctionExtensions({
     uploadFile,

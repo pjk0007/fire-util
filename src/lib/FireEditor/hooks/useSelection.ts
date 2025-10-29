@@ -34,6 +34,7 @@ export function useSelection() {
     try {
       selectionPathRef.current = saveSelectionPath(root, range);
     } catch (e) {
+      console.error('Failed to save selection path:', e);
       // 변환 중 오류가 나면 저장을 포기하고 null로 초기화합니다.
       selectionPathRef.current = null;
     }
@@ -50,6 +51,7 @@ export function useSelection() {
     try {
       restoreSelectionPath(root, info);
     } catch (e) {
+      console.log('Failed to restore selection path:', e);
       // 복원 실패 시 무시
     }
   }
@@ -90,6 +92,7 @@ export function useSelection() {
       }
       return rect;
     } catch (e) {
+      console.error('Failed to get selection rect:', e);
       return null;
     }
   }, []);

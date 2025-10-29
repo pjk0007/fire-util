@@ -46,15 +46,12 @@ export function useFireChatSidebar() {
 
 export function FireChatSidebarProvider({
     defaultOpen = false,
-    open: openProp,
     className,
     style,
     children,
     ...props
 }: React.ComponentProps<'div'> & {
     defaultOpen?: boolean;
-    open?: boolean;
-    onOpenChange?: (open: boolean) => void;
 }) {
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = useState(false);

@@ -1,8 +1,7 @@
 import FireEditorToolbar from '@/components/FireEditor/FireEditorToolbar';
 import useEditorSync from '@/lib/FireEditor/hooks/useEditorSync';
-import useSelectionToolbar from '@/lib/FireEditor/hooks/useSelectionToolbar';
-import { Block, FireDoc } from '@/lib/FireEditor/settings';
-import { useRef, useState } from 'react';
+import { FireDoc } from '@/lib/FireEditor/settings';
+import { useRef } from 'react';
 // import sanitizeHtml from '@/lib/FireChat/utils/sanitizeHtml';
 
 interface FireEditorProps {
