@@ -5,9 +5,7 @@ import FireTaskClassCard from '@/components/FireTask/FireTaskClass/FireTaskClass
 import FireTaskClassHeader from '@/components/FireTask/FireTaskClass/FireTaskClassHeader';
 import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import { Card } from '@/components/ui/card';
-import {
-    CollapsibleContent,
-} from '@/components/ui/collapsible';
+import { CollapsibleContent } from '@/components/ui/collapsible';
 import createTask from '@/lib/FireTask/api/createTask';
 import updateTaskStatus from '@/lib/FireTask/api/updateTaskStatus';
 import {
@@ -18,7 +16,6 @@ import {
     TASK_STATUS_REQUEST,
     TASK_STATUS_PROCEED,
     FIRE_TASK_LOCALE,
-    TASK_CHANNEL_ID_FIELD,
     TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
@@ -78,7 +75,10 @@ export default function FireTaskClass({
                 setIsDragOver(false);
 
                 const draggedTaskId = e.dataTransfer.getData('id') as string;
-                if (!draggedTaskId) return;
+
+                if (!draggedTaskId || !selectedChannelId || !user) return;
+
+                // 이미 이 칼럼에 있는 태스크라면 아무 작업도 하지 않음
                 if (
                     filteredTasks.some(
                         (task) => task[TASK_ID_FIELD] === draggedTaskId
@@ -86,9 +86,12 @@ export default function FireTaskClass({
                 )
                     return;
                 // 여기서 draggedTaskId를 사용하여 상태 업데이트 로직을 구현
+
                 updateTaskStatus(
-                    filteredTasks[0]?.[TASK_CHANNEL_ID_FIELD],
-                    draggedTaskId,
+                    user,
+                    tasks.find(
+                        (task) => task[TASK_ID_FIELD] === draggedTaskId
+                    )!,
                     status
                 );
             }}

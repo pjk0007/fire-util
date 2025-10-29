@@ -1,3 +1,4 @@
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import FireTaskClassCardSheetDate from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetDate';
 import FireTaskStatusDot from '@/components/FireTask/FireTaskStatusDot';
 import { Button } from '@/components/ui/button';
@@ -44,6 +45,7 @@ export default function FireTaskClassCardSheetHeader<
     const [localTitle, setLocalTitle] = useState(task[TASK_TITLE_FIELD]);
     const [isOpenMenu, setIsOpenMenu] = useState(false);
     const isMobile = useIsMobile();
+    const { user } = useFireAuth();
 
     useEffect(() => {
         updateTaskTitle(
@@ -51,7 +53,7 @@ export default function FireTaskClassCardSheetHeader<
             task[TASK_ID_FIELD],
             localTitle
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps --- IGNORE ---
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localTitle]);
 
     return (
@@ -73,12 +75,19 @@ export default function FireTaskClassCardSheetHeader<
                                 status={task[TASK_STATUS_FIELD]}
                             />
                             <div className="text-sm">
-                                {FIRE_TASK_LOCALE.STATUS[task[TASK_STATUS_FIELD]]}
+                                {
+                                    FIRE_TASK_LOCALE.STATUS[
+                                        task[TASK_STATUS_FIELD]
+                                    ]
+                                }
                             </div>
                             <ChevronDown className="w-4 h-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align={isMobile ? 'start' : 'end'} className='w-40'>
+                    <DropdownMenuContent
+                        align={isMobile ? 'start' : 'end'}
+                        className="w-40"
+                    >
                         {TASK_STATUS_OPTIONS.filter(
                             (option) => option.value !== task[TASK_STATUS_FIELD]
                         ).map((option) => (
@@ -91,11 +100,8 @@ export default function FireTaskClassCardSheetHeader<
                                         : ''
                                 )}
                                 onClick={() => {
-                                    updateTaskStatus(
-                                        task[TASK_CHANNEL_ID_FIELD],
-                                        task[TASK_ID_FIELD],
-                                        option.value
-                                    );
+                                    if (!user) return;
+                                    updateTaskStatus(user, task, option.value);
                                     setIsOpenMenu(false);
                                 }}
                             >

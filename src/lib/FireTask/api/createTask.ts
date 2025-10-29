@@ -18,6 +18,7 @@ import {
     TASK_DUE_DATE_FIELD,
     TASK_CREATED_AT_FIELD,
     TASK_UPDATED_AT_FIELD,
+    TASK_HISTORY_FIELD,
 } from '@/lib/FireTask/settings';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 
@@ -51,6 +52,7 @@ export default async function createTask<FU extends FireUser>(
         [TASK_DUE_DATE_FIELD]: null,
         [TASK_CREATED_AT_FIELD]: Timestamp.now(),
         [TASK_UPDATED_AT_FIELD]: Timestamp.now(),
+        [TASK_HISTORY_FIELD]: [],
     };
 
     await setDoc(taskRef, task);

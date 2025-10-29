@@ -1,3 +1,4 @@
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import {
@@ -50,6 +51,7 @@ export default function FireTaskClassCardMenu<
     setIsEditingTitle,
     isEditingTitle,
 }: FireTaskClassCardMenuProps<FT, FU>) {
+    const { user } = useFireAuth();
     return (
         <div className="absolute group-hover:visible invisible top-2 right-2">
             <ButtonGroup>
@@ -108,9 +110,10 @@ export default function FireTaskClassCardMenu<
                                         value={task[TASK_STATUS_FIELD]}
                                         onValueChange={(value) => {
                                             const status = value as TaskStatus;
+                                            if (!user) return;
                                             updateTaskStatus(
-                                                task[TASK_CHANNEL_ID_FIELD],
-                                                task[TASK_ID_FIELD],
+                                                user,
+                                                task,
                                                 status
                                             );
                                         }}
