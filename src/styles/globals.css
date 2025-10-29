@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "../lib/FireStyle/fire-style.css";
 @import "../components/Tiptap/tiptap.scss";
 
 @custom-variant dark (&:is(.dark *));
