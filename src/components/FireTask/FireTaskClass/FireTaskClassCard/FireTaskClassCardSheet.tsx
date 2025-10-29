@@ -19,7 +19,9 @@ import {
     TASK_COLLECTION,
     TASK_CONTENT_FIELD,
     TASK_DOC_FIELD,
+    TASK_FILES_FIELD,
     TASK_ID_FIELD,
+    TASK_IMAGES_FIELD,
     TASK_LAST_SEEN_FIELD,
     TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
@@ -27,10 +29,13 @@ import { cn } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
 import { Content } from '@tiptap/react';
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db, storage } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import Tiptap from '@/components/Tiptap/Tiptap';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 
 interface FireTaskClassCardSheetProps<
     FT extends FireTask<FU>,
@@ -135,6 +140,92 @@ export default function FireTaskClassCardSheet<
                                     (p) => p[USER_NAME_FIELD]
                                 )}
                                 className="p-0 min-h-40"
+                                uploadFile={async (file, onProgress) => {
+                                    const storageRef = ref(
+                                        storage,
+                                        `${CHANNEL_COLLECTION}/${task[TASK_CHANNEL_ID_FIELD]}/tasks/${task[TASK_ID_FIELD]}/files/${file.name}`
+                                    );
+                                    const uploadTask = uploadBytesResumable(
+                                        storageRef,
+                                        file
+                                    );
+
+                                    return new Promise((resolve, reject) => {
+                                        uploadTask.on(
+                                            'state_changed',
+                                            (snapshot) => {
+                                                const progress = Math.round(
+                                                    (snapshot.bytesTransferred /
+                                                        snapshot.totalBytes) *
+                                                        100
+                                                );
+                                                if (onProgress) {
+                                                    onProgress({
+                                                        progress: progress,
+                                                    });
+                                                }
+                                            },
+                                            (error) => {
+                                                reject(error);
+                                            },
+                                            async () => {
+                                                const downloadURL =
+                                                    await getDownloadURL(
+                                                        storageRef
+                                                    );
+                                                if (
+                                                    file.type.startsWith(
+                                                        'image/'
+                                                    )
+                                                ) {
+                                                    updateTaskImagesAndFiles(
+                                                        task[
+                                                            TASK_CHANNEL_ID_FIELD
+                                                        ],
+                                                        task[TASK_ID_FIELD],
+                                                        [
+                                                            ...(task[
+                                                                TASK_IMAGES_FIELD
+                                                            ] || []),
+                                                            downloadURL,
+                                                        ],
+                                                        task[
+                                                            TASK_FILES_FIELD
+                                                        ] || []
+                                                    );
+                                                } else {
+                                                    updateTaskImagesAndFiles(
+                                                        task[
+                                                            TASK_CHANNEL_ID_FIELD
+                                                        ],
+                                                        task[TASK_ID_FIELD],
+                                                        task[
+                                                            TASK_IMAGES_FIELD
+                                                        ] || [],
+                                                        [
+                                                            ...(task[
+                                                                TASK_FILES_FIELD
+                                                            ] || []),
+                                                            {
+                                                                name: file.name,
+                                                                url: downloadURL,
+                                                                size: file.size,
+                                                            },
+                                                        ]
+                                                    );
+                                                }
+
+                                                resolve({
+                                                    fileName: file.name,
+                                                    fileSize: formatSizeString(
+                                                        file.size
+                                                    ),
+                                                    src: downloadURL,
+                                                });
+                                            }
+                                        );
+                                    });
+                                }}
                             />
                         }
 
