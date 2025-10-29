@@ -10,32 +10,19 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import {
     FireUser,
     USER_ID_FIELD,
-    USER_NAME_FIELD,
 } from '@/lib/FireAuth/settings';
 import updateTaskLastSeen from '@/lib/FireTask/api/updateTaskLastSeen';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
-    TASK_COLLECTION,
-    TASK_CONTENT_FIELD,
-    TASK_DOC_FIELD,
-    TASK_FILES_FIELD,
     TASK_ID_FIELD,
-    TASK_IMAGES_FIELD,
     TASK_LAST_SEEN_FIELD,
     TASK_UPDATED_AT_FIELD,
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
-import { Content } from '@tiptap/react';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db, storage } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
-import Tiptap from '@/components/Tiptap/Tiptap';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
-import { formatSizeString } from '@/lib/FireUtil/sizeformat';
+import FireTaskClassCardSheetContent from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetContent';
 
 interface FireTaskClassCardSheetProps<
     FT extends FireTask<FU>,
@@ -63,21 +50,6 @@ export default function FireTaskClassCardSheet<
     // If updatedAt or lastSeen is undefined, show as not seen
     const isUnseen = !lastSeen || updatedAt > lastSeen;
 
-    function updateDocContent(newContent: Content) {
-        updateDoc(
-            doc(
-                db,
-                CHANNEL_COLLECTION,
-                task[TASK_CHANNEL_ID_FIELD],
-                TASK_COLLECTION,
-                task[TASK_ID_FIELD]
-            ),
-            {
-                [TASK_DOC_FIELD]: newContent,
-            }
-        );
-    }
-
     return (
         <Sheet
             onOpenChange={(open) => {
@@ -99,7 +71,8 @@ export default function FireTaskClassCardSheet<
             <SheetContent
                 className={cn('w-full transition-all', {
                     'sm:max-w-full pt-10': isExpanded && !isMobile,
-                    'sm:max-w-1/2': !isExpanded || isMobile,
+                    'max-w-full': isMobile,
+                    'sm:max-w-[960px]': !isExpanded,
                 })}
             >
                 <FireScrollArea
@@ -122,129 +95,25 @@ export default function FireTaskClassCardSheet<
                         <FireTaskClassCardSheetHeader task={task} />
 
                         <Separator className="my-4" />
-                        {/* <FireTaskClassCardSheetContent task={task} /> */}
-                        {/* <FireEditor
-                            initialDoc={
-                                task.doc ?? {
-                                    blocks: [],
-                                }
-                            }
-                            minHeight="240px"
-                        /> */}
-                        {
-                            <Tiptap
-                                id={task[TASK_ID_FIELD]}
-                                defaultContent={task[TASK_CONTENT_FIELD] || {}}
-                                onUpdate={updateDocContent}
-                                mentionItems={participants.map(
-                                    (p) => p[USER_NAME_FIELD]
-                                )}
-                                className="p-0 min-h-40"
-                                uploadFile={async (file, onProgress) => {
-                                    const storageRef = ref(
-                                        storage,
-                                        `${CHANNEL_COLLECTION}/${task[TASK_CHANNEL_ID_FIELD]}/tasks/${task[TASK_ID_FIELD]}/files/${file.name}`
-                                    );
-                                    const uploadTask = uploadBytesResumable(
-                                        storageRef,
-                                        file
-                                    );
-
-                                    return new Promise((resolve, reject) => {
-                                        uploadTask.on(
-                                            'state_changed',
-                                            (snapshot) => {
-                                                const progress = Math.round(
-                                                    (snapshot.bytesTransferred /
-                                                        snapshot.totalBytes) *
-                                                        100
-                                                );
-                                                if (onProgress) {
-                                                    onProgress({
-                                                        progress: progress,
-                                                    });
-                                                }
-                                            },
-                                            (error) => {
-                                                reject(error);
-                                            },
-                                            async () => {
-                                                const downloadURL =
-                                                    await getDownloadURL(
-                                                        storageRef
-                                                    );
-                                                if (
-                                                    file.type.startsWith(
-                                                        'image/'
-                                                    )
-                                                ) {
-                                                    updateTaskImagesAndFiles(
-                                                        task[
-                                                            TASK_CHANNEL_ID_FIELD
-                                                        ],
-                                                        task[TASK_ID_FIELD],
-                                                        [
-                                                            ...(task[
-                                                                TASK_IMAGES_FIELD
-                                                            ] || []),
-                                                            downloadURL,
-                                                        ],
-                                                        task[
-                                                            TASK_FILES_FIELD
-                                                        ] || []
-                                                    );
-                                                } else {
-                                                    updateTaskImagesAndFiles(
-                                                        task[
-                                                            TASK_CHANNEL_ID_FIELD
-                                                        ],
-                                                        task[TASK_ID_FIELD],
-                                                        task[
-                                                            TASK_IMAGES_FIELD
-                                                        ] || [],
-                                                        [
-                                                            ...(task[
-                                                                TASK_FILES_FIELD
-                                                            ] || []),
-                                                            {
-                                                                name: file.name,
-                                                                url: downloadURL,
-                                                                size: file.size,
-                                                            },
-                                                        ]
-                                                    );
-                                                }
-
-                                                resolve({
-                                                    fileName: file.name,
-                                                    fileSize: formatSizeString(
-                                                        file.size
-                                                    ),
-                                                    src: downloadURL,
-                                                });
-                                            }
-                                        );
-                                    });
-                                }}
-                            />
-                        }
+                        <FireTaskClassCardSheetContent
+                            task={task}
+                            participants={participants}
+                        />
 
                         <Separator className="my-4" />
                         <FireTaskClassCardSheetFiles task={task} />
                     </FireScrollArea>
-                    {
-                        <Separator
-                            className={cn({
-                                'mr-4': isExpanded && !isMobile,
-                                'my-4': !isExpanded || isMobile,
-                            })}
-                            orientation={
-                                isExpanded && !isMobile
-                                    ? 'vertical'
-                                    : 'horizontal'
-                            }
-                        />
-                    }
+
+                    <Separator
+                        className={cn({
+                            'mr-4': isExpanded && !isMobile,
+                            'my-4': !isExpanded || isMobile,
+                        })}
+                        orientation={
+                            isExpanded && !isMobile ? 'vertical' : 'horizontal'
+                        }
+                    />
+
                     <FireScrollArea
                         disabled={!isExpanded}
                         className={cn({
