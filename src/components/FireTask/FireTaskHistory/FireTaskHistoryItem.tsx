@@ -17,7 +17,6 @@ import {
 import {
     FIRE_TASK_LOCALE,
     IFireTaskHistory,
-    TASK_COLLECTION,
 } from '@/lib/FireTask/settings';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import Image from 'next/image';

@@ -7,6 +7,7 @@ import FireTask from '@/components/FireTask/FireTask';
 import { FireTaskSidebarProvider } from '@/components/FireProvider/FireTaskSidebarProvider';
 import { FireTaskProvider } from '@/components/FireProvider/FireTaskProvider';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useRouter } from 'next/router';
 
 export default function FireWork({
     showChannelList = true,
@@ -17,6 +18,7 @@ export default function FireWork({
     showChatHeader?: boolean;
     showTask?: boolean;
 }) {
+    const router = useRouter();
     const { selectedChannelId } = useFireChannel();
     const isMobile = useIsMobile();
 
@@ -38,7 +40,9 @@ export default function FireWork({
                         })}
                     >
                         {showTask && (
-                            <FireTaskProvider>
+                            <FireTaskProvider
+                                defaultTaskId={router.query.taskId as string}
+                            >
                                 <FireTaskSidebarProvider>
                                     <FireTask />
                                 </FireTaskSidebarProvider>

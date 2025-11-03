@@ -30,7 +30,7 @@ import Image from 'next/image';
 import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-interface FireTaskClassCardSheetCommentsCommentProps<
+interface FireTaskSheetCommentsCommentProps<
     FC extends FireTaskComment<FU>,
     FU extends FireUser
 > {
@@ -38,10 +38,10 @@ interface FireTaskClassCardSheetCommentsCommentProps<
     comment: FC;
 }
 
-export default function FireTaskClassCardSheetCommentsComment<
+export default function FireTaskSheetCommentsComment<
     FC extends FireTaskComment<FU>,
     FU extends FireUser
->({ taskTitle, comment }: FireTaskClassCardSheetCommentsCommentProps<FC, FU>) {
+>({ taskTitle, comment }: FireTaskSheetCommentsCommentProps<FC, FU>) {
     const isMobile = useIsMobile();
     return (
         <div className="text-sm text-foreground py-2 flex flex-col rounded-sm">

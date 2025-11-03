@@ -1,7 +1,7 @@
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Minimize2, MoveDiagonal } from 'lucide-react';
 
-export default function FireTaskClassCardSheetExpandButton({
+export default function FireTaskSheetExpandButton({
     isExpanded,
     setIsExpanded,
 }: {

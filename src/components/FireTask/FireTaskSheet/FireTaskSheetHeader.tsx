@@ -1,5 +1,5 @@
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import FireTaskClassCardSheetDate from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetDate';
+import FireTaskSheetDate from '@/components/FireTask/FireTaskSheet/FireTaskSheetDate';
 import FireTaskStatusDot from '@/components/FireTask/FireTaskStatusDot';
 import { Button } from '@/components/ui/button';
 import {
@@ -31,17 +31,17 @@ import { cn } from '@/lib/utils';
 import { CalendarIcon, ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-interface FireTaskClassCardSheetHeaderProps<
+interface FireTaskSheetHeaderProps<
     FT extends FireTask<FU>,
     FU extends FireUser
 > {
     task: FT;
 }
 
-export default function FireTaskClassCardSheetHeader<
+export default function FireTaskSheetHeader<
     FT extends FireTask<FU>,
     FU extends FireUser
->({ task }: FireTaskClassCardSheetHeaderProps<FT, FU>) {
+>({ task }: FireTaskSheetHeaderProps<FT, FU>) {
     const [localTitle, setLocalTitle] = useState(task[TASK_TITLE_FIELD]);
     const [isOpenMenu, setIsOpenMenu] = useState(false);
     const isMobile = useIsMobile();
@@ -118,7 +118,7 @@ export default function FireTaskClassCardSheetHeader<
                         <CalendarIcon className="w-3 h-3" />
                         {FIRE_TASK_LOCALE.CARD.CREATED_AT}
                     </div>
-                    <FireTaskClassCardSheetDate
+                    <FireTaskSheetDate
                         task={task}
                         dateField={TASK_CREATED_AT_FIELD}
                     />
@@ -126,7 +126,7 @@ export default function FireTaskClassCardSheetHeader<
                         <CalendarIcon className="w-3 h-3" />
                         {FIRE_TASK_LOCALE.CARD.DUE_DATE}
                     </div>
-                    <FireTaskClassCardSheetDate
+                    <FireTaskSheetDate
                         task={task}
                         dateField={TASK_DUE_DATE_FIELD}
                     />

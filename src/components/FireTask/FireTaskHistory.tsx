@@ -5,7 +5,7 @@ import useFireTaskHistory from '@/lib/FireTask/hook/useFireTaskHistory';
 
 import { FIRE_TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
-import { ReactNode, useCallback } from 'react';
+import { ReactNode } from 'react';
 
 interface FireTaskHistoryProps {
     dateString?: string;

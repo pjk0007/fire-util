@@ -14,7 +14,6 @@ import {
     TASK_ID_FIELD,
     TASK_TITLE_FIELD,
     TASK_USER_FIELD,
-    TaskStatus,
 } from '@/lib/FireTask/settings';
 import {
     collectionGroup,
@@ -151,6 +150,7 @@ export default function useFireTaskHistory<U extends FireUser>(
         return () => {
             setTaskHistory([]);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [channelIds, options?.after, options?.before, options?.maxItems]);
 
     return taskHistory;

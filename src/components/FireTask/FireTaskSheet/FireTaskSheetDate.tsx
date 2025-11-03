@@ -21,7 +21,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
-export default function FireTaskClassCardSheetDate<
+export default function FireTaskSheetDate<
     FT extends FireTask<FU>,
     FU extends FireUser
 >({

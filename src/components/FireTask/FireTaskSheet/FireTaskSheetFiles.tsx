@@ -23,17 +23,17 @@ import { Link, Trash, X } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 
-interface FireTaskClassCardSheetFilesProps<
+interface FireTaskSheetFilesProps<
     FT extends FireTask<FU>,
     FU extends FireUser
 > {
     task: FT;
 }
 
-export default function FireTaskClassCardSheetFiles<
+export default function FireTaskSheetFiles<
     FT extends FireTask<FU>,
     FU extends FireUser
->({ task }: FireTaskClassCardSheetFilesProps<FT, FU>) {
+>({ task }: FireTaskSheetFilesProps<FT, FU>) {
     const isMobile = useIsMobile();
     const [uploadingImages, setUploadingImages] = useState<File[]>([]);
     const [uploadingFiles, setUploadingFiles] = useState<File[]>([]);

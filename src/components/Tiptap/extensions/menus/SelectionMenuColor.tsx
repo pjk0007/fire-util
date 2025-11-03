@@ -25,8 +25,6 @@ export default function SelectionMenuColor({ editor }: { editor: Editor }) {
         }),
     });
 
-    console.log(color, backgroundColor);
-
     const { open, setOpen, position, buttonRef, commandRef } =
         useDropdownPosition();
 

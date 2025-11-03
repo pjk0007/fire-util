@@ -22,17 +22,17 @@ import { ArrowUp, Link, Paperclip, Trash, X } from 'lucide-react';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 
-interface FireTaskClassCardSheetCommentsTextareaProps<
+interface FireTaskSheetCommentsTextareaProps<
     FT extends FireTask<FU>,
     FU extends FireUser
 > {
     task: FT;
 }
 
-export default function FireTaskClassCardSheetCommentsTextarea<
+export default function FireTaskSheetCommentsTextarea<
     FT extends FireTask<FU>,
     FU extends FireUser
->({ task }: FireTaskClassCardSheetCommentsTextareaProps<FT, FU>) {
+>({ task }: FireTaskSheetCommentsTextareaProps<FT, FU>) {
     const { user } = useFireAuth(); // Assuming you have a useAuth hook to get the current user
     const [content, setContent] = useState('');
     const [imageFiles, setImageFiles] = useState<File[]>([]);

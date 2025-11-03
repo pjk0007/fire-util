@@ -1,5 +1,5 @@
-import FireTaskClassCardSheetCommentsComment from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments/FireTaskClassCardSheetCommentsComment';
-import FireTaskClassCardSheetCommentsTextarea from '@/components/FireTask/FireTaskClass/FireTaskClassCard/FireTaskClassCardSheet/FireTaskClassCardSheetComments/FireTaskClassCardSheetCommentsTextarea';
+import FireTaskSheetCommentsComment from '@/components/FireTask/FireTaskSheet/FireTaskSheetComments/FireTaskSheetCommentsComment';
+import FireTaskSheetCommentsTextarea from '@/components/FireTask/FireTaskSheet/FireTaskSheetComments/FireTaskSheetCommentsTextarea';
 import {
     FireUser,
 } from '@/lib/FireAuth/settings';
@@ -10,17 +10,17 @@ import {
     TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 
-interface FireTaskClassCardSheetCommentsProps<
+interface FireTaskSheetCommentsProps<
     FT extends FireTask<FU>,
     FU extends FireUser
 > {
     task: FT;
 }
 
-export default function FireTaskClassCardSheetComments<
+export default function FireTaskSheetComments<
     FT extends FireTask<FU>,
     FU extends FireUser
->({ task }: FireTaskClassCardSheetCommentsProps<FT, FU>) {
+>({ task }: FireTaskSheetCommentsProps<FT, FU>) {
     return (
         <div className="flex flex-col">
             <div className="text-sm font-medium flex gap-1 mb-3">
@@ -30,13 +30,13 @@ export default function FireTaskClassCardSheetComments<
                 </span>
             </div>
             {task[TASK_COMMENTS_FIELD].map((comment, index) => (
-                <FireTaskClassCardSheetCommentsComment
+                <FireTaskSheetCommentsComment
                     key={index}
                     taskTitle={task[TASK_TITLE_FIELD]}
                     comment={comment}
                 />
             ))}
-            <FireTaskClassCardSheetCommentsTextarea task={task} />
+            <FireTaskSheetCommentsTextarea task={task} />
         </div>
     );
 }

@@ -20,7 +20,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 
-interface FireTaskClassCardSheetContentProps<
+interface FireTaskSheetContentProps<
     FT extends FireTask<FU>,
     FU extends FireUser
 > {
@@ -28,10 +28,10 @@ interface FireTaskClassCardSheetContentProps<
     participants: FU[];
 }
 
-export default function FireTaskClassCardSheetContent<
+export default function FireTaskSheetContent<
     FT extends FireTask<FU>,
     FU extends FireUser
->({ task, participants }: FireTaskClassCardSheetContentProps<FT, FU>) {
+>({ task, participants }: FireTaskSheetContentProps<FT, FU>) {
     function updateDocContent(newContent: Content) {
         updateDoc(
             doc(

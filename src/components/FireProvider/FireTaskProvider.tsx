@@ -1,13 +1,14 @@
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import FireTaskSheet from '@/components/FireTask/FireTaskSheet';
 import { FireUser } from '@/lib/FireAuth/settings';
 import useFireTaskList from '@/lib/FireTask/hook/useFireTaskList';
 import { FireTask } from '@/lib/FireTask/settings';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 interface FireTaskContextValue<FT extends FireTask<FU>, FU extends FireUser> {
     tasks: FT[];
     selectedTask?: FT;
-    setSelectedTask: (task?: FT) => void;
+    setSelectedTaskId: (taskId?: string) => void;
     draggingTaskId?: string;
     setDraggingTaskId: (taskId?: string) => void;
 }
@@ -17,7 +18,7 @@ const FireTaskContext = createContext<
 >({
     tasks: [],
     selectedTask: undefined,
-    setSelectedTask: () => {},
+    setSelectedTaskId: () => {},
     draggingTaskId: undefined,
     setDraggingTaskId: () => {},
 });
@@ -26,27 +27,40 @@ export const useFireTask = () => useContext(FireTaskContext);
 
 interface FireTaskProviderProps {
     children: ReactNode;
+    defaultTaskId?: string;
 }
 
 export function FireTaskProvider<FT extends FireTask<FU>, FU extends FireUser>({
     children,
+    defaultTaskId,
 }: FireTaskProviderProps) {
     const { selectedChannelId: channelId } = useFireChannel();
     const { tasks } = useFireTaskList<FT, FU>(channelId);
     const [draggingTaskId, setDraggingTaskId] = useState<string | undefined>(
         undefined
     );
+    const [selectedTaskId, setSelectedTaskId] = useState<string | undefined>(undefined);
+    const selectedTask = tasks.find((task) => task['id'] === selectedTaskId);
+    
+    useEffect(() => {
+        if (defaultTaskId) {
+            setSelectedTaskId(defaultTaskId);
+        }
+    }, [defaultTaskId]);
 
     return (
         <FireTaskContext.Provider
-            value={{
-                tasks,
-                selectedTask: undefined,
-                setSelectedTask: () => {},
-                draggingTaskId,
-                setDraggingTaskId,
-            }}
+            value={
+                {
+                    tasks,
+                    selectedTask,
+                    setSelectedTaskId,
+                    draggingTaskId,
+                    setDraggingTaskId,
+                } as FireTaskContextValue<FireTask<FireUser>, FireUser>
+            }
         >
+            <FireTaskSheet task={selectedTask} />
             {children}
         </FireTaskContext.Provider>
     );
