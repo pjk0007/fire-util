@@ -19,6 +19,7 @@ import { useState } from 'react';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import FireTaskSheetContent from '@/components/FireTask/FireTaskSheet/FireTaskSheetContent';
 import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
+import { useRouter } from 'next/router';
 
 interface FireTaskSheetProps<FT extends FireTask<FU>, FU extends FireUser> {
     task?: FT;
@@ -35,6 +36,7 @@ export default function FireTaskSheet<
     const isMobile = useIsMobile();
     const { user } = useFireAuth();
     const { setSelectedTaskId } = useFireTask();
+    const router = useRouter();
 
     if (!user) {
         return null;
@@ -47,6 +49,17 @@ export default function FireTaskSheet<
                 if (!open) {
                     setIsExpanded(false);
                     setSelectedTaskId(undefined);
+                    if(router.query.taskId) {
+                        const { taskId, ...rest } = router.query;
+                        router.replace(
+                            {
+                                pathname: router.pathname,
+                                query: rest,
+                            },
+                            undefined,
+                            { shallow: true }
+                        );
+                    }
 
                     if (task && user) {
                         setTimeout(() => {

@@ -69,7 +69,7 @@ export default function FireTaskSheetHeader<
                     autoFocus
                 />
                 <DropdownMenu open={isOpenMenu} onOpenChange={setIsOpenMenu}>
-                    <DropdownMenuTrigger>
+                    <DropdownMenuTrigger asChild>
                         <Button variant="outline">
                             <FireTaskStatusDot
                                 status={task[TASK_STATUS_FIELD]}
