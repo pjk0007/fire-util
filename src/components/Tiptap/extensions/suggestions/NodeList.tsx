@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/react';
-import React, { useEffect, useImperativeHandle, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useState, useRef } from 'react';
 import { INodeItem } from '@/components/Tiptap/config/nodes';
 import {
     Command,
@@ -24,6 +24,17 @@ interface NodeListProps {
 
 export default function NodeList(props: NodeListProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    const scrollToSelectedItem = (index: number) => {
+        const selectedItem = itemRefs.current[index];
+        if (selectedItem) {
+            selectedItem.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+            });
+        }
+    };
 
     const selectItem = (index: number) => {
         const item = props.items[index];
@@ -35,13 +46,15 @@ export default function NodeList(props: NodeListProps) {
     };
 
     const upHandler = () => {
-        setSelectedIndex(
-            (selectedIndex + props.items.length - 1) % props.items.length
-        );
+        const newIndex = (selectedIndex + props.items.length - 1) % props.items.length;
+        setSelectedIndex(newIndex);
+        scrollToSelectedItem(newIndex);
     };
 
     const downHandler = () => {
-        setSelectedIndex((selectedIndex + 1) % props.items.length);
+        const newIndex = (selectedIndex + 1) % props.items.length;
+        setSelectedIndex(newIndex);
+        scrollToSelectedItem(newIndex);
     };
 
     const hoverHandler = (index: number) => {
@@ -52,7 +65,11 @@ export default function NodeList(props: NodeListProps) {
         selectItem(selectedIndex);
     };
 
-    useEffect(() => setSelectedIndex(0), [props.items]);
+    useEffect(() => {
+        setSelectedIndex(0);
+        // Reset refs array when items change
+        itemRefs.current = itemRefs.current.slice(0, props.items.length);
+    }, [props.items]);
 
     useImperativeHandle(props.ref, (): NodeListRef => ({
         onKeyDown: ({ event }: { event: KeyboardEvent }) => {
@@ -89,6 +106,9 @@ export default function NodeList(props: NodeListProps) {
                         {basicItems.map((node, index) => (
                             <CommandItem
                                 key={node.label}
+                                ref={(el) => {
+                                    itemRefs.current[index] = el;
+                                }}
                                 className="text-xs font-[500] flex items-center gap-2"
                                 onSelect={() => selectItem(index)}
                                 onMouseEnter={() => hoverHandler(index)}
@@ -115,6 +135,9 @@ export default function NodeList(props: NodeListProps) {
                         {mediaItems.map((node, index) => (
                             <CommandItem
                                 key={node.label}
+                                ref={(el) => {
+                                    itemRefs.current[index + basicItems.length] = el;
+                                }}
                                 className="text-xs font-[500] flex items-center gap-2"
                                 onSelect={() =>
                                     selectItem(index + basicItems.length)
