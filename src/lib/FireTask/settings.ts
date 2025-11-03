@@ -1,5 +1,4 @@
 // settings for FireTask
-// import { FireDoc } from '@/lib/FireEditor/settings';
 import { Timestamp } from 'firebase/firestore';
 
 /**
@@ -79,6 +78,21 @@ export const FIRE_TASK_LOCALE = {
         [TASK_STATUS_END]: '완료',
         [TASK_STATUS_HOLD]: '보류',
     },
+
+    HISTORY_ITEM: {
+        NO_HISTORY: '업무 기록이 없습니다.',
+        CREATE: (userName: string, title: string) =>
+            `${userName} 님이 [${title}]를 생성했습니다.`,
+        COMMENT: (userName: string, title: string, content: string) =>
+            `${userName} 님이 [${title}]에 댓글을 남겼습니다: "${content}"`,
+        STATUS_CHANGE: (
+            userName: string,
+            title: string,
+            fromStatus: TaskStatus,
+            toStatus: TaskStatus
+        ) =>
+            `${userName} 님이 [${title}] 상태를 "${FIRE_TASK_LOCALE.STATUS[fromStatus]}"에서 "${FIRE_TASK_LOCALE.STATUS[toStatus]}"(으)로 변경했습니다.`,
+    },
 };
 
 export const TASK_STATUS_OPTIONS: {
@@ -152,4 +166,24 @@ export interface FireTaskComment<U> {
     [TASK_COMMENT_FILES_FIELD]: { name: string; url: string; size: number }[]; // Array of file objects
     [TASK_COMMENT_CREATED_AT_FIELD]: Timestamp; // Creation time as Timestamp
     [TASK_COMMENT_UPDATED_AT_FIELD]?: Timestamp; // Last update time as Timestamp
+}
+
+export interface IFireTaskHistory<U> {
+    type: 'status' | 'comment' | 'create';
+    channelId: string;
+    taskId: string;
+    title: string;
+    timestamp: Timestamp;
+    comment?: {
+        content: string;
+        user: U;
+    };
+    status?: {
+        from: TaskStatus;
+        to: TaskStatus;
+        user: U;
+    };
+    create?: {
+        user: U;
+    };
 }
