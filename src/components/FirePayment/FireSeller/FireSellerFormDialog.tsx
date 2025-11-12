@@ -1,0 +1,40 @@
+import FireSellerForm from '@/components/FirePayment/FireSeller/FireSellerForm';
+import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import { FIRE_PAYMENT_LOCALE, IFireSeller } from '@/lib/FirePayment/settings';
+import { RefreshCw } from 'lucide-react';
+import { ReactNode, useState } from 'react';
+
+export default function FireSellerFormDialog({
+    seller,
+    onSuccess,
+    children,
+}: {
+    seller?: IFireSeller;
+    onSuccess?: () => void;
+    children?: ReactNode;
+}) {
+    const [open, setOpen] = useState(false);
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>{children}</DialogTrigger>
+            <DialogContent className="overflow-auto md:h-fit md:max-h-[calc(100vh-8rem)] h-full">
+                <DialogTitle>
+                    {FIRE_PAYMENT_LOCALE.SELLER_FORM.TITLE}
+                </DialogTitle>
+                <FireSellerForm
+                    seller={seller || undefined}
+                    onSuccess={() => {
+                        onSuccess?.();
+                        setOpen(false);
+                    }}
+                />
+            </DialogContent>
+        </Dialog>
+    );
+}
