@@ -6,18 +6,11 @@ import {
 import { useQuery } from '@tanstack/react-query';
 
 export default function usePaymentMethod(userId?: string) {
-    if (!userId) {
-        return {
-            paymentMethod: null,
-            isLoading: false,
-            error: null,
-        };
-    }
-
     const {
         data: paymentMethod,
         isLoading,
         error,
+        refetch,
     } = useQuery<IFirePaymentMethod | null>({
         queryKey: ['paymentMethod', userId],
         queryFn: async () => {
@@ -37,5 +30,5 @@ export default function usePaymentMethod(userId?: string) {
         gcTime: 10 * 60 * 1000, // 10분
     });
 
-    return { paymentMethod, isLoading, error };
+    return { paymentMethod, isLoading, error, refetch };
 }

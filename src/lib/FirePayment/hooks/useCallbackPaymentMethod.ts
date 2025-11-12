@@ -8,7 +8,11 @@ import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-export default function useCallbackPaymentMethod() {
+export default function useCallbackPaymentMethod({
+    onSuccess,
+}: {
+    onSuccess?: () => void;
+}) {
     const router = useRouter();
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -49,6 +53,9 @@ export default function useCallbackPaymentMethod() {
                             data
                         );
                         alert(FIRE_PAYMENT_LOCALE.SUCCESS_MESSAGE);
+                        if (onSuccess) {
+                            onSuccess();
+                        }
                     } else {
                         const errorData = await res.json();
                         console.error(
@@ -61,23 +68,26 @@ export default function useCallbackPaymentMethod() {
                     }
                 })
                 .catch((error) => {
-                    console.error(FIRE_PAYMENT_LOCALE.ERROR_FETCHING_PAYMENT_METHOD, error);
+                    console.error(
+                        FIRE_PAYMENT_LOCALE.ERROR_FETCHING_PAYMENT_METHOD,
+                        error
+                    );
                     alert(
                         `${FIRE_PAYMENT_LOCALE.ERROR.TITLE}: ${error.message}`
                     );
                 });
         }
-        const {
-            status: s,
-            code: c,
-            message: m,
-            customerKey: cs,
-            authKey: a,
-            ...rest
-        } = router.query;
+        // Remove query parameters from URL
+        const { status: _status, code: _code, message: _message, customerKey: _customerKey, authKey: _authKey, ...rest } =
+            router.query;
+        void _status;
+        void _code;
+        void _message;
+        void _customerKey;
+        void _authKey;
         router.replace({
             pathname: router.pathname,
             query: rest,
         });
-    }, []);
+    }, [router, onSuccess]);
 }

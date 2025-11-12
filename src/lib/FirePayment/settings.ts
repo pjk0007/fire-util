@@ -4,7 +4,7 @@ export const SELLER_DOC_PATH = (userId: string) =>
     `users/${userId}/metadata/seller`;
 
 export const TOSS_CLIENT_KEY = process.env
-    .NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY as string;
+    .NEXT_PUBLIC_TOSS_CLIENT_KEY as string;
 export const TOSS_SECRET_KEY = process.env
     .NEXT_PUBLIC_TOSS_SECRET_KEY as string;
 export const TOSS_ENCRYPT_KEY = process.env

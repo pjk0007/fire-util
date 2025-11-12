@@ -4,12 +4,22 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import requestBilling from '@/lib/FirePayment/apis/requestBilling';
+import useCallbackPaymentMethod from '@/lib/FirePayment/hooks/useCallbackPaymentMethod';
+import usePaymentMethod from '@/lib/FirePayment/hooks/usePaymentMethod';
 import { FIRE_PAYMENT_LOCALE } from '@/lib/FirePayment/settings';
 import { RefreshCw } from 'lucide-react';
 
 export default function FirePaymentMethod() {
     const { user } = useFireAuth();
-    
+    const { error, isLoading, paymentMethod, refetch } = usePaymentMethod(
+        user?.[USER_ID_FIELD]
+    );
+    useCallbackPaymentMethod({
+        onSuccess: () => {
+            refetch();
+        },
+    });
+
     return (
         <Card>
             <CardHeader>
@@ -30,7 +40,11 @@ export default function FirePaymentMethod() {
                 </CardTitle>
             </CardHeader>
             <CardContent>
-                <FirePaymentMethodBody />
+                <FirePaymentMethodBody
+                    isLoading={isLoading}
+                    error={error}
+                    paymentMethod={paymentMethod}
+                />
             </CardContent>
         </Card>
     );

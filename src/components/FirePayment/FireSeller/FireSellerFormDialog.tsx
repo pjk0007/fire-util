@@ -1,5 +1,4 @@
 import FireSellerForm from '@/components/FirePayment/FireSeller/FireSellerForm';
-import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -7,7 +6,6 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { FIRE_PAYMENT_LOCALE, IFireSeller } from '@/lib/FirePayment/settings';
-import { RefreshCw } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 
 export default function FireSellerFormDialog({

@@ -8,10 +8,10 @@ export default async function requestBilling(userId: string) {
     const url = new URL(window.location.href);
     url.searchParams.set('status', 'success');
     const successRedirectUrl = url.toString();
-    
+
     url.searchParams.set('status', 'fail');
     const failRedirectUrl = url.toString();
-    
+
     const tp = await loadTossPayments(TOSS_CLIENT_KEY);
     try {
         await tp.requestBillingAuth('카드', {
@@ -19,9 +19,10 @@ export default async function requestBilling(userId: string) {
             successUrl: successRedirectUrl,
             failUrl: failRedirectUrl,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.log(error);
-        
+
         if (error.code === 'USER_CANCEL') {
             // 결제 고객이 결제창을 닫았을 때 에러 처리
             alert(FIRE_PAYMENT_LOCALE.ERROR.USER_CANCEL);

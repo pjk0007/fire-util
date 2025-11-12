@@ -1,8 +1,6 @@
-import getPaymentMethod from '@/lib/FirePayment/apis/getPaymentMethod';
 import getSeller from '@/lib/FirePayment/apis/getSeller';
 import {
     FIRE_PAYMENT_LOCALE,
-    IFirePaymentMethod,
     IFireSeller,
 } from '@/lib/FirePayment/settings';
 import { useQuery } from '@tanstack/react-query';

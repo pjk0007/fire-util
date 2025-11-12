@@ -3,16 +3,22 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import requestBilling from '@/lib/FirePayment/apis/requestBilling';
-import usePaymentMethod from '@/lib/FirePayment/hooks/usePaymentMethod';
-import { FIRE_PAYMENT_LOCALE } from '@/lib/FirePayment/settings';
+import {
+    FIRE_PAYMENT_LOCALE,
+    IFirePaymentMethod,
+} from '@/lib/FirePayment/settings';
 import { ReceiptText } from 'lucide-react';
 
-export default function FirePaymentMethodBody() {
+export default function FirePaymentMethodBody({
+    isLoading,
+    error,
+    paymentMethod,
+}: {
+    isLoading: boolean;
+    error: Error | null;
+    paymentMethod?: IFirePaymentMethod | null;
+}) {
     const { user } = useFireAuth();
-
-    const { error, isLoading, paymentMethod } = usePaymentMethod(
-        user?.[USER_ID_FIELD]
-    );
 
     if (isLoading) {
         return (

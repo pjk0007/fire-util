@@ -49,8 +49,9 @@ export default function FireTaskSheet<
                 if (!open) {
                     setIsExpanded(false);
                     setSelectedTaskId(undefined);
-                    if(router.query.taskId) {
-                        const { taskId, ...rest } = router.query;
+                    if (router.query.taskId) {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const { taskId: _, ...rest } = router.query;
                         router.replace(
                             {
                                 pathname: router.pathname,
