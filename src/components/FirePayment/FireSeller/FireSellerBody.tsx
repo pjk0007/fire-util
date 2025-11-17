@@ -40,7 +40,7 @@ export default function FireSellerBody({
     if (!seller) {
         return (
             <div className="w-full h-full flex flex-col border border-dashed rounded-[10px] p-6 gap-6 justify-center items-center">
-                <div className="border rounded-[8px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] p-2">
+                <div className="border rounded-xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] p-2">
                     <ReceiptText className="w-8 h-8" />
                 </div>
                 <p className="font-medium leading-normal">
