@@ -68,7 +68,11 @@ function FireTabsTrigger({
             ref={ref}
             data-slot="tabs-trigger"
             className={cn(
-                'text-foreground inline-flex items-center justify-center gap-1.5 px-2 py-1 text-sm font-medium whitespace-nowrap disabled:pointer-events-none disabled:opacity-50',
+                'inline-flex items-center justify-center gap-1.5 px-2 py-1 text-sm font-medium whitespace-nowrap disabled:pointer-events-none disabled:opacity-50',
+                {
+                    'text-foreground ': isSelected,
+                    'text-muted-foreground': !isSelected,
+                },
                 className
             )}
             style={{
