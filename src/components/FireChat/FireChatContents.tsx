@@ -57,11 +57,11 @@ export default function FireChatContents({
             </div>
             <div className="py-4 md:pl-12 px-4">
                 <FireTabs className="w-full" defaultValue={defatultTab}>
-                    <FireTabsList className="h-8 w-full border-b justify-start rounded-none bg-transparent p-0">
-                        <FireTabsTrigger value="image" asChild>
+                    <FireTabsList>
+                        <FireTabsTrigger value="image">
                             {FIRE_CHAT_LOCALE.IMAGE}
                         </FireTabsTrigger>
-                        <FireTabsTrigger value="file" asChild>
+                        <FireTabsTrigger value="file">
                             {FIRE_CHAT_LOCALE.FILE}
                         </FireTabsTrigger>
                     </FireTabsList>

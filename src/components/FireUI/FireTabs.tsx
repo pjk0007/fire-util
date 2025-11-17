@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
+import { useEffect, useRef, useState } from 'react';
 
 function FireTabs({
     className,
@@ -24,28 +25,57 @@ function FireTabsList({
 }
 
 function FireTabsTrigger({
-    children,
+    className,
     ...props
 }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+    const ref = useRef<HTMLButtonElement>(null);
+    const [isSelected, setIsSelected] = useState(false);
+    
+
+    useEffect(() => {
+        const handleAttributeChange = (mutations: MutationRecord[]) => {
+            mutations.forEach((mutation) => {
+                if (
+                    mutation.type === 'attributes' &&
+                    mutation.attributeName === 'aria-selected'
+                ) {
+                    const selected =
+                        ref.current?.getAttribute('aria-selected') === 'true';
+                    setIsSelected(!!selected);
+                }
+            });
+        };
+
+        const observer = new MutationObserver(handleAttributeChange);
+        if (ref.current) {
+            observer.observe(ref.current, {
+                attributes: true,
+            });
+            // Initialize the state
+            const selected =
+                ref.current.getAttribute('aria-selected') === 'true';
+            setIsSelected(!!selected);
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+    
+    
     return (
-        <TabsTrigger {...props}>
-            <div
-                style={{
-                    height: '32px',
-                    margin: 0,
-                    borderRadius: 0,
-                    borderLeft: 'none',
-                    borderTop: 'none',
-                    borderRight: 'none',
-                    boxShadow: 'none',
-                    boxSizing: 'border-box',
-                    cursor: 'pointer',
-                }}
-                className="data-[state=active]:border-black data-[state=inactive]:border-transparent border-b"
-            >
-                {children}
-            </div>
-        </TabsTrigger>
+        <TabsPrimitive.Trigger
+            ref={ref}
+            data-slot="tabs-trigger"
+            className={cn(
+                'text-foreground inline-flex items-center justify-center gap-1.5 px-2 py-1 text-sm font-medium whitespace-nowrap disabled:pointer-events-none disabled:opacity-50',
+                className
+            )}
+            style={{
+                borderBottom: isSelected ? '2px solid var(--primary)' : '2px solid transparent',
+            }}
+            {...props}
+        />
     );
 }
 
