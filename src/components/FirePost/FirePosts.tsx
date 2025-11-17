@@ -11,7 +11,12 @@ import {
     PostShowType,
     PostType,
 } from '@/lib/FirePost/settings';
-import { Bell, HelpCircle } from 'lucide-react';
+import {
+    Bell,
+    HelpCircle,
+    SquareArrowOutUpRight,
+    SquareArrowUpRight,
+} from 'lucide-react';
 import FirePostList from './FirePostList';
 import {
     FireTabs,
@@ -19,6 +24,8 @@ import {
     FireTabsList,
     FireTabsTrigger,
 } from '@/components/FireUI/FireTabs';
+import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface FirePostProps<U extends FireUser> {
     postShowType: PostShowType[];
@@ -26,19 +33,26 @@ interface FirePostProps<U extends FireUser> {
     itemsPerPage?: number;
 }
 
-export default function FirePost<U extends FireUser>({
+export default function FirePosts<U extends FireUser>({
     postShowType,
     onPostClick,
     itemsPerPage = 10,
 }: FirePostProps<U>) {
+    const isMobile = useIsMobile();
     const [activeTab, setActiveTab] = useState<PostType>('notice');
 
-    const { posts: noticePosts } = useFirePosts<U>('notice', postShowType);
-    const { posts: faqPosts } = useFirePosts<U>('faq', postShowType);
+    const { notices, faqs } = useFirePosts<U>(postShowType);
 
     return (
-        <Card>
-            <CardContent>
+        <Card className="relative">
+            <Button variant={'outline'} className="absolute top-2 right-4">
+                {isMobile ? (
+                    <SquareArrowOutUpRight />
+                ) : (
+                    FIRE_POST_LOCALE.MORE_POST
+                )}
+            </Button>
+            <CardContent className="px-4">
                 <FireTabs
                     value={activeTab}
                     onValueChange={(v) => setActiveTab(v as PostType)}
@@ -56,11 +70,7 @@ export default function FirePost<U extends FireUser>({
 
                     <FireTabsContent value="notice" className="mt-4">
                         <FirePostList
-                            posts={Array.from(
-                                { length: 20 },
-                                (_, i) => noticePosts[0]
-                            )}
-                            // posts={noticePosts}
+                            posts={notices}
                             type="notice"
                             onPostClick={onPostClick}
                             itemsPerPage={itemsPerPage}
@@ -69,7 +79,7 @@ export default function FirePost<U extends FireUser>({
 
                     <FireTabsContent value="faq" className="mt-4">
                         <FirePostList
-                            posts={faqPosts}
+                            posts={faqs}
                             type="faq"
                             onPostClick={onPostClick}
                             itemsPerPage={itemsPerPage}

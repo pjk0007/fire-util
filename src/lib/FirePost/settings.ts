@@ -14,7 +14,6 @@ export const POST_SHOW_TYPE_FIELD = 'showType';
 export const POST_VIEWS_FIELD = 'viewCount';
 export const POST_IS_SECRET_FIELD = 'isSecret';
 export const POST_IS_PINNED_FIELD = 'isPinned';
-export const POST_CATEGORIES_FIELD = 'hashtags';
 
 export const POST_TYPE_NOTICE = 'notice';
 export const POST_TYPE_FAQ = 'faq';
@@ -28,9 +27,12 @@ export const FIRE_POST_LOCALE = {
     TAB_FAQ: 'FAQ',
     EMPTY_NOTICE: '등록된 공지사항이 없습니다.',
     EMPTY_FAQ: '등록된 FAQ가 없습니다.',
-    POST_SECRET: '비밀글',
+    POST_SECRET: '비밀글입니다.',
     VIEW: '조회수',
-}
+    MORE_POST: '공지사항 더보기',
+    PAGINATION: (total: number, currentPage: number, totalPages: number) =>
+        `총 ${total}개 (${currentPage} / ${totalPages} 페이지)`,
+};
 
 /**
  * TypeScript interfaces and types
@@ -50,5 +52,4 @@ export interface FirePost<U> {
     [POST_VIEWS_FIELD]: number;
     [POST_IS_SECRET_FIELD]?: boolean;
     [POST_IS_PINNED_FIELD]?: boolean;
-    [POST_CATEGORIES_FIELD]?: string[];
 }

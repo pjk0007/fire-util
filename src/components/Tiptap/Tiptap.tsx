@@ -21,6 +21,7 @@ const Tiptap = ({
     mentionItems,
     className,
     uploadFile,
+    editable = true,
 }: {
     id: string;
     defaultContent: Content;
@@ -31,7 +32,10 @@ const Tiptap = ({
         file: File,
         onProgress?: (event: { progress: number }) => void
     ) => Promise<{ fileName: string; fileSize: string; src: string }>;
+    editable?: boolean;
 }) => {
+    console.log(mentionItems);
+
     const editor = useEditor({
         extensions: [
             ...NodeExtensions({ mentionItems, uploadFile }),
@@ -40,6 +44,7 @@ const Tiptap = ({
                 uploadFile,
             }),
         ],
+        editable: editable,
         content: defaultContent,
         // Don't render immediately on the server to avoid SSR issues
         immediatelyRender: false,
@@ -88,5 +93,9 @@ const Tiptap = ({
 };
 
 export default memo(Tiptap, (prevProps, nextProps) => {
-    return prevProps.id === nextProps.id;
+    return (
+        prevProps.id === nextProps.id &&
+        prevProps.editable === nextProps.editable &&
+        prevProps.mentionItems?.length === nextProps.mentionItems?.length
+    );
 });

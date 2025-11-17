@@ -16,22 +16,19 @@ import {
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
-import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import FireTaskSheetContent from '@/components/FireTask/FireTaskSheet/FireTaskSheetContent';
 import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import { useRouter } from 'next/router';
 
 interface FireTaskSheetProps<FT extends FireTask<FU>, FU extends FireUser> {
     task?: FT;
+    participants?: FU[];
 }
 
 export default function FireTaskSheet<
     FT extends FireTask<FU>,
     FU extends FireUser
->({ task }: FireTaskSheetProps<FT, FU>) {
-    const { participants } = useFireChannelInfo({
-        channelId: task?.[TASK_CHANNEL_ID_FIELD],
-    });
+>({ task, participants }: FireTaskSheetProps<FT, FU>) {
     const [isExpanded, setIsExpanded] = useState(false);
     const isMobile = useIsMobile();
     const { user } = useFireAuth();
@@ -81,7 +78,7 @@ export default function FireTaskSheet<
                     'sm:max-w-[960px]': !isExpanded,
                 })}
             >
-                {task && (
+                {task && participants && (
                     <FireScrollArea
                         className={cn(' h-full', {
                             flex: isExpanded && !isMobile,

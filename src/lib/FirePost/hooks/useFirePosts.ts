@@ -1,19 +1,18 @@
-import { FireUser } from '@/lib/FireAuth/settings';
 import getPosts from '@/lib/FirePost/apis/getPosts';
-import { FirePost, PostShowType, PostType } from '@/lib/FirePost/settings';
-import { useEffect, useState } from 'react';
+import {
+    POST_TYPE_FIELD,
+    PostShowType,
+} from '@/lib/FirePost/settings';
+import { useQuery } from '@tanstack/react-query';
 
-export default function useFirePosts<U extends FireUser>(
-    postType: PostType,
-    postShowTypes: PostShowType[]
-) {
-    const [posts, setPosts] = useState<FirePost<U>[]>([]);
+export default function useFirePosts<U>(postShowTypes: PostShowType[]) {
+    const { data: posts = [], isLoading } = useQuery({
+        queryKey: ['fire-posts', postShowTypes],
+        queryFn: () => getPosts<U>(postShowTypes),
+    });
 
-    useEffect(() => {
-        getPosts<U>(postType, postShowTypes).then((fetchedPosts) => {
-            setPosts(fetchedPosts);
-        });
-    }, [postType, postShowTypes]);
+    const notices = posts.filter((post) => post[POST_TYPE_FIELD] === 'notice');
+    const faqs = posts.filter((post) => post[POST_TYPE_FIELD] === 'faq');
 
-    return { posts };
+    return { posts, notices, faqs, isLoading };
 }

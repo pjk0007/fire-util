@@ -10,7 +10,14 @@ import {
     PaginationPrevious,
 } from '@/components/ui/pagination';
 import { FireUser } from '@/lib/FireAuth/settings';
-import { FirePost, POST_ID_FIELD, POST_IS_PINNED_FIELD, PostType } from '@/lib/FirePost/settings';
+import {
+    FIRE_POST_LOCALE,
+    FirePost,
+    POST_CREATED_AT_FIELD,
+    POST_ID_FIELD,
+    POST_IS_PINNED_FIELD,
+    PostType,
+} from '@/lib/FirePost/settings';
 import React, { useState } from 'react';
 
 interface FirePostListProps<U extends FireUser> {
@@ -37,7 +44,10 @@ export default function FirePostList<U extends FireUser>({
         if (a[POST_IS_PINNED_FIELD] !== b[POST_IS_PINNED_FIELD]) {
             return a[POST_IS_PINNED_FIELD] ? -1 : 1;
         }
-        return b.time.toMillis() - a.time.toMillis();
+        return (
+            b[POST_CREATED_AT_FIELD].toMillis() -
+            a[POST_CREATED_AT_FIELD].toMillis()
+        );
     });
 
     // Pagination
@@ -53,8 +63,8 @@ export default function FirePostList<U extends FireUser>({
     };
 
     return (
-        <div className="space-y-4">
-            <div className="space-y-2">
+        <div>
+            <div>
                 {currentPosts.map((post, i) => (
                     <FirePostItem
                         key={i}
@@ -66,10 +76,13 @@ export default function FirePostList<U extends FireUser>({
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <div className="flex flex-col items-center gap-4 pt-4 border-t">
+                <div className="flex flex-col items-center gap-3 pt-4 border-t">
                     <div className="text-sm text-muted-foreground">
-                        총 {sortedPosts.length}개 ({currentPage} / {totalPages}{' '}
-                        페이지)
+                        {FIRE_POST_LOCALE.PAGINATION(
+                            sortedPosts.length,
+                            currentPage,
+                            totalPages
+                        )}
                     </div>
                     <Pagination>
                         <PaginationContent>
