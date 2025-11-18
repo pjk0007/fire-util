@@ -5,5 +5,11 @@ export default function post() {
     const router = useRouter();
     const { postId } = router.query;
 
-    return <FirePostContent postId={postId as string} />;
+    return (
+        <FirePostContent
+            postId={postId as string}
+            editable={true}
+            goBackLink="/posts"
+        />
+    );
 }

@@ -1,7 +1,4 @@
-'use client';
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
 import { useState } from 'react';
 import useFirePosts from '@/lib/FirePost/hooks/useFirePosts';
 import { FireUser } from '@/lib/FireAuth/settings';
@@ -11,12 +8,7 @@ import {
     PostShowType,
     PostType,
 } from '@/lib/FirePost/settings';
-import {
-    Bell,
-    HelpCircle,
-    SquareArrowOutUpRight,
-    SquareArrowUpRight,
-} from 'lucide-react';
+import { Bell, HelpCircle, PlusSquare } from 'lucide-react';
 import FirePostList from './FirePostList';
 import {
     FireTabs,
@@ -26,17 +18,20 @@ import {
 } from '@/components/FireUI/FireTabs';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
+import Link from 'next/link';
 
 interface FirePostProps<U extends FireUser> {
     postShowType: PostShowType[];
     onPostClick?: (post: FirePostType<U>) => void;
     itemsPerPage?: number;
+    createPostLink?: string;
 }
 
 export default function FirePosts<U extends FireUser>({
     postShowType,
     onPostClick,
     itemsPerPage = 10,
+    createPostLink,
 }: FirePostProps<U>) {
     const isMobile = useIsMobile();
     const [activeTab, setActiveTab] = useState<PostType>('notice');
@@ -45,13 +40,21 @@ export default function FirePosts<U extends FireUser>({
 
     return (
         <Card className="relative">
-            <Button variant={'outline'} className="absolute top-2 right-4">
-                {isMobile ? (
-                    <SquareArrowOutUpRight />
-                ) : (
-                    FIRE_POST_LOCALE.MORE_POST
-                )}
-            </Button>
+            {createPostLink && (
+                <Button
+                    variant={'outline'}
+                    className="absolute top-2 right-4"
+                    asChild
+                >
+                    <Link href={createPostLink}>
+                        {isMobile ? (
+                            <PlusSquare />
+                        ) : (
+                            FIRE_POST_LOCALE.CREATE_POST_BUTTON
+                        )}
+                    </Link>
+                </Button>
+            )}
             <CardContent className="px-4">
                 <FireTabs
                     value={activeTab}

@@ -3,7 +3,7 @@ import FireTaskSheet from '@/components/FireTask/FireTaskSheet';
 import { FireUser } from '@/lib/FireAuth/settings';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
 import useFireTaskList from '@/lib/FireTask/hook/useFireTaskList';
-import { FireTask } from '@/lib/FireTask/settings';
+import { FireTask, TASK_ID_FIELD } from '@/lib/FireTask/settings';
 import {
     createContext,
     ReactNode,
@@ -52,7 +52,9 @@ export function FireTaskProvider<FT extends FireTask<FU>, FU extends FireUser>({
     const [selectedTaskId, setSelectedTaskId] = useState<string | undefined>(
         undefined
     );
-    const selectedTask = tasks.find((task) => task['id'] === selectedTaskId);
+    const selectedTask = tasks.find(
+        (task) => task[TASK_ID_FIELD] === selectedTaskId
+    );
 
     useEffect(() => {
         if (defaultTaskId) {

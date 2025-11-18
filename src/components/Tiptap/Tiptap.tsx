@@ -17,6 +17,7 @@ import { memo } from 'react';
 const Tiptap = ({
     id,
     defaultContent,
+    onBlur,
     onUpdate,
     mentionItems,
     className,
@@ -25,6 +26,7 @@ const Tiptap = ({
 }: {
     id: string;
     defaultContent: Content;
+    onBlur?: (content: Content) => void;
     onUpdate?: (content: Content) => void;
     mentionItems?: string[];
     className?: string;
@@ -34,8 +36,6 @@ const Tiptap = ({
     ) => Promise<{ fileName: string; fileSize: string; src: string }>;
     editable?: boolean;
 }) => {
-    console.log(mentionItems);
-
     const editor = useEditor({
         extensions: [
             ...NodeExtensions({ mentionItems, uploadFile }),
@@ -48,14 +48,14 @@ const Tiptap = ({
         content: defaultContent,
         // Don't render immediately on the server to avoid SSR issues
         immediatelyRender: false,
-        // onUpdate: ({ editor }) => {
-        //     if (onUpdate) {
-        //         onUpdate(editor.getJSON());
-        //     }
-        // },
-        onBlur: ({ editor }) => {
+        onUpdate: ({ editor }) => {
             if (onUpdate) {
                 onUpdate(editor.getJSON());
+            }
+        },
+        onBlur: ({ editor }) => {
+            if (onBlur) {
+                onBlur(editor.getJSON());
             }
         },
     });

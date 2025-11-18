@@ -30,16 +30,15 @@ export default function nodeSuggestion() {
 
             return {
                 onStart: (props: SuggestionProps) => {
-                    console.log(props);
-
                     component = new ReactRenderer(NodeList, {
                         props,
                         editor: props.editor,
                     }) as SuggestionComponent;
 
-                    const clientRect = typeof props.clientRect === 'function' 
-                        ? props.clientRect() 
-                        : props.clientRect;
+                    const clientRect =
+                        typeof props.clientRect === 'function'
+                            ? props.clientRect()
+                            : props.clientRect;
 
                     if (!clientRect) {
                         return;
@@ -63,9 +62,10 @@ export default function nodeSuggestion() {
                 onUpdate(props: SuggestionProps) {
                     component.updateProps(props);
 
-                    const clientRect = typeof props.clientRect === 'function' 
-                        ? props.clientRect() 
-                        : props.clientRect;
+                    const clientRect =
+                        typeof props.clientRect === 'function'
+                            ? props.clientRect()
+                            : props.clientRect;
 
                     if (!clientRect) {
                         return;
@@ -82,7 +82,10 @@ export default function nodeSuggestion() {
                         return true;
                     }
 
-                    return component.ref?.onKeyDown({ event: props.event }) ?? false;
+                    return (
+                        component.ref?.onKeyDown({ event: props.event }) ??
+                        false
+                    );
                 },
 
                 onExit() {

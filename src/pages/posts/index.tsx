@@ -7,10 +7,11 @@ export default function Posts() {
     return (
         <div className="w-full h-full flex flex-col gap-6 p-4">
             <FirePosts
-                postShowType={['all', 'partner']}
+                postShowType={['all', 'partner', 'client']}
                 onPostClick={(post) =>
                     router.push(`/posts/${post[POST_ID_FIELD]}`)
                 }
+                createPostLink='/posts/new'
             />
         </div>
     );

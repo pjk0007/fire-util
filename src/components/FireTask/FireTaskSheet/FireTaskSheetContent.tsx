@@ -116,7 +116,7 @@ export default function FireTaskSheetContent<
         <Tiptap
             id={task[TASK_ID_FIELD]}
             defaultContent={task[TASK_CONTENT_FIELD] || {}}
-            onUpdate={updateDocContent}
+            onBlur={updateDocContent}
             mentionItems={participants.map((p) => p[USER_NAME_FIELD])}
             className="p-0 min-h-40"
             uploadFile={uploadFile}
