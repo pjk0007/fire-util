@@ -55,12 +55,12 @@ export default function FirePostContentTitle<U>({
                 </div>
             )}
             {editable ? (
-                <div className="flex-1">
+                <div className="w-full">
                     <input
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder={FIRE_POST_LOCALE.TITLE_PLACEHOLDER}
-                        className="flex-1 text-2xl font-bold focus:outline-none focus:ring-0 bg-transparent"
+                        className="text-2xl font-bold focus:outline-none focus:ring-0 bg-transparent w-full"
                     />
                 </div>
             ) : (
