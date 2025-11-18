@@ -11,7 +11,7 @@ import { Content } from '@tiptap/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-export default function useCreatePost<U extends FireUser>(
+export default function useCreatePost<U>(
     user: U,
     onCreated?: (postId: string) => void
 ) {

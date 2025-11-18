@@ -9,7 +9,7 @@ export default function post() {
         <FirePostContent
             postId={postId as string}
             editable={true}
-            goBackLink="/posts"
+            onClickGoBack={() => router.push('/posts')}
         />
     );
 }

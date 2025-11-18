@@ -19,13 +19,13 @@ export default function FirePostContentButtons({
     isChanged,
     onSave,
     onDelete,
-    goBackLink,
+    onClickGoBack,
 }: {
     editable: boolean;
     isChanged?: boolean;
     onSave: () => void;
     onDelete?: () => void;
-    goBackLink: string;
+    onClickGoBack: () => void;
 }) {
     return (
         <div className="w-full flex justify-between items-center">
@@ -36,11 +36,10 @@ export default function FirePostContentButtons({
                     paddingLeft: 1,
                     paddingRight: 8,
                 }}
+                onClick={onClickGoBack}
             >
-                <Link href={goBackLink} className="flex items-center gap-1">
-                    <ChevronLeft size={16} />
-                    {FIRE_POST_LOCALE.BACK_BUTTON}
-                </Link>
+                <ChevronLeft size={16} />
+                {FIRE_POST_LOCALE.BACK_BUTTON}
             </Button>
             {editable && (
                 <div className="flex gap-2">

@@ -7,13 +7,13 @@ import FirePostContentTypes from '@/components/FirePost/FirePostContent/FirePost
 import FirePostContentTitle from '@/components/FirePost/FirePostContent/FirePostContentTitle';
 import { PostShowType, PostType } from '@/lib/FirePost/settings';
 
-export default function FirePostCreate<U extends FireUser>({
+export default function FirePostCreate<U>({
     user,
-    goBackLink,
+    onClickGoBack,
     onCreated,
 }: {
     user: U;
-    goBackLink: string;
+    onClickGoBack: () => void;
     onCreated?: (postId: string) => void;
 }) {
     const {
@@ -41,7 +41,7 @@ export default function FirePostCreate<U extends FireUser>({
                     editable={true}
                     isChanged={true}
                     onSave={onSubmit}
-                    goBackLink={goBackLink}
+                    onClickGoBack={onClickGoBack}
                 />
                 <FirePostContentTitle
                     isPinned={isPinned}

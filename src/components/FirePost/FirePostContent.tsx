@@ -12,13 +12,13 @@ import FirePostContentButtons from '@/components/FirePost/FirePostContent/FirePo
 import FirePostContentTypes from '@/components/FirePost/FirePostContent/FirePostContentTypes';
 import FirePostContentTitle from '@/components/FirePost/FirePostContent/FirePostContentTitle';
 
-export default function FirePostContent<U extends FireUser>({
+export default function FirePostContent<U>({
     postId,
-    goBackLink,
+    onClickGoBack,
     editable = false,
 }: {
     postId: string;
-    goBackLink: string;
+    onClickGoBack: () => void;
     editable?: boolean;
 }) {
     const {
@@ -39,7 +39,7 @@ export default function FirePostContent<U extends FireUser>({
         isChanged,
         onSave,
         onDelete,
-    } = useFirePostContent<U>(postId, goBackLink);
+    } = useFirePostContent<U>(postId, onClickGoBack);
 
     return (
         <div className="flex flex-col h-full w-full">
@@ -49,7 +49,7 @@ export default function FirePostContent<U extends FireUser>({
                     editable={editable}
                     isChanged={isChanged}
                     onSave={onSave}
-                    goBackLink={goBackLink}
+                    onClickGoBack={onClickGoBack}
                     onDelete={onDelete}
                 />
                 <FirePostContentTitle

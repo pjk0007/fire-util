@@ -20,7 +20,10 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-export default function useFirePostContent<U extends FireUser>(postId: string, goBackLink:string) {
+export default function useFirePostContent<U>(
+    postId: string,
+    onClickGoBack: () => void
+) {
     const router = useRouter();
     const { post, refetch } = useFirePost<U>(postId);
     const [title, setTitle] = useState<string>('');
@@ -66,7 +69,7 @@ export default function useFirePostContent<U extends FireUser>(postId: string, g
         if (postId) {
             await deletePost(postId);
             toast.success(FIRE_POST_LOCALE.DELETE_SUCCESS);
-            router.push(goBackLink);
+            onClickGoBack();
         }
     }
 

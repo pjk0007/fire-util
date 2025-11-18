@@ -20,14 +20,14 @@ import {
 } from '@/lib/FirePost/settings';
 import React, { useState } from 'react';
 
-interface FirePostListProps<U extends FireUser> {
+interface FirePostListProps<U> {
     posts: FirePost<U>[];
     type: PostType;
     onPostClick?: (post: FirePost<U>) => void;
     itemsPerPage?: number;
 }
 
-export default function FirePostList<U extends FireUser>({
+export default function FirePostList<U>({
     posts,
     type,
     onPostClick,

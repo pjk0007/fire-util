@@ -10,12 +10,12 @@ import {
 } from '@/lib/FirePost/settings';
 import { LockKeyhole, Pin } from 'lucide-react';
 
-interface FirePostItemProps<U extends FireUser> {
+interface FirePostItemProps<U> {
     post: FirePost<U>;
     onClick?: () => void;
 }
 
-export default function FirePostItem<U extends FireUser>({
+export default function FirePostItem<U>({
     post,
     onClick,
 }: FirePostItemProps<U>) {
@@ -50,7 +50,7 @@ export default function FirePostItem<U extends FireUser>({
                                     variant={'destructive'}
                                     className="w-3.5 h-3.5 p-1 rounded-full flex items-center justify-center shrink-0"
                                     style={{
-                                        fontSize: 8
+                                        fontSize: 8,
                                     }}
                                 >
                                     N

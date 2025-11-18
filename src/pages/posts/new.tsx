@@ -18,7 +18,7 @@ export default function NewPost() {
     return (
         <FirePostCreate
             user={user}
-            goBackLink="/posts"
+            onClickGoBack={() => router.push('/posts')}
             onCreated={(postId) => router.push(`/posts/${postId}`)}
         />
     );

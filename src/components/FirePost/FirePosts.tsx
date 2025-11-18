@@ -20,14 +20,14 @@ import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Link from 'next/link';
 
-interface FirePostProps<U extends FireUser> {
+interface FirePostProps<U> {
     postShowType: PostShowType[];
     onPostClick?: (post: FirePostType<U>) => void;
     itemsPerPage?: number;
     createPostLink?: string;
 }
 
-export default function FirePosts<U extends FireUser>({
+export default function FirePosts<U>({
     postShowType,
     onPostClick,
     itemsPerPage = 10,
