@@ -22,6 +22,7 @@ import { Content } from '@tiptap/react';
 
 export default async function createPost<U>(
     userId: U,
+    id: string,
     title: string,
     content: Content = '',
     type: PostType = POST_TYPE_NOTICE,
@@ -29,7 +30,6 @@ export default async function createPost<U>(
     isPinned: boolean = false,
     isSecret: boolean = false
 ) {
-    const id = `post_${new Date().getTime()}`;
     const newPost = {
         [POST_ID_FIELD]: id,
         [POST_TITLE_FIELD]: title,

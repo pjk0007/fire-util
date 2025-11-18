@@ -15,6 +15,7 @@ export default function useCreatePost<U>(
     user: U,
     onCreated?: (postId: string) => void
 ) {
+    const id = `post_${new Date().getTime()}`;
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<Content>('');
     const [type, setType] = useState<PostType>(POST_TYPE_NOTICE);
@@ -31,8 +32,9 @@ export default function useCreatePost<U>(
 
         setIsSubmitting(true);
         try {
-            const postId = await createPost(
+            await createPost(
                 user,
+                id,
                 title,
                 content,
                 type,
@@ -41,7 +43,7 @@ export default function useCreatePost<U>(
                 isSecret
             );
             toast.success(FIRE_POST_LOCALE.SAVE_SUCCESS);
-            onCreated?.(postId);
+            onCreated?.(id);
         } catch (error) {
             toast.error(FIRE_POST_LOCALE.SAVE_FAILED);
             console.error(error);
@@ -51,6 +53,7 @@ export default function useCreatePost<U>(
     }
 
     return {
+        id,
         title,
         setTitle,
         content,

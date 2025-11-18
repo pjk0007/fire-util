@@ -36,12 +36,14 @@ const lowlight = createLowlight(all);
 export default function NodeExtensions({
     mentionItems,
     uploadFile,
+    imageMaxSize = 5 * 1024 * 1024,
 }: {
     mentionItems?: string[];
     uploadFile?: (
         file: File,
         onProgress?: (event: { progress: number }) => void
     ) => Promise<{ fileName: string; fileSize: string; src: string }>;
+    imageMaxSize?: number;
 }): Extensions {
     return [
         Document,
@@ -126,7 +128,7 @@ export default function NodeExtensions({
         FileNode,
         ImageUploadNode.configure({
             limit: 3,
-            maxSize: 5 * 1024 * 1024, // 5MB
+            maxSize: imageMaxSize,
             upload: async (
                 file: File,
                 onProgress?: (event: { progress: number }) => void

@@ -3,6 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { FireUser } from '@/lib/FireAuth/settings';
 import useFirePostContent from '@/lib/FirePost/hooks/useFirePostContent';
 import {
+    POST_COLLECTION,
     POST_CREATED_AT_FIELD,
     POST_ID_FIELD,
     POST_VIEWS_FIELD,
@@ -11,6 +12,9 @@ import FirePostContentViewDate from '@/components/FirePost/FirePostContent/FireP
 import FirePostContentButtons from '@/components/FirePost/FirePostContent/FirePostContentButtons';
 import FirePostContentTypes from '@/components/FirePost/FirePostContent/FirePostContentTypes';
 import FirePostContentTitle from '@/components/FirePost/FirePostContent/FirePostContentTitle';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { storage } from '@/lib/firebase';
+import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 
 export default function FirePostContent<U>({
     postId,
@@ -40,6 +44,49 @@ export default function FirePostContent<U>({
         onSave,
         onDelete,
     } = useFirePostContent<U>(postId, onClickGoBack);
+
+    async function uploadFile(
+        file: File,
+        onProgress?: (event: { progress: number }) => void
+    ): Promise<{
+        fileName: string;
+        fileSize: string;
+        src: string;
+    }> {
+        const storageRef = ref(
+            storage,
+            `${POST_COLLECTION}/${postId}/files/${file.name}`
+        );
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        return new Promise((resolve, reject) => {
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+                    if (onProgress) {
+                        onProgress({
+                            progress: progress,
+                        });
+                    }
+                },
+                (error) => {
+                    reject(error);
+                },
+                async () => {
+                    const downloadURL = await getDownloadURL(storageRef);
+
+                    resolve({
+                        fileName: file.name,
+                        fileSize: formatSizeString(file.size),
+                        src: downloadURL,
+                    });
+                }
+            );
+        });
+    }
 
     return (
         <div className="flex flex-col h-full w-full">
@@ -84,6 +131,8 @@ export default function FirePostContent<U>({
                     id={post[POST_ID_FIELD]}
                     editable={editable}
                     onUpdate={(content) => setContent(content)}
+                    uploadFile={uploadFile}
+                    imageMaxSize={20 * 1024 * 1024} // 20MB
                 />
             ) : (
                 <div className="p-6">

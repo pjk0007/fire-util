@@ -23,6 +23,7 @@ const Tiptap = ({
     className,
     uploadFile,
     editable = true,
+    imageMaxSize = 5 * 1024 * 1024,
 }: {
     id: string;
     defaultContent: Content;
@@ -35,10 +36,11 @@ const Tiptap = ({
         onProgress?: (event: { progress: number }) => void
     ) => Promise<{ fileName: string; fileSize: string; src: string }>;
     editable?: boolean;
+    imageMaxSize?: number;
 }) => {
     const editor = useEditor({
         extensions: [
-            ...NodeExtensions({ mentionItems, uploadFile }),
+            ...NodeExtensions({ mentionItems, uploadFile, imageMaxSize }),
             ...MarkExtensions(),
             ...FunctionExtensions({
                 uploadFile,
