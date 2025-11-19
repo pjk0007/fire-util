@@ -29,7 +29,7 @@ export default function CodeBlock({
 }) {
     return (
         <NodeViewWrapper className="relative group">
-            <div className="absolute px-2 py-1 right-[8px] top-[8px]  bg-white rounded-lg group-hover:visible invisible">
+            <div className="absolute px-2 py-1 right-2 top-2  bg-white rounded-lg group-hover:visible invisible">
                 <select
                     className="text-sm outline-none hover:bg-accent px-1 py-0.5 rounded-md"
                     contentEditable={false}

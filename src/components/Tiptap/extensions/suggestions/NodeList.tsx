@@ -109,7 +109,7 @@ export default function NodeList(props: NodeListProps) {
                                 ref={(el) => {
                                     itemRefs.current[index] = el;
                                 }}
-                                className="text-xs font-[500] flex items-center gap-2"
+                                className="text-xs font-medium flex items-center gap-2"
                                 onSelect={() => selectItem(index)}
                                 onMouseEnter={() => hoverHandler(index)}
                                 style={{
@@ -138,7 +138,7 @@ export default function NodeList(props: NodeListProps) {
                                 ref={(el) => {
                                     itemRefs.current[index + basicItems.length] = el;
                                 }}
-                                className="text-xs font-[500] flex items-center gap-2"
+                                className="text-xs font-medium flex items-center gap-2"
                                 onSelect={() =>
                                     selectItem(index + basicItems.length)
                                 }

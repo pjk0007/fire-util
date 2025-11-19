@@ -112,7 +112,7 @@ export default function SelectionMenuNode({ editor }: { editor: Editor }) {
                                 <CommandItem
                                     key={node.label}
                                     className={cn(
-                                        'text-xs font-[500] flex items-center gap-2'
+                                        'text-xs font-medium flex items-center gap-2'
                                     )}
                                     onSelect={() => {
                                         node.onSelect(editor);
