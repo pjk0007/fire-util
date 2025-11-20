@@ -30,6 +30,7 @@ import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 import FileNode from '@/components/Tiptap/extensions/nodes/FileNode';
 import { ImageUploadNode } from '@/components/Tiptap/extensions/nodes/image-upload-node';
 import { toast } from 'sonner';
+import AsideExtension from '@/components/Tiptap/extensions/nodes/Aside';
 
 const lowlight = createLowlight(all);
 
@@ -49,6 +50,7 @@ export default function NodeExtensions({
         Document,
         Paragraph,
         Text,
+        AsideExtension,
         Blockquote,
         BulletList,
         OrderedList,

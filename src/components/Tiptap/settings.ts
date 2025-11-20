@@ -12,6 +12,7 @@ export const TIP_TAP_LOCALE = {
         ORDERED_LIST: '번호 매기기 목록',
         CODE_BLOCK: '코드',
         BLOCKQUOTE: '인용문',
+        CALLOUT: '콜아웃',
         HORIZONTAL_RULE: '구분선',
         HARD_BREAK: '줄 바꿈',
         TASK: '할 일',

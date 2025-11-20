@@ -1,11 +1,7 @@
 import Tiptap from '@/components/Tiptap/Tiptap';
 import { storage } from '@/lib/firebase';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
-import {
-    getDownloadURL,
-    ref,
-    uploadBytesResumable,
-} from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 const testContent = ` 
 <file-node src="https://placehold.co/600x400/0000FF/FFFFFF" fileSize="100 KB" fileName="placeholder.png" alt="Placeholder Image" >
@@ -30,12 +26,12 @@ const testContent = `
         </details>
       </details>
       <p>Audrey Hepburn</p>
-      <p><strong>This is bold.</strong></p>
+    <aside>  <p><strong>This is bold.</strong></p>
         <p><b>And this.</b></p>
         <p style="font-weight: bold">This as well.</p>
           <p>This isn’t code.</p>
         <p><code>This is code.</code></p>
-         <p>This isn’t highlighted.</s></p>
+         <p>This isn’t highlighted.</s></p></aside>
         <p><mark>But that one is.</mark></p>
         <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
         <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
@@ -189,6 +185,7 @@ export default function Editor() {
         <div className="w-[100dvw] h-[100dvh]">
             <Tiptap
                 id="test"
+                editable={true}
                 defaultContent={testContent}
                 mentionItems={[
                     'Lea Thompson',

@@ -4,6 +4,7 @@ import {
     Heading2,
     Heading3,
     Image,
+    Info,
     List,
     ListCollapse,
     ListOrdered,
@@ -180,6 +181,21 @@ const Nodes: INodeItem[] = [
             windows: 'Ctrl+Shift+B',
         },
         prefix: '> ',
+    },
+    {
+        group: 'basic',
+        label: TIP_TAP_LOCALE.NODE_LABEL.CALLOUT,
+        tags: ['callout', '콜아웃', 'aside', '알림', 'notice'],
+        type: 'aside',
+        icon: <Info />,
+        onSelect: (editor: Editor) => {
+            // @ts-ignore - custom command
+            editor.chain().focus().toggleAside({ type: 'info' }).run();
+        },
+        shortcut: {
+            macos: '⌘⇧C',
+            windows: 'Ctrl+Shift+C',
+        },
     },
     {
         group: 'basic',
