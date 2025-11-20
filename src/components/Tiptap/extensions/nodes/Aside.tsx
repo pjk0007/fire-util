@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { Node, mergeAttributes } from '@tiptap/react';
 import { ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react';
 import { NodeViewContent, NodeViewProps } from '@tiptap/react';
 import React, { useState } from 'react';
@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import Colors from '@/components/Tiptap/config/colors';
 
-declare module '@tiptap/core' {
+declare module '@tiptap/react' {
     interface Commands<ReturnType> {
         aside: {
             setAside: (attributes?: { type?: string }) => ReturnType;
