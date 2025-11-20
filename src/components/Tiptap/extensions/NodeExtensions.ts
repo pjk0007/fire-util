@@ -111,7 +111,9 @@ export default function NodeExtensions({
             levels: [1, 2, 3],
         }),
         HorizontalRule,
-        Image,
+        Image.configure({
+            inline: true,
+        }),
         Mention.configure({
             HTMLAttributes: {
                 class: 'mention',
