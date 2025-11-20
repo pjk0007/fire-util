@@ -60,7 +60,7 @@ const Tiptap = ({
                 onBlur(editor.getJSON());
             }
         },
-    });
+    }, [id]);
 
     return (
         <>
