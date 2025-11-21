@@ -145,6 +145,27 @@ export interface IFireSeller {
     };
 }
 
+export interface IFirePayout {
+    id: string; // 최대 35자
+    refPayoutId: string; // 최대 50자
+    destination: string; // Seller ID
+    scheduleType: 'EXPRESS' | 'SCHEDULED'; // (EXPRESS: 바로 지급 , SCHEDULED: 예약 지급)
+    payoutDate: string; // yyyy-MM-dd
+    amount: {
+        currency: string; // "KRW"
+        value: number;
+    };
+    transactionDescription: string; // 최대 7자
+    requestedAt: string; // yyyy-MM-dd'T'HH:mm:ss±hh:mm
+    status: 'REQUESTED' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'CANCELED'; 
+    // (REQUESTED: 요청됨, IN_PROGRESS: 진행중, COMPLETED: 완료, FAILED: 실패, CANCELED: 취소)
+    error: object | null;
+    metadata: {
+        userId: string;
+        designerPaymentId: string;
+    };
+}
+
 type IFireSellerBusinessType =
     | 'INDIVIDUAL'
     | 'INDIVIDUAL_BUSINESS'
