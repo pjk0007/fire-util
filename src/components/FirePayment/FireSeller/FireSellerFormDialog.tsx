@@ -1,4 +1,5 @@
 import FireSellerForm from '@/components/FirePayment/FireSeller/FireSellerForm';
+import FireScrollArea from '@/components/FireUI/FireScrollArea';
 import {
     Dialog,
     DialogContent,
@@ -21,17 +22,19 @@ export default function FireSellerFormDialog({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent className="overflow-auto md:h-fit md:max-h-[calc(100vh-8rem)] h-full">
+            <DialogContent className="md:h-fit md:max-h-[calc(100vh-8rem)] h-full overflow-hidden flex flex-col">
                 <DialogTitle>
                     {FIRE_PAYMENT_LOCALE.SELLER_FORM.TITLE}
                 </DialogTitle>
-                <FireSellerForm
-                    seller={seller || undefined}
-                    onSuccess={() => {
-                        onSuccess?.();
-                        setOpen(false);
-                    }}
-                />
+                <FireScrollArea className="flex-1">
+                    <FireSellerForm
+                        seller={seller || undefined}
+                        onSuccess={() => {
+                            onSuccess?.();
+                            setOpen(false);
+                        }}
+                    />
+                </FireScrollArea>
             </DialogContent>
         </Dialog>
     );
