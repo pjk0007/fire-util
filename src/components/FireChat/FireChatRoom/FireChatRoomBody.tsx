@@ -3,12 +3,19 @@ import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
+    FIRE_CHAT_LOCALE,
     FireMessage,
     FireMessageContent,
+    MESSAGE_CONTENT_TEXT_FIELD,
+    MESSAGE_TYPE_FIELD,
+    MESSAGE_TYPE_FILE,
+    MESSAGE_TYPE_IMAGE,
+    MESSAGE_USER_ID_FIELD,
+    NOTIFICATION_TITLE,
 } from '@/lib/FireChat/settings';
 import { FireChannel } from '@/lib/FireChannel/settings';
 import { CHANNEL_ID_FIELD } from '@/lib/FireChannel/settings';
-import { FireUser } from '@/lib/FireAuth/settings';
+import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ArrowDown } from 'lucide-react';
 import { useEffect } from 'react';
 import useListMessages from '@/lib/FireChat/hooks/useListMessages';
@@ -21,6 +28,8 @@ import {
 import FireChatRoomBodyMessageList from '@/components/FireChat/FireChatRoom/FireChatRoomBody/FireChatRoomBodyMessageList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
+import usePushNotification from '@/lib/FireChat/hooks/usePushNotification';
+import useUserSetting from '@/lib/FireAuth/hooks/useUserSetting';
 
 export default function FireChatRoomBody<
     C extends FireChannel<M, T>,
@@ -29,6 +38,8 @@ export default function FireChatRoomBody<
     T extends FireMessageContent
 >() {
     const { user: me } = useFireAuth();
+    const { fireNotificationWithTimeout, requestPermission } = usePushNotification();
+    const { userSetting } = useUserSetting();
 
     const { selectedChannelId } = useFireChannel();
     const { channel, participants } = useFireChannelInfo<C, M, T, U>({
@@ -72,6 +83,11 @@ export default function FireChatRoomBody<
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasMore, isTop]);
 
+    // 알림 권한 요청
+    useEffect(() => {
+        requestPermission();
+    }, [requestPermission]);
+
     // 새로운 메시지가 도착했을 때 스크롤을 맨 아래로 내림
     useEffect(() => {
         if (isBottom) {
@@ -81,6 +97,34 @@ export default function FireChatRoomBody<
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages, sendingFiles]);
+
+    // 새로운 메시지 도착 시 푸시 알림
+    useEffect(() => {
+        const newMessage = messages.at(-1);
+        if (!newMessage || !userSetting?.chatAlarm) return;
+
+        // 내가 보낸 메시지는 알림 안함
+        if (newMessage[MESSAGE_USER_ID_FIELD] === me?.[USER_ID_FIELD]) return;
+
+        // 창이 포커스 상태면 알림 안함
+        if (document.hasFocus()) return;
+
+        const type = newMessage[MESSAGE_TYPE_FIELD];
+        let payload: NotificationOptions = { silent: true };
+
+        if (type === MESSAGE_TYPE_IMAGE) {
+            payload = { body: `(${FIRE_CHAT_LOCALE.IMAGE})`, silent: true };
+        } else if (type === MESSAGE_TYPE_FILE) {
+            payload = { body: `(${FIRE_CHAT_LOCALE.FILE})`, silent: true };
+        } else {
+            const contents = newMessage.contents as { text?: string }[];
+            const text = contents?.[0]?.[MESSAGE_CONTENT_TEXT_FIELD] ?? '';
+            payload = { body: text.replace(/<[^>]*>/g, ''), silent: true };
+        }
+
+        fireNotificationWithTimeout(NOTIFICATION_TITLE, 5000, payload);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages.at(-1)]);
 
     if (!channel) {
         return null;

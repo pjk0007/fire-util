@@ -36,6 +36,11 @@ export const FILE_UNIT = 13;
 export const LARGE_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 export const EMOJI_LIST = ['👍', '✅', '❤️', '👀'];
 
+// Notification settings
+export const NOTIFICATION_ICON = '/favicon.png';
+export const NOTIFICATION_ALARM_SOUND = '/audios/alarm.mp3';
+export const NOTIFICATION_TITLE = '디자이너하이어';
+
 /**
  * Localization strings
  */

@@ -26,3 +26,13 @@ export interface FireUser {
     [USER_AVATAR_FIELD]?: string;
     [USER_EMAIL_FIELD]?: string;
 }
+
+// User setting path and fields
+export const USER_SETTING_DOC_PATH = (userId: string) =>
+    `users/${userId}/metadata/setting`;
+
+export const USER_SETTING_CHAT_ALARM_FIELD = 'chatAlarm';
+
+export interface IUserSetting {
+    [USER_SETTING_CHAT_ALARM_FIELD]: boolean;
+}
