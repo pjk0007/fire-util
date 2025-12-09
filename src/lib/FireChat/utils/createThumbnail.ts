@@ -1,9 +1,11 @@
+import isImageFile from "@/lib/FireUtil/isImageFile";
+
 export default async function createThumbnail(
     file: File,
     maxSize = 200
 ): Promise<string> {
     const fileType = file.type;
-    if (!fileType.startsWith('image/')) {
+    if (!isImageFile(file)) {
         throw new Error('Not an image file');
     }
     return new Promise((resolve, reject) => {

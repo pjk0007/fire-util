@@ -22,6 +22,7 @@ import {
 import { Link, Trash, X } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
+import isImageFile from '@/lib/FireUtil/isImageFile';
 
 interface FireTaskSheetFilesProps<
     FT extends FireTask<FU>,
@@ -67,10 +68,10 @@ export default function FireTaskSheetFiles<
                             ? Array.from(e.target.files)
                             : [];
                         const imageFiles = files.filter((file) =>
-                            file.type.startsWith('image/')
+                            isImageFile(file)
                         );
                         const otherFiles = files.filter(
-                            (file) => !file.type.startsWith('image/')
+                            (file) => !isImageFile(file)
                         );
                         setUploadingImages(imageFiles);
                         setUploadingFiles(otherFiles);

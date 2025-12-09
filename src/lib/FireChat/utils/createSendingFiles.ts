@@ -5,17 +5,18 @@ import {
     MESSAGE_TYPE_FILE,
     MESSAGE_TYPE_IMAGE,
 } from '@/lib/FireChat/settings';
+import isImageFile from '@/lib/FireUtil/isImageFile';
 import { Timestamp } from 'firebase/firestore';
 
 export default function createSendingFiles(channelId: string, files: File[]) {
     // 사이즈가 큰 파일이 포함되어 있는지 확인
     const smallImages = files.filter(
-        (file) => file.size < LARGE_FILE_SIZE && file.type.startsWith('image/')
+        (file) => file.size < LARGE_FILE_SIZE && isImageFile(file)
     );
     const largeImages = files.filter(
-        (file) => file.size >= LARGE_FILE_SIZE && file.type.startsWith('image/')
+        (file) => file.size >= LARGE_FILE_SIZE && isImageFile(file)
     );
-    const noImages = files.filter((file) => !file.type.startsWith('image/'));
+    const noImages = files.filter((file) => !isImageFile(file));
 
     const sendingFiles: SendingFile[] = [];
     if (smallImages.length > 0) {

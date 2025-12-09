@@ -1,5 +1,6 @@
 import { db, storage } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import isImageFile from '@/lib/FireUtil/isImageFile';
 import {
     TASK_COLLECTION,
     TASK_FILES_FIELD,
@@ -15,7 +16,7 @@ export default async function uploadFilesToTask(
     files: File[]
 ) {
     const promises = files.map(async (file) => {
-        const type = file.type.startsWith('image/') ? 'images' : 'files';
+        const type = isImageFile(file) ? 'images' : 'files';
         const storageRef = ref(
             storage,
             `${CHANNEL_COLLECTION}/${channelId}/${TASK_COLLECTION}/${taskId}/${type}/${Date.now()}_${

@@ -19,6 +19,7 @@ import Tiptap from '@/components/Tiptap/Tiptap';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
+import isImageFile from '@/lib/FireUtil/isImageFile';
 
 interface FireTaskSheetContentProps<
     FT extends FireTask<FU>,
@@ -79,7 +80,7 @@ export default function FireTaskSheetContent<
                 },
                 async () => {
                     const downloadURL = await getDownloadURL(storageRef);
-                    if (file.type.startsWith('image/')) {
+                    if (isImageFile(file)) {
                         updateTaskImagesAndFiles(
                             task[TASK_CHANNEL_ID_FIELD],
                             task[TASK_ID_FIELD],

@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { ArrowUp, Link, Paperclip, Trash, X } from 'lucide-react';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
+import isImageFile from '@/lib/FireUtil/isImageFile';
 
 interface FireTaskSheetCommentsTextareaProps<
     FT extends FireTask<FU>,
@@ -102,13 +103,13 @@ export default function FireTaskSheetCommentsTextarea<
                             setImageFiles((prev) => [
                                 ...prev,
                                 ...files.filter((file) =>
-                                    file.type.startsWith('image/')
+                                    isImageFile(file)
                                 ),
                             ]);
                             setOtherFiles((prev) => [
                                 ...prev,
                                 ...files.filter(
-                                    (file) => !file.type.startsWith('image/')
+                                    (file) => !isImageFile(file)
                                 ),
                             ]);
                         }}

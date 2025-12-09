@@ -4,6 +4,7 @@ import CommandExtension from '@/components/Tiptap/extensions/functions/CommandEx
 import nodeSuggestion from '@/components/Tiptap/extensions/suggestions/nodeSuggestion';
 import TextAlign from '@tiptap/extension-text-align';
 import FileHandler from '@tiptap/extension-file-handler';
+import isImageFile from '@/lib/FireUtil/isImageFile';
 
 export default function FunctionExtensions({
     uploadFile,
@@ -33,7 +34,7 @@ export default function FunctionExtensions({
                 if (!uploadFile) return;
                 Array.from(files).forEach(async (file) => {
                     const { fileName, fileSize, src } = await uploadFile(file);
-                    if (file.type.startsWith('image/')) {
+                    if (isImageFile(file)) {
                         editor
                             .chain()
                             .insertContentAt(pos, {
@@ -70,7 +71,7 @@ export default function FunctionExtensions({
                 }
                 Array.from(files).forEach(async (file) => {
                     const { fileName, fileSize, src } = await uploadFile(file);
-                    if (file.type.startsWith('image/')) {
+                    if (isImageFile(file)) {
                         console.log(fileName);
                         editor
                             .chain()

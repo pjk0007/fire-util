@@ -18,6 +18,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
+import isImageFile from '@/lib/FireUtil/isImageFile';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { MoreVertical } from 'lucide-react';
@@ -42,7 +43,9 @@ export default function FireChatRoomFooterUploadDialog({
         >
             <DialogContent className="p-4">
                 <DialogHeader className="flex-row">
-                    <DialogTitle>{FIRE_CHAT_LOCALE.FOOTER.UPLOAD_FILES}</DialogTitle>
+                    <DialogTitle>
+                        {FIRE_CHAT_LOCALE.FOOTER.UPLOAD_FILES}
+                    </DialogTitle>
 
                     <DialogDescription>
                         ({files.length} {files.length > 1 ? 'files' : 'file'})
@@ -55,7 +58,7 @@ export default function FireChatRoomFooterUploadDialog({
                                 key={index}
                                 className="p-2 border rounded-md gap-2 flex-row items-center"
                             >
-                                {file.type.startsWith('image/') ? (
+                                {isImageFile(file) ? (
                                     <Image
                                         width={128}
                                         height={128}
@@ -100,7 +103,10 @@ export default function FireChatRoomFooterUploadDialog({
                                                 setFiles(newFiles);
                                             }}
                                         >
-                                            {FIRE_CHAT_LOCALE.FOOTER.REMOVE_FILE}
+                                            {
+                                                FIRE_CHAT_LOCALE.FOOTER
+                                                    .REMOVE_FILE
+                                            }
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
@@ -111,7 +117,9 @@ export default function FireChatRoomFooterUploadDialog({
 
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button variant="outline">{FIRE_CHAT_LOCALE.CANCEL}</Button>
+                        <Button variant="outline">
+                            {FIRE_CHAT_LOCALE.CANCEL}
+                        </Button>
                     </DialogClose>
                     <Button onClick={onClickUpload}>
                         {FIRE_CHAT_LOCALE.FOOTER.UPLOAD_FILES}

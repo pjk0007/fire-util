@@ -139,6 +139,7 @@ export default function useFireChatSendingImages({
         uploadTaskRef.current.forEach((task) => {
             if (task) {
                 task.cancel();
+                setIsCompleted(true);
             }
         });
     }
