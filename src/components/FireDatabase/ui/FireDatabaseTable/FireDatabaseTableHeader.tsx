@@ -1,0 +1,91 @@
+import { TableCell, TableHeader, TableRow } from '@/components/ui/table';
+import { Checkbox } from '@/components/ui/checkbox';
+import FireDatabaseTableHead from './FireDatabaseTableHead';
+import {
+    horizontalListSortingStrategy,
+    SortableContext,
+} from '@dnd-kit/sortable';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { ColumnOrderState, Table } from '@tanstack/react-table';
+
+export default function FireDatabaseTableHeader<TData>({
+    table,
+    columnOrder,
+}: {
+    table: Table<TData>;
+    columnOrder: ColumnOrderState;
+}) {
+    return (
+        <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow
+                    key={headerGroup.id}
+                    className="hover:bg-transparent group"
+                    style={{
+                        border: 'none',
+                    }}
+                >
+                    <TableCell className="w-10 p-0 sticky left-0 bg-background z-10">
+                        <div
+                            className="flex items-center justify-center h-full bg-background cursor-pointer"
+                            onClick={() => {
+                                table.toggleAllRowsSelected(
+                                    !table.getIsAllRowsSelected()
+                                );
+                            }}
+                        >
+                            <Checkbox
+                                checked={table.getIsAllRowsSelected()}
+                                className={`transition-opacity ${
+                                    table.getIsSomeRowsSelected() ||
+                                    table.getIsAllRowsSelected()
+                                        ? 'opacity-100'
+                                        : 'opacity-0 group-hover:opacity-100 hover:bg-gray-100'
+                                }`}
+                            />
+                        </div>
+                    </TableCell>
+                    <SortableContext
+                        items={columnOrder}
+                        strategy={horizontalListSortingStrategy}
+                    >
+                        {headerGroup.headers.map((header) => (
+                            <FireDatabaseTableHead
+                                key={header.id}
+                                header={header}
+                            />
+                        ))}
+                    </SortableContext>
+                    <TableCell className="p-0 border-b">
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon-sm"
+                                        onClick={() => {
+                                            // TODO: 속성 추가 로직
+                                            console.log('속성 추가');
+                                        }}
+                                    >
+                                        <Plus className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>속성 추가</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </TableCell>
+                </TableRow>
+            ))}
+        </TableHeader>
+    );
+}
