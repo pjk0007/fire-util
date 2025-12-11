@@ -24,7 +24,7 @@ import {
     CHANNEL_ID_FIELD,
     CHANNEL_NAME_FIELD
 } from '@/lib/FireChannel/settings';
-import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
+import downloadFileFromUrl from '@/lib/FireUtil/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import { localeDateString } from '@/lib/FireUtil/timeformat';
 import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';

@@ -12,7 +12,7 @@ import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
 import { Download } from 'lucide-react';
 import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { Button } from '@/components/ui/button';
-import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
+import downloadFileFromUrl from '@/lib/FireUtil/downloadFileFromUrl';
 import { memo } from 'react';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import { cn } from '@/lib/utils';

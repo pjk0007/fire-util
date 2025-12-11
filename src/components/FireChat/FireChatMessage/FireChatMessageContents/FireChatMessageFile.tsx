@@ -5,7 +5,7 @@ import {
     FireMessageFile,
     FIRE_CHAT_LOCALE,
 } from '@/lib/FireChat/settings';
-import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
+import downloadFileFromUrl from '@/lib/FireUtil/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import { ArrowDownToLine } from 'lucide-react';
 import { useState } from 'react';

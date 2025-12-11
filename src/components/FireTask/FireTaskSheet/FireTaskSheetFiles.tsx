@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
-import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
+import downloadFileFromUrl from '@/lib/FireUtil/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';

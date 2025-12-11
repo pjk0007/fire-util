@@ -12,7 +12,7 @@ import {
     USER_AVATAR_FIELD,
     USER_NAME_FIELD,
 } from '@/lib/FireAuth/settings';
-import downloadFileFromUrl from '@/lib/FireChat/utils/downloadFileFromUrl';
+import downloadFileFromUrl from '@/lib/FireUtil/downloadFileFromUrl';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import {
     formatRelativeTime,
