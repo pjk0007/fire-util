@@ -1,67 +1,47 @@
+import { memo } from 'react';
 import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
 import ColumnCell from '@/components/FireDatabase/utils/columns/ColumnCell';
 import ColumnHeader from '@/components/FireDatabase/utils/columns/ColumnHeader';
 import { ColumnDef } from '@tanstack/react-table';
-import { CaseSensitive, Clock3 } from 'lucide-react';
+
+// Memoize header component to prevent re-renders
+const HeaderComponent = memo(({ column }: { column: FireDatabaseColumn }) => (
+    <ColumnHeader column={column} />
+));
+HeaderComponent.displayName = 'HeaderComponent';
 
 export function databaseToTableColumns(
     databaseId: string,
-    columns: FireDatabaseColumn[],
-    refetchRows?: () => void
+    columns: FireDatabaseColumn[]
 ) {
-    return columns.map((column) =>
-        columnToTableColumn(databaseId, column, refetchRows)
-    );
+    return columns.map((column) => columnToTableColumn(databaseId, column));
 }
 
 export function columnToTableColumn<TData>(
     databaseId: string,
-    column: FireDatabaseColumn,
-    refetchRows?: () => void
+    column: FireDatabaseColumn
 ): ColumnDef<TData> {
-    console.log(column.type);
     switch (column.type) {
         case 'id':
         case 'name':
         case 'createdAt':
         case 'updatedAt':
+        case 'string':
+        case 'number':
+        case 'boolean':
+        case 'date':
             return {
                 id: column.id,
                 accessorKey: column.id,
-                header: () => <ColumnHeader column={column} />,
+                header: () => <HeaderComponent column={column} />,
                 cell: (info) => (
                     <ColumnCell
                         table={info.table}
                         databaseId={databaseId}
                         column={column}
                         row={info.row}
-                        refetchRows={refetchRows}
                     />
                 ),
-            };
-        case 'string':
-            return {
-                id: column.id,
-                accessorKey: column.id,
-                header: column.name,
-            };
-        case 'number':
-            return {
-                id: column.id,
-                accessorKey: column.id,
-                header: column.name,
-            };
-        case 'boolean':
-            return {
-                id: column.id,
-                accessorKey: column.id,
-                header: column.name,
-            };
-        case 'date':
-            return {
-                id: column.id,
-                accessorKey: column.id,
-                header: column.name,
             };
         case 'select':
         case 'multi-select':

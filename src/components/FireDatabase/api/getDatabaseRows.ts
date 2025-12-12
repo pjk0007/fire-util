@@ -4,6 +4,7 @@ import { db } from '@/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
 export default async function getDatabaseRows(id: string) {
+    console.log('getDatabaseRows called for:', id);
     const docs = await getDocs(collection(db, DATABASE_COLLECTION, id, 'rows'));
     return docs.docs.map((doc) => doc.data() as FireDatabaseRow);
 }

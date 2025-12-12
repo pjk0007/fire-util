@@ -1,10 +1,11 @@
+import { useMemo } from 'react';
 import { TableCell } from '@/components/ui/table';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Cell, flexRender } from '@tanstack/react-table';
 import { CSSProperties } from 'react';
 
-export default function FireDatabaseTableCell<TData>({
+function FireDatabaseTableCell<TData>({
     cell,
 }: {
     cell: Cell<TData, unknown>;
@@ -13,15 +14,20 @@ export default function FireDatabaseTableCell<TData>({
         id: cell.column.id,
     });
 
-    const style: CSSProperties = {
-        opacity: isDragging ? 0.8 : 1,
-        position: 'relative',
-        transform: CSS.Translate.toString(transform), // translate instead of transform to avoid squishing
-        width: cell.column.getSize(),
-        zIndex: isDragging ? 1 : 0,
-        padding: 0,
-        height: '40px',
-    };
+    const columnSize = cell.column.getSize();
+
+    const style: CSSProperties = useMemo(
+        () => ({
+            opacity: isDragging ? 0.8 : 1,
+            position: 'relative',
+            transform: CSS.Translate.toString(transform),
+            width: columnSize,
+            zIndex: isDragging ? 1 : 0,
+            padding: 0,
+            height: '40px',
+        }),
+        [isDragging, transform, columnSize]
+    );
 
     return (
         <TableCell
@@ -33,3 +39,5 @@ export default function FireDatabaseTableCell<TData>({
         </TableCell>
     );
 }
+
+export default FireDatabaseTableCell;

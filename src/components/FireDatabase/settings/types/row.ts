@@ -20,8 +20,9 @@ export type FireDatabaseDataString = string;
 export type FireDatabaseDataNumber = number;
 export type FireDatabaseDataBoolean = boolean;
 export type FireDatabaseDataDate = {
-    start: Date;
-    end?: Date;
+    start: Timestamp | null;
+    end: Timestamp | null;
+    includeEnd: boolean;
     includeTime: boolean;
 };
 export type FireDatabaseDataSelect = string;

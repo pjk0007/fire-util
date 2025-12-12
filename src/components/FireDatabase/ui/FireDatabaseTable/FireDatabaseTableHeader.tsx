@@ -1,6 +1,6 @@
 import { TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
-import FireDatabaseTableHead from './FireDatabaseTableHead';
+import FireDatabaseTableHead from './FireDatabaseTableHeader/FireDatabaseTableHead';
 import {
     horizontalListSortingStrategy,
     SortableContext,
@@ -14,13 +14,17 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { ColumnOrderState, Table } from '@tanstack/react-table';
+import FireDatabaseTableAddColumn from '@/components/FireDatabase/ui/FireDatabaseTable/FireDatabaseTableHeader/FireDatabaseTableAddColumn';
+import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
 
 export default function FireDatabaseTableHeader<TData>({
     table,
     columnOrder,
+    databaseId,
 }: {
     table: Table<TData>;
     columnOrder: ColumnOrderState;
+    databaseId: string;
 }) {
     return (
         <TableHeader>
@@ -63,27 +67,7 @@ export default function FireDatabaseTableHeader<TData>({
                             />
                         ))}
                     </SortableContext>
-                    <TableCell className="p-0 border-b">
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        onClick={() => {
-                                            // TODO: 속성 추가 로직
-                                            console.log('속성 추가');
-                                        }}
-                                    >
-                                        <Plus className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>속성 추가</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    </TableCell>
+                    <FireDatabaseTableAddColumn databaseId={databaseId} />
                 </TableRow>
             ))}
         </TableHeader>

@@ -3,6 +3,7 @@ import {
     FireDatabaseViewGroup,
     FireDatabaseViewSort,
 } from '@/components/FireDatabase/settings/types/view';
+import { IconName } from '@/components/FireDatabase/utils/icons';
 import {
     ColumnOrderState,
     ColumnSizingState,
@@ -37,7 +38,10 @@ export interface FireDatabaseColumn {
         | 'select'
         | 'multi-select'
         | 'relation';
+    icon?: IconName | null;
     options?: string[];
+    tags: string[];
+    dateformat?: string;
     relation?: { databaseId: string; columnId: string };
 }
 
