@@ -6,7 +6,7 @@ import FireDatabaseViewButton, {
 
 function FireDatabaseContent() {
     const {
-        database,
+        views,
         databaseName,
         setDatabaseName,
         updateDatabaseName,
@@ -25,7 +25,7 @@ function FireDatabaseContent() {
                 onBlur={updateDatabaseName}
             />
             <div className="flex gap-1 mb-4 group sticky left-0 px-20">
-                {database?.views.map((view) => (
+                {views.map((view) => (
                     <FireDatabaseViewButton
                         view={view}
                         key={view.id}

@@ -17,7 +17,7 @@ export type FireDatabaseData =
     | FireDatabaseDataMultiSelect
     | FireDatabaseDataRelation;
 export type FireDatabaseDataString = string;
-export type FireDatabaseDataNumber = number;
+export type FireDatabaseDataNumber = number | null;
 export type FireDatabaseDataBoolean = boolean;
 export type FireDatabaseDataDate = {
     start: Timestamp | null;

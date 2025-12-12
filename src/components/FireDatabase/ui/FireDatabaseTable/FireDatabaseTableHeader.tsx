@@ -20,11 +20,9 @@ import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/dat
 export default function FireDatabaseTableHeader<TData>({
     table,
     columnOrder,
-    databaseId,
 }: {
     table: Table<TData>;
     columnOrder: ColumnOrderState;
-    databaseId: string;
 }) {
     return (
         <TableHeader>
@@ -67,7 +65,7 @@ export default function FireDatabaseTableHeader<TData>({
                             />
                         ))}
                     </SortableContext>
-                    <FireDatabaseTableAddColumn databaseId={databaseId} />
+                    <FireDatabaseTableAddColumn />
                 </TableRow>
             ))}
         </TableHeader>

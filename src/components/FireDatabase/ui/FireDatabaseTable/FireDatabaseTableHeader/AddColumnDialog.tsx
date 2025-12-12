@@ -1,7 +1,5 @@
-import createColumn from '@/components/FireDatabase/api/createColumn';
 import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabaseContext';
 import { COLUMN_LIST } from '@/components/FireDatabase/settings/types/column';
-import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
 import { getIcon } from '@/components/FireDatabase/utils/icons';
 import {
     Popover,
@@ -11,11 +9,9 @@ import {
 import { useEffect, useState } from 'react';
 
 export default function AddColumnPopover({
-    databaseId,
     isOpen,
     onClose,
 }: {
-    databaseId: string;
     isOpen: boolean;
     onClose: () => void;
 }) {
@@ -54,18 +50,13 @@ export default function AddColumnPopover({
                             <div
                                 key={column.type}
                                 className="flex items-center gap-2 p-2 hover:bg-accent cursor-pointer"
-                                onClick={() => {
+                                onClick={async () => {
                                     const id = `column-${Date.now()}`;
-                                    createColumn(databaseId, {
+                                    await addColumn({
                                         id,
                                         ...column,
-                                    }).then(() => {
-                                        addColumn({
-                                            id,
-                                            ...column,
-                                        });
-                                        onClose();
                                     });
+                                    onClose();
                                 }}
                             >
                                 {column.icon && getIcon(column.icon)}

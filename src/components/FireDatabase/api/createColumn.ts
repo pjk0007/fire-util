@@ -1,22 +1,46 @@
-import { DATABASE_COLLECTION } from '@/components/FireDatabase/settings/constants';
-import { FireDatabase, FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
+import {
+    DATABASE_COLLECTION,
+    DATABASE_VIEW_SUBCOLLECTION,
+} from '@/components/FireDatabase/settings/constants';
+import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
 import { db } from '@/lib/firebase';
-import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
+import {
+    arrayUnion,
+    collection,
+    doc,
+    getDocs,
+    updateDoc,
+} from 'firebase/firestore';
 
 export default async function createColumn(
     databaseId: string,
     column: FireDatabaseColumn
 ) {
-    const databaseDoc = await getDoc(doc(db, DATABASE_COLLECTION, databaseId));
-    const database = databaseDoc.data() as FireDatabase;
-    
-    const views = database.views
-
+    // Update database columns
     await updateDoc(doc(db, DATABASE_COLLECTION, databaseId), {
         columns: arrayUnion(column),
-        views: views.map(view => ({
-            ...view,
-            columnOrder: [...view.columnOrder, column.id],
-        })),
     });
+
+    // Get all views for this database
+    const viewsSnapshot = await getDocs(
+        collection(
+            db,
+            DATABASE_COLLECTION,
+            databaseId,
+            DATABASE_VIEW_SUBCOLLECTION
+        )
+    );
+
+    // Update columnOrder for each view
+    const updatePromises = viewsSnapshot.docs.map((viewDoc) => {
+        const viewData = viewDoc.data();
+        const currentColumnOrder = viewData.columnOrder || [];
+
+        return updateDoc(viewDoc.ref, {
+            // columnOrder: [...currentColumnOrder, column.id],
+            columnOrder: arrayUnion(column.id),
+        });
+    });
+
+    await Promise.all(updatePromises);
 }

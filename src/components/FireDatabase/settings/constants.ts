@@ -3,6 +3,7 @@ import { FireDatabaseView, FireDatabaseColumn } from './types/database';
 
 export const DATABASE_COLLECTION = 'databases';
 export const DATABASE_ROW_SUBCOLLECTION = 'rows';
+export const DATABASE_VIEW_SUBCOLLECTION = 'views';
 export const DEFAULT_DATABASE_NAME = '새 데이터베이스';
 export const DEFAULT_DATABASE_ROW_NAME = '새 데이터';
 

@@ -20,7 +20,7 @@ import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabase
 import { ColumnOrderState } from '@tanstack/react-table';
 
 function FireDatabaseTable() {
-    const { table, columnOrder, setColumnOrder, databaseId, addRow } =
+    const { table, columnOrder, setColumnOrder, addRow } =
         useFireDatabase();
 
     const handleDragEnd = useCallback(
@@ -47,16 +47,11 @@ function FireDatabaseTable() {
         useSensor(KeyboardSensor, {})
     );
 
-    const tableStyle = useMemo(
-        () => ({
-            width: table?.getTotalSize(),
-            marginLeft: 40,
-            marginRight: 40,
-        }),
-        [table]
-    );
-
-    const modifiers = useMemo(() => [restrictToHorizontalAxis], []);
+    const tableStyle = {
+        width: table?.getTotalSize(),
+        marginLeft: 40,
+        marginRight: 40,
+    };
 
     if (!table) return null;
 
@@ -65,14 +60,13 @@ function FireDatabaseTable() {
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
-                modifiers={modifiers}
+                modifiers={[restrictToHorizontalAxis]}
                 onDragEnd={handleDragEnd}
             >
                 <Table noWrapper style={tableStyle}>
                     <FireDatabaseTableHeader
                         table={table}
                         columnOrder={columnOrder}
-                        databaseId={databaseId}
                     />
                     <FireDatabaseTableBody table={table} />
                 </Table>
@@ -95,4 +89,4 @@ function FireDatabaseTable() {
     );
 }
 
-export default memo(FireDatabaseTable);
+export default FireDatabaseTable;

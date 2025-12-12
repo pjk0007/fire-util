@@ -9,19 +9,12 @@ import {
 } from '@/components/ui/tooltip';
 import { useState } from 'react';
 import AddColumnPopover from '@/components/FireDatabase/ui/FireDatabaseTable/FireDatabaseTableHeader/AddColumnDialog';
-import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
-import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabaseContext';
 
-export default function FireDatabaseTableAddColumn({
-    databaseId,
-}: {
-    databaseId: string;
-}) {
+export default function FireDatabaseTableAddColumn() {
     const [isOpen, setIsOpen] = useState(false);
     return (
         <TableCell className="p-0 border-b">
             <AddColumnPopover
-                databaseId={databaseId}
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
             />
