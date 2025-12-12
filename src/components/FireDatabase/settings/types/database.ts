@@ -16,7 +16,6 @@ export interface FireDatabase {
     id: string;
     name: string;
     columns: FireDatabaseColumn[];
-    views: FireDatabaseView[];
     createdAt: Timestamp;
     updatedAt: Timestamp;
     isDeleted?: boolean;

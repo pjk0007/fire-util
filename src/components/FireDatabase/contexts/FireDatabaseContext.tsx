@@ -13,11 +13,13 @@ import { FireDatabase, FireDatabaseColumn, FireDatabaseView } from '@/components
 import { FireDatabaseRow } from '@/components/FireDatabase/settings/types/row';
 import useDatabase from '@/components/FireDatabase/hooks/useDatabase';
 import useDatabaseRows from '@/components/FireDatabase/hooks/useDatabaseRows';
-import updateDatabaseView from '@/components/FireDatabase/api/updateDatabaseView';
+import useDatabaseViews from '@/components/FireDatabase/hooks/useDatabaseViews';
+import updateView from '@/components/FireDatabase/api/updateView';
 import updateDatabase from '@/components/FireDatabase/api/updateDatabase';
 import { databaseToTableColumns } from '@/components/FireDatabase/utils/columns';
 import createRow from '@/components/FireDatabase/api/createRow';
 import updateColumnAPI from '@/components/FireDatabase/api/updateColumn';
+import createColumnAPI from '@/components/FireDatabase/api/createColumn';
 
 interface FireDatabaseContextValue {
     // Database
@@ -28,6 +30,7 @@ interface FireDatabaseContextValue {
     updateDatabaseName: () => Promise<void>;
 
     // View
+    views: FireDatabaseView[];
     selectedViewId: string | null;
     setSelectedViewId: (id: string) => void;
     currentView: FireDatabaseView | null;
@@ -52,7 +55,7 @@ interface FireDatabaseContextValue {
     setRowSelection: Dispatch<SetStateAction<Record<string, boolean>>>;
 
     // Actions
-    addColumn: (column: FireDatabaseColumn) => void;
+    addColumn: (column: FireDatabaseColumn) => Promise<void>;
     updateColumn: (columnId: string, updates: Partial<FireDatabaseColumn>) => void;
     addRow: () => Promise<void>;
     refetchDatabases: () => void;
@@ -71,8 +74,9 @@ export function FireDatabaseProvider({
 }) {
     const { database } = useDatabase(databaseId);
     const { rows: fetchedRows, refetch: refetchRows } = useDatabaseRows(databaseId);
+    const { views, refetch: refetchViews } = useDatabaseViews(databaseId);
     console.warn(databaseId, fetchedRows);
-    
+
 
     const [selectedViewId, setSelectedViewId] = useState<string | null>(null);
     const [databaseName, setDatabaseName] = useState(database?.name || '');
@@ -80,8 +84,8 @@ export function FireDatabaseProvider({
     const [rows, setRows] = useState<FireDatabaseRow[]>([]);
 
     const currentView = useMemo(
-        () => database?.views.find((view) => view.id === selectedViewId),
-        [database?.views, selectedViewId]
+        () => views.find((view) => view.id === selectedViewId),
+        [views, selectedViewId]
     );
 
     const [sorting, setSorting] = useState<SortingState>(currentView?.sorting || []);
@@ -134,30 +138,29 @@ export function FireDatabaseProvider({
         console.log('Database effect:', {
             database: database?.id,
             initialized: initializedRef.current,
-            currentDbId: currentDatabaseIdRef.current
+            currentDbId: currentDatabaseIdRef.current,
+            viewsLength: views.length
         });
 
-        if (database && !initializedRef.current) {
+        if (database && views.length > 0 && !initializedRef.current) {
             console.log('Initializing database state for:', database.id);
             setDatabaseName(database.name);
             setCols(database.columns);
 
             // Set first view
-            if (database.views.length > 0) {
-                const firstView = database.views[0];
-                console.log('Setting first view:', firstView.id, firstView.columnVisibility);
-                setSelectedViewId(firstView.id);
+            const firstView = views[0];
+            console.log('Setting first view:', firstView.id, firstView.columnVisibility);
+            setSelectedViewId(firstView.id);
 
-                // Set view states
-                setSorting(firstView.sorting || []);
-                setColumnSizing(firstView.columnSizing || {});
-                setColumnOrder(firstView.columnOrder || database.columns.map(col => col.id));
-                setColumnVisibility(firstView.columnVisibility || {});
-            }
+            // Set view states
+            setSorting(firstView.sorting || []);
+            setColumnSizing(firstView.columnSizing || {});
+            setColumnOrder(firstView.columnOrder || database.columns.map(col => col.id));
+            setColumnVisibility(firstView.columnVisibility || {});
 
             initializedRef.current = true;
         }
-    }, [database]);
+    }, [database, views]);
 
     // Update view states when selectedViewId or currentView changes (but not during initialization)
     useEffect(() => {
@@ -180,7 +183,7 @@ export function FireDatabaseProvider({
     useEffect(() => {
         console.log('View state changed', { sorting, columnOrder, columnSizing, columnVisibility });
         if (currentView && !isUpdatingViewRef.current && initializedRef.current) {
-            updateDatabaseView(databaseId, currentView.id, {
+            updateView(databaseId, currentView.id, {
                 sorting,
                 columnOrder,
                 columnSizing,
@@ -223,9 +226,24 @@ export function FireDatabaseProvider({
         refetchDatabases();
     }, [databaseId, databaseName, refetchDatabases]);
 
-    const addColumn = useCallback((column: FireDatabaseColumn) => {
+    const addColumn = useCallback(async (column: FireDatabaseColumn) => {
+        // Optimistic update - immediately add to UI
         setCols(prev => [...prev, column]);
-    }, []);
+        setColumnOrder(prev => [...prev, column.id]);
+
+        // Update database in background
+        try {
+            await createColumnAPI(databaseId, column);
+            // Refetch views to ensure we have the latest columnOrder from all views
+            await refetchViews();
+        } catch (error) {
+            // Rollback on error
+            setCols(prev => prev.filter(col => col.id !== column.id));
+            setColumnOrder(prev => prev.filter(id => id !== column.id));
+            console.error('Failed to create column:', error);
+            throw error; // Re-throw so caller can handle if needed
+        }
+    }, [databaseId, refetchViews]);
 
     const updateColumn = useCallback((columnId: string, updates: Partial<FireDatabaseColumn>) => {
         // Optimistic update for immediate UI feedback
@@ -249,6 +267,7 @@ export function FireDatabaseProvider({
         databaseName,
         setDatabaseName,
         updateDatabaseName,
+        views,
         selectedViewId,
         setSelectedViewId,
         currentView: currentView || null,
