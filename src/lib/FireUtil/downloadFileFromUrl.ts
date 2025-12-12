@@ -1,12 +1,12 @@
-const IMAGE_EXTENSIONS = ["jpeg", "jpg", "png", "gif", "webp", "svg", "tiff", "bmp", "heic", "ico"];
+const BLOB_DOWNLOAD_EXTENSIONS = ["jpeg", "jpg", "png", "gif", "webp", "svg", "tiff", "bmp", "heic", "ico", "pdf"];
 
-function isImageByExtension(filename: string): boolean {
+function shouldUseBlobDownload(filename: string): boolean {
     const extension = filename.split(".").pop()?.toLowerCase() || "";
-    return IMAGE_EXTENSIONS.includes(extension);
+    return BLOB_DOWNLOAD_EXTENSIONS.includes(extension);
 }
 
 export default async function downloadFileFromUrl(url: string, name: string) {
-    if (isImageByExtension(name)) {
+    if (shouldUseBlobDownload(name)) {
         const response = await fetch(url);
         const blob = await response.blob();
         const downloadUrl = URL.createObjectURL(blob);
