@@ -50,6 +50,7 @@ interface FireDatabaseContextValue {
     selectedViewId: string | null;
     setSelectedViewId: (id: string) => void;
     currentView: FireDatabaseView | null;
+    refetchViews: () => void;
 
     // Table
     table: TanStackTable<FireDatabaseRow> | null;
@@ -158,50 +159,31 @@ export function FireDatabaseProvider({
         setRows(fetchedRows);
     }, [fetchedRows]);
 
-    // Initialize database state
+    // Initialize database and sync view states
     useEffect(() => {
-        console.log('Database effect:', {
+        console.log('Database/View sync effect:', {
             database: database?.id,
-            initialized: initializedRef.current,
-            currentDbId: currentDatabaseIdRef.current,
             viewsLength: views.length,
+            selectedViewId,
+            currentView: currentView?.id,
         });
 
+        // Initialize database on first load
         if (database && views.length > 0 && !initializedRef.current) {
             console.log('Initializing database state for:', database.id);
             setDatabaseName(database.name);
             setCols(database.columns);
-
-            // Set first view
-            const firstView = views[0];
-            console.log(
-                'Setting first view:',
-                firstView.id,
-                firstView.columnVisibility
-            );
-            setSelectedViewId(firstView.id);
-
-            // Set view states
-            setSorting(firstView.sorting || []);
-            setColumnSizing(firstView.columnSizing || {});
-            setColumnOrder(
-                firstView.columnOrder || database.columns.map((col) => col.id)
-            );
-            setColumnVisibility(firstView.columnVisibility || {});
-
+            setSelectedViewId(views[0].id);
             initializedRef.current = true;
         }
-    }, [database, views]);
 
-    // Update view states when selectedViewId or currentView changes (but not during initialization)
-    useEffect(() => {
-        if (currentView && initializedRef.current && selectedViewId) {
-            console.log(
-                'Loading view state:',
-                currentView.id,
-                'with visibility:',
-                currentView.columnVisibility
-            );
+        // Sync view state whenever currentView changes
+        if (currentView && initializedRef.current) {
+            console.log('Loading view state:', currentView.id, {
+                columnOrder: currentView.columnOrder,
+                columnSizing: currentView.columnSizing,
+            });
+
             isUpdatingViewRef.current = true;
             setSorting(currentView.sorting || []);
             setColumnSizing(currentView.columnSizing || {});
@@ -209,16 +191,12 @@ export function FireDatabaseProvider({
                 currentView.columnOrder || cols.map((col) => col.id)
             );
             setColumnVisibility(currentView.columnVisibility || {});
-            console.log(
-                'Set columnVisibility to:',
-                currentView.columnVisibility || {}
-            );
-            // Reset flag after a brief delay to allow state updates to settle
+
             setTimeout(() => {
                 isUpdatingViewRef.current = false;
             }, 0);
         }
-    }, [selectedViewId, currentView, cols]);
+    }, [database, views, selectedViewId, cols]);
 
     // Persist view state changes (but not during view loading)
     useEffect(() => {
@@ -353,6 +331,7 @@ export function FireDatabaseProvider({
         selectedViewId,
         setSelectedViewId,
         currentView: currentView || null,
+        refetchViews,
         table: table as TanStackTable<FireDatabaseRow> | null,
         rows,
         setRows,

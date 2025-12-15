@@ -13,6 +13,7 @@ function FireDatabaseContent() {
         selectedViewId,
         setSelectedViewId,
         currentView,
+        refetchViews
     } = useFireDatabase();
 
     return (
@@ -31,6 +32,7 @@ function FireDatabaseContent() {
                         key={view.id}
                         selectedViewId={selectedViewId}
                         setSelectedViewId={setSelectedViewId}
+                        refetchViews={refetchViews}
                     />
                 ))}
                 <FireDatabaseViewAddButton />
