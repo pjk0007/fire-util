@@ -107,10 +107,7 @@ export function FireDatabaseProvider({
     );
     const [rows, setRows] = useState<FireDatabaseRow[]>([]);
 
-    const currentView = useMemo(
-        () => views.find((view) => view.id === selectedViewId),
-        [views, selectedViewId]
-    );
+    const currentView = views.find((view) => view.id === selectedViewId);
 
     const [sorting, setSorting] = useState<SortingState>(
         currentView?.sorting || []
@@ -155,25 +152,10 @@ export function FireDatabaseProvider({
             databaseId,
             fetchedRowsLength: fetchedRows.length,
             currentRowsLength: rows.length,
-            fetchedRowsIds: fetchedRows.map((r) => r.id).join(','),
-            currentRowsIds: rows.map((r) => r.id).join(','),
         });
 
-        // Always sync fetchedRows to rows
-        // Compare by stringified IDs to avoid unnecessary updates
-        const fetchedIds = fetchedRows
-            .map((r) => r.id)
-            .sort()
-            .join(',');
-        const currentIds = rows
-            .map((r) => r.id)
-            .sort()
-            .join(',');
-
-        if (fetchedIds !== currentIds) {
-            console.log('Syncing rows from fetchedRows:', fetchedRows.length);
-            setRows(fetchedRows);
-        }
+        // Always sync fetchedRows to rows when data changes
+        setRows(fetchedRows);
     }, [fetchedRows]);
 
     // Initialize database state

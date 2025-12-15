@@ -10,7 +10,9 @@ export default function useDatabaseRows(databaseId: string) {
     } = useQuery({
         queryKey: ['databaseRows', databaseId],
         queryFn: () => getDatabaseRows(databaseId),
-        // Prevent automatic refetch on window focus or reconnect
+        enabled: !!databaseId,
+        gcTime: 0, // Don't cache data (previously cacheTime)
+        staleTime: 0, // Always consider data stale
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });

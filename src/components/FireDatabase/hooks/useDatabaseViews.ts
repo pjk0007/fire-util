@@ -11,7 +11,8 @@ export default function useDatabaseViews(databaseId: string) {
         queryKey: ['databaseViews', databaseId],
         queryFn: () => getDatabaseViews(databaseId),
         enabled: !!databaseId,
-        // Prevent automatic refetch on window focus or reconnect
+        gcTime: 0, // Don't cache data (previously cacheTime)
+        staleTime: 0, // Always consider data stale
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
     });

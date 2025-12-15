@@ -21,7 +21,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { ReactNode, useState, useMemo, useCallback, memo } from 'react';
 
-function ColumnHeader({ column }: { column: FireDatabaseColumn }) {
+export default function ColumnHeader({
+    column,
+}: {
+    column: FireDatabaseColumn;
+}) {
     return (
         <div className="w-full h-full flex gap-2 items-center">
             {column.icon && getIcon(column.icon)}
@@ -30,17 +34,14 @@ function ColumnHeader({ column }: { column: FireDatabaseColumn }) {
     );
 }
 
-export default memo(ColumnHeader);
-
-function ColumnHeaderContextMenuComponent({
+export function ColumnHeaderContextMenu({
     children,
     columnId,
 }: {
     children: ReactNode;
     columnId: string;
 }) {
-    const { columns, updateColumn, deleteColumn, databaseId } =
-        useFireDatabase();
+    const { columns, updateColumn, deleteColumn } = useFireDatabase();
     const column = useMemo(
         () => columns.find((col) => col.id === columnId),
         [columns, columnId]
@@ -158,5 +159,3 @@ function ColumnHeaderContextMenuComponent({
         </ContextMenu>
     );
 }
-
-export const ColumnHeaderContextMenu = memo(ColumnHeaderContextMenuComponent);

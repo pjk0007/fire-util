@@ -4,12 +4,6 @@ import ColumnCell from '@/components/FireDatabase/utils/columns/ColumnCell';
 import ColumnHeader from '@/components/FireDatabase/utils/columns/ColumnHeader';
 import { ColumnDef } from '@tanstack/react-table';
 
-// Memoize header component to prevent re-renders
-const HeaderComponent = memo(({ column }: { column: FireDatabaseColumn }) => (
-    <ColumnHeader column={column} />
-));
-HeaderComponent.displayName = 'HeaderComponent';
-
 export function databaseToTableColumns(
     databaseId: string,
     columns: FireDatabaseColumn[]
@@ -36,7 +30,7 @@ export function columnToTableColumn<TData>(
             return {
                 id: column.id,
                 accessorKey: column.id,
-                header: () => <HeaderComponent column={column} />,
+                header: () => <ColumnHeader column={column} />,
                 cell: (info) => (
                     <ColumnCell
                         table={info.table}

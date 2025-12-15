@@ -1,9 +1,6 @@
 import createDatabase from '@/components/FireDatabase/api/createDatabase';
-import useDatabase from '@/components/FireDatabase/hooks/useDatabase';
-import useDatabaseRows from '@/components/FireDatabase/hooks/useDatabaseRows';
 import useDatabases from '@/components/FireDatabase/hooks/useDatabases';
 import FireDatabase from '@/components/FireDatabase/ui/FireDatabase';
-import FireDatabaseTable from '@/components/FireDatabase/ui/FireDatabaseTable';
 import {
     Sidebar,
     SidebarContent,

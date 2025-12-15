@@ -11,10 +11,9 @@ export default function useDatabase(databaseId: string) {
         queryKey: ['database', databaseId],
         queryFn: () => getDatabase(databaseId),
         enabled: !!databaseId,
-        // Prevent automatic refetch - only refetch when explicitly called
-        staleTime: Infinity,
+        gcTime: 0, // Don't cache data (previously cacheTime)
+        staleTime: 0, // Always consider data stale
         refetchOnWindowFocus: false,
-        refetchOnMount: false,
         refetchOnReconnect: false,
     });
 
