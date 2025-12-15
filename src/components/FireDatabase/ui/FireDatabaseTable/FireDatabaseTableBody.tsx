@@ -9,9 +9,7 @@ interface TableRowComponentProps<TData> {
     row: TanStackRow<TData>;
 }
 
-function TableRowComponent<TData>({
-    row,
-}: TableRowComponentProps<TData>) {
+function TableRowComponent<TData>({ row }: TableRowComponentProps<TData>) {
     const isSelected = row.getIsSelected();
 
     const handleToggleSelection = useCallback(() => {
@@ -26,14 +24,10 @@ function TableRowComponent<TData>({
                     : 'bg-background hover:bg-background'
             }`}
         >
-            <TableCell className="w-10 p-0 h-10 sticky left-0 z-10">
+            <TableCell className="w-10 pt-2 px-0 pb-0 h-10 sticky left-0 z-10 bg-background">
                 <div
                     className={cn(
-                        'flex items-center justify-center h-full cursor-pointer',
-                        {
-                            'bg-blue-100': isSelected,
-                            'bg-background': !isSelected,
-                        }
+                        'flex items-start justify-center h-full cursor-pointer'
                     )}
                     onClick={handleToggleSelection}
                 >
@@ -55,11 +49,7 @@ function TableRowComponent<TData>({
     );
 }
 
-function FireDatabaseTableBody<TData>({
-    table,
-}: {
-    table: Table<TData>;
-}) {
+function FireDatabaseTableBody<TData>({ table }: { table: Table<TData> }) {
     return (
         <TableBody>
             {table.getRowModel().rows.map((row) => (
