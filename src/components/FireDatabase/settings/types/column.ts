@@ -35,5 +35,26 @@ export const COLUMN_LIST: Pick<
         name: '날짜',
         icon: IconName.Date,
         tags: ['date', '날짜', '데이트', '시간'],
-    }
+    },
+    {
+        type: 'select',
+        name: '단일 선택',
+        icon: IconName.Select,
+        tags: ['select', '단일 선택', '선택'],
+        options: ['옵션 1', '옵션 2', '옵션 3'],
+    },
+    {
+        type: 'multi-select',
+        name: '다중 선택',
+        icon: IconName.List,
+        tags: ['multi-select', '다중 선택', '선택'],
+        options: ['옵션 1', '옵션 2', '옵션 3'],
+    },
+    {
+        type: 'relation',
+        name: '관계형',
+        icon: IconName.Relation,
+        tags: ['relation', '관계형', '레퍼런스'],
+        relation: { databaseId: '', columnId: '' },
+    },
 ];

@@ -1,4 +1,15 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode, Dispatch, SetStateAction, useRef, useCallback, useMemo } from 'react';
+import React, {
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    ReactNode,
+    Dispatch,
+    SetStateAction,
+    useRef,
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     ColumnOrderState,
     ColumnSizingState,
@@ -9,7 +20,11 @@ import {
     getSortedRowModel,
     Table as TanStackTable,
 } from '@tanstack/react-table';
-import { FireDatabase, FireDatabaseColumn, FireDatabaseView } from '@/components/FireDatabase/settings/types/database';
+import {
+    FireDatabase,
+    FireDatabaseColumn,
+    FireDatabaseView,
+} from '@/components/FireDatabase/settings/types/database';
 import { FireDatabaseRow } from '@/components/FireDatabase/settings/types/row';
 import useDatabase from '@/components/FireDatabase/hooks/useDatabase';
 import useDatabaseRows from '@/components/FireDatabase/hooks/useDatabaseRows';
@@ -20,6 +35,7 @@ import { databaseToTableColumns } from '@/components/FireDatabase/utils/columns'
 import createRow from '@/components/FireDatabase/api/createRow';
 import updateColumnAPI from '@/components/FireDatabase/api/updateColumn';
 import createColumnAPI from '@/components/FireDatabase/api/createColumn';
+import deleteColumnAPI from '@/components/FireDatabase/api/deleteColumn';
 
 interface FireDatabaseContextValue {
     // Database
@@ -56,12 +72,18 @@ interface FireDatabaseContextValue {
 
     // Actions
     addColumn: (column: FireDatabaseColumn) => Promise<void>;
-    updateColumn: (columnId: string, updates: Partial<FireDatabaseColumn>) => void;
+    updateColumn: (
+        columnId: string,
+        updates: Partial<FireDatabaseColumn>
+    ) => void;
+    deleteColumn: (columnId: string) => Promise<void>;
     addRow: () => Promise<void>;
     refetchDatabases: () => void;
 }
 
-const FireDatabaseContext = createContext<FireDatabaseContextValue | null>(null);
+const FireDatabaseContext = createContext<FireDatabaseContextValue | null>(
+    null
+);
 
 export function FireDatabaseProvider({
     databaseId,
@@ -73,14 +95,16 @@ export function FireDatabaseProvider({
     children: ReactNode;
 }) {
     const { database } = useDatabase(databaseId);
-    const { rows: fetchedRows, refetch: refetchRows } = useDatabaseRows(databaseId);
+    const { rows: fetchedRows, refetch: refetchRows } =
+        useDatabaseRows(databaseId);
     const { views, refetch: refetchViews } = useDatabaseViews(databaseId);
     console.warn(databaseId, fetchedRows);
 
-
     const [selectedViewId, setSelectedViewId] = useState<string | null>(null);
     const [databaseName, setDatabaseName] = useState(database?.name || '');
-    const [cols, setCols] = useState<FireDatabaseColumn[]>(database?.columns || []);
+    const [cols, setCols] = useState<FireDatabaseColumn[]>(
+        database?.columns || []
+    );
     const [rows, setRows] = useState<FireDatabaseRow[]>([]);
 
     const currentView = useMemo(
@@ -88,13 +112,21 @@ export function FireDatabaseProvider({
         [views, selectedViewId]
     );
 
-    const [sorting, setSorting] = useState<SortingState>(currentView?.sorting || []);
-    const [columnSizing, setColumnSizing] = useState<ColumnSizingState>(currentView?.columnSizing || {});
-    const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
-        currentView?.columnOrder || cols.map(col => col.id)
+    const [sorting, setSorting] = useState<SortingState>(
+        currentView?.sorting || []
     );
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(currentView?.columnVisibility || {});
-    const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+    const [columnSizing, setColumnSizing] = useState<ColumnSizingState>(
+        currentView?.columnSizing || {}
+    );
+    const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(
+        currentView?.columnOrder || cols.map((col) => col.id)
+    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        currentView?.columnVisibility || {}
+    );
+    const [rowSelection, setRowSelection] = useState<Record<string, boolean>>(
+        {}
+    );
 
     // Track if initial load has happened
     const initializedRef = useRef(false);
@@ -104,7 +136,12 @@ export function FireDatabaseProvider({
     // Reset state when database changes
     useEffect(() => {
         if (currentDatabaseIdRef.current !== databaseId) {
-            console.log('Database changed from', currentDatabaseIdRef.current, 'to', databaseId);
+            console.log(
+                'Database changed from',
+                currentDatabaseIdRef.current,
+                'to',
+                databaseId
+            );
             currentDatabaseIdRef.current = databaseId;
             initializedRef.current = false;
             setSelectedViewId(null);
@@ -118,14 +155,20 @@ export function FireDatabaseProvider({
             databaseId,
             fetchedRowsLength: fetchedRows.length,
             currentRowsLength: rows.length,
-            fetchedRowsIds: fetchedRows.map(r => r.id).join(','),
-            currentRowsIds: rows.map(r => r.id).join(',')
+            fetchedRowsIds: fetchedRows.map((r) => r.id).join(','),
+            currentRowsIds: rows.map((r) => r.id).join(','),
         });
 
         // Always sync fetchedRows to rows
         // Compare by stringified IDs to avoid unnecessary updates
-        const fetchedIds = fetchedRows.map(r => r.id).sort().join(',');
-        const currentIds = rows.map(r => r.id).sort().join(',');
+        const fetchedIds = fetchedRows
+            .map((r) => r.id)
+            .sort()
+            .join(',');
+        const currentIds = rows
+            .map((r) => r.id)
+            .sort()
+            .join(',');
 
         if (fetchedIds !== currentIds) {
             console.log('Syncing rows from fetchedRows:', fetchedRows.length);
@@ -139,7 +182,7 @@ export function FireDatabaseProvider({
             database: database?.id,
             initialized: initializedRef.current,
             currentDbId: currentDatabaseIdRef.current,
-            viewsLength: views.length
+            viewsLength: views.length,
         });
 
         if (database && views.length > 0 && !initializedRef.current) {
@@ -149,13 +192,19 @@ export function FireDatabaseProvider({
 
             // Set first view
             const firstView = views[0];
-            console.log('Setting first view:', firstView.id, firstView.columnVisibility);
+            console.log(
+                'Setting first view:',
+                firstView.id,
+                firstView.columnVisibility
+            );
             setSelectedViewId(firstView.id);
 
             // Set view states
             setSorting(firstView.sorting || []);
             setColumnSizing(firstView.columnSizing || {});
-            setColumnOrder(firstView.columnOrder || database.columns.map(col => col.id));
+            setColumnOrder(
+                firstView.columnOrder || database.columns.map((col) => col.id)
+            );
             setColumnVisibility(firstView.columnVisibility || {});
 
             initializedRef.current = true;
@@ -165,13 +214,23 @@ export function FireDatabaseProvider({
     // Update view states when selectedViewId or currentView changes (but not during initialization)
     useEffect(() => {
         if (currentView && initializedRef.current && selectedViewId) {
-            console.log('Loading view state:', currentView.id, 'with visibility:', currentView.columnVisibility);
+            console.log(
+                'Loading view state:',
+                currentView.id,
+                'with visibility:',
+                currentView.columnVisibility
+            );
             isUpdatingViewRef.current = true;
             setSorting(currentView.sorting || []);
             setColumnSizing(currentView.columnSizing || {});
-            setColumnOrder(currentView.columnOrder || cols.map(col => col.id));
+            setColumnOrder(
+                currentView.columnOrder || cols.map((col) => col.id)
+            );
             setColumnVisibility(currentView.columnVisibility || {});
-            console.log('Set columnVisibility to:', currentView.columnVisibility || {});
+            console.log(
+                'Set columnVisibility to:',
+                currentView.columnVisibility || {}
+            );
             // Reset flag after a brief delay to allow state updates to settle
             setTimeout(() => {
                 isUpdatingViewRef.current = false;
@@ -181,8 +240,17 @@ export function FireDatabaseProvider({
 
     // Persist view state changes (but not during view loading)
     useEffect(() => {
-        console.log('View state changed', { sorting, columnOrder, columnSizing, columnVisibility });
-        if (currentView && !isUpdatingViewRef.current && initializedRef.current) {
+        console.log('View state changed', {
+            sorting,
+            columnOrder,
+            columnSizing,
+            columnVisibility,
+        });
+        if (
+            currentView &&
+            !isUpdatingViewRef.current &&
+            initializedRef.current
+        ) {
             updateView(databaseId, currentView.id, {
                 sorting,
                 columnOrder,
@@ -191,7 +259,7 @@ export function FireDatabaseProvider({
             });
         }
     }, [columnOrder, columnSizing, columnVisibility, sorting]);
-    
+
     // Memoize table columns to prevent unnecessary re-creation
     const tableColumns = useMemo(
         () => databaseToTableColumns(databaseId, cols),
@@ -226,39 +294,71 @@ export function FireDatabaseProvider({
         refetchDatabases();
     }, [databaseId, databaseName, refetchDatabases]);
 
-    const addColumn = useCallback(async (column: FireDatabaseColumn) => {
-        // Optimistic update - immediately add to UI
-        setCols(prev => [...prev, column]);
-        setColumnOrder(prev => [...prev, column.id]);
+    const addColumn = useCallback(
+        async (column: FireDatabaseColumn) => {
+            // Optimistic update - immediately add to UI
+            setCols((prev) => [...prev, column]);
+            setColumnOrder((prev) => [...prev, column.id]);
 
-        // Update database in background
-        try {
-            await createColumnAPI(databaseId, column);
-            // Refetch views to ensure we have the latest columnOrder from all views
-            await refetchViews();
-        } catch (error) {
-            // Rollback on error
-            setCols(prev => prev.filter(col => col.id !== column.id));
-            setColumnOrder(prev => prev.filter(id => id !== column.id));
-            console.error('Failed to create column:', error);
-            throw error; // Re-throw so caller can handle if needed
-        }
-    }, [databaseId, refetchViews]);
+            // Update database in background
+            try {
+                await createColumnAPI(databaseId, column);
+                // Refetch views to ensure we have the latest columnOrder from all views
+                await refetchViews();
+            } catch (error) {
+                // Rollback on error
+                setCols((prev) => prev.filter((col) => col.id !== column.id));
+                setColumnOrder((prev) => prev.filter((id) => id !== column.id));
+                console.error('Failed to create column:', error);
+                throw error; // Re-throw so caller can handle if needed
+            }
+        },
+        [databaseId, refetchViews]
+    );
 
-    const updateColumn = useCallback((columnId: string, updates: Partial<FireDatabaseColumn>) => {
-        // Optimistic update for immediate UI feedback
-        setCols(prev => prev.map(col =>
-            col.id === columnId ? { ...col, ...updates } : col
-        ));
-        // Update database in background
-        updateColumnAPI(databaseId, columnId, updates);
-    }, [databaseId]);
+    const updateColumn = useCallback(
+        (columnId: string, updates: Partial<FireDatabaseColumn>) => {
+            // Optimistic update for immediate UI feedback
+            setCols((prev) =>
+                prev.map((col) =>
+                    col.id === columnId ? { ...col, ...updates } : col
+                )
+            );
+            // Update database in background
+            updateColumnAPI(databaseId, columnId, updates);
+        },
+        [databaseId]
+    );
+
+    const deleteColumn = useCallback(
+        async (columnId: string) => {
+            // Optimistic update - immediately remove from UI
+            const columnToDelete = cols.find((col) => col.id === columnId);
+            if (!columnToDelete) return;
+
+            setCols((prev) => prev.filter((col) => col.id !== columnId));
+            setColumnOrder((prev) => prev.filter((id) => id !== columnId));
+
+            try {
+                await deleteColumnAPI(databaseId, columnId);
+                // Refetch views to ensure we have the latest columnOrder from all views
+                await refetchViews();
+            } catch (error) {
+                // Rollback on error
+                setCols((prev) => [...prev, columnToDelete]);
+                setColumnOrder((prev) => [...prev, columnId]);
+                console.error('Failed to delete column:', error);
+                throw error; // Re-throw so caller can handle if needed
+            }
+        },
+        [databaseId, cols]
+    );
 
     const addRow = useCallback(async () => {
         await createRow(databaseId, {});
         refetchRows();
     }, [databaseId, refetchRows]);
-    
+
     // Don't memoize context value - it causes infinite loops with table object
     // The performance cost of re-creating this object is minimal compared to the complexity of memoization
     const value: FireDatabaseContextValue = {
@@ -288,10 +388,11 @@ export function FireDatabaseProvider({
         setRowSelection,
         addColumn,
         updateColumn,
+        deleteColumn,
         addRow,
         refetchDatabases,
     };
-    
+
     return (
         <FireDatabaseContext.Provider value={value}>
             {children}
@@ -302,7 +403,9 @@ export function FireDatabaseProvider({
 export function useFireDatabase() {
     const context = useContext(FireDatabaseContext);
     if (!context) {
-        throw new Error('useFireDatabase must be used within FireDatabaseProvider');
+        throw new Error(
+            'useFireDatabase must be used within FireDatabaseProvider'
+        );
     }
     return context;
 }

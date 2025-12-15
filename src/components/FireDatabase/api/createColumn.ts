@@ -34,7 +34,6 @@ export default async function createColumn(
     // Update columnOrder for each view
     const updatePromises = viewsSnapshot.docs.map((viewDoc) => {
         const viewData = viewDoc.data();
-        const currentColumnOrder = viewData.columnOrder || [];
 
         return updateDoc(viewDoc.ref, {
             // columnOrder: [...currentColumnOrder, column.id],

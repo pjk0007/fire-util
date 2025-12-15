@@ -27,4 +27,8 @@ export type FireDatabaseDataDate = {
 };
 export type FireDatabaseDataSelect = string;
 export type FireDatabaseDataMultiSelect = string[];
-export type FireDatabaseDataRelation = { databaseId: string; rowId: string };
+export type FireDatabaseDataRelation = {
+    databaseId: string;
+    rowId: string;
+    name: string;
+} | null;

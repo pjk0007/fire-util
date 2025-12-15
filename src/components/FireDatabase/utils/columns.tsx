@@ -30,6 +30,9 @@ export function columnToTableColumn<TData>(
         case 'number':
         case 'boolean':
         case 'date':
+        case 'select':
+        case 'multi-select':
+        case 'relation':
             return {
                 id: column.id,
                 accessorKey: column.id,
@@ -43,13 +46,7 @@ export function columnToTableColumn<TData>(
                     />
                 ),
             };
-        case 'select':
-        case 'multi-select':
-            return {
-                id: column.id,
-                accessorKey: column.id,
-                header: column.name,
-            };
+
         default:
             return {
                 id: column.id,

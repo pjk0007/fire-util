@@ -1,6 +1,10 @@
 import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabaseContext';
 import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
-import { getIcon, getAllIcons, IconName } from '@/components/FireDatabase/utils/icons';
+import {
+    getIcon,
+    getAllIcons,
+    IconName,
+} from '@/components/FireDatabase/utils/icons';
 import { Button } from '@/components/ui/button';
 import {
     ContextMenu,
@@ -35,7 +39,8 @@ function ColumnHeaderContextMenuComponent({
     children: ReactNode;
     columnId: string;
 }) {
-    const { columns, updateColumn } = useFireDatabase();
+    const { columns, updateColumn, deleteColumn, databaseId } =
+        useFireDatabase();
     const column = useMemo(
         () => columns.find((col) => col.id === columnId),
         [columns, columnId]
@@ -123,7 +128,9 @@ function ColumnHeaderContextMenuComponent({
                                                 : 'ghost'
                                         }
                                         size="icon-sm"
-                                        onClick={() => handleIconSelect(iconItem.name)}
+                                        onClick={() =>
+                                            handleIconSelect(iconItem.name)
+                                        }
                                         title={iconItem.label}
                                     >
                                         {getIcon(iconItem.name)}
@@ -140,7 +147,12 @@ function ColumnHeaderContextMenuComponent({
                     />
                 </div>
                 <ContextMenuGroup className="mt-2">
-                    <ContextMenuItem>asdf</ContextMenuItem>
+                    <ContextMenuItem
+                        variant="destructive"
+                        onSelect={() => deleteColumn(columnId)}
+                    >
+                        삭제
+                    </ContextMenuItem>
                 </ContextMenuGroup>
             </ContextMenuContent>
         </ContextMenu>

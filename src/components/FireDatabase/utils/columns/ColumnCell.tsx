@@ -7,6 +7,9 @@ import StringCell from '@/components/FireDatabase/utils/columns/cells/StringCell
 import NumberCell from '@/components/FireDatabase/utils/columns/cells/NumberCell';
 import BooleanCell from '@/components/FireDatabase/utils/columns/cells/BooleanCell';
 import DateCell from '@/components/FireDatabase/utils/columns/cells/DateCell';
+import SelectCell from '@/components/FireDatabase/utils/columns/cells/SelectCell';
+import MultiSelectCell from '@/components/FireDatabase/utils/columns/cells/MultiSelectCell';
+import RelationCell from '@/components/FireDatabase/utils/columns/cells/RelationCell';
 
 interface ColumnCellProps {
     table: Table<any>;
@@ -84,8 +87,35 @@ function ColumnCell({ table, databaseId, column, row }: ColumnCellProps) {
                     data={data}
                 />
             );
+        case 'select':
+            return (
+                <SelectCell
+                    table={table}
+                    databaseId={databaseId}
+                    column={column}
+                    data={data}
+                />
+            );
+        case 'multi-select':
+            return (
+                <MultiSelectCell
+                    table={table}
+                    databaseId={databaseId}
+                    column={column}
+                    data={data}
+                />
+            );
+        case 'relation':
+            return (
+                <RelationCell
+                    table={table}
+                    databaseId={databaseId}
+                    column={column}
+                    data={data}
+                />
+            );
         default:
-            return column.name;
+            return <div className="p-2">{column.name}</div>;
     }
 }
 

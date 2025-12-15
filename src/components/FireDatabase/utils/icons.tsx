@@ -1,9 +1,12 @@
 import {
     AlignLeft,
+    ArrowUpRight,
     Calendar,
     CaseSensitive,
+    CircleChevronDown,
     Clock3,
     Hash,
+    List,
     SquareCheck,
 } from 'lucide-react';
 
@@ -14,6 +17,9 @@ export enum IconName {
     Number = 'number',
     Boolean = 'boolean',
     Date = 'date',
+    Select = 'select',
+    List = 'list',
+    Relation = 'relation',
 }
 
 export function getIcon(name: IconName) {
@@ -30,18 +36,52 @@ export function getIcon(name: IconName) {
             return <SquareCheck className="size-4" />;
         case IconName.Date:
             return <Calendar className="size-4" />;
+        case IconName.Select:
+            return <CircleChevronDown className="size-4" />;
+        case IconName.List:
+            return <List className="size-4" />;
+        case IconName.Relation:
+            return <ArrowUpRight className="size-4" />;
         default:
             return null;
     }
 }
 
-export function getAllIcons(): { name: IconName; label: string; tags: string[] }[] {
+export function getAllIcons(): {
+    name: IconName;
+    label: string;
+    tags: string[];
+}[] {
     return [
-        { name: IconName.Name, label: '이름', tags: ['이름', 'name', '텍스트', 'text'] },
-        { name: IconName.Clock, label: '시계', tags: ['시계', 'clock', '시간', 'time'] },
-        { name: IconName.String, label: '문자열', tags: ['문자열', 'string', '텍스트', 'text', '글자'] },
-        { name: IconName.Number, label: '숫자', tags: ['숫자', 'number', '번호', '#'] },
-        { name: IconName.Boolean, label: '체크박스', tags: ['체크박스', 'checkbox', 'boolean', '불린', '선택'] },
-        { name: IconName.Date, label: '날짜', tags: ['날짜', 'date', '달력', 'calendar'] },
+        {
+            name: IconName.Name,
+            label: '이름',
+            tags: ['이름', 'name', '텍스트', 'text'],
+        },
+        {
+            name: IconName.Clock,
+            label: '시계',
+            tags: ['시계', 'clock', '시간', 'time'],
+        },
+        {
+            name: IconName.String,
+            label: '문자열',
+            tags: ['문자열', 'string', '텍스트', 'text', '글자'],
+        },
+        {
+            name: IconName.Number,
+            label: '숫자',
+            tags: ['숫자', 'number', '번호', '#'],
+        },
+        {
+            name: IconName.Boolean,
+            label: '체크박스',
+            tags: ['체크박스', 'checkbox', 'boolean', '불린', '선택'],
+        },
+        {
+            name: IconName.Date,
+            label: '날짜',
+            tags: ['날짜', 'date', '달력', 'calendar'],
+        },
     ];
 }
