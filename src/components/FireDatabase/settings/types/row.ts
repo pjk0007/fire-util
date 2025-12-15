@@ -30,5 +30,4 @@ export type FireDatabaseDataMultiSelect = string[];
 export type FireDatabaseDataRelation = {
     databaseId: string;
     rowId: string;
-    name: string;
 } | null;

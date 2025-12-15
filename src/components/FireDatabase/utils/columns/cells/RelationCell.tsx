@@ -78,7 +78,6 @@ function RelationCell({
                                 className="text-xs flex items-center gap-1"
                             >
                                 <ArrowRight className="h-3 w-3" />
-                                {relationData.name}
                             </Badge>
                             <Button
                                 variant="ghost"
