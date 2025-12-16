@@ -3,7 +3,7 @@ import { IconName } from '@/components/FireDatabase/utils/icons';
 
 export const COLUMN_LIST: Pick<
     FireDatabaseColumn,
-    'type' | 'name' | 'icon' | 'tags' | 'options' | 'relation'
+    'type' | 'name' | 'icon' | 'tags' | 'options' | 'relation' | 'default'
 >[] = [
     {
         type: 'string',
@@ -37,18 +37,38 @@ export const COLUMN_LIST: Pick<
         tags: ['date', '날짜', '데이트', '시간'],
     },
     {
+        type: 'status',
+        name: '상태',
+        icon: IconName.Status,
+        tags: ['status', '상태', '상황'],
+        options: {
+            progress: {
+                name: '진행 중',
+                color: 'blue',
+            },
+            completed: {
+                name: '완료',
+                color: 'green',
+            },
+        },
+        default: {
+            name: '시작 전',
+            color: 'gray',
+        },
+    },
+    {
         type: 'select',
         name: '단일 선택',
         icon: IconName.Select,
         tags: ['select', '단일 선택', '선택'],
-        options: ['옵션 1', '옵션 2', '옵션 3'],
+        options: {},
     },
     {
         type: 'multi-select',
         name: '다중 선택',
         icon: IconName.List,
         tags: ['multi-select', '다중 선택', '선택'],
-        options: ['옵션 1', '옵션 2', '옵션 3'],
+        options: {},
     },
     {
         type: 'relation',

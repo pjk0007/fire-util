@@ -24,6 +24,7 @@ export function columnToTableColumn<TData>(
         case 'number':
         case 'boolean':
         case 'date':
+        case 'status':
         case 'select':
         case 'multi-select':
         case 'relation':

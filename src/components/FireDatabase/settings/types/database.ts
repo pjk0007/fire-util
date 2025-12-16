@@ -1,3 +1,4 @@
+import { BadgeColor } from '@/components/FireDatabase/settings/colors';
 import {
     FireDatabaseViewFilter,
     FireDatabaseViewGroup,
@@ -34,13 +35,23 @@ export interface FireDatabaseColumn {
         | 'number'
         | 'boolean'
         | 'date'
+        | 'status'
         | 'select'
         | 'multi-select'
         | 'relation'
         | 'file'
         | 'formula';
     icon?: IconName | null;
-    options?: string[];
+    options?: {
+        [key: string]: {
+            name: string;
+            color: BadgeColor;
+        };
+    };
+    default?: {
+        name: string;
+        color: BadgeColor;
+    };
     tags: string[];
     dateformat?: string;
     relation?: { databaseId: string; columnId: string };

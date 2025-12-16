@@ -11,6 +11,7 @@ import SelectCell from '@/components/FireDatabase/utils/columns/cells/SelectCell
 import MultiSelectCell from '@/components/FireDatabase/utils/columns/cells/MultiSelectCell';
 import RelationCell from '@/components/FireDatabase/utils/columns/cells/RelationCell';
 import FileCell from '@/components/FireDatabase/utils/columns/cells/FileCell';
+import StatusCell from '@/components/FireDatabase/utils/columns/cells/StatusCell';
 
 interface ColumnCellProps {
     table: Table<any>;
@@ -83,6 +84,15 @@ function ColumnCell({ table, databaseId, column, row }: ColumnCellProps) {
         case 'date':
             return (
                 <DateCell
+                    databaseId={databaseId}
+                    column={column}
+                    data={data}
+                />
+            );
+        case 'status':
+            return (
+                <StatusCell
+                    table={table}
                     databaseId={databaseId}
                     column={column}
                     data={data}

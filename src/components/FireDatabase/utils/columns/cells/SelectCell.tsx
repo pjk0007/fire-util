@@ -75,19 +75,19 @@ function SelectCell({ table, databaseId, column, data }: SelectCellProps) {
             </PopoverTrigger>
             <PopoverContent className="w-56 p-2" align="start">
                 <div className="flex flex-col gap-1">
-                    {options.map((option) => (
+                    {Object.entries(options).map(([key, value]) => (
                         <div
-                            key={option}
+                            key={key}
                             className="flex items-center justify-between p-2 hover:bg-accent cursor-pointer rounded"
-                            onClick={() => handleSelect(option)}
+                            onClick={() => handleSelect(key)}
                         >
-                            <span className="text-sm">{option}</span>
-                            {selectData === option && (
+                            <span className="text-sm">{value.name}</span>
+                            {selectData === key && (
                                 <Check className="h-4 w-4" />
                             )}
                         </div>
                     ))}
-                    {options.length === 0 && (
+                    {Object.keys(options).length === 0 && (
                         <div className="text-xs text-muted-foreground p-2">
                             옵션이 없습니다
                         </div>

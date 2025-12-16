@@ -27,6 +27,7 @@ export type FireDatabaseDataDate = {
     includeEnd: boolean;
     includeTime: boolean;
 };
+export type FireDatabaseDataStatus = string;
 export type FireDatabaseDataSelect = string;
 export type FireDatabaseDataMultiSelect = string[];
 export type FireDatabaseDataRelation = {

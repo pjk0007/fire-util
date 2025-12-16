@@ -27,6 +27,7 @@ import {
     Inbox,
     Link,
     List,
+    Loader,
     Mail,
     Map,
     MessageSquare,
@@ -56,6 +57,7 @@ export enum IconName {
     Number = 'number',
     Boolean = 'boolean',
     Date = 'date',
+    Status = 'status',
     Select = 'select',
     List = 'list',
     Relation = 'relation',
@@ -90,7 +92,6 @@ export enum IconName {
     Code = 'code',
     Book = 'book',
     Dot = 'dot',
-    Baseline = 'baseline',
     // CRM & Business icons
     Hourglass = 'hourglass',
     Timer = 'timer',
@@ -116,6 +117,8 @@ export function getIcon(name: IconName) {
             return <SquareCheck className="size-4" />;
         case IconName.Date:
             return <Calendar className="size-4" />;
+        case IconName.Status:
+            return <Loader className="size-4" />;
         case IconName.Select:
             return <CircleChevronDown className="size-4" />;
         case IconName.List:
@@ -182,8 +185,6 @@ export function getIcon(name: IconName) {
             return <BookOpen className="size-4" />;
         case IconName.Dot:
             return <CircleDot className="size-4" />;
-        case IconName.Baseline:
-            return <Baseline className="size-4" />;
         case IconName.Hourglass:
             return <Hourglass className="size-4" />;
         case IconName.Timer:
@@ -242,6 +243,11 @@ export function getAllIcons(): {
             tags: ['날짜', 'date', '달력', 'calendar'],
         },
         {
+            name: IconName.Status,
+            label: '상태',
+            tags: ['상태', 'status', '진행상황', 'progress'],
+        },
+        {
             name: IconName.Select,
             label: '선택',
             tags: ['선택', 'select', '드롭다운', 'dropdown'],
@@ -275,6 +281,11 @@ export function getAllIcons(): {
             name: IconName.Url,
             label: 'URL',
             tags: ['url', 'link', '링크', '웹사이트'],
+        },
+        {
+            name: IconName.Formula,
+            label: '수식',
+            tags: ['수식', 'formula', '계산', '함수'],
         },
         {
             name: IconName.File,
@@ -396,20 +407,11 @@ export function getAllIcons(): {
             label: '책',
             tags: ['책', 'book', '문서', '교육'],
         },
-        {
-            name: IconName.Formula,
-            label: '수식',
-            tags: ['수식', 'formula', '계산', '함수'],
-        },
+
         {
             name: IconName.Dot,
             label: '점',
             tags: ['점', 'dot', '원', '표시'],
-        },
-        {
-            name: IconName.Baseline,
-            label: '베이스라인',
-            tags: ['베이스라인', 'baseline', '텍스트', '기준선'],
         },
         {
             name: IconName.Hourglass,
