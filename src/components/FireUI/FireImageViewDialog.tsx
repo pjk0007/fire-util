@@ -67,7 +67,7 @@ export default function FireImageViewDialog({
     return (
         <Dialog>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent className="px-0 pt-4 pb-2 gap-2 rounded-sm">
+            <DialogContent className="px-0 pt-4 pb-2 gap-2 rounded-sm max-w-[90vw] sm:max-w-[50vw] overflow-hidden">
                 <DialogHeader className="px-4">
                     <DialogTitle className="text-sm">{dialogTitle}</DialogTitle>
                 </DialogHeader>
@@ -78,18 +78,19 @@ export default function FireImageViewDialog({
                             api?.scrollTo(current, true);
                         }, 1);
                     }}
-                    className="group bg-muted  border-t border-b"
+                    className="group bg-muted border-t border-b overflow-hidden w-full"
                 >
                     <CarouselContent className="max-h-[80dvh]">
                         {images.map((img, i) => (
-                            <CarouselItem key={i}>
-                                <ScrollArea className="h-full">
+                            <CarouselItem key={i} className="overflow-hidden">
+                                <ScrollArea className="h-full w-full">
                                     <Image
                                         width={800}
                                         height={800}
                                         src={img}
                                         alt={`image-${i}`}
-                                        className="w-full object-contain my-auto"
+                                        className="w-full h-auto object-contain"
+                                        style={{ maxWidth: '100%' }}
                                     />
                                 </ScrollArea>
                             </CarouselItem>
