@@ -62,6 +62,7 @@ export default function Databases() {
             <SidebarInset className="overflow-hidden max-h-[100dvh]">
                 {databaseId && (
                     <FireDatabase
+                        key={databaseId as string}
                         refetchDatabases={refetch}
                         databaseId={databaseId as string}
                     />
