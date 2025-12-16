@@ -27,6 +27,8 @@ export function columnToTableColumn<TData>(
         case 'select':
         case 'multi-select':
         case 'relation':
+        case 'file':
+        case 'formula':
             return {
                 id: column.id,
                 accessorKey: column.id,

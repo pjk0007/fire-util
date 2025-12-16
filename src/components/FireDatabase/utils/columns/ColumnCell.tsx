@@ -10,6 +10,7 @@ import DateCell from '@/components/FireDatabase/utils/columns/cells/DateCell';
 import SelectCell from '@/components/FireDatabase/utils/columns/cells/SelectCell';
 import MultiSelectCell from '@/components/FireDatabase/utils/columns/cells/MultiSelectCell';
 import RelationCell from '@/components/FireDatabase/utils/columns/cells/RelationCell';
+import FileCell from '@/components/FireDatabase/utils/columns/cells/FileCell';
 
 interface ColumnCellProps {
     table: Table<any>;
@@ -114,6 +115,16 @@ function ColumnCell({ table, databaseId, column, row }: ColumnCellProps) {
                     data={data}
                 />
             );
+        case 'file':
+            return (
+                <FileCell
+                    table={table}
+                    databaseId={databaseId}
+                    columnId={column.id}
+                    data={data}
+                />
+            );
+
         default:
             return <div className="p-2">{column.name}</div>;
     }

@@ -33,6 +33,7 @@ import {
     Paperclip,
     Phone,
     ShoppingCart,
+    Sigma,
     Sparkles,
     Split,
     SquareCheck,
@@ -58,12 +59,13 @@ export enum IconName {
     Select = 'select',
     List = 'list',
     Relation = 'relation',
+    File = 'file',
+    Formula = 'formula',
     // Additional database-like icons
     Text = 'text',
     Email = 'email',
     Phone = 'phone',
     Url = 'url',
-    File = 'file',
     Image = 'image',
     User = 'user',
     Users = 'users',
@@ -87,7 +89,6 @@ export enum IconName {
     Zap = 'zap',
     Code = 'code',
     Book = 'book',
-    Binary = 'binary',
     Dot = 'dot',
     Baseline = 'baseline',
     // CRM & Business icons
@@ -121,6 +122,10 @@ export function getIcon(name: IconName) {
             return <List className="size-4" />;
         case IconName.Relation:
             return <ArrowUpRight className="size-4" />;
+        case IconName.File:
+            return <Paperclip className="size-4" />;
+        case IconName.Formula:
+            return <Sigma className="size-4" />;
         case IconName.Text:
             return <FileText className="size-4" />;
         case IconName.Email:
@@ -129,8 +134,6 @@ export function getIcon(name: IconName) {
             return <Phone className="size-4" />;
         case IconName.Url:
             return <Link className="size-4" />;
-        case IconName.File:
-            return <Paperclip className="size-4" />;
         case IconName.Image:
             return <Image className="size-4" />;
         case IconName.User:
@@ -177,8 +180,6 @@ export function getIcon(name: IconName) {
             return <Code className="size-4" />;
         case IconName.Book:
             return <BookOpen className="size-4" />;
-        case IconName.Binary:
-            return <Binary className="size-4" />;
         case IconName.Dot:
             return <CircleDot className="size-4" />;
         case IconName.Baseline:
@@ -396,9 +397,9 @@ export function getAllIcons(): {
             tags: ['책', 'book', '문서', '교육'],
         },
         {
-            name: IconName.Binary,
-            label: '이진법',
-            tags: ['이진법', 'binary', '데이터', '코드'],
+            name: IconName.Formula,
+            label: '수식',
+            tags: ['수식', 'formula', '계산', '함수'],
         },
         {
             name: IconName.Dot,
@@ -449,6 +450,6 @@ export function getAllIcons(): {
             name: IconName.Split,
             label: '분할',
             tags: ['분할', 'split', '나누기', '구분'],
-        }
+        },
     ];
 }

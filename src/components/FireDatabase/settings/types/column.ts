@@ -57,4 +57,16 @@ export const COLUMN_LIST: Pick<
         tags: ['relation', '관계형', '레퍼런스'],
         relation: { databaseId: '', columnId: '' },
     },
+    {
+        type: 'file',
+        name: '파일',
+        icon: IconName.File,
+        tags: ['file', '파일', '첨부'],
+    },
+    {
+        type: 'formula',
+        name: '수식',
+        icon: IconName.Formula,
+        tags: ['formula', '수식', '계산'],
+    },
 ];

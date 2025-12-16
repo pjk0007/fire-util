@@ -15,7 +15,9 @@ export type FireDatabaseData =
     | FireDatabaseDataDate
     | FireDatabaseDataSelect
     | FireDatabaseDataMultiSelect
-    | FireDatabaseDataRelation;
+    | FireDatabaseDataRelation
+    | FireDatabaseDataFile
+    | FireDatabaseDataFormula;
 export type FireDatabaseDataString = string;
 export type FireDatabaseDataNumber = number | null;
 export type FireDatabaseDataBoolean = boolean;
@@ -31,3 +33,8 @@ export type FireDatabaseDataRelation = {
     databaseId: string;
     rowId: string;
 } | null;
+export type FireDatabaseDataFile = {
+    name: string;
+    url: string;
+}[];
+export type FireDatabaseDataFormula = string | number | boolean | null;

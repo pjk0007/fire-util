@@ -36,7 +36,9 @@ export interface FireDatabaseColumn {
         | 'date'
         | 'select'
         | 'multi-select'
-        | 'relation';
+        | 'relation'
+        | 'file'
+        | 'formula';
     icon?: IconName | null;
     options?: string[];
     tags: string[];

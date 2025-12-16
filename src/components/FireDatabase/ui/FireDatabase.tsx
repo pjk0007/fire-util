@@ -19,7 +19,7 @@ function FireDatabaseContent() {
     return (
         <div className="w-full h-full overflow-auto py-20">
             <input
-                className="w-full text-2xl font-bold mb-4 focus:outline-none sticky left-0 px-20"
+                className="w-full text-3xl font-bold mb-4 focus:outline-none sticky left-0 px-20"
                 value={databaseName}
                 placeholder="새 데이터베이스"
                 onChange={(e) => setDatabaseName(e.target.value)}
