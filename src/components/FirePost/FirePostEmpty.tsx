@@ -4,7 +4,7 @@ import {
     POST_TYPE_NOTICE,
     PostType,
 } from '@/lib/FirePost/settings';
-import { Bell, MessageCircleQuestion, HelpCircle } from 'lucide-react';
+import { Bell, HelpCircle } from 'lucide-react';
 
 interface FirePostEmptyProps {
     type: PostType;

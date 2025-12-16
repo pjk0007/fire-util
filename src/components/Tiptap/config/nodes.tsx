@@ -189,7 +189,6 @@ const Nodes: INodeItem[] = [
         type: 'aside',
         icon: <Info />,
         onSelect: (editor: Editor) => {
-            // @ts-ignore - custom command
             editor.chain().focus().toggleAside({ type: 'info' }).run();
         },
         shortcut: {

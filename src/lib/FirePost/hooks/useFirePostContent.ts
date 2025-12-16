@@ -1,4 +1,3 @@
-import { FireUser } from '@/lib/FireAuth/settings';
 import deletePost from '@/lib/FirePost/apis/deletePost';
 import incrementViewCount from '@/lib/FirePost/apis/incrementViewCount';
 import updatePost from '@/lib/FirePost/apis/updatePost';
@@ -16,7 +15,6 @@ import {
     PostType,
 } from '@/lib/FirePost/settings';
 import { Content } from '@tiptap/react';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -24,7 +22,6 @@ export default function useFirePostContent<U>(
     postId: string,
     onClickGoBack: () => void
 ) {
-    const router = useRouter();
     const { post, refetch } = useFirePost<U>(postId);
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<Content>();

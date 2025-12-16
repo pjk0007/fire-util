@@ -12,7 +12,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { FIRE_POST_LOCALE } from '@/lib/FirePost/settings';
 import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
 
 export default function FirePostContentButtons({
     editable,

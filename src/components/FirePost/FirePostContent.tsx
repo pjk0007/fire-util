@@ -1,6 +1,5 @@
 import Tiptap from '@/components/Tiptap/Tiptap';
 import { Skeleton } from '@/components/ui/skeleton';
-import { FireUser } from '@/lib/FireAuth/settings';
 import useFirePostContent from '@/lib/FirePost/hooks/useFirePostContent';
 import {
     POST_COLLECTION,

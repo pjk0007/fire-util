@@ -1,6 +1,5 @@
 import FirePostCreate from '@/components/FirePost/FirePostCreate';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { useRouter } from 'next/router';
 
 export default function NewPost() {

@@ -9,12 +9,10 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from '@/components/ui/pagination';
-import { FireUser } from '@/lib/FireAuth/settings';
 import {
     FIRE_POST_LOCALE,
     FirePost,
     POST_CREATED_AT_FIELD,
-    POST_ID_FIELD,
     POST_IS_PINNED_FIELD,
     PostType,
 } from '@/lib/FirePost/settings';

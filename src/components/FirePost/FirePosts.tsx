@@ -1,7 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { useState } from 'react';
 import useFirePosts from '@/lib/FirePost/hooks/useFirePosts';
-import { FireUser } from '@/lib/FireAuth/settings';
 import {
     FIRE_POST_LOCALE,
     FirePost as FirePostType,

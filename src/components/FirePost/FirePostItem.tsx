@@ -1,5 +1,4 @@
 import { Badge } from '@/components/ui/badge';
-import { FireUser } from '@/lib/FireAuth/settings';
 import {
     FIRE_POST_LOCALE,
     FirePost,

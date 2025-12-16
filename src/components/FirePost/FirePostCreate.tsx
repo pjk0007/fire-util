@@ -1,5 +1,4 @@
 import Tiptap from '@/components/Tiptap/Tiptap';
-import { FireUser } from '@/lib/FireAuth/settings';
 import useCreatePost from '@/lib/FirePost/hooks/useCreatePost';
 import FirePostContentViewDate from '@/components/FirePost/FirePostContent/FirePostContentViewDate';
 import FirePostContentButtons from '@/components/FirePost/FirePostContent/FirePostContentButtons';
@@ -37,7 +36,6 @@ export default function FirePostCreate<U>({
         setIsPinned,
         isSecret,
         setIsSecret,
-        isSubmitting,
         onSubmit,
     } = useCreatePost<U>(user, onCreated);
 

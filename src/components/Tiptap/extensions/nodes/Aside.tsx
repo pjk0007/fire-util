@@ -1,6 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/react';
 import { ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react';
 import { NodeViewContent, NodeViewProps } from '@tiptap/react';
+import { CommandProps } from '@tiptap/core';
 import React, { useState } from 'react';
 import {
     Info,
@@ -215,17 +216,17 @@ export const AsideExtension = Node.create({
         return {
             setAside:
                 (attributes?: { type?: string }) =>
-                ({ commands }: { commands: any }) => {
+                ({ commands }: Pick<CommandProps, 'commands'>) => {
                     return commands.wrapIn(this.name, attributes);
                 },
             toggleAside:
                 (attributes?: { type?: string }) =>
-                ({ commands }: { commands: any }) => {
+                ({ commands }: Pick<CommandProps, 'commands'>) => {
                     return commands.toggleWrap(this.name, attributes);
                 },
             unsetAside:
                 () =>
-                ({ commands }: { commands: any }) => {
+                ({ commands }: Pick<CommandProps, 'commands'>) => {
                     return commands.lift(this.name);
                 },
         };

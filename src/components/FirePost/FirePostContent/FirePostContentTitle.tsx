@@ -1,15 +1,10 @@
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-    FIRE_POST_LOCALE,
-    FirePost,
-    POST_IS_PINNED_FIELD,
-    POST_IS_SECRET_FIELD,
-} from '@/lib/FirePost/settings';
+import { FIRE_POST_LOCALE } from '@/lib/FirePost/settings';
 import { cn } from '@/lib/utils';
 import { LockKeyhole, Pin } from 'lucide-react';
 
-export default function FirePostContentTitle<U>({
+export default function FirePostContentTitle({
     isPinned,
     setIsPinned,
     isSecret,

@@ -1,7 +1,7 @@
 import FirePostContent from '@/components/FirePost/FirePostContent';
 import { useRouter } from 'next/router';
 
-export default function post() {
+export default function Post() {
     const router = useRouter();
     const { postId } = router.query;
 

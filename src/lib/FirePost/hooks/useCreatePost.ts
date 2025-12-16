@@ -1,4 +1,3 @@
-import { FireUser } from '@/lib/FireAuth/settings';
 import createPost from '@/lib/FirePost/apis/createPost';
 import {
     FIRE_POST_LOCALE,

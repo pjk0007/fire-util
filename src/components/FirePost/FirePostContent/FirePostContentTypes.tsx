@@ -10,8 +10,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import {
     FIRE_POST_LOCALE,
     POST_SHOW_TYPES,
-    POST_TYPE_FAQ,
-    POST_TYPE_NOTICE,
     POST_TYPES,
     PostShowType,
     PostType,
