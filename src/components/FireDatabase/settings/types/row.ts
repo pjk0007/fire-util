@@ -1,0 +1,41 @@
+import { Timestamp } from 'firebase/firestore';
+
+export interface FireDatabaseRow {
+    id: string;
+    name: string;
+    data: { [columnId: string]: FireDatabaseData };
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+}
+
+export type FireDatabaseData =
+    | FireDatabaseDataString
+    | FireDatabaseDataNumber
+    | FireDatabaseDataBoolean
+    | FireDatabaseDataDate
+    | FireDatabaseDataSelect
+    | FireDatabaseDataMultiSelect
+    | FireDatabaseDataRelation
+    | FireDatabaseDataFile
+    | FireDatabaseDataFormula;
+export type FireDatabaseDataString = string;
+export type FireDatabaseDataNumber = number | null;
+export type FireDatabaseDataBoolean = boolean;
+export type FireDatabaseDataDate = {
+    start: Timestamp | null;
+    end: Timestamp | null;
+    includeEnd: boolean;
+    includeTime: boolean;
+};
+export type FireDatabaseDataStatus = string;
+export type FireDatabaseDataSelect = string;
+export type FireDatabaseDataMultiSelect = string[];
+export type FireDatabaseDataRelation = {
+    databaseId: string;
+    rowId: string;
+} | null;
+export type FireDatabaseDataFile = {
+    name: string;
+    url: string;
+}[];
+export type FireDatabaseDataFormula = string | number | boolean | null;
