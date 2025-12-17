@@ -1,4 +1,27 @@
-const BLOB_DOWNLOAD_EXTENSIONS = ["jpeg", "jpg", "png", "gif", "webp", "svg", "tiff", "bmp", "heic", "ico", "pdf"];
+const BLOB_DOWNLOAD_EXTENSIONS = [
+    // Images
+    "jpeg",
+    "jpg",
+    "png",
+    "gif",
+    "webp",
+    "svg",
+    "tiff",
+    "bmp",
+    "heic",
+    "ico",
+    // Documents
+    "pdf",
+    // Media
+    "mp3",
+    "mp4",
+    "wav",
+    "webm",
+    "ogg",
+    "m4a",
+    "mov",
+    "avi",
+];
 
 function shouldUseBlobDownload(filename: string): boolean {
     const extension = filename.split(".").pop()?.toLowerCase() || "";
