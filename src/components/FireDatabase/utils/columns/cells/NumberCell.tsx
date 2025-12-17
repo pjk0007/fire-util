@@ -8,7 +8,7 @@ import {
 } from '@/components/FireDatabase/settings/types/row';
 
 interface NumberCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     columnId: string;
     data: FireDatabaseRow;

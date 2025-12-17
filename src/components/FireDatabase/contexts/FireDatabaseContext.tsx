@@ -157,6 +157,7 @@ export function FireDatabaseProvider({
 
         // Always sync fetchedRows to rows when data changes
         setRows(fetchedRows);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchedRows]);
 
     // Initialize database and sync view states
@@ -196,6 +197,7 @@ export function FireDatabaseProvider({
                 isUpdatingViewRef.current = false;
             }, 0);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [database, views, selectedViewId, cols]);
 
     // Persist view state changes (but not during view loading)
@@ -218,6 +220,7 @@ export function FireDatabaseProvider({
                 columnVisibility,
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [columnOrder, columnSizing, columnVisibility, sorting]);
 
     // Memoize table columns to prevent unnecessary re-creation
@@ -311,13 +314,15 @@ export function FireDatabaseProvider({
                 throw error; // Re-throw so caller can handle if needed
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [databaseId, cols]
     );
 
     const addRow = useCallback(async () => {
         await createRow(databaseId, {});
         refetchRows();
-    }, [databaseId, refetchRows]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [databaseId]);
 
     // Don't memoize context value - it causes infinite loops with table object
     // The performance cost of re-creating this object is minimal compared to the complexity of memoization

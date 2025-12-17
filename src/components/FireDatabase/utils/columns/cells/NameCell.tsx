@@ -5,7 +5,7 @@ import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabase
 import { FireDatabaseRow } from '@/components/FireDatabase/settings/types/row';
 
 interface NameCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     columnId: string;
     data: FireDatabaseRow;

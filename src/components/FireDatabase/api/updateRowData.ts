@@ -11,7 +11,7 @@ export default function updateRowData(
     rowId: string,
     data?: { [columnId: string]: FireDatabaseData }
 ) {
-    const updateData: { [key: string]: any } = {};
+    const updateData: Record<string, FireDatabaseData> = {};
     if (data) {
         for (const columnId in data) {
             updateData[`data.${columnId}`] = data[columnId];

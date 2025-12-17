@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { Table } from '@/components/ui/table';
 import { arrayMove } from '@dnd-kit/sortable';
 import {

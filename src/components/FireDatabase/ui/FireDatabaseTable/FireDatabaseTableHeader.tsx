@@ -5,17 +5,8 @@ import {
     horizontalListSortingStrategy,
     SortableContext,
 } from '@dnd-kit/sortable';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { ColumnOrderState, Table } from '@tanstack/react-table';
 import FireDatabaseTableAddColumn from '@/components/FireDatabase/ui/FireDatabaseTable/FireDatabaseTableHeader/FireDatabaseTableAddColumn';
-import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
 
 export default function FireDatabaseTableHeader<TData>({
     table,

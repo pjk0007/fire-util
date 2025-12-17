@@ -1,4 +1,4 @@
-import { memo, useCallback, useState, useRef } from 'react';
+import { memo, useCallback, useState, useRef, useMemo } from 'react';
 import { Table } from '@tanstack/react-table';
 import updateRowData from '@/components/FireDatabase/api/updateRowData';
 import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabaseContext';
@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/popover';
 
 interface FileCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     columnId: string;
     data: FireDatabaseRow;
@@ -25,7 +25,8 @@ interface FileCellProps {
 
 function FileCell({ table, databaseId, columnId, data }: FileCellProps) {
     const { setRows } = useFireDatabase();
-    const value = (data.data?.[columnId] as FireDatabaseDataFile) || [];
+    const rawValue = data.data?.[columnId] as FireDatabaseDataFile | undefined;
+    const value = useMemo(() => rawValue || [], [rawValue]);
     const [open, setOpen] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -150,6 +151,7 @@ function FileCell({ table, databaseId, columnId, data }: FileCellProps) {
                                     )}
                                 >
                                     {isImageFile(file.name) ? (
+                                        // eslint-disable-next-line @next/next/no-img-element
                                         <img
                                             src={file.url}
                                             alt={file.name}
@@ -221,6 +223,7 @@ function FileCell({ table, databaseId, columnId, data }: FileCellProps) {
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         {isImageFile(file.name) ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
                                             <img
                                                 src={file.url}
                                                 alt={file.name}

@@ -17,14 +17,13 @@ import { ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface RelationCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     column: FireDatabaseColumn;
     data: FireDatabaseRow;
 }
 
 function RelationCell({
-    table,
     databaseId,
     column,
     data,

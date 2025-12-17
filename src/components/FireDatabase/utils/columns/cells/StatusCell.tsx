@@ -4,7 +4,6 @@ import updateRowData from '@/components/FireDatabase/api/updateRowData';
 import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabaseContext';
 import {
     FireDatabaseRow,
-    FireDatabaseDataSelect,
     FireDatabaseDataStatus,
 } from '@/components/FireDatabase/settings/types/row';
 import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
@@ -19,7 +18,7 @@ import { cn } from '@/lib/utils';
 import { BADGE_COLORS } from '@/components/FireDatabase/settings/colors';
 
 interface StatusCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     column: FireDatabaseColumn;
     data: FireDatabaseRow;
@@ -52,7 +51,7 @@ function StatusCell({ table, databaseId, column, data }: StatusCellProps) {
 
             setOpen(false);
         },
-        [databaseId, data.id, column.id, statusData, setRows]
+        [databaseId, data.id, column.id, setRows]
     );
 
     const handleFocus = useCallback(() => {

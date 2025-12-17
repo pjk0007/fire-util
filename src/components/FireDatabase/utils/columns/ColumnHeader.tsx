@@ -19,7 +19,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { Input } from '@/components/ui/input';
-import { ReactNode, useState, useMemo, useCallback, memo } from 'react';
+import { ReactNode, useState, useMemo, useCallback } from 'react';
 
 export default function ColumnHeader({
     column,

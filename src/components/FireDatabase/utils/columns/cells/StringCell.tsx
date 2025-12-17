@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback } from 'react';
 import { Table } from '@tanstack/react-table';
 import updateRowData from '@/components/FireDatabase/api/updateRowData';
 import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabaseContext';
@@ -8,7 +8,7 @@ import {
 } from '@/components/FireDatabase/settings/types/row';
 
 interface StringCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     columnId: string;
     data: FireDatabaseRow;

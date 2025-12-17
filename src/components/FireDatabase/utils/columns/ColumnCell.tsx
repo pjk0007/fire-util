@@ -14,10 +14,10 @@ import FileCell from '@/components/FireDatabase/utils/columns/cells/FileCell';
 import StatusCell from '@/components/FireDatabase/utils/columns/cells/StatusCell';
 
 interface ColumnCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     column: FireDatabaseColumn;
-    row: Row<any>;
+    row: Row<FireDatabaseRow>;
 }
 
 function ColumnCell({ table, databaseId, column, row }: ColumnCellProps) {

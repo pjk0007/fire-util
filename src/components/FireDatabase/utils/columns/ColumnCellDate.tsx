@@ -5,7 +5,6 @@ import {
     FireDatabaseRow,
 } from '@/components/FireDatabase/settings/types/row';
 import { Calendar } from '@/components/ui/calendar';
-import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
@@ -48,6 +47,7 @@ export default function ColumnCellDate({
                 includeEnd: includeEnd,
             } as FireDatabaseDataDate,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [start, end, includeTime, includeEnd]);
 
     return (
@@ -171,9 +171,9 @@ export default function ColumnCellDate({
                         from: start || undefined,
                         to: end || undefined,
                     }}
-                    onSelect={(selected: any) => {
+                    onSelect={(selected: { from?: Date; to?: Date } | undefined) => {
                         if (selected?.from) {
-                            const newFrom = selected?.from as Date;
+                            const newFrom = selected?.from;
                             if (start) {
                                 newFrom.setHours(
                                     start.getHours(),
@@ -183,7 +183,7 @@ export default function ColumnCellDate({
                             setStart(newFrom);
                         }
                         if (selected?.to) {
-                            const newTo = selected?.to as Date;
+                            const newTo = selected?.to;
                             if (end) {
                                 newTo.setHours(
                                     end.getHours(),
@@ -200,9 +200,9 @@ export default function ColumnCellDate({
                     endMonth={after2Years}
                     mode={'single'}
                     selected={start || undefined}
-                    onSelect={(selected: any) => {
+                    onSelect={(selected: Date | undefined) => {
                         if (selected) {
-                            const newDate = selected as Date;
+                            const newDate = selected;
                             if (start) {
                                 newDate.setHours(
                                     start.getHours(),

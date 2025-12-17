@@ -1,5 +1,5 @@
-import { memo } from 'react';
 import { FireDatabaseColumn } from '@/components/FireDatabase/settings/types/database';
+import { FireDatabaseRow } from '@/components/FireDatabase/settings/types/row';
 import ColumnCell from '@/components/FireDatabase/utils/columns/ColumnCell';
 import ColumnHeader from '@/components/FireDatabase/utils/columns/ColumnHeader';
 import { ColumnDef } from '@tanstack/react-table';
@@ -7,14 +7,14 @@ import { ColumnDef } from '@tanstack/react-table';
 export function databaseToTableColumns(
     databaseId: string,
     columns: FireDatabaseColumn[]
-) {
+): ColumnDef<FireDatabaseRow>[] {
     return columns.map((column) => columnToTableColumn(databaseId, column));
 }
 
-export function columnToTableColumn<TData>(
+export function columnToTableColumn(
     databaseId: string,
     column: FireDatabaseColumn
-): ColumnDef<TData> {
+): ColumnDef<FireDatabaseRow> {
     switch (column.type) {
         case 'id':
         case 'name':

@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useState, useMemo } from 'react';
 import { Table } from '@tanstack/react-table';
 import updateRowData from '@/components/FireDatabase/api/updateRowData';
 import { useFireDatabase } from '@/components/FireDatabase/contexts/FireDatabaseContext';
@@ -16,22 +16,21 @@ import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
 
 interface MultiSelectCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     column: FireDatabaseColumn;
     data: FireDatabaseRow;
 }
 
 function MultiSelectCell({
-    table,
     databaseId,
     column,
     data,
 }: MultiSelectCellProps) {
     const { setRows } = useFireDatabase();
     const [open, setOpen] = useState(false);
-    const multiSelectData = (data.data?.[column.id] ||
-        []) as FireDatabaseDataMultiSelect;
+    const rawMultiSelectData = data.data?.[column.id] as FireDatabaseDataMultiSelect | undefined;
+    const multiSelectData = useMemo(() => rawMultiSelectData || [], [rawMultiSelectData]);
     const options = column.options || [];
 
     const handleToggle = useCallback(

@@ -16,13 +16,13 @@ import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
 
 interface SelectCellProps {
-    table: Table<any>;
+    table: Table<FireDatabaseRow>;
     databaseId: string;
     column: FireDatabaseColumn;
     data: FireDatabaseRow;
 }
 
-function SelectCell({ table, databaseId, column, data }: SelectCellProps) {
+function SelectCell({ databaseId, column, data }: SelectCellProps) {
     const { setRows } = useFireDatabase();
     const [open, setOpen] = useState(false);
     const selectData = data.data?.[column.id] as FireDatabaseDataSelect;

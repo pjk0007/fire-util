@@ -1,8 +1,6 @@
 import {
     AlignLeft,
     ArrowUpRight,
-    Baseline,
-    Binary,
     BookOpen,
     Briefcase,
     Building2,
@@ -138,6 +136,7 @@ export function getIcon(name: IconName) {
         case IconName.Url:
             return <Link className="size-4" />;
         case IconName.Image:
+            // eslint-disable-next-line jsx-a11y/alt-text
             return <Image className="size-4" />;
         case IconName.User:
             return <User className="size-4" />;

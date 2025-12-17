@@ -1,8 +1,7 @@
 import { BadgeColor } from '@/components/FireDatabase/settings/colors';
-import {
+import type {
     FireDatabaseViewFilter,
     FireDatabaseViewGroup,
-    FireDatabaseViewSort,
 } from '@/components/FireDatabase/settings/types/view';
 import { IconName } from '@/components/FireDatabase/utils/icons';
 import {

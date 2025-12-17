@@ -1,4 +1,3 @@
-import { FireDatabase } from '../settings/types/database';
 import {
     DATABASE_VIEW_SUBCOLLECTION,
     DEFAULT_DATABASE_COLUMNS,
