@@ -7,6 +7,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import FireChatSettings from '@/components/FireChat/FireChatSettings';
 import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { FireTrackerProvider } from '@/components/FireTracker';
 
 export function ThemeProvider({
     children,
@@ -29,15 +30,17 @@ export default function App({ Component, pageProps }: AppProps) {
                 disableTransitionOnChange
             >
                 <FireAuthProvider>
-                    <FireChannelProvider
-                        defaultChannelId={
-                            router.query.channelId as string | undefined
-                        }
-                    >
-                        <Component {...pageProps} />
-                        <Toaster richColors position="top-center" />
-                        <FireChatSettings />
-                    </FireChannelProvider>
+                    <FireTrackerProvider>
+                        <FireChannelProvider
+                            defaultChannelId={
+                                router.query.channelId as string | undefined
+                            }
+                        >
+                            <Component {...pageProps} />
+                            <Toaster richColors position="top-center" />
+                            <FireChatSettings />
+                        </FireChannelProvider>
+                    </FireTrackerProvider>
                 </FireAuthProvider>
             </ThemeProvider>
         </QueryClientProvider>
