@@ -13,7 +13,7 @@ import {
     getOrCreateVisitorId,
     getCurrentSessionId,
     startNewSession,
-    updateSessionActivity,
+    storeSession,
 } from '@/components/FireTracker/utils';
 import {
     createSession,
@@ -96,8 +96,8 @@ export function useTracker(options: UseTrackerOptions = {}) {
             const session = await initSession();
             sessionId = session?.id ?? null;
         } else {
-            // 기존 세션 활동 시간 업데이트
-            updateSessionActivity(sessionId);
+            // 기존 세션 활동 시간 업데이트 (로컬 + Firestore)
+            storeSession({ id: sessionId, lastActivityAt: Date.now() });
             await incrementPageView(sessionId);
         }
 
@@ -133,7 +133,7 @@ export function useTracker(options: UseTrackerOptions = {}) {
                 const session = await initSession();
                 sessionId = session?.id ?? null;
             } else {
-                updateSessionActivity(sessionId);
+                storeSession({ id: sessionId, lastActivityAt: Date.now() });
                 await incrementEventCount(sessionId);
             }
 

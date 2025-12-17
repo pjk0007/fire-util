@@ -36,7 +36,7 @@ export function getStoredSession(): StoredSession | null {
 }
 
 /**
- * 세션 정보 저장
+ * 세션 정보 저장 (로컬 sessionStorage)
  */
 export function storeSession(session: StoredSession): void {
     if (typeof window === 'undefined') {
@@ -67,16 +67,6 @@ export function getCurrentSessionId(): string | null {
     }
 
     return stored.id;
-}
-
-/**
- * 세션 활동 시간 업데이트
- */
-export function updateSessionActivity(sessionId: string): void {
-    storeSession({
-        id: sessionId,
-        lastActivityAt: Date.now(),
-    });
 }
 
 /**

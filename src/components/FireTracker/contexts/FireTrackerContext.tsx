@@ -22,7 +22,7 @@ import {
     getOrCreateVisitorId,
     getCurrentSessionId,
     startNewSession,
-    updateSessionActivity,
+    storeSession,
 } from '@/components/FireTracker/utils';
 import {
     createSession,
@@ -124,7 +124,7 @@ export function FireTrackerProvider({
             const newSession = await initSession();
             sessionId = newSession?.id ?? null;
         } else {
-            updateSessionActivity(sessionId);
+            storeSession({ id: sessionId, lastActivityAt: Date.now() });
             await incrementPageView(sessionId);
         }
 
@@ -157,7 +157,7 @@ export function FireTrackerProvider({
                 const newSession = await initSession();
                 sessionId = newSession?.id ?? null;
             } else {
-                updateSessionActivity(sessionId);
+                storeSession({ id: sessionId, lastActivityAt: Date.now() });
                 await incrementEventCount(sessionId);
             }
 

@@ -1,13 +1,10 @@
 export { createSession } from './createSession';
 export {
-    updateSessionActivity,
     incrementPageView,
     incrementEventCount,
-    endSession,
     linkUserToSession,
 } from './updateSession';
 export { createEvent } from './createEvent';
-export { getSession } from './getSession';
 export {
     getSessions,
     getSessionsToday,
