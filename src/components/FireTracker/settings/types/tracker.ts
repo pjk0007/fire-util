@@ -36,6 +36,7 @@ export interface FireTrackerSession {
 
     // 유입 정보
     utm: UTMData;
+    customParams: Record<string, string> | null; // UTM 외 커스텀 파라미터
     referrer: string | null;
     referrerDomain: string | null;
     trafficSource: TrafficSource;

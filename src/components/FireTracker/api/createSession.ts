@@ -13,6 +13,7 @@ interface CreateSessionParams {
     visitorId: string;
     userId?: string;
     utm: UTMData;
+    customParams?: Record<string, string> | null;
     referrer: string | null;
     referrerDomain: string | null;
     trafficSource: TrafficSource;
@@ -32,6 +33,7 @@ export async function createSession(
         startedAt: now,
         lastActivityAt: now,
         utm: params.utm,
+        customParams: params.customParams ?? null,
         referrer: params.referrer,
         referrerDomain: params.referrerDomain,
         trafficSource: params.trafficSource,
