@@ -1,10 +1,10 @@
-import FireChatMessageActionButtons from '@/components/FireChat/FireChatMessage/FireChatMessageActionButtons';
-import FireChatMessageAvatar from '@/components/FireChat/FireChatMessage/FireChatMessageAvatar';
-import FireChatMessageContent from '@/components/FireChat/FireChatMessage/FireChatMessageContent';
-import FireChatMessageSystem from '@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem';
-import FireChatMessageContextMenu from '@/components/FireChat/FireChatMessage/FireChatMessageContextMenu';
-import { Button } from '@/components/ui/button';
-import handleEmojiReactionClick from '@/lib/FireChat/api/handleEmojiReactionClick';
+import FireChatMessageActionButtons from "@/components/FireChat/FireChatMessage/FireChatMessageActionButtons";
+import FireChatMessageAvatar from "@/components/FireChat/FireChatMessage/FireChatMessageAvatar";
+import FireChatMessageContent from "@/components/FireChat/FireChatMessage/FireChatMessageContent";
+import FireChatMessageSystem from "@/components/FireChat/FireChatMessage/FireChatMessageContents/FireChatMessageSystem";
+import FireChatMessageContextMenu from "@/components/FireChat/FireChatMessage/FireChatMessageContextMenu";
+import { Button } from "@/components/ui/button";
+import handleEmojiReactionClick from "@/lib/FireChat/api/handleEmojiReactionClick";
 import {
     FireMessage,
     FireMessageContent,
@@ -16,17 +16,13 @@ import {
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_SYSTEM,
     MESSAGE_USER_ID_FIELD,
-} from '@/lib/FireChat/settings';
-import { FireUser } from '@/lib/FireAuth/settings';
-import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
-import { localeTimeString } from '@/lib/FireUtil/timeformat';
-import { cn } from '@/lib/utils';
+} from "@/lib/FireChat/settings";
+import { FireUser } from "@/lib/FireAuth/settings";
+import { USER_ID_FIELD } from "@/lib/FireAuth/settings";
+import { localeTimeString } from "@/lib/FireUtil/timeformat";
+import { cn } from "@/lib/utils";
 
-export default function FireChatMessage<
-    M extends FireMessage<T>,
-    T extends FireMessageContent,
-    U extends FireUser
->({
+export default function FireChatMessage<M extends FireMessage<T>, T extends FireMessageContent, U extends FireUser>({
     channelId,
     message,
     beforeMessage,
@@ -35,6 +31,7 @@ export default function FireChatMessage<
     me,
     setReplyingMessage,
     onLoad,
+    unreadCount = 0,
 }: {
     channelId: string;
     message: M;
@@ -44,24 +41,18 @@ export default function FireChatMessage<
     me?: U | null;
     setReplyingMessage?: (message: M) => void;
     onLoad?: () => void;
+    unreadCount?: number;
 }) {
-    const messageUser = participants.find(
-        (p) => p[USER_ID_FIELD] === message[MESSAGE_USER_ID_FIELD]
-    );
+    const messageUser = participants.find((p) => p[USER_ID_FIELD] === message[MESSAGE_USER_ID_FIELD]);
 
     if (message[MESSAGE_TYPE_FIELD] === MESSAGE_TYPE_SYSTEM) {
-        return (
-            <FireChatMessageSystem
-                message={message as FireMessage<FireMessageSystem>}
-            />
-        );
+        return <FireChatMessageSystem message={message as FireMessage<FireMessageSystem>} />;
     }
 
     const isMine = message[MESSAGE_USER_ID_FIELD] === me?.[USER_ID_FIELD];
 
     const isSameUserAndSameMinAsBefore =
-        beforeMessage?.[MESSAGE_USER_ID_FIELD] ===
-            message[MESSAGE_USER_ID_FIELD] &&
+        beforeMessage?.[MESSAGE_USER_ID_FIELD] === message[MESSAGE_USER_ID_FIELD] &&
         beforeMessage?.[MESSAGE_CREATED_AT_FIELD] &&
         Math.floor(beforeMessage?.[MESSAGE_CREATED_AT_FIELD].seconds / 60) ===
             Math.floor(message[MESSAGE_CREATED_AT_FIELD].seconds / 60);
@@ -82,25 +73,22 @@ export default function FireChatMessage<
                 onLoad={onLoad}
                 data-seconds={message[MESSAGE_CREATED_AT_FIELD].seconds}
                 id={`message-${message[MESSAGE_ID_FIELD]}`}
-                className={cn('flex group w-full gap-3', {
-                    'justify-end': isMine,
-                    'justify-start': !isMine,
-                    'mt-3': !isSameUserAndSameMinAsBefore,
+                className={cn("flex group w-full gap-3", {
+                    "justify-end": isMine,
+                    "justify-start": !isMine,
+                    "mt-3": !isSameUserAndSameMinAsBefore,
                 })}
             >
                 {isMine ? null : isSameUserAndSameMinAsBefore ? (
                     <div className="w-8" />
                 ) : (
-                    <FireChatMessageAvatar
-                        message={message}
-                        participants={participants}
-                    />
+                    <FireChatMessageAvatar message={message} participants={participants} />
                 )}
 
                 <div
-                    className={cn('flex flex-col max-w-[78%] gap-2', {
-                        'items-end': isMine,
-                        'items-start': !isMine,
+                    className={cn("flex flex-col max-w-[78%] gap-2", {
+                        "items-end": isMine,
+                        "items-start": !isMine,
                     })}
                 >
                     {!isSameUserAndSameMinAsBefore && !isMine && (
@@ -109,26 +97,21 @@ export default function FireChatMessage<
                         </p>
                     )}
                     <div className="flex flex-col relative">
-                        <FireChatMessageContent
-                            message={message}
-                            me={me}
-                            participants={participants}
-                        />
-                        {isSameMinAsAfter ? null : (
-                            <div
-                                className={cn(
-                                    'text-nowrap text-xs text-muted-foreground visible group-hover:invisible absolute md:items-center bottom-1',
-                                    {
-                                        'left-[calc(100%+8px)]': !isMine,
-                                        'right-[calc(100%+8px)]': isMine,
-                                    }
-                                )}
-                            >
-                                {localeTimeString(
-                                    message[MESSAGE_CREATED_AT_FIELD]
-                                )}
-                            </div>
-                        )}
+                        <FireChatMessageContent message={message} me={me} participants={participants} />
+                        <div
+                            className={cn(
+                                "text-nowrap text-xs text-muted-foreground visible group-hover:invisible absolute md:items-center bottom-1 flex items-center gap-1",
+                                {
+                                    "left-[calc(100%+8px)]": !isMine,
+                                    "right-[calc(100%+8px)]": isMine,
+                                    "flex-row": !isMine,
+                                    "flex-row-reverse": isMine,
+                                }
+                            )}
+                        >
+                            {!isSameMinAsAfter && localeTimeString(message[MESSAGE_CREATED_AT_FIELD])}
+                            {unreadCount > 0 && <span className="text-primary font-medium">{unreadCount}</span>}
+                        </div>
 
                         <FireChatMessageActionButtons
                             channelId={channelId}
@@ -138,31 +121,22 @@ export default function FireChatMessage<
                             setReplyingMessage={setReplyingMessage}
                         />
                     </div>
-                    {Object.entries(message[MESSAGE_REACTIONS_FIELD] || {})
-                        .length > 0 && (
+                    {Object.entries(message[MESSAGE_REACTIONS_FIELD] || {}).length > 0 && (
                         <div className="flex gap-1 mb-2">
-                            {Object.entries(
-                                message[MESSAGE_REACTIONS_FIELD] || {}
-                            ).map(([emoji, userIds]) => (
+                            {Object.entries(message[MESSAGE_REACTIONS_FIELD] || {}).map(([emoji, userIds]) => (
                                 <Button
                                     key={emoji}
-                                    variant={'outline'}
+                                    variant={"outline"}
                                     size="sm"
-                                    className={cn(
-                                        'rounded-sm px-1.5 py-1 text-xs gap-2 h-[22px]',
-                                        {
-                                            'border-primary bg-primary/5':
-                                                userIds.includes(
-                                                    me?.[USER_ID_FIELD] || ''
-                                                ),
-                                        }
-                                    )}
+                                    className={cn("rounded-sm px-1.5 py-1 text-xs gap-2 h-[22px]", {
+                                        "border-primary bg-primary/5": userIds.includes(me?.[USER_ID_FIELD] || ""),
+                                    })}
                                     onClick={() => {
                                         handleEmojiReactionClick({
                                             channelId,
                                             message,
                                             emoji,
-                                            userId: me?.[USER_ID_FIELD] || '',
+                                            userId: me?.[USER_ID_FIELD] || "",
                                         });
                                     }}
                                 >

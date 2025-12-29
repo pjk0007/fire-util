@@ -33,6 +33,7 @@ type FireChatChannelRoomBodyMessageListProps<
     setReplyingMessage?: (message?: FireMessage<FireMessageContent>) => void;
     channelId: string;
     sendingFiles: SendingFile[];
+    getUnreadCountForMessage: (messageId: string) => number;
 };
 
 function renderMessages<
@@ -46,7 +47,8 @@ function renderMessages<
     me: U | null | undefined,
     setReplyingMessage:
         | ((message?: FireMessage<FireMessageContent>) => void)
-        | undefined
+        | undefined,
+    getUnreadCountForMessage: (messageId: string) => number
 ) {
     return messages.map((msg, index) => {
         const prevDate =
@@ -98,6 +100,7 @@ function renderMessages<
                         participants={participants}
                         me={me}
                         setReplyingMessage={setReplyingMessage}
+                        unreadCount={getUnreadCountForMessage(msg[MESSAGE_ID_FIELD])}
                     />
                 </Fragment>
             );
@@ -116,6 +119,7 @@ function renderMessages<
                 participants={participants}
                 me={me}
                 setReplyingMessage={setReplyingMessage}
+                unreadCount={getUnreadCountForMessage(msg[MESSAGE_ID_FIELD])}
             />
         );
     });
@@ -134,6 +138,7 @@ function FireChatChannelRoomBodyMessageList<
     setReplyingMessage,
     channelId,
     sendingFiles,
+    getUnreadCountForMessage,
 }: FireChatChannelRoomBodyMessageListProps<M, T, U>) {
     return (
         <>
@@ -142,14 +147,16 @@ function FireChatChannelRoomBodyMessageList<
                 beforeMessages,
                 participants,
                 me,
-                setReplyingMessage
+                setReplyingMessage,
+                getUnreadCountForMessage
             )}
             {renderMessages(
                 channelId,
                 messages,
                 participants,
                 me,
-                setReplyingMessage
+                setReplyingMessage,
+                getUnreadCountForMessage
             )}
             {/* {renderMessages(newMessages, participants, me, setReplyingMessage)} */}
             {sendingFiles
