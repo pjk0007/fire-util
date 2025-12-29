@@ -1,6 +1,6 @@
-import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import { storage } from '@/lib/firebase';
-import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
+import { useFireAuth } from "@/components/FireProvider/FireAuthProvider";
+import { storage } from "@/lib/firebase";
+import sendMessage, { updateLastMessage } from "@/lib/FireChat/api/sendMessage";
 import {
     FireMessage,
     FireMessageImage,
@@ -13,18 +13,12 @@ import {
     MESSAGE_TYPE_FIELD,
     MESSAGE_TYPE_IMAGE,
     MESSAGE_USER_ID_FIELD,
-} from '@/lib/FireChat/settings';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
-import createThumbnail from '@/lib/FireChat/utils/createThumbnail';
-import { Timestamp } from 'firebase/firestore';
-import {
-    getDownloadURL,
-    ref,
-    uploadBytesResumable,
-    uploadString,
-    UploadTask,
-} from 'firebase/storage';
-import { useEffect, useRef, useState } from 'react';
+} from "@/lib/FireChat/settings";
+import { CHANNEL_COLLECTION } from "@/lib/FireChannel/settings";
+import createThumbnail from "@/lib/FireChat/utils/createThumbnail";
+import { Timestamp } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable, uploadString, UploadTask } from "firebase/storage";
+import { useEffect, useRef, useState } from "react";
 
 export default function useFireChatSendingImages({
     id,
@@ -51,7 +45,6 @@ export default function useFireChatSendingImages({
 
         uploadTaskRef.current = [];
         files.forEach(async (file) => {
-
             const storageRef = ref(
                 storage,
                 `${CHANNEL_COLLECTION}/${channelId}/${MESSAGE_COLLECTION}/${id}/${file.name}`
@@ -60,14 +53,9 @@ export default function useFireChatSendingImages({
             uploadTaskRef.current.push(uploadTask);
 
             uploadTask.on(
-                'state_changed',
+                "state_changed",
                 (snapshot) => {
-                    const prog = Math.round(
-                        (snapshot.bytesTransferred /
-                            snapshot.totalBytes /
-                            files.length) *
-                            100
-                    );
+                    const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes / files.length) * 100);
                     setProgress((prev) => {
                         return Math.min(prev + prog, 100);
                     });
@@ -83,18 +71,15 @@ export default function useFireChatSendingImages({
                             storage,
                             `${CHANNEL_COLLECTION}/${channelId}/${MESSAGE_COLLECTION}/${id}/thumbnail_${file.name}`
                         );
-                        await uploadString(thumbnailRef, thumbnail, 'data_url');
+                        await uploadString(thumbnailRef, thumbnail, "data_url");
 
                         const thumbnailUrl = await getDownloadURL(thumbnailRef);
-                        const url = await getDownloadURL(
-                            uploadTask.snapshot.ref
-                        );
+                        const url = await getDownloadURL(uploadTask.snapshot.ref);
 
                         const content: FireMessageImage = {
                             [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_IMAGE,
                             [MESSAGE_CONTENT_URL_FIELD]: url,
-                            [MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD]:
-                                thumbnailUrl,
+                            [MESSAGE_CONTENT_IMAGE_THUMBNAIL_URL_FIELD]: thumbnailUrl,
                         };
                         setContents((prev) => [...prev, content]);
                         // 모든 파일이 업로드 완료되었는지 확인
@@ -123,7 +108,7 @@ export default function useFireChatSendingImages({
                 const msgId = `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`;
                 const msg: FireMessage<FireMessageImage> = {
                     [MESSAGE_ID_FIELD]: msgId,
-                    [MESSAGE_USER_ID_FIELD]: me?.id || '',
+                    [MESSAGE_USER_ID_FIELD]: me?.id || "",
                     [MESSAGE_CREATED_AT_FIELD]: Timestamp.now(),
                     [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_IMAGE,
                     [MESSAGE_CONTENTS_FIELD]: contents,
@@ -133,7 +118,7 @@ export default function useFireChatSendingImages({
                 setIsCompleted(true);
             })();
         }
-    }, [contents, files.length, channelId, me]);
+    }, [contents, files.length, channelId]);
 
     function cancelUpload() {
         uploadTaskRef.current.forEach((task) => {

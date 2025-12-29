@@ -5,6 +5,7 @@ import { FireMessage, FireMessageContent } from '@/lib/FireChat/settings';
 import { Timestamp } from 'firebase/firestore';
 
 export const CHANNEL_COLLECTION = 'matches';
+export const CHANNEL_ID = 'matchId';
 
 export const CHANNEL_ID_FIELD = 'id';
 export const CHANNEL_HOST_ID_FIELD = 'host';
