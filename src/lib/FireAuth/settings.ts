@@ -8,6 +8,8 @@ export const USER_AVATAR_FIELD = 'profileImg';
 export const USER_AVATAR_FALLBACK_URL = '/default-avatar.png';
 
 export const USER_EMAIL_FIELD = 'email';
+export const USER_SIGNED_UP_AT_FIELD = 'signUpAt';
+export const USER_LAST_ACTIVE_AT_FIELD = 'lastVisitedAt';
 
 /**
  * TypeScript interfaces for Firestore documents
@@ -25,6 +27,8 @@ export interface FireUser {
     [USER_NAME_FIELD]: string;
     [USER_AVATAR_FIELD]?: string;
     [USER_EMAIL_FIELD]?: string;
+    [USER_SIGNED_UP_AT_FIELD]: Date;
+    [USER_LAST_ACTIVE_AT_FIELD]?: Date;
 }
 
 // User setting path and fields

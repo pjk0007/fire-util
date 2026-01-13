@@ -36,11 +36,13 @@ export interface FireTrackerSession {
 
     // 유입 정보
     utm: UTMData;
+    hasUtm: boolean; // UTM 파라미터 존재 여부 (Firestore 쿼리용)
     customParams: Record<string, string> | null; // UTM 외 커스텀 파라미터
     referrer: string | null;
     referrerDomain: string | null;
     trafficSource: TrafficSource;
     landingPage: string;
+    isFirstVisit: boolean; // 해당 visitorId의 첫 세션 여부
 
     // 디바이스 정보
     device: DeviceInfo;
