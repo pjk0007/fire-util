@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 disableTransitionOnChange
             >
                 <FireAuthProvider>
-                    <FireTrackerProvider>
+                    {/* <FireTrackerProvider> */}
                         <FireChannelProvider
                             defaultChannelId={
                                 router.query.channelId as string | undefined
@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
                             <Toaster richColors position="top-center" />
                             <FireChatSettings />
                         </FireChannelProvider>
-                    </FireTrackerProvider>
+                    {/* </FireTrackerProvider> */}
                 </FireAuthProvider>
             </ThemeProvider>
         </QueryClientProvider>

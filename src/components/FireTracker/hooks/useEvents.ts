@@ -1,36 +1,42 @@
 import { useQuery } from '@tanstack/react-query';
-import {
-    getEvents,
-    getEventsToday,
-    getEventsThisWeek,
-    getEventsThisMonth,
-} from '@/components/FireTracker/api';
-import { EventType } from '@/components/FireTracker/settings';
+import { getEvents } from '@/components/FireTracker/api';
+import { FireTrackerEvent } from '@/components/FireTracker/settings';
 
-export function useEvents(startDate?: Date, endDate?: Date, type?: EventType) {
-    return useQuery({
-        queryKey: ['tracker-events', startDate?.toISOString(), endDate?.toISOString(), type],
-        queryFn: () => getEvents({ startDate, endDate, type }),
-    });
+interface UseEventsParams {
+    startDate?: Date;
+    endDate?: Date;
+    visitorIds?: string[];
+    enabled?: boolean;
 }
 
-export function useEventsToday() {
-    return useQuery({
-        queryKey: ['tracker-events-today'],
-        queryFn: getEventsToday,
-    });
-}
+export function useEvents({
+    startDate,
+    endDate,
+    visitorIds,
+    enabled = true,
+}: UseEventsParams) {
+    return useQuery<FireTrackerEvent[]>({
+        queryKey: [
+            'firetracker',
+            'events',
+            startDate?.toISOString(),
+            endDate?.toISOString(),
+            visitorIds?.join(','),
+        ],
+        queryFn: async () => {
+            const events = await getEvents({
+                startDate,
+                endDate,
+            });
 
-export function useEventsThisWeek() {
-    return useQuery({
-        queryKey: ['tracker-events-week'],
-        queryFn: getEventsThisWeek,
-    });
-}
+            // visitorIds가 지정되면 필터링
+            if (visitorIds && visitorIds.length > 0) {
+                const visitorSet = new Set(visitorIds);
+                return events.filter((e) => visitorSet.has(e.visitorId));
+            }
 
-export function useEventsThisMonth() {
-    return useQuery({
-        queryKey: ['tracker-events-month'],
-        queryFn: getEventsThisMonth,
+            return events;
+        },
+        enabled,
     });
 }

@@ -17,45 +17,48 @@ interface GetSessionsParams {
     startDate?: Date;
     endDate?: Date;
     trafficSource?: string;
-    limitCount?: number;
+    hasUtm?: boolean;
+    isFirstVisit?: boolean;
+    visitorId?: string;
 }
 
 export async function getSessions(
     params: GetSessionsParams = {}
 ): Promise<FireTrackerSession[]> {
-    const { startDate, endDate, trafficSource, limitCount = 100 } = params;
-
-    let q = query(
-        collection(db, TRACKER_SESSION_COLLECTION),
-        orderBy('startedAt', 'desc'),
-        limit(limitCount)
-    );
+    const { startDate, endDate, hasUtm, isFirstVisit } = params;
 
     const constraints = [];
 
     if (startDate) {
-        constraints.push(where('startedAt', '>=', Timestamp.fromDate(startDate)));
+        constraints.push(
+            where('startedAt', '>=', Timestamp.fromDate(startDate))
+        );
     }
 
     if (endDate) {
         constraints.push(where('startedAt', '<=', Timestamp.fromDate(endDate)));
     }
 
-    if (trafficSource) {
-        constraints.push(where('trafficSource', '==', trafficSource));
-    }
-
-    if (constraints.length > 0) {
-        q = query(
-            collection(db, TRACKER_SESSION_COLLECTION),
-            ...constraints,
-            orderBy('startedAt', 'desc'),
-            limit(limitCount)
-        );
-    }
+    const q = query(collection(db, TRACKER_SESSION_COLLECTION), ...constraints);
 
     const snapshot = await getDocs(q);
-    return snapshot.docs.map((doc) => doc.data() as FireTrackerSession);
+    let sessions = snapshot.docs.map((doc) => doc.data() as FireTrackerSession);
+
+    // 클라이언트 사이드 필터링 (Firestore 복합 인덱스 없이)
+    if (hasUtm !== undefined) {
+        sessions = sessions.filter((s) => s.hasUtm === hasUtm);
+    }
+    if (isFirstVisit !== undefined) {
+        sessions = sessions.filter((s) => s.isFirstVisit === isFirstVisit);
+    }
+    if (params.trafficSource) {
+        sessions = sessions.filter((s) => s.trafficSource === params.trafficSource);
+    }
+    if (params.visitorId) {
+        sessions = sessions.filter((s) => s.visitorId === params.visitorId);
+    }
+
+    return sessions;
 }
 
 export async function getSessionsToday(): Promise<FireTrackerSession[]> {
