@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 
 interface FireDriveProps {
     channelId?: string;
+    initialFolderId?: string | null;
+    initialFileId?: string | null;
 }
 
 function FireDriveInner() {
@@ -51,9 +53,9 @@ function FireDriveInner() {
     );
 }
 
-export default function FireDrive({ channelId }: FireDriveProps) {
+export default function FireDrive({ channelId, initialFolderId, initialFileId }: FireDriveProps) {
     return (
-        <FireDriveProvider channelId={channelId}>
+        <FireDriveProvider channelId={channelId} initialFolderId={initialFolderId} initialFileId={initialFileId}>
             <FireDriveInner />
         </FireDriveProvider>
     );

@@ -1,13 +1,15 @@
-import { useFireDrive } from '../../contexts';
-import { FIRE_DRIVE_LOCALE } from '../../settings';
-import { Button } from '@/components/ui/button';
-import { FolderPlus, Upload, Trash2 } from 'lucide-react';
-import { useRef, useState } from 'react';
-import FireDriveNewFolderDialog from '../FireDriveDialog/FireDriveNewFolderDialog';
-import FireDriveDeleteDialog from '../FireDriveDialog/FireDriveDeleteDialog';
+import { useFireDrive } from "../../contexts";
+import { FIRE_DRIVE_LOCALE, FIRE_DRIVE_CONFIG } from "../../settings";
+import { Button } from "@/components/ui/button";
+import { FolderPlus, Upload, Trash2, MessageCircle } from "lucide-react";
+import { useRef, useState } from "react";
+import { useRouter } from "next/router";
+import FireDriveNewFolderDialog from "../FireDriveDialog/FireDriveNewFolderDialog";
+import FireDriveDeleteDialog from "../FireDriveDialog/FireDriveDeleteDialog";
 
 export default function FireDriveActions() {
-    const { uploadFiles, selectedItems, clearSelection } = useFireDrive();
+    const { uploadFiles, selectedItems, clearSelection, channelId } = useFireDrive();
+    const router = useRouter();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [newFolderOpen, setNewFolderOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
@@ -19,7 +21,7 @@ export default function FireDriveActions() {
         }
         // Reset input
         if (fileInputRef.current) {
-            fileInputRef.current.value = '';
+            fileInputRef.current.value = "";
         }
     };
 
@@ -34,9 +36,7 @@ export default function FireDriveActions() {
                     title={FIRE_DRIVE_LOCALE.ACTIONS.DELETE}
                 >
                     <Trash2 className="h-4 w-4 sm:mr-1" />
-                    <span className="hidden sm:inline">
-                        {FIRE_DRIVE_LOCALE.ACTIONS.DELETE}
-                    </span>
+                    <span className="hidden sm:inline">{FIRE_DRIVE_LOCALE.ACTIONS.DELETE}</span>
                 </Button>
             )}
 
@@ -48,9 +48,7 @@ export default function FireDriveActions() {
                 title={FIRE_DRIVE_LOCALE.NEW_FOLDER}
             >
                 <FolderPlus className="h-4 w-4 sm:mr-1" />
-                <span className="hidden sm:inline">
-                    {FIRE_DRIVE_LOCALE.NEW_FOLDER}
-                </span>
+                <span className="hidden sm:inline">{FIRE_DRIVE_LOCALE.NEW_FOLDER}</span>
             </Button>
 
             <Button
@@ -61,23 +59,25 @@ export default function FireDriveActions() {
                 title={FIRE_DRIVE_LOCALE.UPLOAD_FILE}
             >
                 <Upload className="h-4 w-4 sm:mr-1" />
-                <span className="hidden sm:inline">
-                    {FIRE_DRIVE_LOCALE.UPLOAD_FILE}
-                </span>
+                <span className="hidden sm:inline">{FIRE_DRIVE_LOCALE.UPLOAD_FILE}</span>
             </Button>
 
-            <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                className="hidden"
-                onChange={handleFileSelect}
-            />
+            <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8 sm:h-9 sm:w-auto sm:px-3"
+                title={FIRE_DRIVE_LOCALE.ACTIONS.GO_TO_CHAT_TITLE}
+                onClick={() =>
+                    router.push(`${FIRE_DRIVE_CONFIG.CHAT_PATH}?${FIRE_DRIVE_CONFIG.CHAT_CHANNEL_PARAM}=${channelId}`)
+                }
+            >
+                <MessageCircle className="h-4 w-4 sm:mr-1" />
+                <span className="hidden sm:inline">{FIRE_DRIVE_LOCALE.ACTIONS.GO_TO_CHAT}</span>
+            </Button>
 
-            <FireDriveNewFolderDialog
-                open={newFolderOpen}
-                onOpenChange={setNewFolderOpen}
-            />
+            <input ref={fileInputRef} type="file" multiple className="hidden" onChange={handleFileSelect} />
+
+            <FireDriveNewFolderDialog open={newFolderOpen} onOpenChange={setNewFolderOpen} />
 
             <FireDriveDeleteDialog
                 items={selectedItems}

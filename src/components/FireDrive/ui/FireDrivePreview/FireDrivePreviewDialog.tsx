@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Download, X, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { downloadFile, getFileUrl } from '../../api';
 import { isImage, isPdf, getFileIcon } from '../../utils';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export default function FireDrivePreviewDialog() {
     const { previewItem, setPreviewItem, items } = useFireDrive();
@@ -25,6 +25,28 @@ export default function FireDrivePreviewDialog() {
         currentIndex,
         totalFiles,
     } = useFireDriveSidePanel({ previewItem, setPreviewItem, items });
+
+    const handleClose = useCallback(() => {
+        setPreviewItem(null);
+    }, [setPreviewItem]);
+
+    // 키보드 네비게이션 (좌우 화살표, ESC)
+    useEffect(() => {
+        if (!previewItem) return;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowLeft') {
+                goToPrev();
+            } else if (e.key === 'ArrowRight') {
+                goToNext();
+            } else if (e.key === 'Escape') {
+                handleClose();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [previewItem, goToPrev, goToNext, handleClose]);
 
     // 파일 URL 로드
     useEffect(() => {
@@ -58,10 +80,6 @@ export default function FireDrivePreviewDialog() {
         if (storagePath) {
             await downloadFile(storagePath, fileName);
         }
-    };
-
-    const handleClose = () => {
-        setPreviewItem(null);
     };
 
     const renderPreview = () => {

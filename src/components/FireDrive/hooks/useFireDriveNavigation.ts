@@ -2,9 +2,14 @@ import { DRIVE_TYPE_FOLDER } from '../settings';
 import { FireDriveItem } from '../settings';
 import { useState, useCallback } from 'react';
 
-export default function useFireDriveNavigation() {
-    const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
-    const [history, setHistory] = useState<(string | null)[]>([null]);
+interface UseFireDriveNavigationOptions {
+    initialFolderId?: string | null;
+}
+
+export default function useFireDriveNavigation(options?: UseFireDriveNavigationOptions) {
+    const initialFolder = options?.initialFolderId ?? null;
+    const [currentFolderId, setCurrentFolderId] = useState<string | null>(initialFolder);
+    const [history, setHistory] = useState<(string | null)[]>([initialFolder]);
     const [historyIndex, setHistoryIndex] = useState(0);
 
     const navigateTo = useCallback(

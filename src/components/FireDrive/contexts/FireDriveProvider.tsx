@@ -15,6 +15,8 @@ import {
     useState,
     useCallback,
     useMemo,
+    useEffect,
+    useRef,
 } from 'react';
 
 interface FireDriveContextValue {
@@ -66,11 +68,15 @@ export const useFireDrive = () => {
 interface FireDriveProviderProps {
     children: ReactNode;
     channelId?: string;
+    initialFolderId?: string | null;
+    initialFileId?: string | null;
 }
 
 export function FireDriveProvider({
     children,
     channelId: propChannelId,
+    initialFolderId,
+    initialFileId,
 }: FireDriveProviderProps) {
     const channelContext = useFireChannel();
     const authContext = useFireAuth();
@@ -92,7 +98,7 @@ export function FireDriveProvider({
         goToRoot,
         canGoBack,
         canGoForward,
-    } = useFireDriveNavigation();
+    } = useFireDriveNavigation({ initialFolderId });
 
     const { items, isLoading } = useFireDriveItems({
         channelId,
@@ -100,6 +106,19 @@ export function FireDriveProvider({
     });
 
     const { breadcrumb } = useFireDriveBreadcrumb(channelId, currentFolderId);
+
+    // initialFileId로 파일 선택/미리보기 (최초 1회만)
+    const initialFileHandled = useRef(false);
+    useEffect(() => {
+        if (initialFileId && !initialFileHandled.current && !isLoading && items.length > 0) {
+            const file = items.find((item) => item.id === initialFileId);
+            if (file && file.type !== DRIVE_TYPE_FOLDER) {
+                setPreviewItem(file);
+                setSelectedItems([file]);
+            }
+            initialFileHandled.current = true;
+        }
+    }, [initialFileId, isLoading, items]);
 
     const {
         uploadTasks,

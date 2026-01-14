@@ -31,7 +31,7 @@ export default function FireDriveContent() {
             <>
                 <FireDriveEmptyContextMenu>
                     <div
-                        className="flex flex-col items-center justify-center h-64 text-muted-foreground"
+                        className="flex flex-col items-center justify-center flex-1 h-full min-h-64 text-muted-foreground"
                         {...longPressHandlers}
                     >
                         <p>{FIRE_DRIVE_LOCALE.EMPTY_FOLDER}</p>

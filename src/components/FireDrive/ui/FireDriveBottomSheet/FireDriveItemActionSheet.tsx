@@ -11,6 +11,7 @@ import {
 } from '../../settings';
 import { useFireDrive } from '../../contexts';
 import { useFireDriveItemActionSheet } from '../../hooks';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import {
     Download,
     Edit,
@@ -18,6 +19,8 @@ import {
     Trash2,
     Eye,
     FolderOpen,
+    Link,
+    MessageCircle,
 } from 'lucide-react';
 import FireDriveRenameDialog from '../FireDriveDialog/FireDriveRenameDialog';
 import FireDriveMoveDialog from '../FireDriveDialog/FireDriveMoveDialog';
@@ -35,7 +38,8 @@ export default function FireDriveItemActionSheet({
     open,
     onOpenChange,
 }: FireDriveItemActionSheetProps) {
-    const { openItem, setPreviewItem } = useFireDrive();
+    const { openItem, setPreviewItem, channelId } = useFireDrive();
+    const { user } = useFireAuth();
 
     const {
         singleItem,
@@ -56,11 +60,15 @@ export default function FireDriveItemActionSheet({
         handleRename,
         handleMove,
         handleDelete,
+        handleCopyUrl,
+        handleShareToChat,
     } = useFireDriveItemActionSheet({
         items,
         onOpenChange,
         openItem,
         setPreviewItem,
+        channelId,
+        userId: user?.id,
     });
 
     if (items.length === 0) return null;
@@ -111,6 +119,24 @@ export default function FireDriveItemActionSheet({
                                         : FIRE_DRIVE_LOCALE.ACTIONS.DOWNLOAD
                                 }
                                 onClick={handleDownload}
+                            />
+                        )}
+
+                        {/* 주소 복사 - 파일만 */}
+                        {hasDownloadableItems && (
+                            <ActionButton
+                                icon={Link}
+                                label={FIRE_DRIVE_LOCALE.ACTIONS.COPY_URL}
+                                onClick={handleCopyUrl}
+                            />
+                        )}
+
+                        {/* 채팅방에 공유 - 파일만, channelId가 있을 때만 */}
+                        {hasDownloadableItems && channelId && (
+                            <ActionButton
+                                icon={MessageCircle}
+                                label={FIRE_DRIVE_LOCALE.ACTIONS.SHARE_TO_CHAT}
+                                onClick={handleShareToChat}
                             />
                         )}
 

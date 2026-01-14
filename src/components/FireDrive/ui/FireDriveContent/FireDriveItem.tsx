@@ -217,7 +217,7 @@ export default function FireDriveItem({ item, view }: FireDriveItemProps) {
                     data-item-id={item.id}
                     className={`
                         flex items-center gap-4 px-4 py-3 cursor-pointer
-                        transition-colors border-l-2
+                        transition-colors border-l-2 max-w-full
                         ${selected
                             ? "bg-primary/10 border-l-primary"
                             : "border-l-transparent hover:bg-accent/50"
@@ -234,7 +234,7 @@ export default function FireDriveItem({ item, view }: FireDriveItemProps) {
                     onDrop={handleDrop}
                 >
                     <Icon className={`h-5 w-5 shrink-0 ${isFolder ? "text-yellow-500" : "text-blue-500"}`} />
-                    <span className="flex-1 line-clamp-1 sm:truncate">{item[DRIVE_NAME_FIELD]}</span>
+                    <span className="flex-1 w-0 line-clamp-1">{item[DRIVE_NAME_FIELD]}</span>
                     {/* 모바일에서 크기/날짜 숨김 */}
                     <span className="hidden sm:block w-24 text-right text-sm text-muted-foreground">
                         {!isFolder && item[DRIVE_SIZE_FIELD] ? formatFileSize(item[DRIVE_SIZE_FIELD]) : "-"}

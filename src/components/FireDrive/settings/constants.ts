@@ -23,6 +23,16 @@ export const ROOT_FOLDER_ID = null;
 // 최대 폴더 깊이 제한 (순환 참조 방지)
 export const MAX_FOLDER_DEPTH = 50;
 
+// Config - 프로젝트별로 수정 가능
+export const FIRE_DRIVE_CONFIG = {
+    CHAT_PATH: '/admin/chat',
+    CHAT_CHANNEL_PARAM: 'matchId',
+    DRIVE_PATH: '/admin/drive',
+    DRIVE_CHANNEL_PARAM: 'channelId',
+    DRIVE_FOLDER_PARAM: 'folderId',
+    DRIVE_FILE_PARAM: 'fileId',
+};
+
 // Localization strings
 export const FIRE_DRIVE_LOCALE = {
     TITLE: '파일 저장소',
@@ -42,6 +52,10 @@ export const FIRE_DRIVE_LOCALE = {
         DELETE: '삭제',
         COPY_LINK: '링크 복사',
         PREVIEW: '미리보기',
+        GO_TO_CHAT: '채팅방',
+        GO_TO_CHAT_TITLE: '채팅방으로 이동',
+        COPY_URL: '주소 복사',
+        SHARE_TO_CHAT: '채팅방에 공유',
     },
 
     DIALOG: {
@@ -110,6 +124,13 @@ export const FIRE_DRIVE_LOCALE = {
         CREATE_FOLDER_FAILED: '폴더 생성에 실패했습니다.',
         RENAME_FAILED: '이름 변경에 실패했습니다.',
         FOLDER_CHECK_FAILED: '폴더 구조 확인에 실패했습니다.',
+        COPY_URL_FAILED: '주소 복사에 실패했습니다.',
+        SHARE_FAILED: '공유에 실패했습니다.',
+    },
+
+    SUCCESS: {
+        URL_COPIED: '주소가 복사되었습니다.',
+        SHARED_TO_CHAT: '채팅방에 공유되었습니다.',
     },
 
     VIEW: {

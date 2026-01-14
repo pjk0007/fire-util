@@ -6,15 +6,43 @@ import {
     DRIVE_TYPE_FOLDER,
     DRIVE_STORAGE_PATH_FIELD,
     DRIVE_MIME_TYPE_FIELD,
+    DRIVE_NAME_FIELD,
+    DRIVE_SIZE_FIELD,
+    DRIVE_ID_FIELD,
+    DRIVE_PARENT_ID_FIELD,
+    FIRE_DRIVE_LOCALE,
+    FIRE_DRIVE_CONFIG,
 } from '../settings';
 import { downloadItems } from '../api';
 import { isPreviewable, getFileIcon } from '../utils';
+import { toast } from 'sonner';
+import { storage } from '@/lib/firebase';
+import { ref, getDownloadURL } from 'firebase/storage';
+import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
+import {
+    MESSAGE_COLLECTION,
+    MESSAGE_ID_FIELD,
+    MESSAGE_USER_ID_FIELD,
+    MESSAGE_CREATED_AT_FIELD,
+    MESSAGE_TYPE_FIELD,
+    MESSAGE_CONTENTS_FIELD,
+    MESSAGE_REPLY_FIELD,
+    MESSAGE_TYPE_FILE,
+    MESSAGE_CONTENT_URL_FIELD,
+    MESSAGE_CONTENT_FILE_NAME_FIELD,
+    MESSAGE_CONTENT_FILE_SIZE_FIELD,
+    FireMessage,
+    FireMessageFile,
+} from '@/lib/FireChat/settings';
+import { Timestamp } from 'firebase/firestore';
 
 interface UseFireDriveItemActionSheetOptions {
     items: FireDriveItem[];
     onOpenChange: (open: boolean) => void;
     openItem: (item: FireDriveItem) => void;
     setPreviewItem: (item: FireDriveItem | null) => void;
+    channelId?: string;
+    userId?: string;
 }
 
 /**
@@ -25,6 +53,8 @@ export default function useFireDriveItemActionSheet({
     onOpenChange,
     openItem,
     setPreviewItem,
+    channelId,
+    userId,
 }: UseFireDriveItemActionSheetOptions) {
     const [renameOpen, setRenameOpen] = useState(false);
     const [moveOpen, setMoveOpen] = useState(false);
@@ -68,6 +98,75 @@ export default function useFireDriveItemActionSheet({
         setTimeout(() => setDeleteOpen(true), 100);
     };
 
+    const handleCopyUrl = async () => {
+        try {
+            if (items.length === 0 || !channelId) return;
+
+            const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+            const htmlLinks = items.map((item) => {
+                const params = new URLSearchParams();
+                params.set(FIRE_DRIVE_CONFIG.DRIVE_CHANNEL_PARAM, channelId);
+
+                if (item.type === DRIVE_TYPE_FOLDER) {
+                    params.set(FIRE_DRIVE_CONFIG.DRIVE_FOLDER_PARAM, item[DRIVE_ID_FIELD]);
+                } else {
+                    if (item[DRIVE_PARENT_ID_FIELD]) {
+                        params.set(FIRE_DRIVE_CONFIG.DRIVE_FOLDER_PARAM, item[DRIVE_PARENT_ID_FIELD]!);
+                    }
+                    params.set(FIRE_DRIVE_CONFIG.DRIVE_FILE_PARAM, item[DRIVE_ID_FIELD]);
+                }
+
+                const url = `${baseUrl}${FIRE_DRIVE_CONFIG.DRIVE_PATH}?${params.toString()}`;
+                const name = item[DRIVE_NAME_FIELD];
+                return `<a href="${url}" style="color: #2563eb; text-decoration: underline;">${name}</a>`;
+            });
+
+            await navigator.clipboard.writeText(htmlLinks.join('\n'));
+            toast.success(FIRE_DRIVE_LOCALE.SUCCESS.URL_COPIED);
+        } catch {
+            toast.error(FIRE_DRIVE_LOCALE.ERRORS.COPY_URL_FAILED);
+        }
+        onOpenChange(false);
+    };
+
+    const handleShareToChat = async () => {
+        if (!channelId || !userId) return;
+
+        try {
+            const files = items.filter(
+                (i) => i.type !== DRIVE_TYPE_FOLDER && i[DRIVE_STORAGE_PATH_FIELD]
+            );
+            if (files.length === 0) return;
+
+            for (const file of files) {
+                const url = await getDownloadURL(ref(storage, file[DRIVE_STORAGE_PATH_FIELD]!));
+                const now = Timestamp.now();
+                const msg = {
+                    [MESSAGE_ID_FIELD]: `${MESSAGE_COLLECTION}-${now.seconds}${now.nanoseconds}`,
+                    [MESSAGE_USER_ID_FIELD]: userId,
+                    [MESSAGE_CREATED_AT_FIELD]: now,
+                    [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_FILE,
+                    [MESSAGE_CONTENTS_FIELD]: [
+                        {
+                            [MESSAGE_TYPE_FIELD]: MESSAGE_TYPE_FILE,
+                            [MESSAGE_CONTENT_URL_FIELD]: url,
+                            [MESSAGE_CONTENT_FILE_NAME_FIELD]: file[DRIVE_NAME_FIELD],
+                            [MESSAGE_CONTENT_FILE_SIZE_FIELD]: file[DRIVE_SIZE_FIELD],
+                        } as FireMessageFile,
+                    ],
+                    [MESSAGE_REPLY_FIELD]: null,
+                } as FireMessage<FireMessageFile>;
+
+                await sendMessage(channelId, msg);
+                await updateLastMessage(channelId, msg);
+            }
+            toast.success(FIRE_DRIVE_LOCALE.SUCCESS.SHARED_TO_CHAT);
+        } catch {
+            toast.error(FIRE_DRIVE_LOCALE.ERRORS.SHARE_FAILED);
+        }
+        onOpenChange(false);
+    };
+
     const Icon: LucideIcon = singleItem
         ? isFolder
             ? Folder
@@ -102,5 +201,7 @@ export default function useFireDriveItemActionSheet({
         handleRename,
         handleMove,
         handleDelete,
+        handleCopyUrl,
+        handleShareToChat,
     };
 }
