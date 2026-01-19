@@ -19,6 +19,7 @@ import { FireSurveyDropdown } from './FireSurveyDropdown';
 import { FireSurveyCheckboxGroup } from './FireSurveyCheckboxGroup';
 import { FireSurveyRadioGroup } from './FireSurveyRadioGroup';
 import { FireSurveyRating } from './FireSurveyRating';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type AnswerValue = string | string[] | number;
 
@@ -238,11 +239,13 @@ export function FireSurveyClientForm({
     }
 
     return (
-        <div className="space-y-6">
-            {/* 질문 목록 */}
-            <div className="space-y-6">
-                {templates.map((template) => renderQuestion(template))}
-            </div>
+        <div className="flex flex-col">
+            {/* 질문 목록 - 스크롤 영역 */}
+            <ScrollArea className="max-h-[50vh]">
+                <div className="space-y-6 pr-4">
+                    {templates.map((template) => renderQuestion(template))}
+                </div>
+            </ScrollArea>
 
             {/* Footer 영역 */}
             <div className={`flex flex-col md:flex-row gap-3 pt-4 ${!isRequired && onSkip ? 'md:justify-between' : 'md:justify-end'}`}>
