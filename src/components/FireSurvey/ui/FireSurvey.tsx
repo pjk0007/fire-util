@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Plus } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { FireSurveyProvider, useFireSurvey } from '../contexts/FireSurveyProvider';
-import { FireSurveyTemplateList } from './FireSurveyTemplateList/FireSurveyTemplateList';
-import { FireSurveyResponseList } from './FireSurveyResponseList/FireSurveyResponseList';
-import { FireSurveyNewTemplateDialog } from './FireSurveyDialog/FireSurveyNewTemplateDialog';
-import { FIRE_SURVEY_LOCALE } from '../settings/constants';
-import type { FireSurveyTab } from '../settings/types';
+import { useState } from "react";
+import { Plus, Database } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { FireSurveyProvider, useFireSurvey } from "../contexts/FireSurveyProvider";
+import { FireSurveyTemplateList } from "./FireSurveyTemplateList/FireSurveyTemplateList";
+import { FireSurveyResponseList } from "./FireSurveyResponseList/FireSurveyResponseList";
+import { FireSurveyNewTemplateDialog } from "./FireSurveyDialog/FireSurveyNewTemplateDialog";
+import { FIRE_SURVEY_LOCALE } from "../settings/constants";
+import type { FireSurveyTab } from "../settings/types";
 
 function FireSurveyInner() {
     const { activeTab, setActiveTab } = useFireSurvey();
@@ -15,29 +15,22 @@ function FireSurveyInner() {
 
     return (
         <div className="space-y-6">
-            {/* 페이지 설명 + 새 설문 버튼 */}
+            {/* 페이지 설명 + 버튼들 */}
             <div className="flex items-center justify-between">
-                <p className="text-muted-foreground">
-                    설문 항목을 관리하고 응답 결과를 확인하세요
-                </p>
-                <Button onClick={() => setIsNewDialogOpen(true)}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    {FIRE_SURVEY_LOCALE.TEMPLATE.NEW}
-                </Button>
+                <p className="text-muted-foreground">설문 항목을 관리하고 응답 결과를 확인하세요</p>
+                <div className="flex gap-2">
+                    <Button onClick={() => setIsNewDialogOpen(true)}>
+                        <Plus className="h-4 w-4 mr-2" />
+                        {FIRE_SURVEY_LOCALE.TEMPLATE.NEW}
+                    </Button>
+                </div>
             </div>
 
             {/* Tabs */}
-            <Tabs
-                value={activeTab}
-                onValueChange={(v) => setActiveTab(v as FireSurveyTab)}
-            >
+            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as FireSurveyTab)}>
                 <TabsList>
-                    <TabsTrigger value="templates">
-                        {FIRE_SURVEY_LOCALE.TABS.TEMPLATES}
-                    </TabsTrigger>
-                    <TabsTrigger value="responses">
-                        {FIRE_SURVEY_LOCALE.TABS.RESPONSES}
-                    </TabsTrigger>
+                    <TabsTrigger value="templates">{FIRE_SURVEY_LOCALE.TABS.TEMPLATES}</TabsTrigger>
+                    <TabsTrigger value="responses">{FIRE_SURVEY_LOCALE.TABS.RESPONSES}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="templates">
                     <FireSurveyTemplateList />
@@ -47,10 +40,7 @@ function FireSurveyInner() {
                 </TabsContent>
             </Tabs>
 
-            <FireSurveyNewTemplateDialog
-                open={isNewDialogOpen}
-                onOpenChange={setIsNewDialogOpen}
-            />
+            <FireSurveyNewTemplateDialog open={isNewDialogOpen} onOpenChange={setIsNewDialogOpen} />
         </div>
     );
 }

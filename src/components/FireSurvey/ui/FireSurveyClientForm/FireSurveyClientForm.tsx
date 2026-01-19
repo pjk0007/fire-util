@@ -245,7 +245,7 @@ export function FireSurveyClientForm({
             </div>
 
             {/* Footer 영역 */}
-            <div className={`flex flex-col md:flex-row gap-3 pt-4 ${isRequired ? 'md:justify-end' : 'md:justify-between'}`}>
+            <div className={`flex flex-col md:flex-row gap-3 pt-4 ${!isRequired && onSkip ? 'md:justify-between' : 'md:justify-end'}`}>
                 {/* 스킵 옵션 (선택적 설문인 경우) */}
                 {!isRequired && onSkip && (
                     <div className="flex items-center gap-4 order-2 md:order-1">

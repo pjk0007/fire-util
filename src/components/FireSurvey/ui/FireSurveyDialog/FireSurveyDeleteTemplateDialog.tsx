@@ -63,7 +63,7 @@ export function FireSurveyDeleteTemplateDialog({
                     <AlertDialogAction
                         onClick={handleDelete}
                         disabled={isLoading}
-                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        className="bg-destructive text-white hover:bg-destructive/90"
                     >
                         {FIRE_SURVEY_LOCALE.BUTTONS.DELETE}
                     </AlertDialogAction>
