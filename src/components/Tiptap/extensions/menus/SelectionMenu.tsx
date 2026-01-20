@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/tooltip';
 import useOs from '@/hooks/use-os';
 import { cn } from '@/lib/utils';
+import { isTextSelection } from '@tiptap/core';
 import { Editor, useEditorState } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import {
@@ -157,6 +158,22 @@ export default function SelectionMenu({ editor }: { editor: Editor }) {
     return (
         <BubbleMenu
             editor={editor}
+            shouldShow={({ editor, view, state, from, to }) => {
+                const { doc, selection } = state;
+                const { empty } = selection;
+
+                // 기본 BubbleMenu 로직
+                if (!view.hasFocus()) return false;
+                if (empty) return false;
+                if (!isTextSelection(selection)) return false;
+                if (doc.textBetween(from, to).length === 0) return false;
+                if (!editor.isEditable) return false;
+
+                // 이미지 선택 시 숨김
+                if (editor.isActive('image')) return false;
+
+                return true;
+            }}
             className="bg-background border rounded-lg px-1 py-0.5 flex shadow-xl md:flex-row flex-col"
         >
             <SelectionMenuNode editor={editor} />

@@ -21,7 +21,7 @@ import {
 } from '@tiptap/extension-details';
 import Heading from '@tiptap/extension-heading';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
-import Image from '@tiptap/extension-image';
+import { ImageWithAlign } from '@/components/Tiptap/extensions/nodes/ImageWithAlign';
 import Mention from '@tiptap/extension-mention';
 import mentionSuggestion from '@/components/Tiptap/extensions/suggestions/mensionSuggestion';
 import { TableKit } from '@tiptap/extension-table';
@@ -111,9 +111,7 @@ export default function NodeExtensions({
             levels: [1, 2, 3],
         }),
         HorizontalRule,
-        Image.configure({
-            inline: true,
-        }),
+        ImageWithAlign,
         Mention.configure({
             HTMLAttributes: {
                 class: 'mention',

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/tooltip';
 import { TIP_TAP_LOCALE } from '@/components/Tiptap/settings';
 import TableMenu from '@/components/Tiptap/extensions/menus/TableMenu';
+import ImageMenu from '@/components/Tiptap/extensions/menus/ImageMenu';
 import { memo } from 'react';
 
 const Tiptap = ({
@@ -66,6 +67,7 @@ const Tiptap = ({
         <>
             {editor && <SelectionMenu editor={editor} />}
             {editor && <TableMenu editor={editor} />}
+            {editor && <ImageMenu editor={editor} />}
             {/* {editor && <CommandMenu editor={editor} />} */}
             {editor && (
                 <DragHandle editor={editor} className="flex">
