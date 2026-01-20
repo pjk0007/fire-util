@@ -2,7 +2,6 @@ import { db } from '@/lib/firebase';
 import {
     FireMessage,
     FireMessageContent,
-    FILE_UNIT,
     MESSAGE_COLLECTION,
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_TYPE_FIELD,
@@ -15,18 +14,26 @@ import {
     limitToLast,
     orderBy,
     query,
+    QueryConstraint,
     where,
 } from 'firebase/firestore';
 
 export default async function getImageMessages<
     M extends FireMessage<T>,
     T extends FireMessageContent
->(channelId: string): Promise<M[]> {
-    const q = query(
-        collection(db, CHANNEL_COLLECTION, channelId, MESSAGE_COLLECTION),
+>(channelId: string, limit?: number): Promise<M[]> {
+    const constraints: QueryConstraint[] = [
         where(MESSAGE_TYPE_FIELD, '==', MESSAGE_TYPE_IMAGE),
         orderBy(MESSAGE_CREATED_AT_FIELD, 'asc'),
-        limitToLast(FILE_UNIT)
+    ];
+
+    if (limit) {
+        constraints.push(limitToLast(limit));
+    }
+
+    const q = query(
+        collection(db, CHANNEL_COLLECTION, channelId, MESSAGE_COLLECTION),
+        ...constraints
     );
 
     const querySnapshot = await getDocs(q);

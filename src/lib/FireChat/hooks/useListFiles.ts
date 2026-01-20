@@ -2,6 +2,7 @@ import { db } from "@/lib/firebase";
 import getFileMessages from "@/lib/FireChat/api/getFileMessages";
 import getImageMessages from "@/lib/FireChat/api/getImageMessages";
 import {
+    FILE_UNIT,
     FireMessage,
     FireMessageContent,
     MESSAGE_COLLECTION,
@@ -33,11 +34,11 @@ export default function useListFiles<M extends FireMessage<T>, T extends FireMes
             return;
         }
 
-        getImageMessages<M, T>(channelId).then((imgs) => {
+        getImageMessages<M, T>(channelId, FILE_UNIT).then((imgs) => {
             setImageMessages(imgs);
         });
 
-        getFileMessages<M, T>(channelId).then((files) => {
+        getFileMessages<M, T>(channelId, FILE_UNIT).then((files) => {
             setFileMessages(files);
         });
 
