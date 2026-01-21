@@ -6,7 +6,9 @@ export const ResizableImage: React.FC<NodeViewProps> = ({
     node,
     updateAttributes,
     selected,
+    editor,
 }) => {
+    const isEditable = editor.isEditable;
     const [isResizing, setIsResizing] = React.useState(false);
     const imageRef = React.useRef<HTMLImageElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -66,7 +68,7 @@ export const ResizableImage: React.FC<NodeViewProps> = ({
                 ref={containerRef}
                 className={cn(
                     'relative inline-block group',
-                    selected && 'ring-2 ring-primary ring-offset-2',
+                    isEditable && selected && 'ring-2 ring-primary ring-offset-2',
                     isResizing && 'select-none'
                 )}
                 style={{ width: width ? `${width}px` : 'auto' }}
@@ -81,8 +83,8 @@ export const ResizableImage: React.FC<NodeViewProps> = ({
                     draggable={false}
                 />
 
-                {/* 리사이즈 핸들 - 선택 시에만 표시 */}
-                {selected && (
+                {/* 리사이즈 핸들 - 편집 모드이고 선택 시에만 표시 */}
+                {isEditable && selected && (
                     <>
                         {/* 왼쪽 핸들 */}
                         <div
