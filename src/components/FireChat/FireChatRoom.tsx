@@ -5,7 +5,7 @@ import { FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 
-export default function FireChatRoom() {
+export default function FireChatRoom({ disabled = false }: { disabled?: boolean }) {
     const { selectedChannelId: channelId } = useFireChannel();
     const isMobile = useIsMobile();
 
@@ -24,7 +24,7 @@ export default function FireChatRoom() {
         <FireChatProvider>
             <div className="flex flex-col h-full flex-1">
                 <FireChatRoomBody />
-                <FireChatRoomFooter />
+                <FireChatRoomFooter disabled={disabled} />
             </div>
         </FireChatProvider>
     );

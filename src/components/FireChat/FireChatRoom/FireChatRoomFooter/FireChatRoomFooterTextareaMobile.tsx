@@ -10,11 +10,13 @@ export default function FireChatChannelRoomFooterTextareaMobile<
     setMessage,
     onSend,
     replyingMessage,
+    disabled = false,
 }: {
     message: string;
     setMessage: (msg: string) => void;
     onSend: () => void;
     replyingMessage?: M;
+    disabled?: boolean;
 }) {
     useEffect(() => {
         // message가 변경될 때마다 텍스트 영역의 높이를 조정
@@ -28,9 +30,11 @@ export default function FireChatChannelRoomFooterTextareaMobile<
     return (
         <div className="relative flex-1 md:hidden">
             <textarea
+                disabled={disabled}
                 ref={textareaRef}
                 className={cn(
-                    'min-h-9 max-h-32 px-3 py-2 rounded-3xl focus:outline-none border-none w-full flex items-center placeholder:text-muted-foreground'
+                    'min-h-9 max-h-32 px-3 py-2 rounded-3xl focus:outline-none border-none w-full flex items-center placeholder:text-muted-foreground',
+                    'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-muted'
                 )}
                 rows={1}
                 placeholder={

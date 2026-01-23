@@ -13,10 +13,12 @@ export default function FireWork({
     showChannelList = true,
     showChatHeader = true,
     showTask = true,
+    disabled = false,
 }: {
     showChannelList?: boolean;
     showChatHeader?: boolean;
     showTask?: boolean;
+    disabled?: boolean;
 }) {
     const router = useRouter();
     const { selectedChannelId } = useFireChannel();
@@ -48,7 +50,7 @@ export default function FireWork({
                                 </FireTaskSidebarProvider>
                             </FireTaskProvider>
                         )}
-                        <FireChatRoom />
+                        <FireChatRoom disabled={disabled} />
                     </div>
                 </div>
             )}

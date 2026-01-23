@@ -12,12 +12,14 @@ export default function FireChatChannelRoomFooterTextarea<
     onSend,
     replyingMessage,
     setFiles,
+    disabled = false,
 }: {
     message: string;
     setMessage: (msg: string) => void;
     onSend: () => void;
     replyingMessage?: M;
     setFiles: (files: File[]) => void;
+    disabled?: boolean;
 }) {
     const handlePaste = useCallback((event: React.ClipboardEvent) => {
         event.preventDefault();
@@ -44,9 +46,11 @@ export default function FireChatChannelRoomFooterTextarea<
                 <CornerDownRight className="absolute top-0 left-0 w-4 h-4 text-foreground" />
             )}
             <textarea
+                disabled={disabled}
                 onPaste={handlePaste}
                 className={cn(
-                    'resize-none focus:outline-none border-none h-[60px] text-sm  w-full placeholder:text-muted-foreground',
+                    'resize-none focus:outline-none border-none h-[120px] text-sm  w-full placeholder:text-muted-foreground',
+                    'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-muted',
                     {
                         'pl-[26px] pr-4': !!replyingMessage,
                     }

@@ -1,34 +1,31 @@
-import { useFireChat } from '@/components/FireProvider/FireChatProvider';
-import FireChatRoomFooterFileInput from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterFileInput';
-import FireChatRoomFooterTextarea from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextarea';
-import FireChatRoomFooterTextareaMobile from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextareaMobile';
-import FireChatRoomReplyMessage from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomReplyMessage';
-import FireChatRoomFooterUploadDialog from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterUploadDialog';
-import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { sendTextMessage } from '@/lib/FireChat/api/sendMessage';
-import useFireChatChannelRoomFooter from '@/lib/FireChat/hooks/useFireChatChannelRoomFooter';
-import {
-    FireMessage,
-    FireMessageContent,
-    FIRE_CHAT_LOCALE,
-} from '@/lib/FireChat/settings';
-import { FireChannel } from '@/lib/FireChannel/settings';
-import { FireUser } from '@/lib/FireAuth/settings';
-import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
-import { ArrowUp } from 'lucide-react';
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
-import { useState } from 'react';
-import FireChatRoomFooterLinkInput from '@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterLinkInput';
+import { useFireChat } from "@/components/FireProvider/FireChatProvider";
+import FireChatRoomFooterFileInput from "@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterFileInput";
+import FireChatRoomFooterTextarea from "@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextarea";
+import FireChatRoomFooterTextareaMobile from "@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterTextareaMobile";
+import FireChatRoomReplyMessage from "@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomReplyMessage";
+import FireChatRoomFooterUploadDialog from "@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterUploadDialog";
+import { useFireAuth } from "@/components/FireProvider/FireAuthProvider";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { sendTextMessage } from "@/lib/FireChat/api/sendMessage";
+import useFireChatChannelRoomFooter from "@/lib/FireChat/hooks/useFireChatChannelRoomFooter";
+import { FireMessage, FireMessageContent, FIRE_CHAT_LOCALE } from "@/lib/FireChat/settings";
+import { FireChannel } from "@/lib/FireChannel/settings";
+import { FireUser } from "@/lib/FireAuth/settings";
+import { USER_ID_FIELD } from "@/lib/FireAuth/settings";
+import { ArrowUp } from "lucide-react";
+import { useFireChannel } from "@/components/FireProvider/FireChannelProvider";
+import useFireChannelInfo from "@/lib/FireChannel/hook/useFireChannelInfo";
+import { useState } from "react";
+import FireChatRoomFooterLinkInput from "@/components/FireChat/FireChatRoom/FireChatRoomFooter/FireChatRoomFooterLinkInput";
+import { cn } from "@/lib/utils";
 
 export default function FireChatChannelRoomFooter<
     C extends FireChannel<M, T>,
     U extends FireUser,
     M extends FireMessage<T>,
-    T extends FireMessageContent
->() {
+    T extends FireMessageContent,
+>({ disabled = false }: { disabled?: boolean }) {
     const { user: me } = useFireAuth();
     const [isDragOver, setIsDragOver] = useState(false);
 
@@ -36,10 +33,8 @@ export default function FireChatChannelRoomFooter<
     const { participants } = useFireChannelInfo<C, M, T, U>({
         channelId: selectedChannelId,
     });
-    const { onSendingFiles, replyingMessage, setReplyingMessage } =
-        useFireChat();
-    const { message, setMessage, files, setFiles } =
-        useFireChatChannelRoomFooter(selectedChannelId);
+    const { onSendingFiles, replyingMessage, setReplyingMessage } = useFireChat();
+    const { message, setMessage, files, setFiles } = useFireChatChannelRoomFooter(selectedChannelId);
 
     const isMine = replyingMessage?.userId === me?.id;
 
@@ -47,7 +42,7 @@ export default function FireChatChannelRoomFooter<
         event.preventDefault();
         const { files } = event.dataTransfer;
 
-        const taskTitle = event.dataTransfer.getData('title');
+        const taskTitle = event.dataTransfer.getData("title");
         if (taskTitle) {
             setMessage((prev) => (prev ? `${prev}\n${taskTitle}` : taskTitle));
         }
@@ -90,7 +85,12 @@ export default function FireChatChannelRoomFooter<
                     setFiles([]);
                 }}
             />
-            <div className="md:p-3 md:border border-input rounded-lg flex flex-col gap-2 md:gap-0 bg-background">
+            <div
+                className={cn(
+                    "md:p-3 md:border border-input rounded-lg flex flex-col gap-2 md:gap-0",
+                    disabled ? "bg-muted" : "bg-background",
+                )}
+            >
                 {replyingMessage && (
                     <>
                         <FireChatRoomReplyMessage
@@ -107,27 +107,20 @@ export default function FireChatChannelRoomFooter<
                     setMessage={setMessage}
                     // sendTextMessage={sendTextMessage}
                     onSend={() => {
-                        sendTextMessage(
-                            selectedChannelId,
-                            me?.[USER_ID_FIELD] || '',
-                            message,
-                            replyingMessage
-                        );
-                        setMessage('');
+                        sendTextMessage(selectedChannelId, me?.[USER_ID_FIELD] || "", message, replyingMessage);
+                        setMessage("");
                         if (replyingMessage) setReplyingMessage?.(undefined);
                     }}
                     replyingMessage={replyingMessage}
                     setFiles={setFiles}
+                    disabled={disabled}
                 />
 
                 <div className="flex justify-between items-center border rounded-lg md:border-none p-2 md:p-0">
                     <div className="flex">
                         <FireChatRoomFooterFileInput
                             onSelectFiles={(selectedFiles) => {
-                                setFiles((prevFiles) => [
-                                    ...prevFiles,
-                                    ...selectedFiles,
-                                ]);
+                                setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
                             }}
                         />
                         <FireChatRoomFooterLinkInput />
@@ -136,33 +129,22 @@ export default function FireChatChannelRoomFooter<
                         message={message}
                         setMessage={setMessage}
                         onSend={() => {
-                            sendTextMessage(
-                                selectedChannelId,
-                                me?.[USER_ID_FIELD] || '',
-                                message,
-                                replyingMessage
-                            );
-                            setMessage('');
-                            if (replyingMessage)
-                                setReplyingMessage?.(undefined);
+                            sendTextMessage(selectedChannelId, me?.[USER_ID_FIELD] || "", message, replyingMessage);
+                            setMessage("");
+                            if (replyingMessage) setReplyingMessage?.(undefined);
                         }}
                         replyingMessage={replyingMessage}
+                        disabled={disabled}
                     />
                     <Button
-                        disabled={!message.trim()}
-                        variant={'outline'}
+                        disabled={disabled || !message.trim()}
+                        variant={"outline"}
                         className="rounded-full h-9 w-9 p-0"
-                        size={'icon'}
+                        size={"icon"}
                         onClick={() => {
-                            sendTextMessage(
-                                selectedChannelId,
-                                me?.[USER_ID_FIELD] || '',
-                                message,
-                                replyingMessage
-                            );
-                            setMessage('');
-                            if (replyingMessage)
-                                setReplyingMessage?.(undefined);
+                            sendTextMessage(selectedChannelId, me?.[USER_ID_FIELD] || "", message, replyingMessage);
+                            setMessage("");
+                            if (replyingMessage) setReplyingMessage?.(undefined);
                         }}
                     >
                         <ArrowUp />
