@@ -1,4 +1,6 @@
-import FireChatRoom from '@/components/FireChat/FireChatRoom';
+import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
+import FireChatRoomBody from '@/components/FireChat/FireChatRoom/FireChatRoomBody';
+import FireChatRoomFooter from '@/components/FireChat/FireChatRoom/FireChatRoomFooter';
 import FireChannelList from '@/components/FireChannel/FireChannelList';
 import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { cn } from '@/lib/utils';
@@ -50,7 +52,12 @@ export default function FireWork({
                                 </FireTaskSidebarProvider>
                             </FireTaskProvider>
                         )}
-                        <FireChatRoom disabled={disabled} />
+                        <FireChatProvider>
+                            <div className="flex flex-col h-full flex-1">
+                                <FireChatRoomBody />
+                                <FireChatRoomFooter disabled={disabled} />
+                            </div>
+                        </FireChatProvider>
                     </div>
                 </div>
             )}

@@ -6,6 +6,7 @@ import { Timestamp } from 'firebase/firestore';
 
 export const CHANNEL_COLLECTION = 'matches';
 export const CHANNEL_ID = 'matchId';
+export const CHANNEL_CONTENTS_BASE_URL = '/windows/contents';
 
 export const CHANNEL_ID_FIELD = 'id';
 export const CHANNEL_HOST_ID_FIELD = 'host';

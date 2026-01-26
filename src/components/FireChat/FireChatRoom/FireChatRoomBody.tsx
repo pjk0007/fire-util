@@ -1,7 +1,7 @@
-import { useFireChat } from "@/components/FireProvider/FireChatProvider";
-import { useFireAuth } from "@/components/FireProvider/FireAuthProvider";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useFireChat } from '@/components/FireProvider/FireChatProvider';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     FireMessage,
     FireMessageContent,
@@ -13,21 +13,25 @@ import {
     MESSAGE_ID_FIELD,
     FIRE_CHAT_LOCALE,
     NOTIFICATION_TITLE,
-} from "@/lib/FireChat/settings";
-import { FireChannel } from "@/lib/FireChannel/settings";
-import { CHANNEL_ID_FIELD, CHANNEL_PARTICIPANTS_FIELD, CHANNEL_LAST_SEEN_FIELD } from "@/lib/FireChannel/settings";
-import { FireUser, USER_ID_FIELD } from "@/lib/FireAuth/settings";
-import { ArrowDown } from "lucide-react";
-import { useEffect, useMemo, useRef } from "react";
-import useListMessages from "@/lib/FireChat/hooks/useListMessages";
-import useScroll from "@/lib/FireChat/hooks/useScroll";
-import usePushNotification from "@/lib/FireChat/hooks/usePushNotification";
-import useUserSetting from "@/lib/FireAuth/hooks/useUserSetting";
-import { getScrollState, restoreScrollPosition, scrollToBottom } from "@/lib/FireChat/utils/scroll";
-import FireChatRoomBodyMessageList from "@/components/FireChat/FireChatRoom/FireChatRoomBody/FireChatRoomBodyMessageList";
-import { useFireChannel } from "@/components/FireProvider/FireChannelProvider";
-import useFireChannelInfo from "@/lib/FireChannel/hook/useFireChannelInfo";
-import useMessageUnreadCount from "@/lib/FireChat/hooks/useMessageUnreadCount";
+} from '@/lib/FireChat/settings';
+import { FireChannel } from '@/lib/FireChannel/settings';
+import { CHANNEL_ID_FIELD, CHANNEL_PARTICIPANTS_FIELD, CHANNEL_LAST_SEEN_FIELD } from '@/lib/FireChannel/settings';
+import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
+import { ArrowDown } from 'lucide-react';
+import { useEffect, useMemo, useRef } from 'react';
+import useListMessages from '@/lib/FireChat/hooks/useListMessages';
+import useScroll from '@/lib/FireChat/hooks/useScroll';
+import usePushNotification from '@/lib/FireChat/hooks/usePushNotification';
+import useUserSetting from '@/lib/FireAuth/hooks/useUserSetting';
+import {
+    getScrollState,
+    restoreScrollPosition,
+    scrollToBottom,
+} from '@/lib/FireChat/utils/scroll';
+import FireChatRoomBodyMessageList from '@/components/FireChat/FireChatRoom/FireChatRoomBody/FireChatRoomBodyMessageList';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
+import useMessageUnreadCount from '@/lib/FireChat/hooks/useMessageUnreadCount';
 
 export default function FireChatRoomBody<
     C extends FireChannel<M, T>,
@@ -44,8 +48,12 @@ export default function FireChatRoomBody<
         channelId: selectedChannelId,
     });
 
-    const { scrollAreaRef, isScrolling, scrollDate, isTop, isBottom } = useScroll();
-    const ref = scrollAreaRef?.current?.querySelector('[data-slot="scroll-area-viewport"]') ?? null;
+    const { scrollAreaRef, isScrolling, scrollDate, isTop, isBottom } =
+        useScroll();
+    const ref =
+        scrollAreaRef?.current?.querySelector(
+            '[data-slot="scroll-area-viewport"]'
+        ) ?? null;
 
     const { sendingFiles, setReplyingMessage } = useFireChat();
 
@@ -60,7 +68,10 @@ export default function FireChatRoomBody<
         channelId: channel?.[CHANNEL_ID_FIELD],
     });
 
-    const allMessages = useMemo(() => [...beforeMessages, ...messages], [beforeMessages, messages]);
+    const allMessages = useMemo(
+        () => [...beforeMessages, ...messages],
+        [beforeMessages, messages]
+    );
 
     const { getUnreadCountForMessage } = useMessageUnreadCount({
         messages: allMessages,
@@ -74,7 +85,11 @@ export default function FireChatRoomBody<
             const scrollState = getScrollState(ref);
             loadBeforeMessages().then(() => {
                 setTimeout(() => {
-                    restoreScrollPosition(ref, scrollState.scrollHeight, scrollState.scrollTop);
+                    restoreScrollPosition(
+                        ref,
+                        scrollState.scrollHeight,
+                        scrollState.scrollTop
+                    );
                 }, 1);
             });
         }
@@ -130,8 +145,8 @@ export default function FireChatRoomBody<
             payload = { body: `(${FIRE_CHAT_LOCALE.FILE})`, silent: true };
         } else {
             const contents = newMessage.contents as { text?: string }[];
-            const text = contents?.[0]?.[MESSAGE_CONTENT_TEXT_FIELD] ?? "";
-            payload = { body: text.replace(/<[^>]*>/g, ""), silent: true };
+            const text = contents?.[0]?.[MESSAGE_CONTENT_TEXT_FIELD] ?? '';
+            payload = { body: text.replace(/<[^>]*>/g, ''), silent: true };
         }
 
         fireNotificationWithTimeout(NOTIFICATION_TITLE, 5000, payload);
@@ -159,14 +174,14 @@ export default function FireChatRoomBody<
                         participants={participants}
                         me={me}
                         setReplyingMessage={setReplyingMessage}
-                        channelId={channel?.[CHANNEL_ID_FIELD] || ""}
+                        channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                         sendingFiles={sendingFiles}
                         getUnreadCountForMessage={getUnreadCountForMessage}
                     />
                 </div>
                 {!isBottom && isScrolling && (
                     <Button
-                        variant={"outline"}
+                        variant={'outline'}
                         className="w-10 h-10 absolute bottom-8 left-1/2 transform -translate-x-1/2 rounded-full opacity-50"
                         onClick={() => scrollToBottom(ref, true)}
                     >
@@ -176,7 +191,9 @@ export default function FireChatRoomBody<
                 <div
                     className={
                         `text-xs absolute top-8 left-1/2 transform -translate-x-1/2 rounded-[12px] bg-foreground/60 px-[12px] py-[8px] text-white transition-all duration-300 pointer-events-none` +
-                        (scrollDate && isScrolling ? " opacity-100 scale-100" : " opacity-0 scale-95")
+                        (scrollDate && isScrolling
+                            ? ' opacity-100 scale-100'
+                            : ' opacity-0 scale-95')
                     }
                     style={{ zIndex: 30 }}
                 >

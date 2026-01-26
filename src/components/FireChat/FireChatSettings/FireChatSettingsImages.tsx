@@ -1,4 +1,4 @@
-import FireImageViewDialog from '@/components/FireUI/FireImageViewDialog';
+import FireChatImageViewDialog from '@/components/FireChat/FireChatImageViewDialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,7 +12,7 @@ import {
     MESSAGE_CREATED_AT_FIELD,
     MESSAGE_USER_ID_FIELD,
 } from '@/lib/FireChat/settings';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { FireUser } from '@/lib/FireAuth/settings';
 import { localeDateString } from '@/lib/FireUtil/timeformat';
 import { ImagesIcon } from 'lucide-react';
@@ -25,13 +25,12 @@ function FireChatSettingsImages<
     U extends FireUser
 >({
     imageMessages,
-    channelId,
     participants,
 }: {
     imageMessages: M[];
-    channelId: string;
     participants: U[];
 }) {
+    const { imageContentsUrl } = useFireChannel();
     return (
         <div className="flex flex-col gap-4">
             {imageMessages.length > 0 ? (
@@ -40,15 +39,17 @@ function FireChatSettingsImages<
                         .reverse()
                         .slice(0, 12)
                         .map((msg, index) => {
-                            const message = msg as FireMessage<FireMessageImage>;
+                            const message =
+                                msg as FireMessage<FireMessageImage>;
                             const senderUser = participants.find(
                                 (p) => p.id === message[MESSAGE_USER_ID_FIELD]
                             );
                             return (
-                                <FireImageViewDialog
+                                <FireChatImageViewDialog
                                     defaultIdx={0}
                                     dialogTitle={`${
-                                        senderUser?.name || FIRE_CHAT_LOCALE.UNKNOWN
+                                        senderUser?.name ||
+                                        FIRE_CHAT_LOCALE.UNKNOWN
                                     }, ${localeDateString(
                                         message[MESSAGE_CREATED_AT_FIELD]
                                     )}`}
@@ -88,7 +89,7 @@ function FireChatSettingsImages<
                                             />
                                         )}
                                     </AspectRatio>
-                                </FireImageViewDialog>
+                                </FireChatImageViewDialog>
                             );
                         })}
                 </div>
@@ -111,7 +112,7 @@ function FireChatSettingsImages<
                         const top =
                             window.screenY + (window.outerHeight - height) / 2;
                         window.open(
-                            `/windows/${CHANNEL_COLLECTION}/${channelId}/contents?tab=image`,
+                            imageContentsUrl,
                             '_blank',
                             `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`
                         );

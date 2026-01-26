@@ -71,7 +71,6 @@ export default function FireChatSettings<
                         </TabsList>
                         <TabsContent value="images" className="p-0">
                             <FireChatSettingsImages
-                                channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                                 imageMessages={imageMessages}
                                 participants={participants}
                             />
@@ -79,7 +78,6 @@ export default function FireChatSettings<
                         <TabsContent value="files" className="p-0">
                             <FireChatSettingsFiles
                                 fileMessages={fileMessages}
-                                channelId={channel?.[CHANNEL_ID_FIELD] || ''}
                             />
                         </TabsContent>
                     </Tabs>

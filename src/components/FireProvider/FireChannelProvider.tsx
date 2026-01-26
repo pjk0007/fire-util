@@ -6,7 +6,7 @@ import {
     FireMessage,
     FireMessageContent,
 } from '@/lib/FireChat/settings';
-import { FireChannel } from '@/lib/FireChannel/settings';
+import { FireChannel, CHANNEL_ID, CHANNEL_CONTENTS_BASE_URL } from '@/lib/FireChannel/settings';
 import { USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
@@ -19,6 +19,8 @@ interface FireChannelContextValue<
     channels: C[];
     selectedChannelId?: string;
     setSelectedChannelId: (channelId?: string) => void;
+    fileContentsUrl: string;
+    imageContentsUrl: string;
 }
 
 const FireChannelContext = createContext<
@@ -30,8 +32,9 @@ const FireChannelContext = createContext<
 >({
     channels: [],
     selectedChannelId: undefined,
-
     setSelectedChannelId: () => {},
+    fileContentsUrl: '',
+    imageContentsUrl: '',
 });
 
 // export const useFireChannel = () => useContext(FireChannelContext);
@@ -68,6 +71,13 @@ export function FireChannelProvider<
         }
     }, [defaultChannelId]);
 
+    const fileContentsUrl = selectedChannelId
+        ? `${CHANNEL_CONTENTS_BASE_URL}/?${CHANNEL_ID}=${selectedChannelId}&tab=file`
+        : '';
+    const imageContentsUrl = selectedChannelId
+        ? `${CHANNEL_CONTENTS_BASE_URL}/?${CHANNEL_ID}=${selectedChannelId}&tab=image`
+        : '';
+
     return (
         <FireChannelContext.Provider
             value={
@@ -75,6 +85,8 @@ export function FireChannelProvider<
                     channels,
                     selectedChannelId,
                     setSelectedChannelId,
+                    fileContentsUrl,
+                    imageContentsUrl,
                 } as FireChannelContextValue<C, M, T>
             }
         >

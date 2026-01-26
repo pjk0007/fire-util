@@ -1,4 +1,8 @@
-import { FireMessage, FireMessageContent, FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
+import {
+    FireMessage,
+    FireMessageContent,
+    FIRE_CHAT_LOCALE,
+} from '@/lib/FireChat/settings';
 import { cn } from '@/lib/utils';
 import { CornerDownRight } from 'lucide-react';
 import { useCallback } from 'react';
@@ -21,24 +25,27 @@ export default function FireChatChannelRoomFooterTextarea<
     setFiles: (files: File[]) => void;
     disabled?: boolean;
 }) {
-    const handlePaste = useCallback((event: React.ClipboardEvent) => {
-        event.preventDefault();
-        if (!event.clipboardData) return;
+    const handlePaste = useCallback(
+        (event: React.ClipboardEvent) => {
+            // event.preventDefault();
+            if (!event.clipboardData) return;
 
-        // 클립보드 이벤트에서 파일들을 추출합니다.
-        const { items } = event.clipboardData;
-        if (items.length === 0) return;
-        const pasteFiles = [];
+            // 클립보드 이벤트에서 파일들을 추출합니다.
 
-        for (let i = 0; i < items.length; i += 1) {
-            const file = items[i]!.getAsFile();
-            if (file) pasteFiles.push(file);
-        }
+            const { items } = event.clipboardData;
+            if (items.length === 0) return;
+            const pasteFiles = [];
 
-        setFiles(pasteFiles);
-        if (pasteFiles.length > 0) event.preventDefault();
+            for (let i = 0; i < items.length; i += 1) {
+                const file = items[i]!.getAsFile();
+                if (file) pasteFiles.push(file);
+            }
 
-    }, [setFiles]);
+            setFiles(pasteFiles);
+            if (pasteFiles.length > 0) event.preventDefault();
+        },
+        [setFiles]
+    );
 
     return (
         <div className="relative md:block hidden">

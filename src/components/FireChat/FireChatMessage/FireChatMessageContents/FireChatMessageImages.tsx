@@ -12,7 +12,7 @@ import { FireUser } from '@/lib/FireAuth/settings';
 import { localeDateString } from '@/lib/FireUtil/timeformat';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import FireImageViewDialog from '@/components/FireUI/FireImageViewDialog';
+import FireChatImageViewDialog from '@/components/FireChat/FireChatImageViewDialog';
 import getImageColSpan from '@/lib/FireChat/utils/getImageColSpan';
 
 export default function FireChatMessageImages<
@@ -33,7 +33,7 @@ export default function FireChatMessageImages<
             {message[MESSAGE_CONTENTS_FIELD].map((img, idx) => {
                 const colSpan = getImageColSpan(totalImages, idx);
                 return (
-                    <FireImageViewDialog
+                    <FireChatImageViewDialog
                         defaultIdx={idx}
                         dialogTitle={`${senderUser?.name ?? FIRE_CHAT_LOCALE.UNKNOWN}, ${localeDateString(
                             message[MESSAGE_CREATED_AT_FIELD]
@@ -66,7 +66,7 @@ export default function FireChatMessageImages<
                             )}
                             alt={`image-${idx}`}
                         />
-                    </FireImageViewDialog>
+                    </FireChatImageViewDialog>
                 );
             })}
         </div>

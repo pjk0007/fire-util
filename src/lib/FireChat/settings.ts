@@ -37,7 +37,7 @@ export const LARGE_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 export const EMOJI_LIST = ['👍', '✅', '❤️', '👀'];
 
 // Notification settings
-export const NOTIFICATION_ICON = '/favicon.png';
+export const NOTIFICATION_ICON = '/favicon.ico';
 export const NOTIFICATION_ALARM_SOUND = '/audios/alarm.mp3';
 export const NOTIFICATION_TITLE = '디자이너하이어';
 
@@ -100,7 +100,33 @@ export const FIRE_CHAT_LOCALE = {
         UPLOAD_FILES: '파일 전송',
 
         REMOVE_FILE: '파일 삭제',
+
         DRAG_DROP_TO_UPLOAD: '여기에 파일을 끌어다 놓으세요',
+                    MEET_LINK: 'Google Meet 링크 생성',
+            TEMPLATE: '메시지 템플릿',
+            TEMPLATE_LIST: {
+                START: '시작 보고',
+                IN_PROGRESS: '중간 보고',
+                END: '마감 보고',
+            },
+            TEMPLATE_CONTENT: {
+                START: (today: string)=>`✅ ${today} 시작보고 
+오늘 업무 시작하겠습니다.
+(오늘 진행할 업무)
+1. 000 디자인 수정 (0시간 소요 예상)
+2. 신규 000 디자인 (0월0일 전달 예정)`,
+                IN_PROGRESS: (today: string)=>`✅ ${today} 중간보고
+1. 000 디자인 수정 : 0시 30분 완료, 피드에 업로드 했습니다.
+2. 신규 000 디자인 진행중 : 레퍼런스 서칭 중`,
+                END: (today: string)=>`✅ ${today} 마감보고
+오늘 업무 마무리 하겠습니다.
+(오늘 진행한 업무)
+1. 000 디자인 수정 : 0시 30분 완료, 피드에 업로드 했습니다.
+2. 신규 000 디자인 진행중 : 레퍼런스 서칭 완료. 0월0일 전달 예정입니다.
+
+(내일 진행할 업무)
+신규 000 디자인 업무 : 디자인 작업 진행 (0월0일 전달 예정)`,
+            },
     },
 };
 

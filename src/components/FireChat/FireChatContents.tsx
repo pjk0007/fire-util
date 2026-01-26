@@ -1,4 +1,4 @@
-import FireImageViewDialog from "@/components/FireUI/FireImageViewDialog";
+import FireChatImageViewDialog from "@/components/FireChat/FireChatImageViewDialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -85,7 +85,7 @@ export default function FireChatContents({
                                                     })}
                                                 </div>
                                             )}
-                                            <FireImageViewDialog
+                                            <FireChatImageViewDialog
                                                 defaultIdx={0}
                                                 dialogTitle={`${localeDateString(msg[MESSAGE_CREATED_AT_FIELD])}`}
                                                 images={message[MESSAGE_CONTENTS_FIELD].map(
@@ -115,7 +115,7 @@ export default function FireChatContents({
                                                         />
                                                     )}
                                                 </div>
-                                            </FireImageViewDialog>
+                                            </FireChatImageViewDialog>
                                         </>
                                     );
                                 })}

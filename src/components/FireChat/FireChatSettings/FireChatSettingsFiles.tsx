@@ -8,7 +8,7 @@ import {
     MESSAGE_CONTENT_URL_FIELD,
     MESSAGE_CONTENTS_FIELD,
 } from '@/lib/FireChat/settings';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { Download } from 'lucide-react';
 import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import { Button } from '@/components/ui/button';
@@ -20,7 +20,8 @@ import { cn } from '@/lib/utils';
 function FireChatSettingsFiles<
     M extends FireMessage<T>,
     T extends FireMessageContent
->({ fileMessages, channelId }: { fileMessages: M[]; channelId: string }) {
+>({ fileMessages }: { fileMessages: M[] }) {
+    const { fileContentsUrl } = useFireChannel();
     return (
         <div className="flex flex-col gap-4">
             {fileMessages.length > 0 ? (
@@ -114,7 +115,7 @@ function FireChatSettingsFiles<
                         const top =
                             window.screenY + (window.outerHeight - height) / 2;
                         window.open(
-                            `/windows/${CHANNEL_COLLECTION}/${channelId}/contents?tab=file`,
+                            fileContentsUrl,
                             '_blank',
                             `width=${width},height=${height},left=${left},top=${top},noopener,noreferrer`
                         );

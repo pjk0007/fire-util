@@ -12,9 +12,16 @@ import {
     SetStateAction,
     useEffect,
     useState,
+    useCallback,
     createContext,
     useContext,
 } from 'react';
+import { AnnotationViewDialog } from '@/components/FireChat/Annotation';
+
+interface AnnotationDialogState {
+    isOpen: boolean;
+    imageUrl: string | null;
+}
 
 interface FireChatContextValue<
     M extends FireMessage<T>,
@@ -25,6 +32,11 @@ interface FireChatContextValue<
     setSendingFiles: Dispatch<SetStateAction<SendingFile[]>>;
     replyingMessage?: M;
     setReplyingMessage?: Dispatch<SetStateAction<M | undefined>>;
+    // 어노테이션 다이얼로그
+    annotationDialog: AnnotationDialogState;
+    openAnnotationDialog: (imageUrl: string) => void;
+    closeAnnotationDialog: () => void;
+    sendAnnotatedImage: (blob: Blob) => void;
 }
 
 const FireChatContext = createContext<
@@ -35,6 +47,10 @@ const FireChatContext = createContext<
     onSendingFiles: () => {},
     replyingMessage: undefined,
     setReplyingMessage: () => {},
+    annotationDialog: { isOpen: false, imageUrl: null },
+    openAnnotationDialog: () => {},
+    closeAnnotationDialog: () => {},
+    sendAnnotatedImage: () => {},
 });
 
 export const useFireChat = () => useContext(FireChatContext);
@@ -52,6 +68,26 @@ export function FireChatProvider({ children }: FireChatProviderProps) {
 
     const { onSendingFiles, sendingFiles, setSendingFiles } =
         useFireChatSender(channelId);
+
+    // 어노테이션 다이얼로그 상태
+    const [annotationDialog, setAnnotationDialog] = useState<AnnotationDialogState>({
+        isOpen: false,
+        imageUrl: null,
+    });
+
+    const openAnnotationDialog = useCallback((imageUrl: string) => {
+        setAnnotationDialog({ isOpen: true, imageUrl });
+    }, []);
+
+    const closeAnnotationDialog = useCallback(() => {
+        setAnnotationDialog({ isOpen: false, imageUrl: null });
+    }, []);
+
+    const sendAnnotatedImage = useCallback((blob: Blob) => {
+        const file = new File([blob], `annotated-${Date.now()}.png`, { type: 'image/png' });
+        onSendingFiles([file]);
+        closeAnnotationDialog();
+    }, [onSendingFiles, closeAnnotationDialog]);
 
     useEffect(() => {
         if (!channelId) {
@@ -76,9 +112,24 @@ export function FireChatProvider({ children }: FireChatProviderProps) {
                 setSendingFiles,
                 replyingMessage,
                 setReplyingMessage,
+                annotationDialog,
+                openAnnotationDialog,
+                closeAnnotationDialog,
+                sendAnnotatedImage,
             }}
         >
             {children}
+            {annotationDialog.imageUrl && (
+                <AnnotationViewDialog
+                    images={[annotationDialog.imageUrl]}
+                    defaultIdx={0}
+                    open={annotationDialog.isOpen}
+                    onOpenChange={(open) => {
+                        if (!open) closeAnnotationDialog();
+                    }}
+                    onComplete={sendAnnotatedImage}
+                />
+            )}
         </FireChatContext.Provider>
     );
 }
