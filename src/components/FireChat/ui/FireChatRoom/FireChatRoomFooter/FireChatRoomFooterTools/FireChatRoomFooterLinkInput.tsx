@@ -51,7 +51,7 @@ export default function FireChatRoomFooterLinkInput({
 
     return (
         <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
                 <Popover
                     onOpenChange={(open) => {
                         if (!open) setLink('');

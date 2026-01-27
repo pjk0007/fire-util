@@ -28,7 +28,7 @@ export default function FireChatRoomFooterTemplate({
     if (isMobile) return null;
     return (
         <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
                 <Popover open={isOpen} onOpenChange={setIsOpen}>
                     <PopoverTrigger asChild disabled={disabled}>
                         <Button
