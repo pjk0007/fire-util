@@ -7,7 +7,6 @@ import {
     InputGroupButton,
     InputGroupInput,
 } from '@/components/ui/input-group';
-import { Label } from '@/components/ui/label';
 import {
     Popover,
     PopoverContent,
@@ -38,7 +37,11 @@ import { Timestamp } from 'firebase/firestore';
 import { ArrowUp, Link } from 'lucide-react';
 import { useState } from 'react';
 
-export default function FireChatRoomFooterLinkInput() {
+export default function FireChatRoomFooterLinkInput({
+    disabled = false,
+}: {
+    disabled?: boolean;
+}) {
     const isMobile = useIsMobile();
     const { user } = useFireAuth();
     const { selectedChannelId } = useFireChannel();
@@ -54,16 +57,14 @@ export default function FireChatRoomFooterLinkInput() {
                         if (!open) setLink('');
                     }}
                 >
-                    <PopoverTrigger asChild>
+                    <PopoverTrigger asChild disabled={disabled}>
                         <Button
                             variant={'ghost'}
                             className={cn('rounded-lg')}
                             size={'icon'}
-                            asChild
+                            disabled={disabled}
                         >
-                            <Label className="cursor-pointer">
-                                <Link className="text-foreground" />
-                            </Label>
+                            <Link className="text-foreground" />
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="p-2 flex flex-col gap-1" asChild>

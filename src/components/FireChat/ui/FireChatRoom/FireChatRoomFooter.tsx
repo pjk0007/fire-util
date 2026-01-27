@@ -139,10 +139,11 @@ export default function FireChatChannelRoomFooter<
                                     ...selectedFiles,
                                 ]);
                             }}
+                            disabled={disabled}
                         />
-                        <FireChatRoomFooterLinkInput />
-                        <FireChatRoomFooterMeetLink />
-                        <FireChatRoomFooterTemplate setMessage={setMessage}/>
+                        <FireChatRoomFooterLinkInput disabled={disabled} />
+                        <FireChatRoomFooterMeetLink disabled={disabled} />
+                        <FireChatRoomFooterTemplate setMessage={setMessage} disabled={disabled}/>
                     </div>
                     <FireChatRoomFooterTextareaMobile
                         message={message}

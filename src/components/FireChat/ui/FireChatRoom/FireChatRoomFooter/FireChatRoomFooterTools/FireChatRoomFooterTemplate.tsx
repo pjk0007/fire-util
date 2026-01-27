@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
-import { Label } from '@/components/ui/label';
 import {
     Popover,
     PopoverContent,
@@ -19,8 +18,10 @@ import { useState } from 'react';
 
 export default function FireChatRoomFooterTemplate({
     setMessage,
+    disabled = false,
 }: {
     setMessage: (message: string) => void;
+    disabled?: boolean;
 }) {
     const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = useState(false);
@@ -29,16 +30,14 @@ export default function FireChatRoomFooterTemplate({
         <Tooltip>
             <TooltipTrigger>
                 <Popover open={isOpen} onOpenChange={setIsOpen}>
-                    <PopoverTrigger asChild>
+                    <PopoverTrigger asChild disabled={disabled}>
                         <Button
                             variant={'ghost'}
                             className={cn('rounded-lg')}
                             size={'icon'}
-                            asChild
+                            disabled={disabled}
                         >
-                            <Label className="cursor-pointer">
-                                <PencilLine className="text-foreground" />
-                            </Label>
+                            <PencilLine className="text-foreground" />
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent side="right" className="w-fit p-0 border-none">

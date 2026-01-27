@@ -12,8 +12,10 @@ import { Paperclip } from 'lucide-react';
 
 export default function FireChatChannelRoomFooterFileInput({
     onSelectFiles,
+    disabled = false,
 }: {
     onSelectFiles: (files: File[]) => void;
+    disabled?: boolean;
 }) {
     return (
         <>
@@ -23,11 +25,12 @@ export default function FireChatChannelRoomFooterFileInput({
                         variant={'ghost'}
                         className={cn('rounded-lg')}
                         size={'icon'}
+                        disabled={disabled}
                         asChild
                     >
                         <Label
-                            htmlFor="chat-file-upload"
-                            className="cursor-pointer"
+                            htmlFor={disabled ? undefined : "chat-file-upload"}
+                            className={cn("cursor-pointer", disabled && "pointer-events-none opacity-50")}
                         >
                             <Paperclip className="text-foreground" />
                         </Label>
@@ -50,6 +53,7 @@ export default function FireChatChannelRoomFooterFileInput({
                 value={''}
                 className="hidden"
                 id="chat-file-upload"
+                disabled={disabled}
             />
         </>
     );

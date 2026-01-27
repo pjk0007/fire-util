@@ -10,7 +10,11 @@ import { cn } from '@/lib/utils';
 import { Video } from 'lucide-react';
 import Link from 'next/link';
 
-export default function FireChatRoomFooterMeetLink() {
+export default function FireChatRoomFooterMeetLink({
+    disabled = false,
+}: {
+    disabled?: boolean;
+}) {
     const isMobile = useIsMobile();
     if (isMobile) return null;
     return (
@@ -20,12 +24,13 @@ export default function FireChatRoomFooterMeetLink() {
                     variant={'ghost'}
                     className={cn('rounded-lg')}
                     size={'icon'}
+                    disabled={disabled}
                     asChild
                 >
                     <Link
                         href={'https://meet.google.com/'}
                         target="_blank"
-                        className="cursor-pointer"
+                        className={cn("cursor-pointer", disabled && "pointer-events-none opacity-50")}
                     >
                         <Video className="text-foreground" />
                     </Link>
