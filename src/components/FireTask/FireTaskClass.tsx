@@ -1,5 +1,5 @@
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
 import { useFireTask } from '@/components/FireProvider/FireTaskProvider';
 import FireTaskClassCard from '@/components/FireTask/FireTaskClass/FireTaskClassCard';
 import FireTaskClassHeader from '@/components/FireTask/FireTaskClass/FireTaskClassHeader';

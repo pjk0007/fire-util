@@ -1,6 +1,6 @@
 import { FireUser } from '@/lib/FireAuth/settings';
 import { db } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import { FireTask, TASK_COLLECTION } from '@/lib/FireTask/settings';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useEffect, useState } from 'react';

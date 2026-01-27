@@ -24,7 +24,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
+import { FIRE_CHAT_LOCALE } from '@/components/FireChat/settings';
 import downloadFileFromUrl from '@/lib/FireUtil/downloadFileFromUrl';
 import { Download, ImageIcon } from 'lucide-react';
 import Image from 'next/image';

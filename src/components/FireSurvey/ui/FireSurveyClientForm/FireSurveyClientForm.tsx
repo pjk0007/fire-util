@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useFireSurveyByType } from '../../hooks/useFireSurveyByType';
 import { submitResponse } from '../../api/submitResponse';
+import { updateUserNextSurveyDate } from '../../api/updateUserNextSurveyDate';
 import {
     QUESTION_TYPE_TEXT,
     QUESTION_TYPE_DROPDOWN,
@@ -29,8 +30,6 @@ interface FireSurveyClientFormProps {
     userName?: string;
     userEmail?: string;
     isRequired: boolean;
-    onSubmit: () => void;
-    onSkip?: (action: 'skip_7_days' | 'skip_today') => void;
     onClose?: () => void;
 }
 
@@ -40,8 +39,6 @@ export function FireSurveyClientForm({
     userName,
     userEmail,
     isRequired,
-    onSubmit,
-    onSkip,
     onClose,
 }: FireSurveyClientFormProps) {
     const { templates, isLoading, error } = useFireSurveyByType(surveyType);
@@ -122,7 +119,7 @@ export function FireSurveyClientForm({
                     if (isEmpty) continue;
                 }
 
-                const otherValue = otherValues[template.id]?.trim() || undefined;
+                const otherValue = otherValues[template.id]?.trim() || '';
 
                 await submitResponse({
                     templateId: template.id,
@@ -141,18 +138,23 @@ export function FireSurveyClientForm({
                 });
             }
 
+            await updateUserNextSurveyDate(userId, 'submit');
+
             toast.success(FIRE_SURVEY_LOCALE.SUCCESS.RESPONSE_SUBMITTED);
-            onSubmit();
-        } catch {
+            onClose?.();
+        } catch (error) {
+            console.log(error);
             toast.error(FIRE_SURVEY_LOCALE.ERRORS.SUBMIT_FAILED);
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const handleSkip = () => {
-        if (skipOption && onSkip) {
-            onSkip(skipOption);
+    const handleSkip = async () => {
+        if (skipOption) {
+            // 다음 설문 표시 날짜 업데이트
+            await updateUserNextSurveyDate(userId, skipOption);
+            onClose?.();
         }
     };
 
@@ -248,9 +250,9 @@ export function FireSurveyClientForm({
             </ScrollArea>
 
             {/* Footer 영역 */}
-            <div className={`flex flex-col md:flex-row gap-3 pt-4 ${!isRequired && onSkip ? 'md:justify-between' : 'md:justify-end'}`}>
+            <div className={`flex flex-col md:flex-row gap-3 pt-4 ${!isRequired && onClose ? 'md:justify-between' : 'md:justify-end'}`}>
                 {/* 스킵 옵션 (선택적 설문인 경우) */}
-                {!isRequired && onSkip && (
+                {!isRequired && onClose && (
                     <div className="flex items-center gap-4 order-2 md:order-1">
                         <label className="flex items-center gap-2 cursor-pointer">
                             <Checkbox

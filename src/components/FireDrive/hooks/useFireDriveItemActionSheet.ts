@@ -18,7 +18,7 @@ import { isPreviewable, getFileIcon } from '../utils';
 import { toast } from 'sonner';
 import { storage } from '@/lib/firebase';
 import { ref, getDownloadURL } from 'firebase/storage';
-import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
+import sendMessage, { updateLastMessage } from '@/components/FireChat/api/sendMessage';
 import {
     MESSAGE_COLLECTION,
     MESSAGE_ID_FIELD,
@@ -33,7 +33,7 @@ import {
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
     FireMessage,
     FireMessageFile,
-} from '@/lib/FireChat/settings';
+} from '@/components/FireChat/settings';
 import { Timestamp } from 'firebase/firestore';
 
 interface UseFireDriveItemActionSheetOptions {
@@ -96,37 +96,6 @@ export default function useFireDriveItemActionSheet({
     const handleDelete = () => {
         onOpenChange(false);
         setTimeout(() => setDeleteOpen(true), 100);
-    };
-
-    const handleCopyUrl = async () => {
-        try {
-            if (items.length === 0 || !channelId) return;
-
-            const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-            const htmlLinks = items.map((item) => {
-                const params = new URLSearchParams();
-                params.set(FIRE_DRIVE_CONFIG.DRIVE_CHANNEL_PARAM, channelId);
-
-                if (item.type === DRIVE_TYPE_FOLDER) {
-                    params.set(FIRE_DRIVE_CONFIG.DRIVE_FOLDER_PARAM, item[DRIVE_ID_FIELD]);
-                } else {
-                    if (item[DRIVE_PARENT_ID_FIELD]) {
-                        params.set(FIRE_DRIVE_CONFIG.DRIVE_FOLDER_PARAM, item[DRIVE_PARENT_ID_FIELD]!);
-                    }
-                    params.set(FIRE_DRIVE_CONFIG.DRIVE_FILE_PARAM, item[DRIVE_ID_FIELD]);
-                }
-
-                const url = `${baseUrl}${FIRE_DRIVE_CONFIG.DRIVE_PATH}?${params.toString()}`;
-                const name = item[DRIVE_NAME_FIELD];
-                return `<a href="${url}" style="color: #2563eb; text-decoration: underline;">${name}</a>`;
-            });
-
-            await navigator.clipboard.writeText(htmlLinks.join('\n'));
-            toast.success(FIRE_DRIVE_LOCALE.SUCCESS.URL_COPIED);
-        } catch {
-            toast.error(FIRE_DRIVE_LOCALE.ERRORS.COPY_URL_FAILED);
-        }
-        onOpenChange(false);
     };
 
     const handleShareToChat = async () => {
@@ -201,7 +170,6 @@ export default function useFireDriveItemActionSheet({
         handleRename,
         handleMove,
         handleDelete,
-        handleCopyUrl,
         handleShareToChat,
     };
 }

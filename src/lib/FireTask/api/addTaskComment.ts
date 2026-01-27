@@ -1,6 +1,6 @@
 import { FireUser } from '@/lib/FireAuth/settings';
 import { db, storage } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import isImageFile from '@/lib/FireUtil/isImageFile';
 import {
     TASK_COLLECTION,

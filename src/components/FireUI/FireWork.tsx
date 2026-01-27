@@ -1,15 +1,16 @@
-import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
-import FireChatRoomBody from '@/components/FireChat/FireChatRoom/FireChatRoomBody';
-import FireChatRoomFooter from '@/components/FireChat/FireChatRoom/FireChatRoomFooter';
-import FireChannelList from '@/components/FireChannel/FireChannelList';
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
 import { cn } from '@/lib/utils';
-import FireChatHeader from '@/components/FireChat/FireChatHeader';
 import FireTask from '@/components/FireTask/FireTask';
 import { FireTaskSidebarProvider } from '@/components/FireProvider/FireTaskSidebarProvider';
 import { FireTaskProvider } from '@/components/FireProvider/FireTaskProvider';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useRouter } from 'next/router';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
+import { FireChatProvider } from '@/components/FireChat/context/FireChatProvider';
+import FireChatHeader from '@/components/FireChat/ui/FireChatHeader';
+import FireChatRoomBody from '@/components/FireChat/ui/FireChatRoom/FireChatRoomBody';
+import FireChatRoomFooter from '@/components/FireChat/ui/FireChatRoom/FireChatRoomFooter';
+import FireChannelList from '../FireChannel/ui/FireChannelList';
+
 
 export default function FireWork({
     showChannelList = true,

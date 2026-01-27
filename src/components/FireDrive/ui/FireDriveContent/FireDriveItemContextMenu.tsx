@@ -4,7 +4,7 @@ import {
     ContextMenuItem,
     ContextMenuSeparator,
     ContextMenuTrigger,
-} from '@/components/ui/context-menu';
+} from "@/components/ui/context-menu";
 import {
     FireDriveItem,
     FIRE_DRIVE_LOCALE,
@@ -16,25 +16,16 @@ import {
     DRIVE_SIZE_FIELD,
     DRIVE_ID_FIELD,
     DRIVE_PARENT_ID_FIELD,
-} from '../../settings';
-import { downloadItems } from '../../api';
-import { useTouchDevice } from '../../hooks';
-import { isPreviewable } from '../../utils';
-import {
-    Download,
-    Edit,
-    FolderInput,
-    Trash2,
-    Eye,
-    FolderOpen,
-    Link,
-    MessageCircle,
-} from 'lucide-react';
-import { toast } from 'sonner';
-import { storage } from '@/lib/firebase';
-import { ref, getDownloadURL } from 'firebase/storage';
-import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import sendMessage, { updateLastMessage } from '@/lib/FireChat/api/sendMessage';
+} from "../../settings";
+import { downloadItems } from "../../api";
+import { useTouchDevice } from "../../hooks";
+import { isPreviewable } from "../../utils";
+import { Download, Edit, FolderInput, Trash2, Eye, FolderOpen, Link, MessageCircle } from "lucide-react";
+import { toast } from "sonner";
+import { storage } from "@/lib/firebase";
+import { ref, getDownloadURL } from "firebase/storage";
+import { useFireAuth } from "@/components/FireProvider/FireAuthProvider";
+import sendMessage, { updateLastMessage } from "@/components/FireChat/api/sendMessage";
 import {
     MESSAGE_COLLECTION,
     MESSAGE_ID_FIELD,
@@ -49,23 +40,20 @@ import {
     MESSAGE_CONTENT_FILE_SIZE_FIELD,
     FireMessage,
     FireMessageFile,
-} from '@/lib/FireChat/settings';
-import { Timestamp } from 'firebase/firestore';
-import { useState, useRef } from 'react';
-import { useFireDrive } from '../../contexts';
-import FireDriveRenameDialog from '../FireDriveDialog/FireDriveRenameDialog';
-import FireDriveMoveDialog from '../FireDriveDialog/FireDriveMoveDialog';
-import FireDriveDeleteDialog from '../FireDriveDialog/FireDriveDeleteDialog';
+} from "@/components/FireChat/settings";
+import { Timestamp } from "firebase/firestore";
+import { useState, useRef } from "react";
+import { useFireDrive } from "../../contexts";
+import FireDriveRenameDialog from "../FireDriveDialog/FireDriveRenameDialog";
+import FireDriveMoveDialog from "../FireDriveDialog/FireDriveMoveDialog";
+import FireDriveDeleteDialog from "../FireDriveDialog/FireDriveDeleteDialog";
 
 interface FireDriveItemContextMenuProps {
     item: FireDriveItem;
     children: React.ReactNode;
 }
 
-export default function FireDriveItemContextMenu({
-    item,
-    children,
-}: FireDriveItemContextMenuProps) {
+export default function FireDriveItemContextMenu({ item, children }: FireDriveItemContextMenuProps) {
     const { openItem, setPreviewItem, selectedItems, isSelected, channelId } = useFireDrive();
     const { user } = useFireAuth();
     const [renameOpen, setRenameOpen] = useState(false);
@@ -147,40 +135,6 @@ export default function FireDriveItemContextMenu({
         setDeleteOpen(true);
     };
 
-    const handleCopyUrl = async (e: Event) => {
-        if (shouldIgnoreSelect()) {
-            e.preventDefault();
-            return;
-        }
-        try {
-            if (capturedTargetItems.length === 0 || !channelId) return;
-
-            const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-            const htmlLinks = capturedTargetItems.map((targetItem) => {
-                const params = new URLSearchParams();
-                params.set(FIRE_DRIVE_CONFIG.DRIVE_CHANNEL_PARAM, channelId);
-
-                if (targetItem.type === DRIVE_TYPE_FOLDER) {
-                    params.set(FIRE_DRIVE_CONFIG.DRIVE_FOLDER_PARAM, targetItem[DRIVE_ID_FIELD]);
-                } else {
-                    if (targetItem[DRIVE_PARENT_ID_FIELD]) {
-                        params.set(FIRE_DRIVE_CONFIG.DRIVE_FOLDER_PARAM, targetItem[DRIVE_PARENT_ID_FIELD]!);
-                    }
-                    params.set(FIRE_DRIVE_CONFIG.DRIVE_FILE_PARAM, targetItem[DRIVE_ID_FIELD]);
-                }
-
-                const url = `${baseUrl}${FIRE_DRIVE_CONFIG.DRIVE_PATH}?${params.toString()}`;
-                const name = targetItem[DRIVE_NAME_FIELD];
-                return `<a href="${url}" style="color: #2563eb; text-decoration: underline;">${name}</a>`;
-            });
-
-            await navigator.clipboard.writeText(htmlLinks.join('\n'));
-            toast.success(FIRE_DRIVE_LOCALE.SUCCESS.URL_COPIED);
-        } catch {
-            toast.error(FIRE_DRIVE_LOCALE.ERRORS.COPY_URL_FAILED);
-        }
-    };
-
     const handleShareToChat = async (e: Event) => {
         if (shouldIgnoreSelect()) {
             e.preventDefault();
@@ -223,9 +177,7 @@ export default function FireDriveItemContextMenu({
     };
 
     // 파일만 있는지 확인 (주소 복사, 채팅방 공유용)
-    const hasFiles = capturedTargetItems.some(
-        (i) => i.type !== DRIVE_TYPE_FOLDER && i[DRIVE_STORAGE_PATH_FIELD]
-    );
+    const hasFiles = capturedTargetItems.some((i) => i.type !== DRIVE_TYPE_FOLDER && i[DRIVE_STORAGE_PATH_FIELD]);
 
     return (
         <>
@@ -249,16 +201,10 @@ export default function FireDriveItemContextMenu({
                         <ContextMenuItem onSelect={handleDownload}>
                             <Download className="mr-2 h-4 w-4" />
                             {capturedTargetItems.filter((i) => i.type !== DRIVE_TYPE_FOLDER).length > 1
-                                ? FIRE_DRIVE_LOCALE.CONTEXT_MENU.DOWNLOAD_FILES(capturedTargetItems.filter((i) => i.type !== DRIVE_TYPE_FOLDER).length)
+                                ? FIRE_DRIVE_LOCALE.CONTEXT_MENU.DOWNLOAD_FILES(
+                                      capturedTargetItems.filter((i) => i.type !== DRIVE_TYPE_FOLDER).length
+                                  )
                                 : FIRE_DRIVE_LOCALE.ACTIONS.DOWNLOAD}
-                        </ContextMenuItem>
-                    )}
-
-                    {/* 주소 복사 - 파일만 */}
-                    {hasFiles && (
-                        <ContextMenuItem onSelect={handleCopyUrl}>
-                            <Link className="mr-2 h-4 w-4" />
-                            {FIRE_DRIVE_LOCALE.ACTIONS.COPY_URL}
                         </ContextMenuItem>
                     )}
 
@@ -289,10 +235,7 @@ export default function FireDriveItemContextMenu({
 
                     <ContextMenuSeparator />
 
-                    <ContextMenuItem
-                        onSelect={handleDelete}
-                        className="text-destructive"
-                    >
+                    <ContextMenuItem onSelect={handleDelete} className="text-destructive">
                         <Trash2 className="mr-2 h-4 w-4" />
                         {capturedTargetItems.length > 1
                             ? FIRE_DRIVE_LOCALE.CONTEXT_MENU.DELETE_ITEMS(capturedTargetItems.length)
@@ -301,21 +244,9 @@ export default function FireDriveItemContextMenu({
                 </ContextMenuContent>
             </ContextMenu>
 
-            <FireDriveRenameDialog
-                item={item}
-                open={renameOpen}
-                onOpenChange={setRenameOpen}
-            />
-            <FireDriveMoveDialog
-                items={capturedTargetItems}
-                open={moveOpen}
-                onOpenChange={setMoveOpen}
-            />
-            <FireDriveDeleteDialog
-                items={capturedTargetItems}
-                open={deleteOpen}
-                onOpenChange={setDeleteOpen}
-            />
+            <FireDriveRenameDialog item={item} open={renameOpen} onOpenChange={setRenameOpen} />
+            <FireDriveMoveDialog items={capturedTargetItems} open={moveOpen} onOpenChange={setMoveOpen} />
+            <FireDriveDeleteDialog items={capturedTargetItems} open={deleteOpen} onOpenChange={setDeleteOpen} />
         </>
     );
 }

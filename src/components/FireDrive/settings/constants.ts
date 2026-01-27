@@ -25,9 +25,9 @@ export const MAX_FOLDER_DEPTH = 50;
 
 // Config - 프로젝트별로 수정 가능
 export const FIRE_DRIVE_CONFIG = {
-    CHAT_PATH: '/admin/chat',
+    CHAT_PATH: '/main/chat',
     CHAT_CHANNEL_PARAM: 'matchId',
-    DRIVE_PATH: '/admin/drive',
+    DRIVE_PATH: '/main/drive',
     DRIVE_CHANNEL_PARAM: 'channelId',
     DRIVE_FOLDER_PARAM: 'folderId',
     DRIVE_FILE_PARAM: 'fileId',

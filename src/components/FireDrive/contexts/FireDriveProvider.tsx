@@ -1,4 +1,4 @@
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 import {
     useFireDriveItems,

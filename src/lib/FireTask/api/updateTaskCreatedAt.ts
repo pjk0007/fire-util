@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import { TASK_COLLECTION, TASK_CREATED_AT_FIELD } from '@/lib/FireTask/settings';
 import { doc, Timestamp, updateDoc } from 'firebase/firestore';
 

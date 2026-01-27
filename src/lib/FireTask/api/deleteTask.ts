@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import { TASK_COLLECTION } from '@/lib/FireTask/settings';
 import { deleteDoc, doc } from 'firebase/firestore';
 

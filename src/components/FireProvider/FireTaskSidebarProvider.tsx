@@ -1,11 +1,11 @@
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import { TASK_COLLECTION, FIRE_TASK_LOCALE } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import {

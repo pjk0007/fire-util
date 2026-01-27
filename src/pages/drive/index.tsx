@@ -1,6 +1,6 @@
 import { FireDrive, FIRE_DRIVE_LOCALE } from '@/components/FireDrive';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
 import {
     Select,
     SelectContent,

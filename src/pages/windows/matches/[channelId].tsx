@@ -1,8 +1,8 @@
-import { FireChatProvider } from '@/components/FireProvider/FireChatProvider';
-import FireChatRoomBody from '@/components/FireChat/FireChatRoom/FireChatRoomBody';
-import FireChatRoomFooter from '@/components/FireChat/FireChatRoom/FireChatRoomFooter';
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
-import { FIRE_CHAT_LOCALE } from '@/lib/FireChat/settings';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
+import { FireChatProvider } from '@/components/FireChat/context/FireChatProvider';
+import FireChatRoomBody from '@/components/FireChat/ui/FireChatRoom/FireChatRoomBody';
+import FireChatRoomFooter from '@/components/FireChat/ui/FireChatRoom/FireChatRoomFooter';
+import { FIRE_CHAT_LOCALE } from '@/components/FireChat/settings';
 
 export default function Channel() {
     const { selectedChannelId } = useFireChannel();

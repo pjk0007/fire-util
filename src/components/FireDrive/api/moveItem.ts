@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import {
     DRIVE_COLLECTION,
     DRIVE_PARENT_ID_FIELD,

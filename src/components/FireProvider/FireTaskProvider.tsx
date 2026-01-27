@@ -1,7 +1,7 @@
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
 import FireTaskSheet from '@/components/FireTask/FireTaskSheet';
 import { FireUser } from '@/lib/FireAuth/settings';
-import useFireChannelInfo from '@/lib/FireChannel/hook/useFireChannelInfo';
+import useFireChannelInfo from '@/components/FireChannel/hook/useFireChannelInfo';
 import useFireTaskList from '@/lib/FireTask/hook/useFireTaskList';
 import { FireTask, TASK_ID_FIELD } from '@/lib/FireTask/settings';
 import {

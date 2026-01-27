@@ -1,10 +1,10 @@
-import { FireChannelProvider } from '@/components/FireProvider/FireChannelProvider';
+import { FireChannelProvider } from "@/components/FireChannel/context/FireChannelProvider";
 import { FireAuthProvider } from '@/components/FireProvider/FireAuthProvider';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Toaster } from 'sonner';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import FireChatSettings from '@/components/FireChat/FireChatSettings';
+import FireChatSettings from "@/components/FireChat/ui/FireChatSettings";
 import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FireTrackerProvider } from '@/components/FireTracker';

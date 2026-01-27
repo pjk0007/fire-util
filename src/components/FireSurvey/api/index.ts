@@ -10,3 +10,5 @@ export {
 } from './getResponses';
 export { getActiveTemplatesByType } from './getActiveTemplatesByType';
 export { updateTemplateOrder } from './updateTemplateOrder';
+export { updateUserNextSurveyDate } from './updateUserNextSurveyDate';
+export type { SurveyDismissAction } from './updateUserNextSurveyDate';

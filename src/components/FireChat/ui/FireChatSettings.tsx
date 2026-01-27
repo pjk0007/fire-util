@@ -1,0 +1,88 @@
+import FireChatSettingsFiles from '@/components/FireChat/ui/FireChatSettings/FireChatSettingsFiles';
+import FireChatSettingsImages from '@/components/FireChat/ui/FireChatSettings/FireChatSettingsImages';
+import FireChatSettingsParticipants from '@/components/FireChat/ui/FireChatSettings/FireChatSettingsParticipants';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+    FireMessage,
+    FireMessageContent,
+    FIRE_CHAT_LOCALE,
+} from '@/components/FireChat/settings';
+import { FireChannel } from '@/components/FireChannel/settings';
+import {
+    CHANNEL_ID_FIELD,
+    CHANNEL_NAME_FIELD
+} from '@/components/FireChannel/settings';
+import { FireUser } from '@/lib/FireAuth/settings';
+import useListFiles from '@/components/FireChat/hooks/useListFiles';
+import {
+    FireChatSidebar,
+    useFireChatSidebar,
+} from '@/components/FireProvider/FireChatSidebarProvider';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
+import useFireChannelInfo from '@/components/FireChannel/hook/useFireChannelInfo';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+export default function FireChatSettings<
+    C extends FireChannel<M, T>,
+    U extends FireUser,
+    M extends FireMessage<T>,
+    T extends FireMessageContent
+>() {
+    const { selectedChannelId: channelId } = useFireChannel();
+
+    const { channel, participants } = useFireChannelInfo<C, M, T, U>({
+        channelId,
+    });
+
+    const { imageMessages, fileMessages } = useListFiles({
+        channelId: channel?.[CHANNEL_ID_FIELD],
+    });
+    const { toggleSidebar } = useFireChatSidebar();
+
+    return (
+        <FireChatSidebar side="right" className="bg-background">
+            <div className="h-[var(--firechat-header-height)] hidden md:block">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="m-2"
+                    onClick={toggleSidebar}
+                >
+                    <ChevronRight className="w-4 h-4" />
+                </Button>
+            </div>
+            <ScrollArea className="md:h-[calc(100%-var(--firechat-header-height))] h-full">
+                <div className="px-2 py-6 md:px-4 md:pt-0 md:pb-4 h-full gap-4 flex flex-col">
+                    <div className='text-center font-semibold'>{channel?.[CHANNEL_NAME_FIELD]}</div>
+                    <FireChatSettingsParticipants
+                        participants={participants}
+                        channel={channel}
+                    />
+                    <Tabs className="gap-4" defaultValue="images">
+                        <TabsList className="grid w-full grid-cols-2">
+                            <TabsTrigger value="images" className="w-full">
+                                {FIRE_CHAT_LOCALE.IMAGE}
+                            </TabsTrigger>
+                            <TabsTrigger value="files" className="w-full">
+                                {FIRE_CHAT_LOCALE.FILE}
+                            </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="images" className="p-0">
+                            <FireChatSettingsImages
+                                imageMessages={imageMessages}
+                                participants={participants}
+                            />
+                        </TabsContent>
+                        <TabsContent value="files" className="p-0">
+                            <FireChatSettingsFiles
+                                fileMessages={fileMessages}
+                            />
+                        </TabsContent>
+                    </Tabs>
+                </div>
+            </ScrollArea>
+        </FireChatSidebar>
+    );
+}

@@ -60,7 +60,6 @@ export default function FireDriveItemActionSheet({
         handleRename,
         handleMove,
         handleDelete,
-        handleCopyUrl,
         handleShareToChat,
     } = useFireDriveItemActionSheet({
         items,
@@ -119,15 +118,6 @@ export default function FireDriveItemActionSheet({
                                         : FIRE_DRIVE_LOCALE.ACTIONS.DOWNLOAD
                                 }
                                 onClick={handleDownload}
-                            />
-                        )}
-
-                        {/* 주소 복사 - 파일만 */}
-                        {hasDownloadableItems && (
-                            <ActionButton
-                                icon={Link}
-                                label={FIRE_DRIVE_LOCALE.ACTIONS.COPY_URL}
-                                onClick={handleCopyUrl}
                             />
                         )}
 

@@ -1,4 +1,4 @@
-import { useFireChannel } from '@/components/FireProvider/FireChannelProvider';
+import { useFireChannel } from '@/components/FireChannel/context/FireChannelProvider';
 import FireTaskHistory from '@/components/FireTask/FireTaskHistory';
 
 export default function TaskHistory() {

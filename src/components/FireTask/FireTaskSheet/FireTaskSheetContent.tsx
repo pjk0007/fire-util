@@ -14,7 +14,7 @@ import {
 import { Content } from '@tiptap/react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db, storage } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import Tiptap from '@/components/Tiptap/Tiptap';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';

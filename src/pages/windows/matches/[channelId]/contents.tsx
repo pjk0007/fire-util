@@ -1,6 +1,6 @@
-import FireChatContents from "@/components/FireChat/FireChatContents";
+import FireChatContents from "@/components/FireChat/ui/FireChatContents";
 import { useRouter } from "next/router";
-import { CHANNEL_ID } from "@/lib/FireChannel/settings";
+import { CHANNEL_ID } from "@/components/FireChannel/settings";
 
 export default function ChannelPage() {
     const router = useRouter();

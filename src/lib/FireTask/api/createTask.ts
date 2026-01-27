@@ -1,6 +1,6 @@
 import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { db } from '@/lib/firebase';
-import { CHANNEL_COLLECTION } from '@/lib/FireChannel/settings';
+import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import {
     FireTask,
     TASK_CHANNEL_ID_FIELD,
