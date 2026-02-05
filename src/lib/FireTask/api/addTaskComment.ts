@@ -1,8 +1,9 @@
-import { FireUser } from '@/lib/FireAuth/settings';
+import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import { db, storage } from '@/lib/firebase';
 import { CHANNEL_COLLECTION } from '@/components/FireChannel/settings';
 import isImageFile from '@/lib/FireUtil/isImageFile';
 import {
+    FIRE_TASK_LOCALE,
     TASK_COLLECTION,
     TASK_COMMENT_CONTENT_FIELD,
     TASK_COMMENT_CREATED_AT_FIELD,
@@ -16,6 +17,7 @@ import {
 } from '@/lib/FireTask/settings';
 import { arrayUnion, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { sendTextMessage } from '@/components/FireChat/api/sendMessage';
 
 export default async function addTaskComment<FU extends FireUser>(
     channelId: string,
@@ -23,7 +25,8 @@ export default async function addTaskComment<FU extends FireUser>(
     user: FU | null | undefined,
     commentContent: string,
     commentImages: File[],
-    commentFiles: File[]
+    commentFiles: File[],
+    taskTitle?: string
 ) {
     if (!user) {
         return;
@@ -69,4 +72,11 @@ export default async function addTaskComment<FU extends FireUser>(
         }),
         [TASK_UPDATED_AT_FIELD]: Timestamp.now(),
     });
+
+    const displayTitle = taskTitle || FIRE_TASK_LOCALE.NOTIFICATION.NO_TITLE;
+    sendTextMessage(
+        channelId,
+        user[USER_ID_FIELD],
+        `<b>${displayTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.COMMENT_ADD}`
+    );
 }

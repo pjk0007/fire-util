@@ -93,6 +93,15 @@ export const FIRE_TASK_LOCALE = {
         ) =>
             `${userName} 님이 [${title}] 상태를 "${FIRE_TASK_LOCALE.STATUS[fromStatus]}"에서 "${FIRE_TASK_LOCALE.STATUS[toStatus]}"(으)로 변경했습니다.`,
     },
+
+    NOTIFICATION: {
+        NO_TITLE: '제목 없음',
+        NEW_TASK: '새 업무카드 생성',
+        TITLE_EDIT: '제목 수정',
+        CONTENT_EDIT: '내용 수정',
+        COMMENT_ADD: '댓글 추가',
+        STATUS_CHANGE: (statusLabel: string) => `${statusLabel}으로 변경`,
+    },
 };
 
 export const TASK_STATUS_OPTIONS: {

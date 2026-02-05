@@ -3,6 +3,7 @@ import {
     FireUser,
     USER_AVATAR_FALLBACK_URL,
     USER_AVATAR_FIELD,
+    USER_ID_FIELD,
     USER_NAME_FIELD,
 } from '@/lib/FireAuth/settings';
 import updateTaskTitle from '@/lib/FireTask/api/updateTaskTitle';
@@ -12,9 +13,12 @@ import {
     TASK_USER_FIELD,
     TASK_ID_FIELD,
     TASK_TITLE_FIELD,
+    FIRE_TASK_LOCALE,
 } from '@/lib/FireTask/settings';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { sendTextMessage } from '@/components/FireChat/api/sendMessage';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 
 interface FireTaskClassCardMainProps<
     FT extends FireTask<FU>,
@@ -39,6 +43,8 @@ export default function FireTaskClassCardMain<
         el: HTMLElement | null;
         orig: boolean;
     } | null>(null);
+    const { user } = useFireAuth();
+    const initialTitleRef = useRef(task[TASK_TITLE_FIELD]);
 
     // restore draggable if we left it disabled (safety)
     useEffect(() => {
@@ -74,6 +80,19 @@ export default function FireTaskClassCardMain<
                     autoFocus
                     onBlur={() => {
                         setIsEditingTitle(false);
+
+                        if (user && localTitle !== initialTitleRef.current) {
+                            const isNewTask = !initialTitleRef.current;
+                            const message = isNewTask
+                                ? `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.NEW_TASK}`
+                                : `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.TITLE_EDIT}`;
+                            sendTextMessage(
+                                task[TASK_CHANNEL_ID_FIELD],
+                                user[USER_ID_FIELD],
+                                message
+                            );
+                            initialTitleRef.current = localTitle;
+                        }
                     }}
                     draggable={false}
                     onClick={(e) => e.stopPropagation()}

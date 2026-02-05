@@ -139,7 +139,8 @@ export default function FireTaskSheetCommentsTextarea<
                                 user,
                                 content,
                                 imageFiles,
-                                otherFiles
+                                otherFiles,
+                                task[TASK_TITLE_FIELD]
                             ).then(() => {
                                 setIsLoading(false);
                             });

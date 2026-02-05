@@ -13,7 +13,7 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { FireUser } from '@/lib/FireAuth/settings';
+import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
 import updateTaskStatus from '@/lib/FireTask/api/updateTaskStatus';
 import updateTaskTitle from '@/lib/FireTask/api/updateTaskTitle';
 import {
@@ -29,7 +29,8 @@ import {
 } from '@/lib/FireTask/settings';
 import { cn } from '@/lib/utils';
 import { CalendarIcon, ChevronDown } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { sendTextMessage } from '@/components/FireChat/api/sendMessage';
 
 interface FireTaskSheetHeaderProps<
     FT extends FireTask<FU>,
@@ -46,6 +47,7 @@ export default function FireTaskSheetHeader<
     const [isOpenMenu, setIsOpenMenu] = useState(false);
     const isMobile = useIsMobile();
     const { user } = useFireAuth();
+    const initialTitleRef = useRef(task[TASK_TITLE_FIELD]);
 
     useEffect(() => {
         updateTaskTitle(
@@ -55,6 +57,21 @@ export default function FireTaskSheetHeader<
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localTitle]);
+
+    const handleTitleBlur = () => {
+        if (user && localTitle !== initialTitleRef.current) {
+            const isNewTask = !initialTitleRef.current;
+            const message = isNewTask
+                ? `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.NEW_TASK}`
+                : `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.TITLE_EDIT}`;
+            sendTextMessage(
+                task[TASK_CHANNEL_ID_FIELD],
+                user[USER_ID_FIELD],
+                message
+            );
+            initialTitleRef.current = localTitle;
+        }
+    };
 
     return (
         <SheetHeader className="p-0 gap-4">
@@ -66,6 +83,7 @@ export default function FireTaskSheetHeader<
                     onChange={(e) => {
                         setLocalTitle(e.target.value);
                     }}
+                    onBlur={handleTitleBlur}
                     autoFocus
                 />
                 <DropdownMenu open={isOpenMenu} onOpenChange={setIsOpenMenu}>

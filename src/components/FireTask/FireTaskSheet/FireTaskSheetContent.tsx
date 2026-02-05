@@ -1,15 +1,18 @@
 import {
     FireUser,
+    USER_ID_FIELD,
     USER_NAME_FIELD,
 } from '@/lib/FireAuth/settings';
 import {
     FireTask,
+    FIRE_TASK_LOCALE,
     TASK_CHANNEL_ID_FIELD,
     TASK_COLLECTION,
     TASK_CONTENT_FIELD,
     TASK_FILES_FIELD,
     TASK_ID_FIELD,
     TASK_IMAGES_FIELD,
+    TASK_TITLE_FIELD,
 } from '@/lib/FireTask/settings';
 import { Content } from '@tiptap/react';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -20,6 +23,9 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import updateTaskImagesAndFiles from '@/lib/FireTask/api/updateTaskImages';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import isImageFile from '@/lib/FireUtil/isImageFile';
+import { useRef } from 'react';
+import { sendTextMessage } from '@/components/FireChat/api/sendMessage';
+import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
 
 interface FireTaskSheetContentProps<
     FT extends FireTask<FU>,
@@ -33,6 +39,10 @@ export default function FireTaskSheetContent<
     FT extends FireTask<FU>,
     FU extends FireUser
 >({ task, participants }: FireTaskSheetContentProps<FT, FU>) {
+    const { user } = useFireAuth();
+    const initialContentRef = useRef(JSON.stringify(task[TASK_CONTENT_FIELD] || {}));
+    const notificationSentRef = useRef(false);
+
     function updateDocContent(newContent: Content) {
         updateDoc(
             doc(
@@ -46,6 +56,17 @@ export default function FireTaskSheetContent<
                 [TASK_CONTENT_FIELD]: newContent,
             }
         );
+
+        const newContentStr = JSON.stringify(newContent);
+        if (user && newContentStr !== initialContentRef.current && !notificationSentRef.current) {
+            notificationSentRef.current = true;
+            const taskTitle = task[TASK_TITLE_FIELD] || FIRE_TASK_LOCALE.NOTIFICATION.NO_TITLE;
+            sendTextMessage(
+                task[TASK_CHANNEL_ID_FIELD],
+                user[USER_ID_FIELD],
+                `<b>${taskTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.CONTENT_EDIT}`
+            );
+        }
     }
 
     async function uploadFile(
