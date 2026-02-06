@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils';
 import { Collapsible } from '@radix-ui/react-collapsible';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import useFireChannelInfo from '@/components/FireChannel/hook/useFireChannelInfo';
+import { CHANNEL_TASK_NOTIFICATION_FIELD } from '@/components/FireChannel/settings';
 
 interface FireTaskClassProps {
     status: TaskStatus;
@@ -35,6 +37,8 @@ export default function FireTaskClass({
     const { selectedChannelId } = useFireChannel();
     const { tasks } = useFireTask();
     const { user } = useFireAuth();
+    const { channel } = useFireChannelInfo({ channelId: selectedChannelId });
+    const taskNotificationEnabled = channel?.[CHANNEL_TASK_NOTIFICATION_FIELD] ?? true;
     const [isDragOver, setIsDragOver] = useState(false);
     const [isOpen, setIsOpen] = useState(
         status === TASK_STATUS_REQUEST || status === TASK_STATUS_PROCEED
@@ -92,7 +96,8 @@ export default function FireTaskClass({
                     tasks.find(
                         (task) => task[TASK_ID_FIELD] === draggedTaskId
                     )!,
-                    status
+                    status,
+                    taskNotificationEnabled
                 );
             }}
         >

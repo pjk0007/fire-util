@@ -14,6 +14,8 @@ import {
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser, USER_ID_FIELD } from '@/lib/FireAuth/settings';
+import useFireChannelInfo from '@/components/FireChannel/hook/useFireChannelInfo';
+import { CHANNEL_TASK_NOTIFICATION_FIELD } from '@/components/FireChannel/settings';
 import updateTaskStatus from '@/lib/FireTask/api/updateTaskStatus';
 import updateTaskTitle from '@/lib/FireTask/api/updateTaskTitle';
 import {
@@ -47,6 +49,8 @@ export default function FireTaskSheetHeader<
     const [isOpenMenu, setIsOpenMenu] = useState(false);
     const isMobile = useIsMobile();
     const { user } = useFireAuth();
+    const { channel } = useFireChannelInfo({ channelId: task[TASK_CHANNEL_ID_FIELD] });
+    const taskNotificationEnabled = channel?.[CHANNEL_TASK_NOTIFICATION_FIELD] ?? true;
     const initialTitleRef = useRef(task[TASK_TITLE_FIELD]);
 
     useEffect(() => {
@@ -60,15 +64,17 @@ export default function FireTaskSheetHeader<
 
     const handleTitleBlur = () => {
         if (user && localTitle !== initialTitleRef.current) {
-            const isNewTask = !initialTitleRef.current;
-            const message = isNewTask
-                ? `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.NEW_TASK}`
-                : `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.TITLE_EDIT}`;
-            sendTextMessage(
-                task[TASK_CHANNEL_ID_FIELD],
-                user[USER_ID_FIELD],
-                message
-            );
+            if (taskNotificationEnabled) {
+                const isNewTask = !initialTitleRef.current;
+                const message = isNewTask
+                    ? `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.NEW_TASK}`
+                    : `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.TITLE_EDIT}`;
+                sendTextMessage(
+                    task[TASK_CHANNEL_ID_FIELD],
+                    user[USER_ID_FIELD],
+                    message
+                );
+            }
             initialTitleRef.current = localTitle;
         }
     };
@@ -119,7 +125,7 @@ export default function FireTaskSheetHeader<
                                 )}
                                 onClick={() => {
                                     if (!user) return;
-                                    updateTaskStatus(user, task, option.value);
+                                    updateTaskStatus(user, task, option.value, taskNotificationEnabled);
                                     setIsOpenMenu(false);
                                 }}
                             >

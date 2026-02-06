@@ -26,6 +26,8 @@ import isImageFile from '@/lib/FireUtil/isImageFile';
 import { useRef } from 'react';
 import { sendTextMessage } from '@/components/FireChat/api/sendMessage';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
+import useFireChannelInfo from '@/components/FireChannel/hook/useFireChannelInfo';
+import { CHANNEL_TASK_NOTIFICATION_FIELD } from '@/components/FireChannel/settings';
 
 interface FireTaskSheetContentProps<
     FT extends FireTask<FU>,
@@ -40,6 +42,9 @@ export default function FireTaskSheetContent<
     FU extends FireUser
 >({ task, participants }: FireTaskSheetContentProps<FT, FU>) {
     const { user } = useFireAuth();
+    const { channel } = useFireChannelInfo({ channelId: task[TASK_CHANNEL_ID_FIELD] });
+    const taskNotificationEnabledRef = useRef(channel?.[CHANNEL_TASK_NOTIFICATION_FIELD] ?? true);
+    taskNotificationEnabledRef.current = channel?.[CHANNEL_TASK_NOTIFICATION_FIELD] ?? true;
     const initialContentRef = useRef(JSON.stringify(task[TASK_CONTENT_FIELD] || {}));
     const notificationSentRef = useRef(false);
 
@@ -58,7 +63,7 @@ export default function FireTaskSheetContent<
         );
 
         const newContentStr = JSON.stringify(newContent);
-        if (user && newContentStr !== initialContentRef.current && !notificationSentRef.current) {
+        if (taskNotificationEnabledRef.current && user && newContentStr !== initialContentRef.current && !notificationSentRef.current) {
             notificationSentRef.current = true;
             const taskTitle = task[TASK_TITLE_FIELD] || FIRE_TASK_LOCALE.NOTIFICATION.NO_TITLE;
             sendTextMessage(

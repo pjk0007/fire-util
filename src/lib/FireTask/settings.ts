@@ -101,6 +101,7 @@ export const FIRE_TASK_LOCALE = {
         CONTENT_EDIT: '내용 수정',
         COMMENT_ADD: '댓글 추가',
         STATUS_CHANGE: (statusLabel: string) => `${statusLabel}으로 변경`,
+        TOGGLE_LABEL: '업무 알림',
     },
 };
 

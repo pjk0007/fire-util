@@ -19,6 +19,8 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { sendTextMessage } from '@/components/FireChat/api/sendMessage';
 import { useFireAuth } from '@/components/FireProvider/FireAuthProvider';
+import useFireChannelInfo from '@/components/FireChannel/hook/useFireChannelInfo';
+import { CHANNEL_TASK_NOTIFICATION_FIELD } from '@/components/FireChannel/settings';
 
 interface FireTaskClassCardMainProps<
     FT extends FireTask<FU>,
@@ -44,6 +46,8 @@ export default function FireTaskClassCardMain<
         orig: boolean;
     } | null>(null);
     const { user } = useFireAuth();
+    const { channel } = useFireChannelInfo({ channelId: task[TASK_CHANNEL_ID_FIELD] });
+    const taskNotificationEnabled = channel?.[CHANNEL_TASK_NOTIFICATION_FIELD] ?? true;
     const initialTitleRef = useRef(task[TASK_TITLE_FIELD]);
 
     // restore draggable if we left it disabled (safety)
@@ -81,7 +85,7 @@ export default function FireTaskClassCardMain<
                     onBlur={() => {
                         setIsEditingTitle(false);
 
-                        if (user && localTitle !== initialTitleRef.current) {
+                        if (taskNotificationEnabled && user && localTitle !== initialTitleRef.current) {
                             const isNewTask = !initialTitleRef.current;
                             const message = isNewTask
                                 ? `<b>${localTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.NEW_TASK}`

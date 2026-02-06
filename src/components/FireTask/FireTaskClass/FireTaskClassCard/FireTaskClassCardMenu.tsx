@@ -21,6 +21,8 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { FireUser } from '@/lib/FireAuth/settings';
+import useFireChannelInfo from '@/components/FireChannel/hook/useFireChannelInfo';
+import { CHANNEL_TASK_NOTIFICATION_FIELD } from '@/components/FireChannel/settings';
 import deleteTask from '@/lib/FireTask/api/deleteTask';
 import updateTaskStatus from '@/lib/FireTask/api/updateTaskStatus';
 import {
@@ -52,6 +54,8 @@ export default function FireTaskClassCardMenu<
     isEditingTitle,
 }: FireTaskClassCardMenuProps<FT, FU>) {
     const { user } = useFireAuth();
+    const { channel } = useFireChannelInfo({ channelId: task[TASK_CHANNEL_ID_FIELD] });
+    const taskNotificationEnabled = channel?.[CHANNEL_TASK_NOTIFICATION_FIELD] ?? true;
     return (
         <div className="absolute group-hover:visible invisible top-2 right-2">
             <ButtonGroup>
@@ -114,7 +118,8 @@ export default function FireTaskClassCardMenu<
                                             updateTaskStatus(
                                                 user,
                                                 task,
-                                                status
+                                                status,
+                                                taskNotificationEnabled
                                             );
                                         }}
                                     >

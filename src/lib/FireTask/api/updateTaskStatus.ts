@@ -19,7 +19,8 @@ import { sendTextMessage } from '@/components/FireChat/api/sendMessage';
 export default async function updateTaskStatus<U extends FireUser>(
     user: U,
     task: FireTask<U>,
-    newStatus: TaskStatus
+    newStatus: TaskStatus,
+    taskNotificationEnabled: boolean = true
 ) {
     const taskRef = doc(
         db,
@@ -48,11 +49,13 @@ export default async function updateTaskStatus<U extends FireUser>(
               ],
     });
 
-    const taskTitle = task[TASK_TITLE_FIELD] || FIRE_TASK_LOCALE.NOTIFICATION.NO_TITLE;
-    const statusLabel = FIRE_TASK_LOCALE.STATUS[newStatus];
-    sendTextMessage(
-        task[TASK_CHANNEL_ID_FIELD],
-        user[USER_ID_FIELD],
-        `<b>${taskTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.STATUS_CHANGE(statusLabel)}`
-    );
+    if (taskNotificationEnabled) {
+        const taskTitle = task[TASK_TITLE_FIELD] || FIRE_TASK_LOCALE.NOTIFICATION.NO_TITLE;
+        const statusLabel = FIRE_TASK_LOCALE.STATUS[newStatus];
+        sendTextMessage(
+            task[TASK_CHANNEL_ID_FIELD],
+            user[USER_ID_FIELD],
+            `<b>${taskTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.STATUS_CHANGE(statusLabel)}`
+        );
+    }
 }

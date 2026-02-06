@@ -26,7 +26,8 @@ export default async function addTaskComment<FU extends FireUser>(
     commentContent: string,
     commentImages: File[],
     commentFiles: File[],
-    taskTitle?: string
+    taskTitle?: string,
+    taskNotificationEnabled: boolean = true
 ) {
     if (!user) {
         return;
@@ -73,10 +74,12 @@ export default async function addTaskComment<FU extends FireUser>(
         [TASK_UPDATED_AT_FIELD]: Timestamp.now(),
     });
 
-    const displayTitle = taskTitle || FIRE_TASK_LOCALE.NOTIFICATION.NO_TITLE;
-    sendTextMessage(
-        channelId,
-        user[USER_ID_FIELD],
-        `<b>${displayTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.COMMENT_ADD}`
-    );
+    if (taskNotificationEnabled) {
+        const displayTitle = taskTitle || FIRE_TASK_LOCALE.NOTIFICATION.NO_TITLE;
+        sendTextMessage(
+            channelId,
+            user[USER_ID_FIELD],
+            `<b>${displayTitle}</b>: ${FIRE_TASK_LOCALE.NOTIFICATION.COMMENT_ADD}`
+        );
+    }
 }

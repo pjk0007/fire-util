@@ -13,6 +13,7 @@ export const CHANNEL_NAME_FIELD = 'name';
 export const CHANNEL_PARTICIPANTS_FIELD = 'users';
 export const CHANNEL_LAST_MESSAGE_FIELD = 'lastChat';
 export const CHANNEL_LAST_SEEN_FIELD = 'lastSeen';
+export const CHANNEL_TASK_NOTIFICATION_FIELD = 'taskNotification';
 
 /**
  * TypeScript interfaces for Firestore documents
@@ -35,4 +36,5 @@ export interface FireChannel<
     [CHANNEL_PARTICIPANTS_FIELD]: string[];
     [CHANNEL_LAST_MESSAGE_FIELD]?: M;
     [CHANNEL_LAST_SEEN_FIELD]?: { [userId: string]: Timestamp };
+    [CHANNEL_TASK_NOTIFICATION_FIELD]?: boolean;
 }

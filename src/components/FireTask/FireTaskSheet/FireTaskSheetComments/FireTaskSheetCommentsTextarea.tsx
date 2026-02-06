@@ -7,6 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FireUser } from '@/lib/FireAuth/settings';
+import useFireChannelInfo from '@/components/FireChannel/hook/useFireChannelInfo';
+import { CHANNEL_TASK_NOTIFICATION_FIELD } from '@/components/FireChannel/settings';
 import { formatSizeString } from '@/lib/FireUtil/sizeformat';
 import truncateFilenameMiddle from '@/lib/FireUtil/truncateFilenameMiddle';
 import addTaskComment from '@/lib/FireTask/api/addTaskComment';
@@ -35,6 +37,8 @@ export default function FireTaskSheetCommentsTextarea<
     FU extends FireUser
 >({ task }: FireTaskSheetCommentsTextareaProps<FT, FU>) {
     const { user } = useFireAuth(); // Assuming you have a useAuth hook to get the current user
+    const { channel } = useFireChannelInfo({ channelId: task[TASK_CHANNEL_ID_FIELD] });
+    const taskNotificationEnabled = channel?.[CHANNEL_TASK_NOTIFICATION_FIELD] ?? true;
     const [content, setContent] = useState('');
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [otherFiles, setOtherFiles] = useState<File[]>([]);
@@ -140,7 +144,8 @@ export default function FireTaskSheetCommentsTextarea<
                                 content,
                                 imageFiles,
                                 otherFiles,
-                                task[TASK_TITLE_FIELD]
+                                task[TASK_TITLE_FIELD],
+                                taskNotificationEnabled
                             ).then(() => {
                                 setIsLoading(false);
                             });
