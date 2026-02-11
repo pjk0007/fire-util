@@ -37,9 +37,7 @@ export default async function addTaskComment<FU extends FireUser>(
         const type = isImageFile(file) ? 'images' : 'files';
         const storageRef = ref(
             storage,
-            `${CHANNEL_COLLECTION}/${channelId}/${TASK_COLLECTION}/${taskId}/${TASK_COMMENTS_FIELD}/${commentId}/${type}/${Date.now()}_${
-                file.name
-            }`
+            `${CHANNEL_COLLECTION}/${channelId}/${TASK_COLLECTION}/${taskId}/${TASK_COMMENTS_FIELD}/${commentId}/${type}/${Date.now()}/${file.name}`
         );
         await uploadBytes(storageRef, file);
         const url = await getDownloadURL(storageRef);

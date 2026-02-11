@@ -19,9 +19,7 @@ export default async function uploadFilesToTask(
         const type = isImageFile(file) ? 'images' : 'files';
         const storageRef = ref(
             storage,
-            `${CHANNEL_COLLECTION}/${channelId}/${TASK_COLLECTION}/${taskId}/${type}/${Date.now()}_${
-                file.name
-            }`
+            `${CHANNEL_COLLECTION}/${channelId}/${TASK_COLLECTION}/${taskId}/${type}/${Date.now()}/${file.name}`
         );
         await uploadBytes(storageRef, file);
         const url = await getDownloadURL(storageRef);
