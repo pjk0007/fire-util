@@ -96,6 +96,7 @@ export const FIRE_CHAT_LOCALE = {
         REPLY_MESSAGE: '답장 쓰기',
         SEND: '전송',
         ATTATCH_FILE: '파일 첨부',
+        MENTION_NO_RESULTS: '검색 결과 없음',
         ATTATCH_LINK: '링크 첨부',
         UPLOAD_FILES: '파일 전송',
 

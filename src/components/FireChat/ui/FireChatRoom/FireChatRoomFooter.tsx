@@ -25,6 +25,7 @@ import FireChatRoomFooterLinkInput from './FireChatRoomFooter/FireChatRoomFooter
 import FireChatRoomFooterMeetLink from './FireChatRoomFooter/FireChatRoomFooterTools/FireChatRoomFooterMeetLink';
 import FireChatRoomFooterTemplate from './FireChatRoomFooter/FireChatRoomFooterTools/FireChatRoomFooterTemplate';
 import FireChatChannelRoomFooterFileInput from './FireChatRoomFooter/FireChatRoomFooterTools/FireChatRoomFooterFileInput';
+import convertMentionsToHtml from '@/components/FireChat/utils/convertMentionsToHtml';
 
 export default function FireChatChannelRoomFooter<
     C extends FireChannel<M, T>,
@@ -41,7 +42,7 @@ export default function FireChatChannelRoomFooter<
     });
     const { onSendingFiles, replyingMessage, setReplyingMessage, systemMessageType } =
         useFireChat();
-    const { message, setMessage, files, setFiles } =
+    const { message, setMessage, files, setFiles, mentions, setMentions } =
         useFireChatChannelRoomFooter(selectedChannelId);
 
     const isMine = replyingMessage?.userId === me?.id;
@@ -115,19 +116,24 @@ export default function FireChatChannelRoomFooter<
                     setMessage={setMessage}
                     // sendTextMessage={sendTextMessage}
                     onSend={() => {
+                        const htmlMessage = convertMentionsToHtml(message, mentions);
                         sendTextMessage(
                             selectedChannelId,
                             me?.[USER_ID_FIELD] || '',
-                            message,
+                            htmlMessage,
                             replyingMessage,
                             systemMessageType
                         );
                         setMessage('');
+                        setMentions([]);
                         if (replyingMessage) setReplyingMessage?.(undefined);
                     }}
                     replyingMessage={replyingMessage}
                     setFiles={setFiles}
                     disabled={disabled}
+                    participants={participants || []}
+                    mentions={mentions}
+                    setMentions={setMentions}
                 />
 
                 <div className="flex justify-between items-center border rounded-lg md:border-none p-2 md:p-0">
@@ -143,25 +149,30 @@ export default function FireChatChannelRoomFooter<
                         />
                         <FireChatRoomFooterLinkInput disabled={disabled} />
                         <FireChatRoomFooterMeetLink disabled={disabled} />
-                        <FireChatRoomFooterTemplate setMessage={setMessage} disabled={disabled}/>
+                        <FireChatRoomFooterTemplate setMessage={(msg) => { setMessage(msg); setMentions([]); }} disabled={disabled}/>
                     </div>
                     <FireChatRoomFooterTextareaMobile
                         message={message}
                         setMessage={setMessage}
                         onSend={() => {
+                            const htmlMessage = convertMentionsToHtml(message, mentions);
                             sendTextMessage(
                                 selectedChannelId,
                                 me?.[USER_ID_FIELD] || '',
-                                message,
+                                htmlMessage,
                                 replyingMessage,
                                 systemMessageType
                             );
                             setMessage('');
+                            setMentions([]);
                             if (replyingMessage)
                                 setReplyingMessage?.(undefined);
                         }}
                         replyingMessage={replyingMessage}
                         disabled={disabled}
+                        participants={participants || []}
+                        mentions={mentions}
+                        setMentions={setMentions}
                     />
                     <Button
                         disabled={disabled || !message.trim()}
@@ -169,14 +180,16 @@ export default function FireChatChannelRoomFooter<
                         className="rounded-full h-9 w-9 p-0"
                         size={'icon'}
                         onClick={() => {
+                            const htmlMessage = convertMentionsToHtml(message, mentions);
                             sendTextMessage(
                                 selectedChannelId,
                                 me?.[USER_ID_FIELD] || '',
-                                message,
+                                htmlMessage,
                                 replyingMessage,
                                 systemMessageType
                             );
                             setMessage('');
+                            setMentions([]);
                             if (replyingMessage)
                                 setReplyingMessage?.(undefined);
                         }}

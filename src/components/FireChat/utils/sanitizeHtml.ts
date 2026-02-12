@@ -41,6 +41,7 @@ const ALLOWED_ATTR = [
     'class',
     'style',
     'type',
+    'data-user-id',
 ];
 export default function sanitizeHtml(html: string) {
     return purify(html, {
