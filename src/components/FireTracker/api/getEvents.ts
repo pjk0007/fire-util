@@ -19,13 +19,12 @@ interface GetEventsParams {
     endDate?: Date;
     type?: EventType;
     sessionId?: string;
-    limitCount?: number;
 }
 
 export async function getEvents(
     params: GetEventsParams = {}
 ): Promise<FireTrackerEvent[]> {
-    const { startDate, endDate, type, sessionId, limitCount = 100 } = params;
+    const { startDate, endDate, type, sessionId } = params;
 
     const constraints = [];
 
@@ -49,7 +48,6 @@ export async function getEvents(
         collection(db, TRACKER_EVENT_COLLECTION),
         ...constraints,
         orderBy('timestamp', 'desc'),
-        limit(limitCount)
     );
 
     const snapshot = await getDocs(q);

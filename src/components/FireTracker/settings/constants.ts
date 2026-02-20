@@ -24,6 +24,7 @@ export const EVENT_TYPES = {
     CLICK: 'click',
     FORM_SUBMIT: 'form_submit',
     PURCHASE: 'purchase',
+    SECTION_VIEW: 'section_view',
     CUSTOM: 'custom',
 } as const;
 
