@@ -74,9 +74,9 @@ export default function FireTaskClassCard<
             }}
         >
             {isUnseen && (
-                <span className="absolute flex size-3 left-1 top-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-destructive opacity-75"></span>
-                    <span className="relative inline-flex size-3 rounded-full bg-destructive"></span>
+                <span className="absolute flex size-2 left-1 top-2 items-center justify-center">
+                    <span className="absolute inline-flex size-2 animate-ping rounded-full bg-primary opacity-50" style={{ filter: 'drop-shadow(0 0 6px rgba(124, 58, 237, 0.30))', animationDuration: '1.5s' }}></span>
+                    <span className="relative inline-flex size-1 rounded-full bg-primary" style={{ filter: 'drop-shadow(0 0 6px rgba(124, 58, 237, 0.30))' }}></span>
                 </span>
             )}
             <FireTaskClassCardMain
