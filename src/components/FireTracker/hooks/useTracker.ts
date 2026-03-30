@@ -6,7 +6,7 @@ import {
     FireTrackerSession,
 } from '@/components/FireTracker/settings';
 import {
-    parseUTMParams,
+    parseURLParams,
     getReferrerInfo,
     classifyTrafficSource,
     getDeviceInfo,
@@ -50,7 +50,7 @@ export function useTracker(options: UseTrackerOptions = {}) {
 
         const visitorId = getOrCreateVisitorId();
         const sessionId = startNewSession();
-        const utm = parseUTMParams();
+        const { utm, customParams } = parseURLParams();
         const { referrer, referrerDomain } = getReferrerInfo();
         const trafficSource = classifyTrafficSource(referrer, utm.utm_medium);
         const device = getDeviceInfo();
@@ -60,6 +60,7 @@ export function useTracker(options: UseTrackerOptions = {}) {
             visitorId,
             userId,
             utm,
+            customParams,
             referrer,
             referrerDomain,
             trafficSource,

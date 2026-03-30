@@ -1,35 +1,35 @@
 import { useQuery } from '@tanstack/react-query';
-import {
-    getSessions,
-    getSessionsToday,
-    getSessionsThisWeek,
-    getSessionsThisMonth,
-} from '@/components/FireTracker/api';
+import { getSessions } from '@/components/FireTracker/api';
+import { FireTrackerSession } from '@/components/FireTracker/settings';
 
-export function useSessions(startDate?: Date, endDate?: Date) {
-    return useQuery({
-        queryKey: ['tracker-sessions', startDate?.toISOString(), endDate?.toISOString()],
-        queryFn: () => getSessions({ startDate, endDate }),
-    });
+interface UseSessionsParams {
+    startDate?: Date;
+    endDate?: Date;
+    hasUtm?: boolean;
+    isFirstVisit?: boolean;
+    visitorId?: string;
+    enabled?: boolean;
 }
 
-export function useSessionsToday() {
-    return useQuery({
-        queryKey: ['tracker-sessions-today'],
-        queryFn: getSessionsToday,
-    });
-}
-
-export function useSessionsThisWeek() {
-    return useQuery({
-        queryKey: ['tracker-sessions-week'],
-        queryFn: getSessionsThisWeek,
-    });
-}
-
-export function useSessionsThisMonth() {
-    return useQuery({
-        queryKey: ['tracker-sessions-month'],
-        queryFn: getSessionsThisMonth,
+export function useSessions({
+    startDate,
+    endDate,
+    hasUtm,
+    isFirstVisit,
+    visitorId,
+    enabled = true,
+}: UseSessionsParams) {
+    return useQuery<FireTrackerSession[]>({
+        queryKey: [
+            'firetracker',
+            'sessions',
+            startDate?.toISOString(),
+            endDate?.toISOString(),
+            hasUtm,
+            isFirstVisit,
+            visitorId,
+        ],
+        queryFn: () => getSessions({ startDate, endDate, hasUtm, isFirstVisit, visitorId }),
+        enabled,
     });
 }
